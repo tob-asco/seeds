@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="seeds1.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:seeds1"
+    x:DataType="local:ViewModel.BasisViewModel">
+
+    <ShellItem Title="Login"
+               FlyoutItemIsVisible="False">
+        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:View.LoginPage}"/>
+    </ShellItem>
+
+    <FlyoutItem Title="Feed">
+        <ShellContent ContentTemplate="{DataTemplate local:View.FeedPage}" Route="FeedPage" />
+    </FlyoutItem>
+
+    <MenuFlyoutItem Text="Logout"
+              Command="{Binding LogoutCommand}"/>
+
+    <!--<Shell.FlyoutFooter>
+        <Label Text="{Binding CurrentUsername}"/>
+    </Shell.FlyoutFooter>-->
+</Shell>

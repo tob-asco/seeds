@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:seeds1.ViewModel"
+             x:Class="seeds1.View.LoginPage"
+             x:DataType="local:LoginViewModel"
+             Shell.FlyoutBehavior="Disabled"
+             Title="LoginPage">
+    
+    <VerticalStackLayout>
+        <Label Text="username"/>
+        <Entry Text="{Binding EnteredUsername}"/>
+        <Label Text="password"/>
+        <Entry IsPassword="True"
+               Text="{Binding EnteredPassword}"/>
+        <Button Text="login" Margin="15" VerticalOptions="CenterAndExpand"
+                Command="{Binding LoginCommand}"/>
+        <Label Text="{Binding DisplayedLoginResponse}"
+               TextColor="Red"/>
+    </VerticalStackLayout>
+</ContentPage>
