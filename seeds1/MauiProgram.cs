@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using seeds.Dal.Services;
+using seeds1.Services;
 
 namespace seeds1;
 
@@ -21,6 +22,7 @@ public static class MauiProgram
         ServiceModule.DIregistration(builder.Services);
 
         builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<BasisViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

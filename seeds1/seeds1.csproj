@@ -1,12 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
+		<!--<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>-->
+    <!--The following line replaces the above and is intended to use .NET7.0 xUnit Tests-->
+		<TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst;net7.0</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
-		<OutputType>Exe</OutputType>
-		<RootNamespace>seeds1</RootNamespace>
+		<!--<OutputType>Exe</OutputType>-->
+    <!--The following couple of simmilar lines replace the one line above (to have .NET7.0 as TargetFW)-->
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0-android'">Exe</OutputType>
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0-ios'">Exe</OutputType>
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">Exe</OutputType>
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0'">Library</OutputType>
+    <RootNamespace>seeds1</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -35,10 +42,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\Images\plant_light_bulb.png" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Images\plant_light_bulb.png" Color="#512BD4" BaseSize="400,400" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />

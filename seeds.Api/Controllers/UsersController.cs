@@ -23,53 +23,38 @@ namespace seeds.Api.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.User == null)
-          {
-              return NotFound();
-          }
-            return await _context.User.ToListAsync();
+            return _context.User == null ? 
+                NotFound() : await _context.User.ToListAsync();
         }
 
         // GET: api/Users/dummyName
         [HttpGet("{username}")]
         public async Task<ActionResult<User>> GetUserByUsername(string username)
         {
-          if (_context.User == null)
-          {
-              return NotFound();
-          }
-            var user = await _context.User.SingleOrDefaultAsync(u => u.Username == username);
-
-            if (user == null)
+            if (_context.User == null)
             {
                 return NotFound();
             }
-
-            return user;
+            var user = await _context.User
+                .SingleOrDefaultAsync(u => u.Username == username);
+            return user == null ? NotFound() : user;
         }
 
         // GET: api/Users/id/5
         [HttpGet("id/{id}")]
-        public async Task<ActionResult<User>> GetUserById(string id)
+        public async Task<ActionResult<User>> GetUserById(int id)
         {
             if (_context.User == null)
             {
                 return NotFound();
             }
             var user = await _context.User.FindAsync(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
+            return user == null ? NotFound() : user;
         }
 
         // PUT: api/Users/id/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("id/{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
@@ -77,9 +62,7 @@ namespace seeds.Api.Controllers
             {
                 return BadRequest();
             }
-
             _context.Entry(user).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -95,7 +78,6 @@ namespace seeds.Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 
@@ -104,13 +86,22 @@ namespace seeds.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.User == null)
-          {
-              return Problem("Entity set 'seedsApiContext.User'  is null.");
-          }
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            if (_context.User == null)
+            { return Problem("Entity set 'seedsApiContext.User'  is null."); }
+            if (await _context.User.AnyAsync(u => u.Username == user.Username))
+            { return Conflict("Username already exists."); }
+            if (await _context.User.AnyAsync(u => u.Email == user.Email))
+            { return Conflict("Email already exists."); }
 
+            _context.User.Add(user);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return Conflict(ex);
+            }
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 

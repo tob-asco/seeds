@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Model;
+using seeds.Dal.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,18 +11,18 @@ namespace seeds.Dal.Services;
 
 public class UsersService : IUsersService
 {
-    private readonly HttpClient _httpClient;
-    public UsersService(HttpClient httpClient)
+    private readonly IHttpClientWrapper _httpClientWrapper;
+    public UsersService(IHttpClientWrapper httpClientWrapper)
     {
-        _httpClient = httpClient;
+        _httpClientWrapper = httpClientWrapper;
         //_httpClient.BaseAddress = new Uri("http://localhost:5282/"); //w/o Dev tunnel
-        _httpClient.BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/");
+        _httpClientWrapper.BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/");
     }
     public async Task<List<User>> GetUsers()
     {
         try
         {
-            var response = await _httpClient.GetAsync("api/users")
+            var response = await _httpClientWrapper.GetAsync("api/users")
                                             .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<List<User>>()
@@ -40,14 +41,17 @@ public class UsersService : IUsersService
     {
         try
         {
-            var response = await _httpClient.GetAsync("api/Users/" + username)
+            var response = await _httpClientWrapper.GetAsync("api/Users/" + username)
                                             .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<User>()
-                .ConfigureAwait(false) ?? throw new Exception();
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
+            // All types of exceptions will land here, e.g.
+            // timeout, no such user, server overload, ...
+            // not sure if this is expected behaviour. (TODO)
             Console.WriteLine(ex.Message);
             return null;
         }
@@ -56,7 +60,7 @@ public class UsersService : IUsersService
     {
         try
         {
-            var response = await _httpClient.GetAsync("api/users/id/" + id.ToString())
+            var response = await _httpClientWrapper.GetAsync("api/users/id/" + id.ToString())
                                             .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<User>()

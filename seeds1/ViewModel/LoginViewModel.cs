@@ -1,15 +1,20 @@
 ﻿using seeds.Dal.Model;
 using seeds.Dal.Services;
+using seeds1.Services;
 
 namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : BasisViewModel
 {
     private readonly IUsersService _usersService;
+    private readonly INavigationService _navigationService;
 
-    public LoginViewModel(IUsersService usersService)
+    public LoginViewModel(
+        IUsersService usersService,
+        INavigationService navigationService)
     {
         _usersService = usersService;
+        _navigationService = navigationService;
     }
 
     [ObservableProperty]
@@ -22,7 +27,7 @@ public partial class LoginViewModel : BasisViewModel
     [RelayCommand]
     public async Task Login()
     {
-        if (EnteredUsername == null)
+        if ((EnteredUsername ?? "") == "")
         {
             FailResponse("We need a username here.");
             return;
@@ -33,13 +38,13 @@ public partial class LoginViewModel : BasisViewModel
         
         if (user != null) 
         {
-            // str ?? "" //returns "" if str is null and returns str otw.
+            // str ?? "" //returns "" if str is null and returns str othw.
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
                 // Login
                 
                 // pass only a unique identifier (security, scalability)
-                var navigationParameters = new Dictionary<string, object>
+                var navParameters = new Dictionary<string, object>
                 {
                     { nameof(User.Username), user.Username }
                 };
@@ -50,7 +55,8 @@ public partial class LoginViewModel : BasisViewModel
                 //That 1*/ does not work seems not to be my bad, but MAUI's
                 //according to:
                 //  https://github.com/xamarin/Xamarin.Forms/issues/6096
-                await Shell.Current.GoToAsync("///FeedPage", true, navigationParameters);
+                await _navigationService.NavigateToAsync(
+                    $"///{nameof(FeedPage)}", navParameters);
 
                 Cleanup();
             }
