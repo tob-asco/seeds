@@ -39,5 +39,7 @@ namespace seeds.Api.Data
 
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
     }
 }

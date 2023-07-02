@@ -95,7 +95,7 @@ public class LoginViewModelTests
 
         // Act
         vm.EnteredUsername = enteredUsername;
-        vm.EnteredPassword = null;
+        //vm.EnteredPassword = null;
         await vm.Login();
 
         // Assert
