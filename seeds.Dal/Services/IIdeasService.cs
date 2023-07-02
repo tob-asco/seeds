@@ -9,6 +9,6 @@ namespace seeds.Dal.Services;
 
 public interface IIdeasService
 {
-    public Task<List<Idea>> GetIdeas();
-    public Task<List<Idea>> GetIdeas(int page, int pageSize);
+    //public Task<List<Idea>> GetIdeas();
+    public Task<List<Idea>> GetIdeasPaginated(int page, int maxPageSize);
 }
