@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using seeds.Api.Data;
@@ -11,9 +12,11 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    partial class seedsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230704161908_idea_model")]
+    partial class idea_model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,10 +49,12 @@ namespace seeds.Api.Migrations
                         .HasColumnName("slide1");
 
                     b.Property<string>("Slide2")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("slide2");
 
                     b.Property<string>("Slide3")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("slide3");
 

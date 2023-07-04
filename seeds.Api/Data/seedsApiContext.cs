@@ -33,6 +33,12 @@ namespace seeds.Api.Data
             modelBuilder.Entity<User>()
                 .Property(u => u.Email)
                 .IsRequired(false);
+            modelBuilder.Entity<Idea>()
+                .Property(i => i.Slide2)
+                .IsRequired(false);
+            modelBuilder.Entity<Idea>()
+                .Property(i => i.Slide3)
+                .IsRequired(false);
 
             //applying my UserConfiguration class
             modelBuilder.ApplyConfiguration(new UserConfiguration());
