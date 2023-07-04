@@ -11,41 +11,18 @@ namespace seeds.Api.Data
     {
         public seedsApiContext (DbContextOptions<seedsApiContext> options)
             : base(options)
-        {
-        }
+        { }
 
         public DbSet<User> User { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //add uniqueness constraints
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Username)
-                .IsUnique();
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-
-            //nullable fields
-            modelBuilder.Entity<User>()
-                .Property(u => u.Password)
-                .IsRequired(false);
-            modelBuilder.Entity<User>()
-                .Property(u => u.Email)
-                .IsRequired(false);
-            modelBuilder.Entity<Idea>()
-                .Property(i => i.Slide2)
-                .IsRequired(false);
-            modelBuilder.Entity<Idea>()
-                .Property(i => i.Slide3)
-                .IsRequired(false);
-
-            //applying my UserConfiguration class
+            //applying my Configuration classes
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new IdeaConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
-
         public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
     }
 }
