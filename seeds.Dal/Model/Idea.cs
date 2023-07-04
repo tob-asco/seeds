@@ -33,10 +33,10 @@ public class Idea
 
     [Column("slide2")]
     [AllowNull] //nullable (only for C#; cf. fluent API)
-    public string Slide2 { get; set; }
+    public string Slide2 { get; set; } = "";
 
     [Column("slide3")]
     [AllowNull] //nullable (only for C#; cf. fluent API)
-    public string Slide3 { get; set; }
+    public string Slide3 { get; set; } = "";
 
 }
