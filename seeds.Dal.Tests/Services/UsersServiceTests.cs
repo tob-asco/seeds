@@ -1,5 +1,4 @@
-﻿using FakeItEasy;
-using seeds.Dal.Model;
+﻿using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
 using System;
