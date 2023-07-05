@@ -19,6 +19,10 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
         builder.Property(i => i.Slide3)
             .IsRequired(false);
 
+        //make sure the DB DateTime has no time zone
+        builder.Property(i => i.CreationTime)
+            .HasColumnType("timestamp without time zone");
+
         //uniqueness constraints...
     }
 }
