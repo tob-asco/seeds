@@ -2,10 +2,18 @@ namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
-	public FeedPage(FeedViewModel feedViewModel)
+	private readonly FeedViewModel _vm;
+	public FeedPage(FeedViewModel vm)
 	{
 		InitializeComponent();
 
-		BindingContext = feedViewModel;
+		BindingContext = vm;
+		_vm = vm;
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+		await _vm.CollectIdeasPaginated();
+    }
 }

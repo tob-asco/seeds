@@ -22,6 +22,7 @@ public static class MauiProgram
         ServiceModule.DIregistration(builder.Services);
 
         builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
+        builder.Services.AddScoped<IIdeasService, IdeasService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<BasisViewModel>();

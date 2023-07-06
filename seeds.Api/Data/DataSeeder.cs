@@ -62,7 +62,7 @@ public class DataSeeder
                 Slogan = "Roof Tile that is Also a Solar Collector",
                 Creator = "Prefa"
             });
-            for(int i = 1; i >= 50; i++)
+            for(int i = 1; i <= 100; i++)
             {
                 _dbContext.Idea.Add(new Idea
                 {

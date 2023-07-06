@@ -15,8 +15,6 @@ public class UsersService : IUsersService
     public UsersService(IHttpClientWrapper httpClientWrapper)
     {
         _httpClientWrapper = httpClientWrapper;
-        //_httpClient.BaseAddress = new Uri("http://localhost:5282/"); //w/o Dev tunnel
-        _httpClientWrapper.BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/");
     }
     public async Task<List<User>> GetUsers()
     {

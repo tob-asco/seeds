@@ -22,8 +22,8 @@ public class IdeasController : ControllerBase
     }
 
     // GET: api/Ideas/page/5/size/20
-    [HttpGet("/page/{page}/size/{pagesize}")]
-    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasPaginated(int page = 1, int maxPageSize = 5)
+    [HttpGet("page/{page}/size/{maxPageSize}")]
+    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasPaginated(int page, int maxPageSize)
     {
         try
         {
