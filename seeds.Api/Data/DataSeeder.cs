@@ -13,6 +13,44 @@ public class DataSeeder
 
     public void SeedData()
     {
+        if (!_dbContext.Category.Any())
+        {
+            _dbContext.Category.Add(new Category
+            {
+                Key = "NOC", Name = "No Category"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "GAD",
+                Name = "gadgets"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "ITE",
+                Name = "improve the existing"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "ENV",
+                Name = "environmental"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "H4H",
+                Name = "human for human"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "DSN",
+                Name = "design"
+            });
+            _dbContext.Category.Add(new Category
+            {
+                Key = "LIT",
+                Name = "literature"
+            });
+        }
+
         if (!_dbContext.User.Any())
         {
             _dbContext.User.Add(new User { Username = "tobi" });
