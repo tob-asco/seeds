@@ -20,9 +20,11 @@ namespace seeds.Api.Data
             //applying my Configuration classes
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new IdeaConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.Category> Category { get; set; } = default!;
     }
 }
