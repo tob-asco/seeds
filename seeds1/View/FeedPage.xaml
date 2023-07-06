@@ -26,7 +26,7 @@
                                 VerticalOptions="End"  HorizontalOptions="StartAndExpand" />
                     </FlexLayout>
                     <VerticalStackLayout Grid.Row="1" Grid.Column="0"
-                                         Padding="0,0,5,0">
+                                         Padding="0,0,0,0">
                         <Label Text="{Binding Title}"
                                HorizontalOptions="CenterAndExpand"
                                Style="{StaticResource title}" />
@@ -90,7 +90,7 @@
             </Style>
             <Style x:Key="imageStyle" TargetType="Image">
                 <Setter Property="HeightRequest" Value="400" />
-                <Setter Property="WidthRequest" Value="400" />
+                <!--<Setter Property="WidthRequest" Value="400" />-->
                 <!--<Setter Property="BackgroundColor" Value="Transparent" />-->
             </Style>
             <Style x:Key="carouselImageStyle" TargetType="Image">
