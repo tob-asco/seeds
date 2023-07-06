@@ -3,14 +3,155 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:seeds1.ViewModel"
              x:Class="seeds1.View.FeedPage"
-             x:DataType="local:FeedViewModel"
              Title="{Binding CurrentUsername,StringFormat='{}{0}s feed'}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to the Feed!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            />
+    <CollectionView
+        ItemsSource="{Binding IdeaCollection}"
+        RemainingItemsThreshold="1"
+        RemainingItemsThresholdReachedCommand="{Binding CollectIdeasPaginatedCommand}"
+        >
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">
+                    <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
+                    <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" Grid.ColumnSpan="2"
+                                HeightRequest="20" Padding="0" Margin="10,0,10,0" HorizontalOptions="EndAndExpand">
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding Creator, StringFormat='{}{0}  •'}" 
+                               Style="{StaticResource inventorStyle}" />
+                            <Label Text="{Binding CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
+                                   Style="{StaticResource inventorStyle}" />
+                        </HorizontalStackLayout>
+                        <Button Text="Binding Categoryname" 
+                                Padding="15,1,15,2" HeightRequest="25" CornerRadius="13"
+                                VerticalOptions="End"  HorizontalOptions="StartAndExpand" />
+                    </FlexLayout>
+                    <VerticalStackLayout Grid.Row="1" Grid.Column="0"
+                                         Padding="0,0,5,0">
+                        <Label Text="{Binding Title}"
+                               HorizontalOptions="CenterAndExpand"
+                               Style="{StaticResource title}" />
+                        <Label Text="{Binding Slogan}"
+                               Style="{StaticResource slogan}" 
+                               HorizontalOptions="CenterAndExpand" Padding="10"/>
+                        <Image Source="{Binding Slide1}"
+                               Style="{StaticResource imageStyle}"/>
+                        <!--<CarouselView Style="{StaticResource carouselStyle}"
+                                   IndicatorView="indicatorView"
+                                   ItemsSource="{Binding Idea.Eyecatchers}">
+                            <CarouselView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Source}"
+                                           Style="{StaticResource carouselImageStyle}" />
+                                </DataTemplate>
+                            </CarouselView.ItemTemplate>
+                        </CarouselView>-->
+                        <!--define the dots for the carousel-->
+                        <!--<IndicatorView x:Name="indicatorView"
+                                       IndicatorColor="DarkGray"
+                                       SelectedIndicatorColor="#FFF"
+                                       IndicatorSize="5"
+                                       HorizontalOptions="Center"
+                                       Margin="0,10,0,0"/>-->
+                    </VerticalStackLayout>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
 
-    </VerticalStackLayout>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="inventorStyle" TargetType="Label">
+                <Setter Property="MaxLines" Value="1"/>
+                <Setter Property="LineBreakMode" Value="TailTruncation"/>
+                <Setter Property="TextColor" Value="#888"/>
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+            <Style x:Key="title" TargetType="Label">
+                <Setter Property="FontSize" Value="35"/>
+                <Setter Property="CharacterSpacing" Value="0.5"/>
+                <Setter Property="MaxLines" Value="1"/>
+                <Setter Property="LineBreakMode" Value="TailTruncation"/>
+                <Setter Property="TextColor" Value="#FFF"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+            <Style x:Key="slogan" TargetType="Label">
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="MaxLines" Value="2"/>
+                <Setter Property="LineBreakMode" Value="WordWrap"/>
+                <Setter Property="TextColor" Value="#FFF"/>
+            </Style>
+            <Style x:Key="carouselStyle" TargetType="CarouselView">
+                <Setter Property="HeightRequest" Value="400" />
+                <Setter Property="WidthRequest" Value="400" />
+                <Setter Property="Loop" Value="False" />
+                <Setter Property="IsScrollAnimated" Value="True" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="imageStyle" TargetType="Image">
+                <Setter Property="HeightRequest" Value="400" />
+                <Setter Property="WidthRequest" Value="400" />
+                <!--<Setter Property="BackgroundColor" Value="Transparent" />-->
+            </Style>
+            <Style x:Key="carouselImageStyle" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+            </Style>
+            <Style x:Key="topThreadFrameStyle" TargetType="Frame">
+                <Setter Property="HeightRequest" Value="100"/>
+                <Setter Property="WidthRequest" Value="350"/>
+                <Setter Property="Padding" Value="5,10,0,0" />
+                <Setter Property="Margin" Value="0,10,0,0"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="BorderColor" Value="#BBB"/>
+                <Setter Property="HorizontalOptions" Value="End" />
+            </Style>
+            <Style x:Key="topThreadTitleStyle" TargetType="Button">
+                <Setter Property="FontSize" Value="Large" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="250" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="FontAttributes" Value="Italic" />
+            </Style>
+            <Style x:Key="labelVotesStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+            <Style x:Key="commentButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BorderColor" Value="#999" />
+                <Setter Property="Margin" Value="3,0,3,30" />
+                <Setter Property="Padding" Value="1,10,1,10" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!--<RefreshView
+        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+        >
+        <CollectionView
+            BackgroundColor="Transparent"
+            IsGrouped="True"
+            ItemSizingStrategy="MeasureAllItems"
+            ItemsSource="{Binding IdeaCollection}"
+            RemainingItemsThreshold="1"
+            RemainingItemsThresholdReachedCommand="{Binding CollectIdeasPaginatedCommand}"
+            >
+            <CollectionView.EmptyView>
+                <StackLayout Padding="12">
+                    <Label HorizontalOptions="Center" Text="No Ideas..." />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding IdeaCollection.Title}"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>-->
 </ContentPage>

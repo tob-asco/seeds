@@ -9,10 +9,11 @@
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<!--<OutputType>Exe</OutputType>-->
     <!--The following couple of simmilar lines replace the one line above (to have .NET7.0 as TargetFW)-->
-    <OutputType Condition="'$(TargetFramework)' == 'net7.0-android'">Exe</OutputType>
+    <!--<OutputType Condition="'$(TargetFramework)' == 'net7.0-android'">Exe</OutputType>
     <OutputType Condition="'$(TargetFramework)' == 'net7.0-ios'">Exe</OutputType>
     <OutputType Condition="'$(TargetFramework)' == 'net7.0-maccatalyst'">Exe</OutputType>
-    <OutputType Condition="'$(TargetFramework)' == 'net7.0'">Library</OutputType>
+    <OutputType Condition="'$(TargetFramework)' == 'net7.0'">Library</OutputType>-->
+    <OutputType Condition="'$(TargetFramework)' != 'net7.0'">Exe</OutputType>
     <RootNamespace>seeds1</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -71,6 +72,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Npgsql" Version="7.0.4" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+		<PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
 	</ItemGroup>
 
 	<ItemGroup>

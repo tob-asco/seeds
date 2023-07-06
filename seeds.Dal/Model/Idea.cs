@@ -29,7 +29,7 @@ public class Idea
 
     [Column("slide1")]
     [AllowNull] //freedom? Or should there always be an image?
-    public string Slide1 { get; set; } = "https://github.com/tob-asco/seeds/blob/master/seeds1/Resources/Images/plant_light_bulb.png";
+    public string Slide1 { get; set; } = "https://images.twinkl.co.uk/tr/raw/upload/u/ux/lightbulb-1875247-1920_ver_1.jpg";
 
     [Column("slide2")]
     [AllowNull] //nullable (only for C#; cf. fluent API)

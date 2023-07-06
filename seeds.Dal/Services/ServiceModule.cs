@@ -13,5 +13,5 @@ public static class ServiceModule
     public static void DIregistration(IServiceCollection service)
     {
         service.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
-    }
+    }                               
 }
