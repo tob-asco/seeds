@@ -21,10 +21,12 @@ namespace seeds.Api.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new IdeaConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryUserPreferenceConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Category> Category { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.CategoryUserPreference> CategoryUserPreference { get; set; } = default!;
     }
 }
