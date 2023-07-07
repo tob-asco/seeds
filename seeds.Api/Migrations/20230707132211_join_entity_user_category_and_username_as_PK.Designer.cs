@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using seeds.Api.Data;
@@ -11,9 +12,11 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    partial class seedsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230707132211_join_entity_user_category_and_username_as_PK")]
+    partial class join_entity_user_category_and_username_as_PK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,11 @@ namespace seeds.Api.Migrations
                         .HasColumnType("character varying(3)")
                         .HasColumnName("category_key");
 
+                    b.Property<string>("UsersUsername")
+                        .HasColumnType("text");
+
                     b.Property<string>("Username")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("user_id");
 
@@ -53,9 +60,9 @@ namespace seeds.Api.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("value");
 
-                    b.HasKey("CategoryKey", "Username");
+                    b.HasKey("CategoryKey", "UsersUsername");
 
-                    b.HasIndex("Username");
+                    b.HasIndex("UsersUsername");
 
                     b.ToTable("category_user");
                 });
@@ -152,7 +159,7 @@ namespace seeds.Api.Migrations
 
                     b.HasOne("seeds.Dal.Model.User", null)
                         .WithMany("CategoryUserPreferences")
-                        .HasForeignKey("Username")
+                        .HasForeignKey("UsersUsername")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

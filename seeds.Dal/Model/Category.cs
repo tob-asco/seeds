@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds.Dal.Model;
 
@@ -20,9 +15,9 @@ public class Category
     [Column("name")]
     public string Name { get; set; } = "No Category";
 
-    //[Column("tags")]
-    //public List<string> Tags { get; set; } = new();
-
-    // Collection navigation containing dependents:
-    public ICollection<Idea> Ideas { get; set; } = new List<Idea>(); 
+    #region Navigation
+    public List<Idea> Ideas { get; set; } = new List<Idea>();
+    public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
+    public List<User> Users { get; } = new();
+    #endregion
 }

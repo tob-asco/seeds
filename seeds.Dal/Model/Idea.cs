@@ -26,7 +26,10 @@ public class Idea
 
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
-    public Category Category { get; set; } = null!; // Required reference navigation to principal
+
+    #region Navigation
+    public Category Category { get; } = null!;
+    #endregion
 
     [Column("upvotes")]
     public int Upvotes { get; set; } = 0;

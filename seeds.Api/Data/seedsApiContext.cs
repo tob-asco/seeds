@@ -13,18 +13,19 @@ namespace seeds.Api.Data
             : base(options)
         { }
 
-        public DbSet<User> User { get; set; } = default!;
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //applying my Configuration classes
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new IdeaConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryUserPreferenceConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<User> User { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Category> Category { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.CategoryUserPreference> CategoryUserPreference { get; set; } = default!;
     }
 }
