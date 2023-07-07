@@ -20,6 +20,9 @@ public class Category
     [Column("name")]
     public string Name { get; set; } = "No Category";
 
-    [Column("tags")]
-    public List<string> Tags { get; set; } = new();
+    //[Column("tags")]
+    //public List<string> Tags { get; set; } = new();
+
+    // Collection navigation containing dependents:
+    public ICollection<Idea> Ideas { get; set; } = new List<Idea>(); 
 }

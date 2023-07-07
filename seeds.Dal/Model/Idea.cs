@@ -24,6 +24,10 @@ public class Idea
     [Column("creation_time")]
     public DateTime CreationTime { get; set; } = DateTime.Now;
 
+    [Column("category_key")]
+    public string CategoryKey { get; set; } = "NoC";
+    public Category Category { get; set; } = null!; // Required reference navigation to principal
+
     [Column("upvotes")]
     public int Upvotes { get; set; } = 0;
 
