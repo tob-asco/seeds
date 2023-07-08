@@ -28,4 +28,7 @@ public class User
     [AllowNull] //nullable (only for C#; cf. fluent API)
     public string Email { get; set; }
 
+    #region Navigation
+    public List<Idea> Ideas { get; set; }
+    #endregion
 }

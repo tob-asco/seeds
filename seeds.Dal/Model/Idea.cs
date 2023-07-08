@@ -19,7 +19,8 @@ public class Idea
     public string Slogan { get; set; } = "Idea's Short Slogan";
 
     [Column("creator")]
-    public string Creator { get; set; } = "Creator's username";
+    public string CreatorName { get; set; } = "Creator's username";
+    public User Creator { get; }
 
     [Column("creation_time")]
     public DateTime CreationTime { get; set; } = DateTime.Now;

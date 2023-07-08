@@ -8,6 +8,13 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
 {
     public void Configure(EntityTypeBuilder<Idea> builder)
     {
+        #region Relations
+        builder.HasOne(i => i.Creator)
+            .WithMany(u => u.Ideas)
+            .HasForeignKey(i => i.CreatorName)
+            .IsRequired(true);
+        #endregion
+
         //auto-generate the id
         builder.HasKey(i => i.Id);
         builder.Property(i => i.Id)

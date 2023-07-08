@@ -30,37 +30,37 @@ public class DataSeeder
             {
                 Title = "w/orld method",
                 Slogan = "Apply Capitalism Against Global Warming",
-                Creator = "tobi"
+                CreatorName = "tobi"
             });
             _dbContext.Idea.Add(new Idea
             {
                 Title = "EasyWipe",
                 Slogan = "No More Wiping Pain (for men)",
-                Creator = "tobi"
+                CreatorName = "tobi"
             });
             _dbContext.Idea.Add(new Idea
             {
                 Title = "Integrated Fridge",
                 Slogan = "Use the Fridge's Heat For Warm Water",
-                Creator = "theDad"
+                CreatorName = "theDad"
             });
             _dbContext.Idea.Add(new Idea
             {
                 Title = "LookDown Mirror",
                 Slogan = "IR Sensor in Car Side Mirror Checks Ice",
-                Creator = "theDad"
+                CreatorName = "theDad"
             });
             _dbContext.Idea.Add(new Idea
             {
                 Title = "Contra Soleil",
                 Slogan = "Simple Styrofoam w/ Sucker on Window to Block Sun",
-                Creator = "theDad & tobi"
+                CreatorName = "theDad & tobi"
             });
             _dbContext.Idea.Add(new Idea
             {
                 Title = "IntegratedPV",
                 Slogan = "Roof Tile that is Also a Solar Collector",
-                Creator = "Prefa"
+                CreatorName = "Prefa"
             });
             for(int i = 1; i <= 100; i++)
             {
@@ -68,7 +68,7 @@ public class DataSeeder
                 {
                     Title = "DummyIdea"+i,
                     Slogan = "Some slogan.",
-                    Creator = "tobi"
+                    CreatorName = "tobi"
                 });
             }
         }
