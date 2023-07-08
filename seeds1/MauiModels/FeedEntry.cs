@@ -12,7 +12,7 @@ public class FeedEntry
     public Idea Idea { get; set; }
     public string CategoryName { get; set; }
     public int CategoryPreference { get; set; }
-    public bool IdeaUpvoted { get; set; }
-    public bool IdeaDownvoted { get; set; }
-    public bool IdeaMarked { get; set; } //for later review
+    //public bool IdeaUpvoted { get; set; }
+    //public bool IdeaDownvoted { get; set; }
+    //public bool IdeaMarked { get; set; } //for later review
 }

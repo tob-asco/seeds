@@ -19,58 +19,59 @@ public class DataSeeder
         List<User> users = new();
 
         #region Categories
+        categories.Add(new Category
+        {
+            Key = "NoC",
+            Name = "No Category"
+        });
+        categories.Add(new Category
+        {
+            Key = "GAD",
+            Name = "gadgets"
+        });
+        categories.Add(new Category
+        {
+            Key = "ITE",
+            Name = "improve the existing"
+        });
+        categories.Add(new Category
+        {
+            Key = "ENV",
+            Name = "environmental"
+        });
+        categories.Add(new Category
+        {
+            Key = "H4H",
+            Name = "human for human"
+        });
+        categories.Add(new Category
+        {
+            Key = "DSN",
+            Name = "design"
+        });
+        categories.Add(new Category
+        {
+            Key = "LIT",
+            Name = "literature"
+        });
         if (!_dbContext.Category.Any())
         {
-            categories.Add(new Category
-            {
-                Key = "NoC",
-                Name = "No Category"
-            });
-            categories.Add(new Category
-            {
-                Key = "GAD",
-                Name = "gadgets"
-            });
-            categories.Add(new Category
-            {
-                Key = "ITE",
-                Name = "improve the existing"
-            });
-            categories.Add(new Category
-            {
-                Key = "ENV",
-                Name = "environmental"
-            });
-            categories.Add(new Category
-            {
-                Key = "H4H",
-                Name = "human for human"
-            });
-            categories.Add(new Category
-            {
-                Key = "DSN",
-                Name = "design"
-            });
-            categories.Add(new Category
-            {
-                Key = "LIT",
-                Name = "literature"
-            });
             _dbContext.Category.AddRange(categories);
         }
         else { categories = _dbContext.Category.ToList(); }
         #endregion
         #region Users
+        users.Add(new User { Username = "tobi" });
+        users.Add(new User { Username = "Tobi" });
+        users.Add(new User { Username = "theDad" });
+        users.Add(new User { Username = "thePro" });
+        users.Add(new User { Username = "theNiceOne" });
+        users.Add(new User { Username = "theCriticalOne" });
+        users.Add(new User { Username = "theInspiredOne" });
+        users.Add(new User { Username = "prefa" });
         if (!_dbContext.User.Any())
         {
-            _dbContext.User.Add(new User { Username = "tobi" });
-            _dbContext.User.Add(new User { Username = "Tobi" });
-            _dbContext.User.Add(new User { Username = "theDad" });
-            _dbContext.User.Add(new User { Username = "thePro" });
-            _dbContext.User.Add(new User { Username = "theNiceOne" });
-            _dbContext.User.Add(new User { Username = "theCriticalOne" });
-            _dbContext.User.Add(new User { Username = "theInspiredOne" });
-            _dbContext.User.Add(new User { Username = "prefa" });
+            users.AddRange(users);
         }
         #endregion
         #region Category User Preferences

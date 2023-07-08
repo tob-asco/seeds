@@ -25,22 +25,22 @@ namespace seeds.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
         {
-          if (_context.Category == null)
-          {
-              return NotFound();
-          }
+            if (_context.Category == null)
+            {
+                return NotFound();
+            }
             return await _context.Category.ToListAsync();
         }
 
-        // GET: api/Categories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> GetCategory(string id)
+        // GET: api/Categories/NoC
+        [HttpGet("{categoryKey}")]
+        public async Task<ActionResult<Category>> GetCategory(string categoryKey)
         {
-          if (_context.Category == null)
-          {
-              return NotFound();
-          }
-            var category = await _context.Category.FindAsync(id);
+            if (_context.Category == null)
+            {
+                return NotFound();
+            }
+            var category = await _context.Category.FindAsync(categoryKey);
 
             if (category == null)
             {
@@ -86,10 +86,10 @@ namespace seeds.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-          if (_context.Category == null)
-          {
-              return Problem("Entity set 'seedsApiContext.Category'  is null.");
-          }
+            if (_context.Category == null)
+            {
+                return Problem("Entity set 'seedsApiContext.Category'  is null.");
+            }
             _context.Category.Add(category);
             try
             {

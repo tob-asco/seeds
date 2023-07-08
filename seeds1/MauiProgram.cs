@@ -23,6 +23,8 @@ public static class MauiProgram
 
         builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
         builder.Services.AddScoped<IIdeasService, IdeasService>();
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
+        builder.Services.AddSingleton<IFeedEntryService, FeedEntryService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<BasisViewModel>();

@@ -1,19 +1,23 @@
+using System.Runtime.CompilerServices;
+
 namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
-	private readonly FeedViewModel _vm;
-	public FeedPage(FeedViewModel vm)
-	{
-		InitializeComponent();
-
-		BindingContext = vm;
-		_vm = vm;
-	}
-
-    protected override async void OnAppearing()
+    private readonly FeedViewModel _vm;
+    public FeedPage(FeedViewModel vm)
     {
-        base.OnAppearing();
-		await _vm.CollectIdeasPaginated();
+        InitializeComponent();
+
+        BindingContext = vm;
+        _vm = vm;
+    }
+
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        // add first page of feed entries.
+        // here, not in OnAppearing, because otherwise CurrentUser were null
+        if (_vm != null) await _vm.CollectFeedEntriesPaginated();
     }
 }

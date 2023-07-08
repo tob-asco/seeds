@@ -43,10 +43,11 @@ public partial class LoginViewModel : BasisViewModel
             {
                 // Login
                 
-                // pass only a unique identifier (security, scalability)
+                // pass full user object, not just username
                 var navParameters = new Dictionary<string, object>
                 {
-                    { nameof(User.Username), user.Username }
+                    { nameof(CurrentUser), user },
+                    { "doedl", "doedl" }
                 };
 
                 //the amount of "/" to prepend depends on the shell's design

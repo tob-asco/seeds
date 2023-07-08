@@ -5,9 +5,9 @@
              x:Class="seeds1.View.FeedPage"
              Title="{Binding CurrentUsername,StringFormat='{}{0}s feed'}">
     <CollectionView
-        ItemsSource="{Binding IdeaCollection}"
+        ItemsSource="{Binding FeedEntryCollection}"
         RemainingItemsThreshold="1"
-        RemainingItemsThresholdReachedCommand="{Binding CollectIdeasPaginatedCommand}"
+        RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}"
         >
         <CollectionView.ItemTemplate>
             <DataTemplate>
@@ -16,24 +16,26 @@
                     <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" Grid.ColumnSpan="2"
                                 HeightRequest="20" Padding="0" Margin="10,0,10,0" HorizontalOptions="EndAndExpand">
                         <HorizontalStackLayout>
-                            <Label Text="{Binding Creator, StringFormat='{}{0}  •'}" 
+                            <Label Text="{Binding Idea.CreatorName, StringFormat='{}{0}  •'}" 
                                Style="{StaticResource inventorStyle}" />
-                            <Label Text="{Binding CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
+                            <Label Text="{Binding Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
                                    Style="{StaticResource inventorStyle}" />
                         </HorizontalStackLayout>
-                        <Button Text="Binding Categoryname" 
-                                Padding="15,1,15,2" HeightRequest="25" CornerRadius="13"
+                        <Button Text="{Binding CategoryName}"
+                                Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
+                            Path=ChangeCategoryPreferenceCommand}"
+                                Padding="15,1,15,2" HeightRequest="45" CornerRadius="13"
                                 VerticalOptions="End"  HorizontalOptions="StartAndExpand" />
                     </FlexLayout>
                     <VerticalStackLayout Grid.Row="1" Grid.Column="0"
                                          Padding="0,0,0,0">
-                        <Label Text="{Binding Title}"
+                        <Label Text="{Binding Idea.Title}"
                                HorizontalOptions="CenterAndExpand"
                                Style="{StaticResource title}" />
-                        <Label Text="{Binding Slogan}"
+                        <Label Text="{Binding Idea.Slogan}"
                                Style="{StaticResource slogan}" 
                                HorizontalOptions="CenterAndExpand" Padding="10"/>
-                        <Image Source="{Binding Slide1}"
+                        <Image Source="{Binding Idea.Slide1}"
                                Style="{StaticResource imageStyle}"/>
                         <!--<CarouselView Style="{StaticResource carouselStyle}"
                                    IndicatorView="indicatorView"
