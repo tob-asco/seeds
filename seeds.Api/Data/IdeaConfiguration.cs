@@ -11,6 +11,11 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
         #region Relations
         // idea : cat = N : 1
         // setup in CategoryConfiguration
+        
+        builder.HasOne(i => i.Creator)
+            .WithMany(u => u.Ideas)
+            .HasForeignKey(i => i.CreatorName)
+            .IsRequired(true);
         #endregion
 
         //auto-generate the id
