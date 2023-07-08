@@ -19,7 +19,7 @@ public class Idea
     public string Slogan { get; set; } = "Idea's Short Slogan";
 
     [Column("creator")]
-    public string CreatorName { get; set; } = "Creator's username";
+    public string CreatorName { get; set; } = "tobi";
     
 
     [Column("creation_time")]
