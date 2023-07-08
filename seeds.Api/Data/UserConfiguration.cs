@@ -11,10 +11,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        //auto-generate the id
-        builder.HasKey(u => u.Id);
-        builder.Property(u => u.Id)
-            .ValueGeneratedOnAdd();
+        /* auto-generate the id
+         *builder.HasKey(u => u.Id);
+         *builder.Property(u => u.Id)
+         *   .ValueGeneratedOnAdd();
+         */
 
         //add uniqueness constraints
         builder.HasIndex(u => u.Username)

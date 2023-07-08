@@ -13,10 +13,11 @@ namespace seeds.Dal.Model;
 [Table("users")]
 public class User
 {
-    [Column("id")]
-    [Key] //PRIMARY KEY, NOT NULL
-    public int Id { get; set; }
+    //[Column("id")]
+    //[Key] //PRIMARY KEY, NOT NULL
+    //public int Id { get; set; }
 
+    [Key]
     [Column("username")] //NOT NULL
     public string Username { get; set; } = String.Empty;
 
@@ -29,6 +30,8 @@ public class User
     public string Email { get; set; }
 
     #region Navigation
+    public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
+    public List<Category> Categories { get; } = new();
     public List<Idea> Ideas { get; set; }
     #endregion
 }

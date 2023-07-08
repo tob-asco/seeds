@@ -12,8 +12,8 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    [Migration("20230705194216_demonstration_back")]
-    partial class demonstration_back
+    [Migration("20230707083808_relation_category_idea")]
+    partial class relation_category_idea
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,23 @@ namespace seeds.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("seeds.Dal.Model.Category", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(3)
+                        .HasColumnType("character varying(3)")
+                        .HasColumnName("key");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("categories");
+                });
+
             modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
                 {
                     b.Property<int>("Id")
@@ -33,6 +50,11 @@ namespace seeds.Api.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryKey")
+                        .IsRequired()
+                        .HasColumnType("character varying(3)")
+                        .HasColumnName("category_key");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone")
@@ -72,6 +94,8 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryKey");
+
                     b.ToTable("ideas");
                 });
 
@@ -106,6 +130,22 @@ namespace seeds.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
+                {
+                    b.HasOne("seeds.Dal.Model.Category", "Category")
+                        .WithMany("Ideas")
+                        .HasForeignKey("CategoryKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.Category", b =>
+                {
+                    b.Navigation("Ideas");
                 });
 #pragma warning restore 612, 618
         }
