@@ -20,7 +20,7 @@ public class Idea
 
     [Column("creator")]
     public string CreatorName { get; set; } = "Creator's username";
-    public User Creator { get; }
+    
 
     [Column("creation_time")]
     public DateTime CreationTime { get; set; } = DateTime.Now;
@@ -29,6 +29,7 @@ public class Idea
     public string CategoryKey { get; set; } = "NoC";
 
     #region Navigation
+    public User Creator { get; } = null!;
     public Category Category { get; } = null!;
     #endregion
 

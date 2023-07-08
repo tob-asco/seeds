@@ -32,6 +32,6 @@ public class User
     #region Navigation
     public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
     public List<Category> Categories { get; } = new();
-    public List<Idea> Ideas { get; set; }
+    public List<Idea> Ideas { get; set; } = new();
     #endregion
 }

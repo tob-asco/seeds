@@ -9,9 +9,10 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
     public void Configure(EntityTypeBuilder<Idea> builder)
     {
         #region Relations
-        // idea : cat = N : 1
+        // Idea : Cat = N : 1
         // setup in CategoryConfiguration
         
+        // User : Idea = 1 : N (maybe make N:M for idea collaborations)
         builder.HasOne(i => i.Creator)
             .WithMany(u => u.Ideas)
             .HasForeignKey(i => i.CreatorName)
