@@ -11,7 +11,7 @@ public partial class BasisViewModel : ObservableObject //partial because of sour
     //[NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
     bool isBusy;
 
-    //public bool IsNotBusy => !IsBusy;
+    public bool IsNotBusy => !IsBusy;
 
     [RelayCommand]
     public async Task Logout()
