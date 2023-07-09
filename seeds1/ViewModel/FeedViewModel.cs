@@ -9,6 +9,7 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 [QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
+[QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
 public partial class FeedViewModel : BasisViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 10;

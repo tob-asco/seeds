@@ -47,7 +47,7 @@ public partial class LoginViewModel : BasisViewModel
                 var navParameters = new Dictionary<string, object>
                 {
                     { nameof(CurrentUser), user },
-                    { "doedl", "doedl" }
+                    { nameof(RedrawPage), true }
                 };
 
                 //the amount of "/" to prepend depends on the shell's design
