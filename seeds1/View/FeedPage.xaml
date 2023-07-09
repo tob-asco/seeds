@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:seeds1.ViewModel"
+             xmlns:converter="clr-namespace:seeds1.Converter"
              x:Class="seeds1.View.FeedPage"
              Title="{Binding CurrentUsername,StringFormat='{}{0}s feed'}">
     <CollectionView
@@ -21,11 +22,18 @@
                             <Label Text="{Binding Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
                                    Style="{StaticResource inventorStyle}" />
                         </HorizontalStackLayout>
-                        <Button Text="{Binding CategoryName}"
-                                Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
+                        <Button Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
                             Path=ChangeCategoryPreferenceCommand}"
                                 Padding="15,1,15,2" HeightRequest="45" CornerRadius="13"
-                                VerticalOptions="End"  HorizontalOptions="StartAndExpand" />
+                                VerticalOptions="End"  HorizontalOptions="StartAndExpand">
+                            <Button.Text>
+                                <MultiBinding Converter="{StaticResource CatBtnTextConverter}"
+                                              Mode="OneWay">
+                                    <Binding Path="Idea.CategoryKey"/>
+                                    <Binding Path="CategoryName"/>
+                                </MultiBinding>
+                            </Button.Text>
+                        </Button>
                     </FlexLayout>
                     <VerticalStackLayout Grid.Row="1" Grid.Column="0"
                                          Padding="0,0,0,0">
@@ -61,6 +69,7 @@
     </CollectionView>
 
     <ContentPage.Resources>
+        <converter:CatBtnTextConverter x:Key="CatBtnTextConverter"/>
         <ResourceDictionary>
             <Style x:Key="inventorStyle" TargetType="Label">
                 <Setter Property="MaxLines" Value="1"/>
