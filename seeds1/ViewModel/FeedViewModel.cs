@@ -41,7 +41,9 @@ public partial class FeedViewModel : BasisViewModel
             _feedEntryService.CurrentUser = CurrentUser;
             var feedEntries = await _feedEntryService.GetFeedEntriesPaginated(
                 currentPages + 1, _maxFeedEntryPageSize);
+#if WINDOWS
             feedEntries.Reverse();
+#endif
             FeedEntryCollection.AddRange(feedEntries);
         }
         catch //(Exception ex) 

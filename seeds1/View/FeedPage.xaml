@@ -15,7 +15,7 @@
                 <Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">
                     <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
                     <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" Grid.ColumnSpan="2"
-                                HeightRequest="20" Padding="0" Margin="10,0,10,0" HorizontalOptions="EndAndExpand">
+                                HeightRequest="45" Padding="0" Margin="10,0,10,0" HorizontalOptions="EndAndExpand">
                         <HorizontalStackLayout>
                             <Label Text="{Binding Idea.CreatorName, StringFormat='{}{0}  •'}" 
                                Style="{StaticResource inventorStyle}" />
@@ -32,7 +32,6 @@
                                               >
                                     <Binding Path="Idea.CategoryKey"/>
                                     <Binding Path="CategoryName"/>
-                                    <Binding Path="CategoryPreference"/>
                                 </MultiBinding>
                             </Button.Text>
                             <Button.Style>
