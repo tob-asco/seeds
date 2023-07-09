@@ -3,6 +3,7 @@ using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.MauiModels;
 using seeds1.Services;
+using System.ComponentModel;
 
 namespace seeds1.ViewModel;
 
@@ -39,7 +40,7 @@ public partial class FeedViewModel : BasisViewModel
             _feedEntryService.CurrentUser = CurrentUser;
             var feedEntries = await _feedEntryService.GetFeedEntriesPaginated(
                 currentPages + 1, _maxFeedEntryPageSize);
-            //feedEntries.Reverse();
+            feedEntries.Reverse();
             FeedEntryCollection.AddRange(feedEntries);
         }
         catch //(Exception ex) 
@@ -58,16 +59,15 @@ public partial class FeedViewModel : BasisViewModel
     {
         // update feed entries
         int? newCatPreference = null;
-        foreach (var fe in FeedEntryCollection)
+        for (int i = 0; i < FeedEntryCollection.Count; i++)
         {
-            if (fe.Idea.CategoryKey == categoryKey)
+            if (FeedEntryCollection[i].Idea.CategoryKey == categoryKey)
             {
-                fe.CategoryPreference = StepCatPreference(fe.CategoryPreference);
-                if (newCatPreference == null)
-                {
-                    // for the DB
-                    newCatPreference = fe.CategoryPreference;
-                }
+                FeedEntryCollection[i].CategoryPreference = StepCatPreference(
+                    FeedEntryCollection[i].CategoryPreference);
+
+                // for the DB
+                newCatPreference ??= FeedEntryCollection[i].CategoryPreference;
             }
         }
 

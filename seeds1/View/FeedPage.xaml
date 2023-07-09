@@ -35,6 +35,13 @@
                                     <Binding Path="CategoryPreference"/>
                                 </MultiBinding>
                             </Button.Text>
+                            <Button.Style>
+                                <Binding Converter="{converter:IntToPriorityConverter 
+                                MediumPriority={StaticResource buttonMediumStyle}, 
+                                MaximumPriority={StaticResource buttonMaximumStyle},
+                                MinimumPriority={StaticResource buttonMinimumStyle}}"
+                                         Path="CategoryPreference"/>
+                            </Button.Style>
                         </Button>
                     </FlexLayout>
                     <VerticalStackLayout Grid.Row="1" Grid.Column="0"
@@ -47,23 +54,6 @@
                                HorizontalOptions="CenterAndExpand" Padding="10"/>
                         <Image Source="{Binding Idea.Slide1}"
                                Style="{StaticResource imageStyle}"/>
-                        <!--<CarouselView Style="{StaticResource carouselStyle}"
-                                   IndicatorView="indicatorView"
-                                   ItemsSource="{Binding Idea.Eyecatchers}">
-                            <CarouselView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding Source}"
-                                           Style="{StaticResource carouselImageStyle}" />
-                                </DataTemplate>
-                            </CarouselView.ItemTemplate>
-                        </CarouselView>-->
-                        <!--define the dots for the carousel-->
-                        <!--<IndicatorView x:Name="indicatorView"
-                                       IndicatorColor="DarkGray"
-                                       SelectedIndicatorColor="#FFF"
-                                       IndicatorSize="5"
-                                       HorizontalOptions="Center"
-                                       Margin="0,10,0,0"/>-->
                     </VerticalStackLayout>
                 </Grid>
             </DataTemplate>
@@ -103,7 +93,6 @@
             </Style>
             <Style x:Key="imageStyle" TargetType="Image">
                 <Setter Property="HeightRequest" Value="400" />
-                <!--<Setter Property="WidthRequest" Value="400" />-->
                 <!--<Setter Property="BackgroundColor" Value="Transparent" />-->
             </Style>
             <Style x:Key="carouselImageStyle" TargetType="Image">
