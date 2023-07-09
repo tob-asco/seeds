@@ -36,7 +36,7 @@ public class LoginViewModelTests
             Password = "password"
         };
 
-        A.CallTo(() => _userService.GetUserByUsername(A<string>.Ignored))
+        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -63,7 +63,7 @@ public class LoginViewModelTests
             Password = null
         };
 
-        A.CallTo(() => _userService.GetUserByUsername(A<string>.Ignored))
+        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -89,7 +89,7 @@ public class LoginViewModelTests
             Password = ""
         };
 
-        A.CallTo(() => _userService.GetUserByUsername(A<string>.Ignored))
+        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -120,7 +120,7 @@ public class LoginViewModelTests
             Password = "PASSWORD"
         };
 
-        A.CallTo(() => _userService.GetUserByUsername(A<string>.Ignored))
+        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -149,7 +149,7 @@ public class LoginViewModelTests
             Password = "password"
         };
 
-        A.CallTo(() => _userService.GetUserByUsername(A<string>.Ignored))
+        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 

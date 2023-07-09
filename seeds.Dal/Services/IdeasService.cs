@@ -16,7 +16,7 @@ public class IdeasService : IIdeasService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<List<Idea>> GetIdeasPaginated(int page, int maxPageSize)
+    public async Task<List<Idea>> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         try
         {

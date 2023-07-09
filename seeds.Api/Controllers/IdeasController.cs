@@ -23,7 +23,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas/page/5/size/20
     [HttpGet("page/{page}/size/{maxPageSize}")]
-    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasPaginated(int page, int maxPageSize)
+    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         try
         {
@@ -59,7 +59,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeas()
+    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasAsync()
     {
         return _context.Idea == null ?
             NotFound() : await _context.Idea.ToListAsync();
@@ -86,7 +86,7 @@ public class IdeasController : ControllerBase
     // PUT: api/Ideas/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutIdea(int id, Idea idea)
+    public async Task<IActionResult> PutIdeaAsync(int id, Idea idea)
     {
         if (id != idea.Id)
         {
@@ -117,7 +117,7 @@ public class IdeasController : ControllerBase
     // POST: api/Ideas
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Idea>> PostIdea(Idea idea)
+    public async Task<ActionResult<Idea>> PostIdeaAsync(Idea idea)
     {
         if (_context.Idea == null)
         {

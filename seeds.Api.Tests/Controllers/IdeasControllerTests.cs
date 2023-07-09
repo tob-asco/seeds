@@ -51,7 +51,7 @@ public class IdeasControllerTests
         var controller = new IdeasController(dbContext);
 
         //Act
-        var result = await controller.GetIdeasPaginated(page, maxPageSize);
+        var result = await controller.GetIdeasPaginatedAsync(page, maxPageSize);
 
         //Assert
         var actionResult = Assert.IsType<ActionResult<IEnumerable<Idea>>>(result);
@@ -68,7 +68,7 @@ public class IdeasControllerTests
         int page = 4; int maxPageSize = 10;
 
         //Act
-        var actionResult = await controller.GetIdeasPaginated(page, maxPageSize);
+        var actionResult = await controller.GetIdeasPaginatedAsync(page, maxPageSize);
 
         //Assert
         actionResult.Result.Should().NotBeOfType<BadRequestResult>();

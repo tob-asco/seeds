@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace seeds.Dal.Services;
 
-public interface IIdeasService
+public interface ICategoryUserPreferenceService
 {
-    //public Task<List<Idea>> GetIdeas();
-    public Task<List<Idea>> GetIdeasPaginatedAsync(int page, int maxPageSize);
+    public Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(string categoryKey, string username);
 }

@@ -23,6 +23,8 @@ public partial class FeedViewModel : BasisViewModel
     [RelayCommand]
     public async Task CollectFeedEntriesPaginated()
     {
+        // This fct. is called also OnNavigatedTo().
+
         int currentCount;
 
         if (FeedEntryCollection == null) { currentCount = 0; }

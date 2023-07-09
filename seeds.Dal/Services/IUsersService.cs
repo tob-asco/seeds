@@ -9,7 +9,7 @@ namespace seeds.Dal.Services;
 
 public interface IUsersService
 {
-    public Task<List<User>> GetUsers();
-    public Task<User?> GetUserByUsername(string username);
-    public Task<User?> GetUserById(int id);
+    public Task<List<User>> GetUsersAsync();
+    public Task<User?> GetUserByUsernameAsync(string username);
+    public Task<User?> GetUserByIdAsync(int id);
 }

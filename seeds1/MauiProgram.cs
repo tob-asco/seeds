@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Services;
 
@@ -24,6 +25,7 @@ public static class MauiProgram
         builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
         builder.Services.AddScoped<IIdeasService, IdeasService>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
+        builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         builder.Services.AddSingleton<IFeedEntryService, FeedEntryService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 

@@ -16,7 +16,7 @@ public class UsersService : IUsersService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<List<User>> GetUsers()
+    public async Task<List<User>> GetUsersAsync()
     {
         try
         {
@@ -35,7 +35,7 @@ public class UsersService : IUsersService
             return await Task.FromException<List<User>>(ex).ConfigureAwait(false);
         }
     }
-    public async Task<User?> GetUserByUsername(string username)
+    public async Task<User?> GetUserByUsernameAsync(string username)
     {
         try
         {
@@ -54,7 +54,7 @@ public class UsersService : IUsersService
             return null;
         }
     }
-    public async Task<User?> GetUserById(int id)
+    public async Task<User?> GetUserByIdAsync(int id)
     {
         try
         {

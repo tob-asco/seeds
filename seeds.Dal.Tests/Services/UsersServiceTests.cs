@@ -40,7 +40,7 @@ public class UsersServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetUsers();
+        var result = await _service.GetUsersAsync();
 
         // Assert
         result.Should().BeEquivalentTo(users);
@@ -61,7 +61,7 @@ public class UsersServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetUserByUsername(user.Username);
+        var result = await _service.GetUserByUsernameAsync(user.Username);
 
         // Assert
         result.Should().BeEquivalentTo(user);
@@ -81,7 +81,7 @@ public class UsersServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetUserByUsername(user.Username);
+        var result = await _service.GetUserByUsernameAsync(user.Username);
 
         // Assert
         result.Should().BeNull();

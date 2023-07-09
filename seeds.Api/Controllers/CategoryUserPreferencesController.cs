@@ -23,7 +23,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/CategoryUserPreferences
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryUserPreference>>> GetCategoryUserPreference()
+        public async Task<ActionResult<IEnumerable<CategoryUserPreference>>> GetCategoryUserPreferencesAsync()
         {
           if (_context.CategoryUserPreference == null)
           {
@@ -32,28 +32,25 @@ namespace seeds.Api.Controllers
             return await _context.CategoryUserPreference.ToListAsync();
         }
 
-        // GET: api/CategoryUserPreferences/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(string id)
+        // GET: api/CategoryUserPreferences/tobi/NoC
+        [HttpGet("{username}/{categoryKey}")]
+        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreferenceAsync(string username, string categoryKey)
         {
-          if (_context.CategoryUserPreference == null)
-          {
-              return NotFound();
-          }
-            var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(id);
-
-            if (categoryUserPreference == null)
+            try
+            {
+                var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(categoryKey, username);
+                return categoryUserPreference != null ? categoryUserPreference : NotFound();
+            }
+            catch
             {
                 return NotFound();
             }
-
-            return categoryUserPreference;
         }
 
         // PUT: api/CategoryUserPreferences/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoryUserPreference(string id, CategoryUserPreference categoryUserPreference)
+        public async Task<IActionResult> PutCategoryUserPreferenceAsync(string id, CategoryUserPreference categoryUserPreference)
         {
             if (id != categoryUserPreference.CategoryKey)
             {
@@ -84,7 +81,7 @@ namespace seeds.Api.Controllers
         // POST: api/CategoryUserPreferences
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<CategoryUserPreference>> PostCategoryUserPreference(CategoryUserPreference categoryUserPreference)
+        public async Task<ActionResult<CategoryUserPreference>> PostCategoryUserPreferenceAsync(CategoryUserPreference categoryUserPreference)
         {
           if (_context.CategoryUserPreference == null)
           {
@@ -112,7 +109,7 @@ namespace seeds.Api.Controllers
 
         // DELETE: api/CategoryUserPreferences/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategoryUserPreference(string id)
+        public async Task<IActionResult> DeleteCategoryUserPreferenceAsync(string id)
         {
             if (_context.CategoryUserPreference == null)
             {

@@ -34,7 +34,7 @@ public partial class LoginViewModel : BasisViewModel
         }
         FailResponse("Checking..."); //shouldnt be a "fail" response..
         //look up DB for existence of entered data:
-        User user = await _usersService.GetUserByUsername(EnteredUsername.Trim());
+        User user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         
         if (user != null) 
         {

@@ -23,7 +23,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryAsync()
         {
             if (_context.Category == null)
             {
@@ -34,7 +34,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/Categories/NoC
         [HttpGet("{categoryKey}")]
-        public async Task<ActionResult<Category>> GetCategory(string categoryKey)
+        public async Task<ActionResult<Category>> GetCategoryAsync(string categoryKey)
         {
             if (_context.Category == null)
             {
@@ -53,7 +53,7 @@ namespace seeds.Api.Controllers
         // PUT: api/Categories/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategory(string id, Category category)
+        public async Task<IActionResult> PutCategoryAsync(string id, Category category)
         {
             if (id != category.Key)
             {
@@ -84,7 +84,7 @@ namespace seeds.Api.Controllers
         // POST: api/Categories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategory(Category category)
+        public async Task<ActionResult<Category>> PostCategoryAsync(Category category)
         {
             if (_context.Category == null)
             {
@@ -112,7 +112,7 @@ namespace seeds.Api.Controllers
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategory(string id)
+        public async Task<IActionResult> DeleteCategoryAsync(string id)
         {
             if (_context.Category == null)
             {

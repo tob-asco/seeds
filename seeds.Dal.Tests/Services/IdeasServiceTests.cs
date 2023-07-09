@@ -41,7 +41,7 @@ public class IdeasServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetIdeasPaginated(page, maxPageSize);
+        var result = await _service.GetIdeasPaginatedAsync(page, maxPageSize);
 
         // Assert
         result.Should().BeEquivalentTo(users);

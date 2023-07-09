@@ -81,7 +81,7 @@ public class UsersControllerTests
         string username = "tobi5";
 
         //Act
-        var result = await controller.GetUserByUsername(username);
+        var result = await controller.GetUserByUsernameAsync(username);
 
         //Assert
         var actionResult = Assert.IsType<ActionResult<User>>(result);
@@ -98,7 +98,7 @@ public class UsersControllerTests
         string username = "franz";
 
         //Act
-        var result = await controller.GetUserByUsername(username);
+        var result = await controller.GetUserByUsernameAsync(username);
 
         //Assert
         var actionResult = Assert.IsType<ActionResult<User>>(result);
@@ -113,7 +113,7 @@ public class UsersControllerTests
         var controller = new UsersController(dbContext);
 
         //Act
-        var result = await controller.PostUser(originalTobi);
+        var result = await controller.PostUserAsync(originalTobi);
 
         //Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
@@ -132,8 +132,8 @@ public class UsersControllerTests
         var controller = new UsersController(dbContext);
 
         //Act
-        var actionResultOk = await controller.PostUser(originalTobi);
-        var actionResultBad = await controller.PostUser(originalTobi);
+        var actionResultOk = await controller.PostUserAsync(originalTobi);
+        var actionResultBad = await controller.PostUserAsync(originalTobi);
 
         //Assert
         //actionResultOk.Result.Should().BeOfType<CreatedAtActionResult>();

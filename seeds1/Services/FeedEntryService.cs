@@ -8,28 +8,39 @@ public class FeedEntryService : IFeedEntryService
 {
     private readonly IIdeasService _ideaService;
     private readonly ICategoryService _categoryService;
+    private readonly ICategoryUserPreferenceService _categoryUserPreferenceService;
     public User CurrentUser { get; set; }
     public FeedEntryService(IIdeasService ideasService,
-        ICategoryService categoryService)
+        ICategoryService categoryService,
+        ICategoryUserPreferenceService categoryUserPreferenceService)
     {
         _ideaService = ideasService;
         _categoryService = categoryService;
+        _categoryUserPreferenceService = categoryUserPreferenceService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
     {
         List<FeedEntry> feedEntryPage = new();
-        var ideaPage = await _ideaService.GetIdeasPaginated(page, maxPageSize);
+        var ideaPage = await _ideaService.GetIdeasPaginatedAsync(page, maxPageSize);
         foreach (var idea in ideaPage)
         {
-            var category = await _categoryService.GetCategoryByKey(idea.CategoryKey);
-            var categoryPreference = ...
-            feedEntryPage.Add(new FeedEntry
+            try
             {
-                Idea = idea,
-                CategoryName = category.Name,
-                CategoryPreference = CurrentUser.CategoryUserPreferences.First(cup =>
-                    cup.CategoryKey == idea.CategoryKey).Value
-            });
+                var category = await _categoryService.GetCategoryByKey(idea.CategoryKey);
+                var categoryPreference = await _categoryUserPreferenceService.GetCategoryUserPreferenceAsync(
+                    idea.CategoryKey, CurrentUser.Username);
+                feedEntryPage.Add(new FeedEntry
+                {
+                    Idea = idea,
+                    CategoryName = category.Name,
+                    CategoryPreference = categoryPreference.Value
+                });
+            }
+            catch (Exception ex)
+            {
+                // we will not have this feedEntry
+                Console.WriteLine(ex);
+            }
         }
         return feedEntryPage;
     }
