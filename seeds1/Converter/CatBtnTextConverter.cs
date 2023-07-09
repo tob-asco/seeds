@@ -17,7 +17,7 @@ public class CatBtnTextConverter : IMultiValueConverter
             // Alternatively, return BindableProperty.UnsetValue to use the binding FallbackValue
         }
 
-        return values[0] + " - " + values[1];
+        return "(" + values[2] + ") " + values[0] + " - " + values[1];
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

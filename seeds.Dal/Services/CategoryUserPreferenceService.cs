@@ -17,7 +17,7 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
         try
         {
             var response = await _httpClientWrapper.GetAsync(
-                $"api/CategoryUserPreferences/{username}/{categoryKey}");
+                $"api/CategoryUserPreferences/{categoryKey}/{username}");
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<CategoryUserPreference>()
                 .ConfigureAwait(false) ?? throw new NullReferenceException();
@@ -29,6 +29,30 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
             // not sure if this is expected behaviour. (TODO)
             return await Task.FromException<CategoryUserPreference>(ex)
                 .ConfigureAwait(false);
+        }
+    }
+
+    // returns true if HttpStatusCode is a successful one
+    public async Task<bool> PutCategoryUserPreferenceAsync(string categoryKey, string username, int newPreference)
+    {
+        try
+        {
+            var httpContent = JsonContent.Create(new CategoryUserPreference
+            {
+                CategoryKey = categoryKey,
+                Username = username,
+                Value = newPreference
+            });
+            var response = await _httpClientWrapper.PutAsync(
+                $"api/CategoryUserPreferences/{categoryKey}/{username}",
+                httpContent);
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.Message);
+            return false;
         }
     }
 }

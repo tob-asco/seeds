@@ -24,13 +24,15 @@
                         </HorizontalStackLayout>
                         <Button Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
                             Path=ChangeCategoryPreferenceCommand}"
+                                CommandParameter="{Binding Idea.CategoryKey}"
                                 Padding="15,1,15,2" HeightRequest="45" CornerRadius="13"
                                 VerticalOptions="End"  HorizontalOptions="StartAndExpand">
                             <Button.Text>
                                 <MultiBinding Converter="{StaticResource CatBtnTextConverter}"
-                                              Mode="OneWay">
+                                              >
                                     <Binding Path="Idea.CategoryKey"/>
                                     <Binding Path="CategoryName"/>
+                                    <Binding Path="CategoryPreference"/>
                                 </MultiBinding>
                             </Button.Text>
                         </Button>

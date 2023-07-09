@@ -26,4 +26,9 @@ public class HttpClientWrapper : IHttpClientWrapper
     {
         return _httpClient.GetAsync(url);
     }
+
+    public Task<HttpResponseMessage> PutAsync(string url, HttpContent httpContent)
+    {
+        return _httpClient.PutAsync(url, httpContent);
+    }
 }

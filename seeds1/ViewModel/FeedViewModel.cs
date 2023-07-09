@@ -7,16 +7,19 @@ using seeds1.Services;
 namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
-[QueryProperty(nameof(CurrentUser),nameof(CurrentUser))] //available AFTER ctor, ...
+[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class FeedViewModel : BasisViewModel
-{    
+{
     private static readonly int _maxFeedEntryPageSize = 10;
     private readonly IFeedEntryService _feedEntryService;
+    private readonly ICategoryUserPreferenceService _cupService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntry> feedEntryCollection;
-    public FeedViewModel(IFeedEntryService feedEntryService)
+    public FeedViewModel(IFeedEntryService feedEntryService,
+        ICategoryUserPreferenceService cupService)
     {
         _feedEntryService = feedEntryService;
+        _cupService = cupService;
         FeedEntryCollection = new();
     }
 
@@ -46,9 +49,51 @@ public partial class FeedViewModel : BasisViewModel
         }
     }
 
+    /* update all feed entries that have the same categoryKey
+     * as the feed entry where the button was clicked.
+     * Then update the DB with the new preference.
+     */
     [RelayCommand]
-    public Task ChangeCategoryPreference()
+    public async Task ChangeCategoryPreference(string categoryKey)
     {
-        return Task.CompletedTask;
+        // update feed entries
+        int? newCatPreference = null;
+        foreach (var fe in FeedEntryCollection)
+        {
+            if (fe.Idea.CategoryKey == categoryKey)
+            {
+                fe.CategoryPreference = StepCatPreference(fe.CategoryPreference);
+                if (newCatPreference == null)
+                {
+                    // for the DB
+                    newCatPreference = fe.CategoryPreference;
+                }
+            }
+        }
+
+        // update DB
+        try
+        {
+            if (newCatPreference == null)
+            {
+                throw new NullReferenceException(nameof(newCatPreference));
+            }
+            await _cupService.PutCategoryUserPreferenceAsync(
+                categoryKey,
+                CurrentUser.Username,
+                (int)newCatPreference);
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Put Error", ex.Message, "Ignore");
+            Console.Write(ex);
+        }
+    }
+
+    private static int StepCatPreference(int oldPreference)
+    {
+        if (oldPreference == 0) { return 1; }
+        else if (oldPreference == 1) { return -1; }
+        else { return 0; }
     }
 }
