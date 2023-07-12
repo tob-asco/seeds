@@ -26,7 +26,7 @@ public class FeedEntryService : IFeedEntryService
         {
             try
             {
-                var category = await _categoryService.GetCategoryByKey(idea.CategoryKey);
+                var category = await _categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
                 var categoryPreference = await _categoryUserPreferenceService.GetCategoryUserPreferenceAsync(
                     idea.CategoryKey, CurrentUser.Username);
                 feedEntryPage.Add(new FeedEntry

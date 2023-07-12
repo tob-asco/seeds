@@ -5,44 +5,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace seeds.Dal.Tests.Services;
 
-public class IdeasServiceTests
+public class CategoryServiceTests
 {
     private readonly IHttpClientWrapper _httpClientWrapper;
-    private readonly IdeasService _service;
-    public IdeasServiceTests()
+    private readonly CategoryService _service;
+    public CategoryServiceTests()
     {
         _httpClientWrapper = A.Fake<IHttpClientWrapper>();
-        _service = new IdeasService(_httpClientWrapper);
+        _service = new CategoryService(_httpClientWrapper);
     }
 
     [Fact]
-    public async void IdeasService_GetIdeasPaginated_ReturnsSameIdeas()
+    public async Task CategoryService_GetCatByKeyAsync_ReturnsCategory()
     {
         #region Arrange
-        int page = 2; int maxPageSize = 10;
-        var users = new List<Idea>()
+        string key = "ABC";
+        var cat = new Category()
         {
-            new Idea{ Title = "1st Idea" },
-            new Idea{ Title = "2nd Idea" },
+            Key = key,
+            Name = "ABeCe"
         };
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.OK,
-            Content = new StringContent(JsonSerializer.Serialize(users)),
+            Content = new StringContent(JsonSerializer.Serialize(cat)),
         };
         A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
             .Returns(response);
         #endregion
 
         // Act
-        var result = await _service.GetIdeasPaginatedAsync(page, maxPageSize);
+        var result = await _service.GetCategoryByKeyAsync(key);
 
         // Assert
-        result.Should().BeEquivalentTo(users);
+        result.Should().BeEquivalentTo(cat);
     }
 }

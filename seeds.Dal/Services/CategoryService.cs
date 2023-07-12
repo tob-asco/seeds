@@ -16,7 +16,7 @@ public class CategoryService : ICategoryService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<Category> GetCategoryByKey(string categoryKey)
+    public async Task<Category> GetCategoryByKeyAsync(string categoryKey)
     {
         try
         {

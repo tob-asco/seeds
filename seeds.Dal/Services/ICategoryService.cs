@@ -9,5 +9,5 @@ namespace seeds.Dal.Services;
 
 public interface ICategoryService
 {
-    public Task<Category> GetCategoryByKey(string categoryKey);
+    public Task<Category> GetCategoryByKeyAsync(string categoryKey);
 }
