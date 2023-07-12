@@ -21,17 +21,6 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/CategoryUserPreferences
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryUserPreference>>> GetCategoryUserPreferencesAsync()
-        {
-          if (_context.CategoryUserPreference == null)
-          {
-              return NotFound();
-          }
-            return await _context.CategoryUserPreference.ToListAsync();
-        }
-
         // GET: api/CategoryUserPreferences/NoC/tobi
         [HttpGet("{categoryKey}/{username}")]
         public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreferenceAsync(string categoryKey, string username)
@@ -78,7 +67,6 @@ namespace seeds.Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 

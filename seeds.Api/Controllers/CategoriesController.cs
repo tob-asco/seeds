@@ -23,7 +23,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Category>>> GetCategoryAsync()
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategoriesAsync()
         {
             if (_context.Category == null)
             {
@@ -48,91 +48,6 @@ namespace seeds.Api.Controllers
             }
 
             return category;
-        }
-
-        // PUT: api/Categories/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoryAsync(string id, Category category)
-        {
-            if (id != category.Key)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(category).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Categories
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Category>> PostCategoryAsync(Category category)
-        {
-            if (_context.Category == null)
-            {
-                return Problem("Entity set 'seedsApiContext.Category'  is null.");
-            }
-            _context.Category.Add(category);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CategoryExists(category.Key))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetCategory", new { id = category.Key }, category);
-        }
-
-        // DELETE: api/Categories/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategoryAsync(string id)
-        {
-            if (_context.Category == null)
-            {
-                return NotFound();
-            }
-            var category = await _context.Category.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CategoryExists(string id)
-        {
-            return (_context.Category?.Any(e => e.Key == id)).GetValueOrDefault();
         }
     }
 }

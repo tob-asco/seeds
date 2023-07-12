@@ -18,7 +18,7 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
         {
             var response = await _httpClientWrapper.GetAsync(
                 $"api/CategoryUserPreferences/{categoryKey}/{username}");
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode(); // important, otherwise it will use std. model
             return await response.Content.ReadFromJsonAsync<CategoryUserPreference>()
                 .ConfigureAwait(false) ?? throw new NullReferenceException();
         }

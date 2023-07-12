@@ -21,14 +21,6 @@ public class UsersController : ControllerBase
         _context = context;
     }
 
-    // GET: api/Users
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-    {
-        return _context.User == null ? 
-            NotFound() : await _context.User.ToListAsync();
-    }
-
     // GET: api/Users/dummyName
     [HttpGet("{username}")]
     public async Task<ActionResult<User>> GetUserByUsernameAsync(string username)
