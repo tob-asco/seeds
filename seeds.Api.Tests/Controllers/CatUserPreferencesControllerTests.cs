@@ -19,8 +19,9 @@ using System.Threading.Tasks;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CatUserPreferencesControllerTests
+public class CatUserPreferencesControllerTests : IDisposable
 {
+    private readonly seedsApiContext _context;
     private readonly CategoryUserPreferencesController _controller;
     private readonly HttpClient _httpClient;
 
@@ -30,8 +31,8 @@ public class CatUserPreferencesControllerTests
 
     public CatUserPreferencesControllerTests()
     {
-        var context = CreateDb();
-        _controller = new CategoryUserPreferencesController(context);
+        _context = CreateDb();
+        _controller = new CategoryUserPreferencesController(_context);
 
         // Create the HttpClient using the in-memory server
         var factory = new WebApplicationFactory<ProgramTest>()
@@ -39,7 +40,7 @@ public class CatUserPreferencesControllerTests
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddSingleton(context);
+                    services.AddSingleton(_context);
                 });
             });
         _httpClient = factory.CreateClient();
@@ -91,6 +92,14 @@ public class CatUserPreferencesControllerTests
         return context;
     }
 
+    // Disposing the context is important to avoid "already tracked" errors
+    public void Dispose()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+        _httpClient.Dispose();
+    }
+
     #region Unit Testing
 
     [Fact]
@@ -125,6 +134,28 @@ public class CatUserPreferencesControllerTests
         actionResult.Result.Should().BeOfType<NotFoundResult>();
     }
 
+    //not working "entity with key value pair already being tracked" error
+    //[Fact]
+    //public async Task CatUserPrefencesController_PutCatUserPreferenceAsync_ReturnsSuccess()
+    //{
+    //    //Arrange
+    //    string key = Cats[3].Key;
+    //    string username = Users[2].Username;
+    //    int val = 18;
+    //    CategoryUserPreference cup = new()
+    //    {
+    //        CategoryKey = key,
+    //        Username = username,
+    //        Value = val
+    //    };
+
+    //    //Act
+    //    var result = await _controller.PutCategoryUserPreferenceAsync(key, username, cup);
+
+    //    //Assert
+    //    var actionResult = Assert.IsAssignableFrom<ActionResult>(result);
+    //}
+
     #endregion
     #region Enpoint Testing
 
@@ -134,12 +165,6 @@ public class CatUserPreferencesControllerTests
         //Arrange
         string key = Cats[3].Key;
         string username = Users[2].Username;
-        CategoryUserPreference cup = new()
-        {
-            CategoryKey = key,
-            Username = username,
-            Value = 8
-        };
         string url = $"/api/CategoryUserPreferences/{key}/{username}";
 
         //Act
@@ -149,8 +174,38 @@ public class CatUserPreferencesControllerTests
         //Assert
         response.IsSuccessStatusCode.Should().Be(true);
         result.Should().NotBeNull();
-        result.CategoryKey.Should().Be(key);
-        result.Username.Should().Be(username);
+        result?.CategoryKey.Should().Be(key);
+        result?.Username.Should().Be(username);
+    }
+
+    [Fact]
+    public async Task CatUserPrefencesController_PutEndpoint_UpdatesDb()
+    {
+        //Arrange
+        string key = Cats[4].Key;
+        string username = Users[1].Username;
+        int val = 18;
+        CategoryUserPreference cup = new()
+        {
+            CategoryKey = key,
+            Username = username,
+            Value = val
+        };
+        string url = $"/api/CategoryUserPreferences/{key}/{username}";
+        var content = JsonContent.Create(cup);
+        _context.ChangeTracker.Clear();
+
+        //Act
+        var putResponse = await _httpClient.PutAsync(url, content);
+        var getResponse = await _httpClient.GetAsync(url);
+        var getResult = await getResponse.Content
+            .ReadFromJsonAsync<CategoryUserPreference>();
+
+        //Assert
+        putResponse.IsSuccessStatusCode.Should().Be(true);
+        getResponse.IsSuccessStatusCode.Should().Be(true);
+        getResult.Should().NotBeNull();
+        getResult?.Value.Should().Be(val);
     }
 
     #endregion
