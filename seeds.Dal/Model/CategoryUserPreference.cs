@@ -18,8 +18,12 @@ public class CategoryUserPreference
 {
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
-    [Column("user_id")]
+    [Column("username")]
     public string Username { get; set; } = "tobi";
+
+    #region Payload
     [Column("value")]
     public int Value { get; set; } = 0;
+
+    #endregion
 }

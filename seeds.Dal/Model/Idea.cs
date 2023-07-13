@@ -31,6 +31,7 @@ public class Idea
     #region Navigation
     public User Creator { get; } = null!;
     public Category Category { get; } = null!;
+    public List<User> InteractedUsers { get; set; } = new();
     #endregion
 
     [Column("upvotes")]

@@ -11,6 +11,13 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        #region Relations
+        // User : Idea = M : N (+payload: upvoted, marked, ...)
+        builder.HasMany(u => u.InteractedIdeas)
+            .WithMany(i => i.InteractedUsers)
+            .UsingEntity<UserIdeaInteraction>();
+        #endregion
+
         /* auto-generate the id
          *builder.HasKey(u => u.Id);
          *builder.Property(u => u.Id)
