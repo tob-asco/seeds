@@ -53,6 +53,31 @@
                                HorizontalOptions="CenterAndExpand" Padding="10"/>
                         <Image Source="{Binding Idea.Slide1}"
                                Style="{StaticResource imageStyle}"/>
+                        <HorizontalStackLayout
+                            HorizontalOptions="EndAndExpand"
+                            HeightRequest="45"
+                            Padding="0">
+                            <Button Text="+1"
+                                    Margin="10,0,10,0">
+                                <Button.Style>
+                                    <Binding Converter="{converter:BoolToVotedConverter 
+                                NotVoted={StaticResource voteButtonMediumStyle}, 
+                                Voted={StaticResource voteButtonUpvoteStyle}}"
+                                         Path="Upvoted"/>
+                                </Button.Style>
+                            </Button>
+                            <Button Text="-1"
+                                    Margin="0,0,10,0">
+                                <Button.Style>
+                                    <Binding Converter="{converter:BoolToVotedConverter 
+                                NotVoted={StaticResource voteButtonMediumStyle}, 
+                                Voted={StaticResource voteButtonDownvoteStyle}}"
+                                         Path="Upvoted"/>
+                                </Button.Style>
+                            </Button>
+                            <Button Text="?!"
+                                    Style="{StaticResource openForumButtonStyle}"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Grid>
             </DataTemplate>

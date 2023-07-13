@@ -10,25 +10,37 @@
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style x:Key="voteButtonBaseStyle" TargetType="Button">
-                <Setter Property="Padding" Value="0" />
-                <Setter Property="Margin" Value="3" />
-
-            </Style>
-            <Style x:Key="buttonMediumStyle" TargetType="Button" BasedOn="{StaticResource voteButtonBaseStyle}">
+            <Style x:Key="buttonMediumStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="BorderColor" Value="White"/>
                 <Setter Property="BorderWidth" Value="1"/>
             </Style>
-            <Style x:Key="buttonMaximumStyle" TargetType="Button" BasedOn="{StaticResource voteButtonBaseStyle}">
+            <Style x:Key="voteButtonMediumStyle" TargetType="Button" BasedOn="{StaticResource buttonMediumStyle}">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="40"/>
+            </Style>
+            <Style x:Key="buttonMaximumStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="DarkGreen"/>
                 <Setter Property="TextColor" Value="WhiteSmoke"/>
                 <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="BorderColor" Value="YellowGreen"/>
                 <Setter Property="BorderWidth" Value="2"/>
             </Style>
-            <Style x:Key="buttonMinimumStyle" TargetType="Button" BasedOn="{StaticResource voteButtonBaseStyle}">
+            <Style x:Key="voteButtonUpvoteStyle" TargetType="Button" BasedOn="{StaticResource buttonMaximumStyle}">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="40"/>
+            </Style>
+            <Style x:Key="voteButtonDownvoteStyle" TargetType="Button" BasedOn="{StaticResource buttonMaximumStyle}">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="40"/>
+                <Setter Property="BackgroundColor" Value="DarkRed"/>
+                <Setter Property="BorderColor" Value="OrangeRed"/>
+            </Style>
+            <Style x:Key="buttonMinimumStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="TextColor" Value="#777"/>
                 <Setter Property="BorderColor" Value="#444"/>
@@ -64,6 +76,16 @@
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="FontSize" Value="30" />
                 <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style x:Key="openForumButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="TextColor" Value="WhiteSmoke"/>
+                <Setter Property="BorderColor" Value="DarkGray"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="4,0"/>
+                <Setter Property="WidthRequest" Value="100"/>
+                <Setter Property="HeightRequest" Value="40"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
