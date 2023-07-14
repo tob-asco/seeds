@@ -4,14 +4,14 @@ using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
-public class FeedEntryService : IFeedEntryService
+public class FeedEntriesService : IFeedEntriesService
 {
     private readonly IIdeasService _ideaService;
     private readonly ICategoryService _categoryService;
     private readonly ICategoryUserPreferenceService _cupService;
     private readonly IUserIdeaInteractionService _uiiService;
     public User CurrentUser { get; set; }
-    public FeedEntryService(IIdeasService ideasService,
+    public FeedEntriesService(IIdeasService ideasService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService categoryUserPreferenceService)
     {

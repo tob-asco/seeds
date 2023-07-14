@@ -20,7 +20,7 @@ public partial class FeedPage : ContentPage
         // here, not in OnAppearing, because otherwise CurrentUser were null
         if (_vm != null && _vm.RedrawPage)
         {
-            _vm.FeedEntryCollection = new();
+            _vm.FeedEntryVMCollection = new();
             await _vm.CollectFeedEntriesPaginated();
         }
     }

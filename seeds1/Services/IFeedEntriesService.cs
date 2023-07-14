@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace seeds1.Services;
 
-public interface IFeedEntryService
+public interface IFeedEntriesService
 {
     public User CurrentUser { get; set; }
     public Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize);

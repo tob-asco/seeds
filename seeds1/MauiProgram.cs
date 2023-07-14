@@ -27,16 +27,18 @@ public static class MauiProgram
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
-        builder.Services.AddSingleton<IFeedEntryService, FeedEntryService>();
+        builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<BasisViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
+        builder.Services.AddTransient<FeedEntryVM>();
 
         //It's mandatory to register also the pages where we DI the VMs!
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<FeedPage>();
+        builder.Services.AddTransient<FeedEntryView>();
 
 
         /******************* auto-generated ********************/

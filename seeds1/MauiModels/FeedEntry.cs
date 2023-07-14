@@ -14,8 +14,9 @@ public partial class FeedEntry : ObservableObject
     public string CategoryName { get; set; }
     [ObservableProperty]
     int categoryPreference;
-
-    public bool Upvoted { get; set; }
-    public bool Downvoted { get; set; }
+    [ObservableProperty]
+    bool upvoted;
+    [ObservableProperty]
+    bool downvoted;
     //public bool IdeaMarked { get; set; } //for later review
 }
