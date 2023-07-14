@@ -8,7 +8,8 @@ public class FeedEntryService : IFeedEntryService
 {
     private readonly IIdeasService _ideaService;
     private readonly ICategoryService _categoryService;
-    private readonly ICategoryUserPreferenceService _categoryUserPreferenceService;
+    private readonly ICategoryUserPreferenceService _cupService;
+    private readonly IUserIdeaInteractionService _uiiService;
     public User CurrentUser { get; set; }
     public FeedEntryService(IIdeasService ideasService,
         ICategoryService categoryService,
@@ -16,7 +17,7 @@ public class FeedEntryService : IFeedEntryService
     {
         _ideaService = ideasService;
         _categoryService = categoryService;
-        _categoryUserPreferenceService = categoryUserPreferenceService;
+        _cupService = categoryUserPreferenceService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
     {
@@ -27,13 +28,17 @@ public class FeedEntryService : IFeedEntryService
             try
             {
                 var category = await _categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
-                var categoryPreference = await _categoryUserPreferenceService.GetCategoryUserPreferenceAsync(
+                var cup = await _cupService.GetCategoryUserPreferenceAsync(
                     idea.CategoryKey, CurrentUser.Username);
+                var uii = await _uiiService.GetUserIdeaInteractionAsync(
+                    CurrentUser.Username, idea.Id);
                 feedEntryPage.Add(new FeedEntry
                 {
                     Idea = idea,
                     CategoryName = category.Name,
-                    CategoryPreference = categoryPreference.Value
+                    CategoryPreference = cup.Value,
+                    Upvoted = uii.Upvoted,
+                    Downvoted = uii.Downvoted,
                 });
             }
             catch (Exception ex)

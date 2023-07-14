@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
 using seeds.Dal.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds.Api.Tests.Controllers;
 
