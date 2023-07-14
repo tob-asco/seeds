@@ -12,19 +12,24 @@ namespace seeds1.ViewModel;
 public partial class FeedEntryVM : ObservableObject
 {
     private readonly IUserIdeaInteractionService _uiiService;
+    private readonly IIdeasService _ideasService;
     
     public User CurrentUser { get; set; }
     [ObservableProperty]
     FeedEntry feedEntry;
 
-    public FeedEntryVM(IUserIdeaInteractionService uiiService)
+    public FeedEntryVM(
+        IUserIdeaInteractionService uiiService,
+        IIdeasService ideasService)
     {
         _uiiService = uiiService;
+        _ideasService = ideasService;
     }
 
     [RelayCommand]
     public async Task ChangeVote(int updown)
     {
+        int oldUpvotes = FeedEntry.Idea.Upvotes;
         if (updown == +1)
         {
             if (FeedEntry.Upvoted == true)
@@ -60,8 +65,10 @@ public partial class FeedEntryVM : ObservableObject
                 FeedEntry.Idea.Id,
                 FeedEntry.Upvoted,
                 FeedEntry.Downvoted);
-            //update the new upvote count
-            if (success1 == false) { throw new Exception(); }
+            var success2 = await _ideasService.VoteIdeaAsync(
+                FeedEntry.Idea.Id,
+                FeedEntry.Idea.Upvotes - oldUpvotes);
+            if (success1 == false || success2 == false) { throw new Exception(); }
         }
         catch
         {

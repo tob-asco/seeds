@@ -15,14 +15,20 @@ public partial class FeedViewModel : BasisViewModel
     private static readonly int _maxFeedEntryPageSize = 10;
     private readonly IFeedEntriesService _feedEntriesService;
     private readonly IUserIdeaInteractionService _uiiService;
+    private readonly IIdeasService _ideasService;
     private readonly ICategoryUserPreferenceService _cupService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
 
-    public FeedViewModel(IFeedEntriesService feedEntryService,
+    public FeedViewModel(
+        IFeedEntriesService feedEntryService,
+        IUserIdeaInteractionService uiiService,
+        IIdeasService ideasService,
         ICategoryUserPreferenceService cupService)
     {
         _feedEntriesService = feedEntryService;
+        _uiiService = uiiService;
+        _ideasService = ideasService;
         _cupService = cupService;
         FeedEntryVMCollection = new();
     }
@@ -49,7 +55,7 @@ public partial class FeedViewModel : BasisViewModel
             List<FeedEntryVM> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                feedEntryVMs.Add(new FeedEntryVM(_uiiService)
+                feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
                 {
                     CurrentUser = CurrentUser,
                     FeedEntry = fe,
