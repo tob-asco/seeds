@@ -33,7 +33,8 @@ public class FeedEntriesService : IFeedEntriesService
                 var cup = await _cupService.GetCategoryUserPreferenceAsync(
                     idea.CategoryKey, CurrentUser.Username);
                 var uii = await _uiiService.GetUserIdeaInteractionAsync(
-                    CurrentUser.Username, idea.Id);
+                    CurrentUser.Username, idea.Id)
+                    ?? new UserIdeaInteraction();
                 feedEntryPage.Add(new FeedEntry
                 {
                     Idea = idea,

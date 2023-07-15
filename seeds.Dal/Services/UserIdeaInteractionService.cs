@@ -11,7 +11,7 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<UserIdeaInteraction> GetUserIdeaInteractionAsync(
+    public async Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username, int ideaId)
     {
         try
@@ -19,16 +19,17 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
             var response = await _httpClientWrapper.GetAsync(
                 $"api/UserIdeaInteractions/{username}/{ideaId}");
             response.EnsureSuccessStatusCode(); // important, otherwise it will use std. model
-            return await response.Content.ReadFromJsonAsync<UserIdeaInteraction>()
-                .ConfigureAwait(false) ?? throw new NullReferenceException();
+            return await response.Content.ReadFromJsonAsync<UserIdeaInteraction>();
         }
         catch (Exception ex)
         {
             // All types of exceptions will land here, e.g.
             // timeout, no such user, server overload, ...
             // not sure if this is expected behaviour. (TODO)
-            return await Task.FromException<UserIdeaInteraction>(ex)
-                .ConfigureAwait(false);
+            //return await Task.FromException<UserIdeaInteraction>(ex)
+            //    .ConfigureAwait(false);
+            Console.Write(ex.Message);
+            return null;
         }
     }
 

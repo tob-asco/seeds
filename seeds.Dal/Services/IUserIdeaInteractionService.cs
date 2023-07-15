@@ -4,7 +4,7 @@ namespace seeds.Dal.Services;
 
 public interface IUserIdeaInteractionService
 {
-    public Task<UserIdeaInteraction> GetUserIdeaInteractionAsync(
+    public Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username,
         int ideaId
         );
