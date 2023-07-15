@@ -13,11 +13,13 @@ public class FeedEntriesService : IFeedEntriesService
     public User CurrentUser { get; set; }
     public FeedEntriesService(IIdeasService ideasService,
         ICategoryService categoryService,
-        ICategoryUserPreferenceService categoryUserPreferenceService)
+        ICategoryUserPreferenceService cupService,
+        IUserIdeaInteractionService uiiService)
     {
         _ideaService = ideasService;
         _categoryService = categoryService;
-        _cupService = categoryUserPreferenceService;
+        _cupService = cupService;
+        _uiiService = uiiService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
     {
