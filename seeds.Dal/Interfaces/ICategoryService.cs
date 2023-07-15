@@ -9,5 +9,5 @@ namespace seeds.Dal.Interfaces;
 
 public interface ICategoryService
 {
-    public Task<Category> GetCategoryByKeyAsync(string categoryKey);
+    public Task<Category?> GetCategoryByKeyAsync(string categoryKey);
 }
