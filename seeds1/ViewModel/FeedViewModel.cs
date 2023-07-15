@@ -1,6 +1,6 @@
 ﻿using MvvmHelpers;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
-using seeds.Dal.Services;
 using seeds1.MauiModels;
 using seeds1.Services;
 using System.ComponentModel;

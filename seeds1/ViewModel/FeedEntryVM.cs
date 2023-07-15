@@ -1,5 +1,5 @@
-﻿using seeds.Dal.Model;
-using seeds.Dal.Services;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds1.MauiModels;
 using System;
 using System.Collections.Generic;

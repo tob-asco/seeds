@@ -1,6 +1,6 @@
 ﻿using seeds.Dal.Model;
 
-namespace seeds.Dal.Services;
+namespace seeds.Dal.Interfaces;
 
 public interface IUserIdeaInteractionService
 {

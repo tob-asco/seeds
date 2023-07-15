@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Services;
+﻿using seeds.Dal.Interfaces;
 using seeds1.MauiModels;
 using seeds1.Services;
 using seeds1.ViewModel;

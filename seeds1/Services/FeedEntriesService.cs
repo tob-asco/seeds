@@ -1,5 +1,5 @@
-﻿using seeds.Dal.Model;
-using seeds.Dal.Services;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds1.MauiModels;
 
 namespace seeds1.Services;
@@ -46,7 +46,7 @@ public class FeedEntriesService : IFeedEntriesService
             }
             catch (Exception ex)
             {
-                // we will not have this feedEntry
+                // we will not have this FeedEntry
                 Console.WriteLine(ex);
             }
         }

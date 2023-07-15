@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace seeds.Dal.Services;
+namespace seeds.Dal.Interfaces;
 
 public interface ICategoryService
 {
