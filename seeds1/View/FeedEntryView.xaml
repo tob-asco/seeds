@@ -5,7 +5,7 @@
              xmlns:converter="clr-namespace:seeds1.Converter"
              x:DataType="local:FeedEntryVM"
              x:Class="seeds1.View.FeedEntryView">
-    <Frame WidthRequest="600">
+    <Frame BackgroundColor="#222" Margin="0,15,0,0" Padding="0">
     <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->
         <VerticalStackLayout>
             <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
@@ -50,7 +50,7 @@
                 <HorizontalStackLayout
                             HorizontalOptions="EndAndExpand"
                             HeightRequest="45"
-                            Padding="0">
+                            Margin="0,0,5,5" Padding="0">
                     <Button Text="+1"
                             Command="{Binding ChangeVoteCommand}"
                             CommandParameter="up"

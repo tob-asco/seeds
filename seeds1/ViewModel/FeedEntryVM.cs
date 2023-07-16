@@ -29,54 +29,102 @@ public partial class FeedEntryVM : ObservableObject
     [RelayCommand]
     public async Task ChangeVote(string updown)
     {
-        int oldUpvotes = FeedEntry.Idea.Upvotes;
         if (updown == "up")
         {
             if (FeedEntry.Upvoted == true)
             {
-                FeedEntry.Upvoted = false;
-                FeedEntry.Idea.Upvotes--;
+                if (await DbUpdateUiiAsync(false, FeedEntry.Downvoted))
+                {
+                    if (await DbUpdateIdeaVotesAsync(-1))
+                    {
+                        FeedEntry.Upvoted = false;
+                        FeedEntry.Idea.Upvotes--;
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
+                    }
+                }
             }
             else
             {
-                FeedEntry.Upvoted = true;
-                FeedEntry.Idea.Upvotes++;
+                if (await DbUpdateUiiAsync(true, FeedEntry.Downvoted))
+                {
+                    if (await DbUpdateIdeaVotesAsync(+1))
+                    {
+                        FeedEntry.Upvoted = true;
+                        FeedEntry.Idea.Upvotes++;
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
+                    }
+                }
             }
         }
         else if (updown == "down")
         {
             if (FeedEntry.Downvoted == true)
             {
-                FeedEntry.Downvoted = false;
-                FeedEntry.Idea.Upvotes++;
+                if (await DbUpdateUiiAsync(FeedEntry.Upvoted, false))
+                {
+                    if (await DbUpdateIdeaVotesAsync(+1))
+                    {
+                        FeedEntry.Downvoted = false;
+                        FeedEntry.Idea.Upvotes++;
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
+                    }
+                }
             }
             else
             {
-                FeedEntry.Downvoted = true;
-                FeedEntry.Idea.Upvotes--;
+                if (await DbUpdateUiiAsync(FeedEntry.Upvoted, true))
+                {
+                    if (await DbUpdateIdeaVotesAsync(-1))
+                    {
+                        FeedEntry.Downvoted = true;
+                        FeedEntry.Idea.Upvotes--;
+                    }
+                    else
+                    {
+                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
+                    }
+                }
             }
         }
-
-        //DB
+    }
+    private async Task<bool> DbUpdateUiiAsync(bool newUpvoted, bool newDownvoted)
+    {
         try
         {
-            bool success1 = await _uiiService.PostOrPutUserIdeaInteractionAsync(
+            return await _uiiService.PostOrPutUserIdeaInteractionAsync(
                 new UserIdeaInteraction()
                 {
                     Username = CurrentUser.Username,
                     IdeaId = FeedEntry.Idea.Id,
-                    Upvoted = FeedEntry.Upvoted,
-                    Downvoted = FeedEntry.Downvoted
+                    Upvoted = newUpvoted,
+                    Downvoted = newDownvoted
                 });
-            bool success2 = await _ideasService.VoteIdeaAsync(
-                FeedEntry.Idea.Id,
-                FeedEntry.Idea.Upvotes - oldUpvotes);
-            if (!success1 || !success2) { throw new Exception(); }
         }
         catch
         {
-            await Shell.Current.DisplayAlert("DB Access Error", "The DB could not be accessed.\n" +
-                "Refresh to see the actual state.", "Ok");
+            await Shell.Current.DisplayAlert("DB Access Error", "Error while updating the UII (in the DB).", "Ok");
+            return false;
+        }
+    }
+    private async Task<bool> DbUpdateIdeaVotesAsync(int updown)
+    {
+        try
+        {
+            return await _ideasService.VoteIdeaAsync(FeedEntry.Idea.Id, updown);
+        }
+        catch
+        {
+            await Shell.Current.DisplayAlert("DB Access Error", "Error while updating the vote count (in the DB).", "Ok");
+            return false;
         }
     }
 }
