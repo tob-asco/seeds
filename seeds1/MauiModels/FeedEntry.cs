@@ -18,5 +18,7 @@ public partial class FeedEntry : ObservableObject
     bool upvoted = false;
     [ObservableProperty]
     bool downvoted = false;
+    [ObservableProperty]
+    int upvotes = 0;
     //public bool IdeaMarked { get; set; } //for later review
 }
