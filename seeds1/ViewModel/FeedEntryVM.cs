@@ -13,7 +13,7 @@ public partial class FeedEntryVM : ObservableObject
 {
     private readonly IUserIdeaInteractionService _uiiService;
     private readonly IIdeasService _ideasService;
-    
+
     public User CurrentUser { get; set; }
     [ObservableProperty]
     FeedEntry feedEntry;
@@ -60,15 +60,18 @@ public partial class FeedEntryVM : ObservableObject
         //DB
         try
         {
-            var success1 = await _uiiService.PutUserIdeaInteractionAsync(
-                CurrentUser.Username,
-                FeedEntry.Idea.Id,
-                FeedEntry.Upvoted,
-                FeedEntry.Downvoted);
-            var success2 = await _ideasService.VoteIdeaAsync(
+            bool success1 = await _uiiService.PostOrPutUserIdeaInteractionAsync(
+                new UserIdeaInteraction()
+                {
+                    Username = CurrentUser.Username,
+                    IdeaId = FeedEntry.Idea.Id,
+                    Upvoted = FeedEntry.Upvoted,
+                    Downvoted = FeedEntry.Downvoted
+                });
+            bool success2 = await _ideasService.VoteIdeaAsync(
                 FeedEntry.Idea.Id,
                 FeedEntry.Idea.Upvotes - oldUpvotes);
-            if (success1 == false || success2 == false) { throw new Exception(); }
+            if (!success1 || !success2) { throw new Exception(); }
         }
         catch
         {
