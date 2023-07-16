@@ -14,7 +14,7 @@
         >
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <views:FeedEntryView />
+                <views:FeedEntryView BindingContext="{Binding .}"/>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

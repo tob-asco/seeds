@@ -23,7 +23,7 @@ public class IdeasService : DalBaseService, IIdeasService
     {
         try
         {
-            var idea = await GetIdeaAsync(id);
+            var idea = await GetIdeaAsync(id) ?? throw new NullReferenceException();
             if (updown == +1) { idea.Upvotes++; }
             else if (updown == -1) { idea.Upvotes--; }
             else { return false; }
@@ -32,6 +32,7 @@ public class IdeasService : DalBaseService, IIdeasService
         }
         catch (Exception ex)
         {
+            Console.Write(ex);
             return false;
         }
     }

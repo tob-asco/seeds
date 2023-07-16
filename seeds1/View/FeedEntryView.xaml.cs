@@ -2,9 +2,9 @@ namespace seeds1.View;
 
 public partial class FeedEntryView : ContentView
 {
-	public FeedEntryView()//FeedEntryVM vm)
+	public FeedEntryView()
 	{
 		InitializeComponent();
-		//BindingContext = vm;
+		//BindingContext is set in FeedPage
 	}
 }

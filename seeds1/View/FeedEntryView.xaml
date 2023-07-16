@@ -3,77 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:seeds1.ViewModel"
              xmlns:converter="clr-namespace:seeds1.Converter"
+             x:DataType="local:FeedEntryVM"
              x:Class="seeds1.View.FeedEntryView">
-    <Grid BindingContext="local:FeedEntryVM" 
-        ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">
-        <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
-        <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" Grid.ColumnSpan="2"
+    <Frame WidthRequest="600">
+    <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->
+        <VerticalStackLayout>
+            <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
+            <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" 
                                 HeightRequest="45" Padding="0" Margin="10,0,10,0" HorizontalOptions="EndAndExpand">
-            <HorizontalStackLayout>
-                <Label Text="{Binding FeedEntry.Idea.CreatorName, StringFormat='{}{0}  •'}" 
+                <HorizontalStackLayout>
+                    <Label Text="{Binding FeedEntry.Idea.CreatorName, StringFormat='{}{0}  •'}" 
                                Style="{StaticResource inventorStyle}" />
-                <Label Text="{Binding FeedEntry.Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
+                    <Label Text="{Binding FeedEntry.Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}"
                                    Style="{StaticResource inventorStyle}" />
-            </HorizontalStackLayout>
-            <Button Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
+                </HorizontalStackLayout>
+                <Button Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, 
                             Path=ChangeCategoryPreferenceCommand}"
                                 CommandParameter="{Binding FeedEntry.Idea.CategoryKey}"
                                 Padding="15,1,15,2" HeightRequest="45" CornerRadius="13"
                                 VerticalOptions="End"  HorizontalOptions="StartAndExpand">
-                <Button.Text>
-                    <MultiBinding Converter="{converter:CatBtnTextConverter}"
+                    <Button.Text>
+                        <MultiBinding Converter="{converter:CatBtnTextConverter}"
                                               >
-                        <Binding Path="FeedEntry.Idea.CategoryKey"/>
-                        <Binding Path="FeedEntry.CategoryName"/>
-                    </MultiBinding>
-                </Button.Text>
-                <Button.Style>
-                    <Binding Converter="{converter:IntToPriorityConverter 
+                            <Binding Path="FeedEntry.Idea.CategoryKey"/>
+                            <Binding Path="FeedEntry.CategoryName"/>
+                        </MultiBinding>
+                    </Button.Text>
+                    <Button.Style>
+                        <Binding Converter="{converter:IntToPriorityConverter 
                                 MediumPriority={StaticResource buttonMediumStyle}, 
                                 MaximumPriority={StaticResource buttonMaximumStyle},
                                 MinimumPriority={StaticResource buttonMinimumStyle}}"
                                          Path="FeedEntry.CategoryPreference"/>
-                </Button.Style>
-            </Button>
-        </FlexLayout>
-        <VerticalStackLayout Grid.Row="1" Grid.Column="0"
-                                         Padding="0,0,0,0">
-            <Label Text="{Binding FeedEntry.Idea.Title}"
+                    </Button.Style>
+                </Button>
+            </FlexLayout>
+            <VerticalStackLayout Grid.Row="1" Padding="0,0,0,0">
+                <Label Text="{Binding FeedEntry.Idea.Title}"
                                HorizontalOptions="CenterAndExpand"
                                Style="{StaticResource title}" />
-            <Label Text="{Binding FeedEntry.Idea.Slogan}"
+                <Label Text="{Binding FeedEntry.Idea.Slogan}"
                                Style="{StaticResource slogan}" 
                                HorizontalOptions="CenterAndExpand" Padding="10"/>
-            <Image Source="{Binding FeedEntry.Idea.Slide1}"
+                <Image Source="{Binding FeedEntry.Idea.Slide1}"
                    HeightRequest="400"/>
-            <HorizontalStackLayout
+                <HorizontalStackLayout
                             HorizontalOptions="EndAndExpand"
                             HeightRequest="45"
                             Padding="0">
-                <Button Text="+1"
-                                    Margin="10,0,10,0">
-                    <Button.Style>
-                        <Binding Converter="{converter:BoolToVotedConverter 
+                    <Button Text="+1"
+                            Command="{Binding ChangeVoteCommand}"
+                            CommandParameter="up"
+                            Margin="10,0,10,0">
+                        <Button.Style>
+                            <Binding Converter="{converter:BoolToVotedConverter 
                                 NotVoted={StaticResource voteButtonMediumStyle}, 
                                 Voted={StaticResource voteButtonUpvoteStyle}}"
                                          Path="FeedEntry.Upvoted"/>
-                    </Button.Style>
-                </Button>
-                <Button Text="-1"
-                                    Margin="0,0,10,0">
-                    <Button.Style>
-                        <Binding Converter="{converter:BoolToVotedConverter 
+                        </Button.Style>
+                    </Button>
+                    <Button Text="-1"
+                            Command="{Binding ChangeVoteCommand}"
+                            CommandParameter="down"
+                            Margin="0,0,10,0">
+                        <Button.Style>
+                            <Binding Converter="{converter:BoolToVotedConverter 
                                 NotVoted={StaticResource voteButtonMediumStyle}, 
                                 Voted={StaticResource voteButtonDownvoteStyle}}"
                                          Path="FeedEntry.Downvoted"/>
-                    </Button.Style>
-                </Button>
-                <Button Text="?!"
+                        </Button.Style>
+                    </Button>
+                    <Button Text="?!"
                                     Style="{StaticResource openForumButtonStyle}"/>
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
         </VerticalStackLayout>
-    </Grid>
-    
+    <!--</Grid>-->
+    </Frame>
+
     <ContentView.Resources>
         <ResourceDictionary>
             <Style x:Key="inventorStyle" TargetType="Label">

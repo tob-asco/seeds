@@ -27,10 +27,10 @@ public partial class FeedEntryVM : ObservableObject
     }
 
     [RelayCommand]
-    public async Task ChangeVote(int updown)
+    public async Task ChangeVote(string updown)
     {
         int oldUpvotes = FeedEntry.Idea.Upvotes;
-        if (updown == +1)
+        if (updown == "up")
         {
             if (FeedEntry.Upvoted == true)
             {
@@ -43,7 +43,7 @@ public partial class FeedEntryVM : ObservableObject
                 FeedEntry.Idea.Upvotes++;
             }
         }
-        else if (updown == -1)
+        else if (updown == "down")
         {
             if (FeedEntry.Downvoted == true)
             {
