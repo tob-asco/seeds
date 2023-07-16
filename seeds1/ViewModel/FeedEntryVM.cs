@@ -35,10 +35,11 @@ public partial class FeedEntryVM : ObservableObject
             {
                 if (await DbUpdateUiiAsync(false, FeedEntry.Downvoted))
                 {
+                    FeedEntry.Upvoted = false;
                     if (await DbUpdateIdeaVotesAsync(-1))
                     {
-                        FeedEntry.Upvoted = false;
                         FeedEntry.Idea.Upvotes--;
+                        FeedEntry.Upvotes--;
                     }
                     else
                     {
@@ -50,10 +51,11 @@ public partial class FeedEntryVM : ObservableObject
             {
                 if (await DbUpdateUiiAsync(true, FeedEntry.Downvoted))
                 {
+                    FeedEntry.Upvoted = true;
                     if (await DbUpdateIdeaVotesAsync(+1))
                     {
-                        FeedEntry.Upvoted = true;
                         FeedEntry.Idea.Upvotes++;
+                        FeedEntry.Upvotes++;
                     }
                     else
                     {
@@ -68,10 +70,11 @@ public partial class FeedEntryVM : ObservableObject
             {
                 if (await DbUpdateUiiAsync(FeedEntry.Upvoted, false))
                 {
+                    FeedEntry.Downvoted = false;
                     if (await DbUpdateIdeaVotesAsync(+1))
                     {
-                        FeedEntry.Downvoted = false;
                         FeedEntry.Idea.Upvotes++;
+                        FeedEntry.Upvotes++;
                     }
                     else
                     {
@@ -83,10 +86,11 @@ public partial class FeedEntryVM : ObservableObject
             {
                 if (await DbUpdateUiiAsync(FeedEntry.Upvoted, true))
                 {
+                    FeedEntry.Downvoted = true;
                     if (await DbUpdateIdeaVotesAsync(-1))
                     {
-                        FeedEntry.Downvoted = true;
                         FeedEntry.Idea.Upvotes--;
+                        FeedEntry.Upvotes--;
                     }
                     else
                     {
