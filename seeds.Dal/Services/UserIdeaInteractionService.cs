@@ -28,4 +28,9 @@ public class UserIdeaInteractionService : DalBaseService, IUserIdeaInteractionSe
         };
         return await PutDalModelAsync<UserIdeaInteraction>(url, newUii);
     }
+    public async Task<bool> PostUserIdeaInteractionAsync(UserIdeaInteraction uii)
+    {
+        string url = "api/UserIdeaInteractions";
+        return await PostDalModelAsync<UserIdeaInteraction>(url, uii);
+    }
 }

@@ -95,7 +95,10 @@ namespace seeds.Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUserIdeaInteraction", new { id = uii.Username }, uii);
+            return CreatedAtAction(
+                "GetUserIdeaInteraction",
+                new { username = uii.Username, ideaId = uii.IdeaId },
+                uii);
         }
 
         private bool UserIdeaInteractionExists(string username, int ideaId)

@@ -15,4 +15,5 @@ public interface IUserIdeaInteractionService
         bool newUpvoted,
         bool newDownvoted
         );
+    public Task<bool> PostUserIdeaInteractionAsync(UserIdeaInteraction uii);
 }

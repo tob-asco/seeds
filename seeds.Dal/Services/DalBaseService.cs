@@ -27,12 +27,27 @@ public class DalBaseService
             return null;
         }
     }
-    public async Task<bool> PutDalModelAsync<T>(string url, T newModel)
+    public async Task<bool> PutDalModelAsync<T>(string url, T newModel) where T : class
     {
         try
         {
             var httpContent = JsonContent.Create(newModel);
             var response = await _httpClientWrapper.PutAsync(url, httpContent);
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex);
+            return false;
+        }
+    }
+    public async Task<bool> PostDalModelAsync<T>(string url, T model) where T : class
+    {
+        try
+        {
+            var httpContent = JsonContent.Create(model);
+            var response = await _httpClientWrapper.PostAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
             return true;
         }
