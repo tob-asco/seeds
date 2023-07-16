@@ -21,19 +21,27 @@ public class IdeasService : DalBaseService, IIdeasService
     }
     public async Task<bool> VoteIdeaAsync(int id, int updown)
     {
-        try
-        {
-            var idea = await GetIdeaAsync(id) ?? throw new NullReferenceException();
-            if (updown == +1) { idea.Upvotes++; }
-            else if (updown == -1) { idea.Upvotes--; }
-            else { return false; }
-            await _httpClientWrapper.PutAsync($"api/Ideas/{id}", JsonContent.Create(idea));
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.Write(ex);
-            return false;
-        }
+        string url = $"api/Ideas/{id}";
+        Idea? idea = await GetIdeaAsync(id);
+        if (idea == null) { return false; }
+        if (updown == +1) { idea.Upvotes++; }
+        else if (updown == -1) { idea.Upvotes--; }
+        else { return false; }
+        return await PutDalModelAsync<Idea>(url, idea);
+        //try
+        //{
+        //    var idea = await GetIdeaAsync(id) ?? throw new NullReferenceException();
+        //    if (updown == +1) { idea.Upvotes++; }
+        //    else if (updown == -1) { idea.Upvotes--; }
+        //    else { return false; }
+        //    await _httpClientWrapper.PutAsync($"api/Ideas/{id}", JsonContent.Create(idea));
+
+        //    return true;
+        //}
+        //catch (Exception ex)
+        //{
+        //    Console.Write(ex);
+        //    return false;
+        //}
     }
 }
