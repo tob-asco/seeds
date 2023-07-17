@@ -10,24 +10,29 @@ public class DalBaseService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<T?> GetDalModelAsync<T>(string url) where T : class
+    public async Task<T?> GetDalModelAsync<T>(string url)// where T : class
     {
         try
         {
             var response = await _httpClientWrapper.GetAsync(url);
+            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return default(T); // my code for "not found"
+                                   // I hope it gives null for DAL model classes
+                                   // TODO: test this.
+            }
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<T>();
         }
         catch (Exception ex)
         {
-            // All types of exceptions will land here, e.g.
-            // timeout, no such user, server overload, ...
-            // not sure if this is expected behaviour. (TODO)
+            // All non-successful response messages other than 4xx (not found)
+            // will land here, and they are bad.
             Console.Write(ex);
-            return null;
+            throw;
         }
     }
-    public async Task<bool> PutDalModelAsync<T>(string url, T newModel) where T : class
+    public async Task<bool> PutDalModelAsync<T>(string url, T newModel)
     {
         try
         {
@@ -42,7 +47,7 @@ public class DalBaseService
             return false;
         }
     }
-    public async Task<bool> PostDalModelAsync<T>(string url, T model) where T : class
+    public async Task<bool> PostDalModelAsync<T>(string url, T model)
     {
         try
         {

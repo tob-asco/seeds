@@ -42,4 +42,12 @@ public class UserIdeaInteractionService : DalBaseService, IUserIdeaInteractionSe
             newUii.Upvoted,
             newUii.Downvoted);
     }
+    public async Task<int> CountVotesAsync(int ideaId)
+    {
+        string upvotesUrl = $"api/UserIdeaInteractions/{ideaId}/upvotes";
+        string downvotesUrl = $"api/UserIdeaInteractions/{ideaId}/downvotes";
+        int upvotes = await GetDalModelAsync<int>(upvotesUrl);
+        int downvotes = await GetDalModelAsync<int>(downvotesUrl);
+        return upvotes - downvotes; 
+    }
 }

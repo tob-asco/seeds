@@ -17,4 +17,5 @@ public interface IUserIdeaInteractionService
         );
     public Task<bool> PostUserIdeaInteractionAsync(UserIdeaInteraction uii);
     public Task<bool> PostOrPutUserIdeaInteractionAsync(UserIdeaInteraction newUii);
+    public Task<int> CountVotesAsync(int ideaId);
 }
