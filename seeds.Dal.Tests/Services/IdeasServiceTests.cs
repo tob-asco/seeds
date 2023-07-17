@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace seeds.Dal.Tests.Services;
@@ -41,7 +40,7 @@ public class IdeasServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetIdeasPaginated(page, maxPageSize);
+        var result = await _service.GetIdeasPaginatedAsync(page, maxPageSize);
 
         // Assert
         result.Should().BeEquivalentTo(users);

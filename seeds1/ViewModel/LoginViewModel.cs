@@ -1,5 +1,5 @@
-﻿using seeds.Dal.Model;
-using seeds.Dal.Services;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds1.Services;
 
 namespace seeds1.ViewModel;
@@ -34,7 +34,7 @@ public partial class LoginViewModel : BasisViewModel
         }
         FailResponse("Checking..."); //shouldnt be a "fail" response..
         //look up DB for existence of entered data:
-        User user = await _usersService.GetUserByUsername(EnteredUsername.Trim());
+        User user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         
         if (user != null) 
         {
@@ -43,10 +43,11 @@ public partial class LoginViewModel : BasisViewModel
             {
                 // Login
                 
-                // pass only a unique identifier (security, scalability)
+                // pass full user object, not just username
                 var navParameters = new Dictionary<string, object>
                 {
-                    { nameof(User.Username), user.Username }
+                    { nameof(CurrentUser), user },
+                    { nameof(RedrawPage), true }
                 };
 
                 //the amount of "/" to prepend depends on the shell's design

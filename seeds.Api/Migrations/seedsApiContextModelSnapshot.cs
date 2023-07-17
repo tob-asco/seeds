@@ -17,7 +17,7 @@ namespace seeds.Api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -47,7 +47,7 @@ namespace seeds.Api.Migrations
 
                     b.Property<string>("Username")
                         .HasColumnType("text")
-                        .HasColumnName("user_id");
+                        .HasColumnName("username");
 
                     b.Property<int>("Value")
                         .HasColumnType("integer")
@@ -144,6 +144,31 @@ namespace seeds.Api.Migrations
                     b.ToTable("users");
                 });
 
+            modelBuilder.Entity("seeds.Dal.Model.UserIdeaInteraction", b =>
+                {
+                    b.Property<string>("Username")
+                        .HasColumnType("text")
+                        .HasColumnName("username");
+
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("integer")
+                        .HasColumnName("idea_id");
+
+                    b.Property<bool>("Downvoted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("downvoted");
+
+                    b.Property<bool>("Upvoted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("upvoted");
+
+                    b.HasKey("Username", "IdeaId");
+
+                    b.HasIndex("IdeaId");
+
+                    b.ToTable("user_idea");
+                });
+
             modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
@@ -168,7 +193,7 @@ namespace seeds.Api.Migrations
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", "Creator")
-                        .WithMany("Ideas")
+                        .WithMany("CreatedIdeas")
                         .HasForeignKey("CreatorName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -176,6 +201,21 @@ namespace seeds.Api.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.UserIdeaInteraction", b =>
+                {
+                    b.HasOne("seeds.Dal.Model.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("seeds.Dal.Model.User", null)
+                        .WithMany()
+                        .HasForeignKey("Username")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
@@ -189,7 +229,7 @@ namespace seeds.Api.Migrations
                 {
                     b.Navigation("CategoryUserPreferences");
 
-                    b.Navigation("Ideas");
+                    b.Navigation("CreatedIdeas");
                 });
 #pragma warning restore 612, 618
         }

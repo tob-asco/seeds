@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
@@ -21,17 +16,9 @@ public class UsersController : ControllerBase
         _context = context;
     }
 
-    // GET: api/Users
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetUsers()
-    {
-        return _context.User == null ? 
-            NotFound() : await _context.User.ToListAsync();
-    }
-
     // GET: api/Users/dummyName
     [HttpGet("{username}")]
-    public async Task<ActionResult<User>> GetUserByUsername(string username)
+    public async Task<ActionResult<User>> GetUserByUsernameAsync(string username)
     {
         if (_context.User == null)
         {
@@ -45,7 +32,7 @@ public class UsersController : ControllerBase
     // POST: api/Users
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<User>> PostUser(User user)
+    public async Task<ActionResult<User>> PostUserAsync(User user)
     {
         if (_context.User == null)
         { return Problem("Entity set 'seedsApiContext.User'  is null."); }

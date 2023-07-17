@@ -20,6 +20,7 @@ namespace seeds.Api.Data
             modelBuilder.ApplyConfiguration(new IdeaConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryUserPreferenceConfiguration());
+            modelBuilder.ApplyConfiguration(new UserIdeaInteractionConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -27,5 +28,6 @@ namespace seeds.Api.Data
         public DbSet<seeds.Dal.Model.Idea> Idea { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Category> Category { get; set; } = default!;
         public DbSet<seeds.Dal.Model.CategoryUserPreference> CategoryUserPreference { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.UserIdeaInteraction> UserIdeaInteraction { get; set; } = default!;
     }
 }

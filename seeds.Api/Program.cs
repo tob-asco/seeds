@@ -13,7 +13,6 @@ builder.Services.AddDbContext<seedsApiContext>(options =>
         "Connection string 'seedsApiContext' not found."
 )));
 
-
 var app = builder.Build();
 
 // Get an instance of the DbContext from the service provider

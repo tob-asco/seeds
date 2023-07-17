@@ -21,46 +21,36 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/CategoryUserPreferences
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryUserPreference>>> GetCategoryUserPreference()
+        // GET: api/CategoryUserPreferences/NoC/tobi
+        [HttpGet("{categoryKey}/{username}")]
+        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreferenceAsync(string categoryKey, string username)
         {
-          if (_context.CategoryUserPreference == null)
-          {
-              return NotFound();
-          }
-            return await _context.CategoryUserPreference.ToListAsync();
-        }
-
-        // GET: api/CategoryUserPreferences/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(string id)
-        {
-          if (_context.CategoryUserPreference == null)
-          {
-              return NotFound();
-          }
-            var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(id);
-
-            if (categoryUserPreference == null)
+            try
+            {
+                var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(categoryKey, username);
+                return categoryUserPreference != null ? categoryUserPreference : NotFound();
+            }
+            catch
             {
                 return NotFound();
             }
-
-            return categoryUserPreference;
         }
 
-        // PUT: api/CategoryUserPreferences/5
+        // PUT: api/CategoryUserPreferences/NoC/tobi
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoryUserPreference(string id, CategoryUserPreference categoryUserPreference)
+        [HttpPut("{categoryKey}/{username}")]
+        public async Task<IActionResult> PutCategoryUserPreferenceAsync(
+            string categoryKey,
+            string username,
+            CategoryUserPreference cup)
         {
-            if (id != categoryUserPreference.CategoryKey)
+            if (categoryKey != cup.CategoryKey
+                || username != cup.Username)
             {
                 return BadRequest();
             }
 
-            _context.Entry(categoryUserPreference).State = EntityState.Modified;
+            _context.Entry(cup).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +58,7 @@ namespace seeds.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryUserPreferenceExists(id))
+                if (!CategoryUserPreferenceExists(categoryKey, username))
                 {
                     return NotFound();
                 }
@@ -77,62 +67,14 @@ namespace seeds.Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 
-        // POST: api/CategoryUserPreferences
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<CategoryUserPreference>> PostCategoryUserPreference(CategoryUserPreference categoryUserPreference)
+        private bool CategoryUserPreferenceExists(string categoryKey, string username)
         {
-          if (_context.CategoryUserPreference == null)
-          {
-              return Problem("Entity set 'seedsApiContext.CategoryUserPreference'  is null.");
-          }
-            _context.CategoryUserPreference.Add(categoryUserPreference);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (CategoryUserPreferenceExists(categoryUserPreference.CategoryKey))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetCategoryUserPreference", new { id = categoryUserPreference.CategoryKey }, categoryUserPreference);
-        }
-
-        // DELETE: api/CategoryUserPreferences/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategoryUserPreference(string id)
-        {
-            if (_context.CategoryUserPreference == null)
-            {
-                return NotFound();
-            }
-            var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(id);
-            if (categoryUserPreference == null)
-            {
-                return NotFound();
-            }
-
-            _context.CategoryUserPreference.Remove(categoryUserPreference);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CategoryUserPreferenceExists(string id)
-        {
-            return (_context.CategoryUserPreference?.Any(e => e.CategoryKey == id)).GetValueOrDefault();
+            return (_context.CategoryUserPreference?.Any(e =>
+                e.CategoryKey == categoryKey && e.Username == username))
+                .GetValueOrDefault();
         }
     }
 }

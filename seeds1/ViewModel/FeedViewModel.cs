@@ -1,46 +1,120 @@
 ﻿using MvvmHelpers;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
-using seeds.Dal.Services;
-using System.Collections.ObjectModel;
+using seeds1.MauiModels;
+using seeds1.Services;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace seeds1.ViewModel;
 
-//    ...     ( property here   ...   , queryId    ...      )]
-[QueryProperty(nameof(CurrentUsername),nameof(User.Username))]
+//    ...     ( property here ... , queryId    ...   ))]
+[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
+[QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
 public partial class FeedViewModel : BasisViewModel
 {
-    private static readonly int _maxIdeaPageSize = 10;
-    //private readonly User _currentUser;
-    private readonly IIdeasService _ideaService;
+    private static readonly int _maxFeedEntryPageSize = 10;
+    private readonly IFeedEntriesService _feedEntriesService;
+    private readonly IUserIdeaInteractionService _uiiService;
+    private readonly IIdeasService _ideasService;
+    private readonly ICategoryUserPreferenceService _cupService;
     [ObservableProperty]
-    ObservableRangeCollection<Idea> ideaCollection;
-    public FeedViewModel(IIdeasService ideasService)
+    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
+
+    public FeedViewModel(
+        IFeedEntriesService feedEntryService,
+        IUserIdeaInteractionService uiiService,
+        IIdeasService ideasService,
+        ICategoryUserPreferenceService cupService)
     {
-        _ideaService = ideasService;
-        IdeaCollection = new();
+        _feedEntriesService = feedEntryService;
+        _uiiService = uiiService;
+        _ideasService = ideasService;
+        _cupService = cupService;
+        FeedEntryVMCollection = new();
     }
 
     [RelayCommand]
-    public async Task CollectIdeasPaginated()
+    public async Task CollectFeedEntriesPaginated()
     {
-        int currentCount;
-        if (IdeaCollection == null) { currentCount = 0; }
-        else { currentCount = IdeaCollection.Count; }
+        // This fct. is called in OnNavigatedTo() and from the view.
 
-        int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxIdeaPageSize);
+        int currentCount;
+
+        if (FeedEntryVMCollection == null) { currentCount = 0; }
+        else { currentCount = FeedEntryVMCollection.Count; }
+
+        int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
         try
         {
-            var ideas = await _ideaService.GetIdeasPaginated(
-                currentPages + 1, _maxIdeaPageSize);
-            //ideas.Reverse();
-            IdeaCollection.AddRange(ideas);
+            _feedEntriesService.CurrentUser = CurrentUser;
+            var feedEntries = await _feedEntriesService.GetFeedEntriesPaginated(
+                currentPages + 1, _maxFeedEntryPageSize);
+#if WINDOWS
+            feedEntries.Reverse();
+#endif
+            List<FeedEntryVM> feedEntryVMs = new();
+            foreach (var fe in feedEntries)
+            {
+                feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
+                {
+                    CurrentUser = CurrentUser,
+                    FeedEntry = fe,
+                });
+            }
+
+            FeedEntryVMCollection.AddRange(feedEntryVMs);
         }
         catch //(Exception ex) 
         {
             //not too bad, possibly just no more ideas
             return;
         }
+    }
+
+    /* update all feed entries that have the same categoryKey
+     * as the feed entry where the button was clicked.
+     * Then update the DB with the new preference.
+     */
+    [RelayCommand]
+    public async Task ChangeCategoryPreference(string categoryKey)
+    {
+        // update feed entries
+        int? newCatPreference = null;
+        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
+        {
+            if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
+            {
+                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = StepCatPreference(
+                    FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+
+                // for the DB
+                newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
+            }
+        }
+
+        // update DB
+        try
+        {
+            if (newCatPreference == null)
+            {
+                throw new NullReferenceException(nameof(newCatPreference));
+            }
+            await _cupService.PutCategoryUserPreferenceAsync(
+                categoryKey,
+                CurrentUser.Username,
+                (int)newCatPreference);
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Put Error", ex.Message, "Ignore");
+            Console.Write(ex);
+        }
+    }
+
+    private static int StepCatPreference(int oldPreference)
+    {
+        if (oldPreference == 0) { return 1; }
+        else if (oldPreference == 1) { return -1; }
+        else { return 0; }
     }
 }

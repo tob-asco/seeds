@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Services;
 
@@ -23,15 +25,21 @@ public static class MauiProgram
 
         builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
         builder.Services.AddScoped<IIdeasService, IdeasService>();
+        builder.Services.AddScoped<ICategoryService, CategoryService>();
+        builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
+        builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
+        builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<BasisViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
+        builder.Services.AddTransient<FeedEntryVM>();
 
         //It's mandatory to register also the pages where we DI the VMs!
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<FeedPage>();
+        builder.Services.AddTransient<FeedEntryView>();
 
 
         /******************* auto-generated ********************/

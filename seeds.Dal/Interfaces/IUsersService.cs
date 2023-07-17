@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace seeds.Dal.Services;
+namespace seeds.Dal.Interfaces;
 
 public interface IUsersService
 {
-    public Task<List<User>> GetUsers();
-    public Task<User?> GetUserByUsername(string username);
-    public Task<User?> GetUserById(int id);
+    public Task<List<User>?> GetUsersAsync();
+    public Task<User?> GetUserByUsernameAsync(string username);
 }

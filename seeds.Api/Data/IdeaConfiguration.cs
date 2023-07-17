@@ -14,9 +14,12 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
         
         // User : Idea = 1 : N (maybe make N:M for idea collaborations)
         builder.HasOne(i => i.Creator)
-            .WithMany(u => u.Ideas)
+            .WithMany(u => u.CreatedIdeas)
             .HasForeignKey(i => i.CreatorName)
             .IsRequired(true);
+
+        // User : Idea = M : N (UserIdeaInteraction)
+        // setup in UserConfiguration
         #endregion
 
         //auto-generate the id

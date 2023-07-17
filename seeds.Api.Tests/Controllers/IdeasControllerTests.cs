@@ -3,42 +3,34 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
 using seeds.Dal.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class IdeasControllerTests
+public class IdeasControllerTests : ApiBaseControllerTests
 {
-    /* This "function factory" is used for every test
-     * to fake the DB, from YT (teddy smith):
-     */
-    private async Task<seedsApiContext> GetDatabaseContext()
-    {
-        var options = new DbContextOptionsBuilder<seedsApiContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var databaseContext = new seedsApiContext(options);
-        databaseContext.Database.EnsureCreated();
-        if (!(await databaseContext.User.AnyAsync()))
-        {
-            for (int i = 1; i <= 22; i++)
-            {
-                databaseContext.Idea.Add(
-                new Idea()
-                {
-                    Title = "Idea #" + i
-                });
-                await databaseContext.SaveChangesAsync();
-            }
-        }
-        return databaseContext;
-    }
+    private readonly IdeasController _controller;
+    public List<Idea> Ideas { get; set; } = new();
+
     public IdeasControllerTests()
     {
+        _controller = new(_context);
+
+        DummyUpTheProperties();
+
+        if(!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
+
+        _context.SaveChanges();
+    }
+    private void DummyUpTheProperties()
+    {
+        for (int i = 1; i <= 22; i++)
+        {
+            Ideas.Add(
+            new Idea()
+            {
+                Title = "Idea #" + i
+            });
+        }
     }
 
     [Theory]
@@ -47,11 +39,9 @@ public class IdeasControllerTests
     public async void IdeasController_GetIdeasPaginated_ReturnsListOfGivenLength(int page, int maxPageSize)
     {
         //Arrange
-        var dbContext = await GetDatabaseContext();
-        var controller = new IdeasController(dbContext);
 
         //Act
-        var result = await controller.GetIdeasPaginated(page, maxPageSize);
+        var result = await _controller.GetIdeasPaginatedAsync(page, maxPageSize);
 
         //Assert
         var actionResult = Assert.IsType<ActionResult<IEnumerable<Idea>>>(result);
@@ -63,12 +53,11 @@ public class IdeasControllerTests
     public async void IdeasController_GetIdeasPaginated_IfNotEnoughIdeasReturnsNotFound()
     {
         //Arrange
-        var dbContext = await GetDatabaseContext();
-        var controller = new IdeasController(dbContext);
-        int page = 4; int maxPageSize = 10;
+        int page = 4;
+        int maxPageSize = 10;
 
         //Act
-        var actionResult = await controller.GetIdeasPaginated(page, maxPageSize);
+        var actionResult = await _controller.GetIdeasPaginatedAsync(page, maxPageSize);
 
         //Assert
         actionResult.Result.Should().NotBeOfType<BadRequestResult>();
