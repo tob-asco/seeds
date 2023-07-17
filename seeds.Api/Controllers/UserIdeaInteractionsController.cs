@@ -101,7 +101,7 @@ namespace seeds.Api.Controllers
                 .GetValueOrDefault();
         }
 
-        [HttpGet("{id}/upvotes")]
+        [HttpGet("{ideaId}/upvotes")]
         public async Task<ActionResult<int>> CountUpvotes(int ideaId)
         {
             if (_context.UserIdeaInteraction != null)
@@ -111,7 +111,7 @@ namespace seeds.Api.Controllers
             }
             return NotFound();
         }
-        [HttpGet("{id}/downvotes")]
+        [HttpGet("{ideaId}/downvotes")]
         public async Task<ActionResult<int>> CountDownvotes(int ideaId)
         {
             if (_context.UserIdeaInteraction != null)
