@@ -80,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\FeedEntryView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\FeedPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

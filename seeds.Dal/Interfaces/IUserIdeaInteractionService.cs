@@ -1,10 +1,10 @@
 ﻿using seeds.Dal.Model;
 
-namespace seeds.Dal.Services;
+namespace seeds.Dal.Interfaces;
 
 public interface IUserIdeaInteractionService
 {
-    public Task<UserIdeaInteraction> GetUserIdeaInteractionAsync(
+    public Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username,
         int ideaId
         );
@@ -15,4 +15,6 @@ public interface IUserIdeaInteractionService
         bool newUpvoted,
         bool newDownvoted
         );
+    public Task<bool> PostUserIdeaInteractionAsync(UserIdeaInteraction uii);
+    public Task<bool> PostOrPutUserIdeaInteractionAsync(UserIdeaInteraction newUii);
 }

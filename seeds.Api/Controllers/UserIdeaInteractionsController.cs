@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
@@ -25,18 +20,13 @@ namespace seeds.Api.Controllers
         [HttpGet("{username}/{ideaId}")]
         public async Task<ActionResult<UserIdeaInteraction>> GetUserIdeaInteraction(string username, int ideaId)
         {
-            if (_context.UserIdeaInteraction == null)
+            // uii's need not exist in the DB. The first interaction will post the uii.
+            if (_context.UserIdeaInteraction != null && UserIdeaInteractionExists(username, ideaId))
             {
-                return NotFound();
+                var uii = await _context.UserIdeaInteraction.FindAsync(username, ideaId);
+                return uii != null ? uii : NotFound();
             }
-            var userIdeaInteraction = await _context.UserIdeaInteraction.FindAsync(username, ideaId);
-
-            if (userIdeaInteraction == null)
-            {
-                return NotFound();
-            }
-
-            return userIdeaInteraction;
+            return NotFound();
         }
 
         // PUT: api/UserIdeaInteractions/tobi/0
@@ -99,7 +89,10 @@ namespace seeds.Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUserIdeaInteraction", new { id = uii.Username }, uii);
+            return CreatedAtAction(
+                "GetUserIdeaInteraction",
+                new { username = uii.Username, ideaId = uii.IdeaId },
+                uii);
         }
 
         private bool UserIdeaInteractionExists(string username, int ideaId)

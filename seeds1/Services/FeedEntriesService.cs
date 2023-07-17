@@ -1,23 +1,25 @@
-﻿using seeds.Dal.Model;
-using seeds.Dal.Services;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
-public class FeedEntryService : IFeedEntryService
+public class FeedEntriesService : IFeedEntriesService
 {
     private readonly IIdeasService _ideaService;
     private readonly ICategoryService _categoryService;
     private readonly ICategoryUserPreferenceService _cupService;
     private readonly IUserIdeaInteractionService _uiiService;
     public User CurrentUser { get; set; }
-    public FeedEntryService(IIdeasService ideasService,
+    public FeedEntriesService(IIdeasService ideasService,
         ICategoryService categoryService,
-        ICategoryUserPreferenceService categoryUserPreferenceService)
+        ICategoryUserPreferenceService cupService,
+        IUserIdeaInteractionService uiiService)
     {
         _ideaService = ideasService;
         _categoryService = categoryService;
-        _cupService = categoryUserPreferenceService;
+        _cupService = cupService;
+        _uiiService = uiiService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
     {
@@ -31,7 +33,8 @@ public class FeedEntryService : IFeedEntryService
                 var cup = await _cupService.GetCategoryUserPreferenceAsync(
                     idea.CategoryKey, CurrentUser.Username);
                 var uii = await _uiiService.GetUserIdeaInteractionAsync(
-                    CurrentUser.Username, idea.Id);
+                    CurrentUser.Username, idea.Id)
+                    ?? new UserIdeaInteraction();
                 feedEntryPage.Add(new FeedEntry
                 {
                     Idea = idea,
@@ -39,11 +42,12 @@ public class FeedEntryService : IFeedEntryService
                     CategoryPreference = cup.Value,
                     Upvoted = uii.Upvoted,
                     Downvoted = uii.Downvoted,
+                    Upvotes = idea.Upvotes,
                 });
             }
             catch (Exception ex)
             {
-                // we will not have this feedEntry
+                // we will not have this FeedEntry
                 Console.WriteLine(ex);
             }
         }

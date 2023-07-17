@@ -11,12 +11,8 @@ public class BoolToVotedConverter : IValueConverter, IMarkupExtension
         if (value != null && value is bool voted)
         {
             if (voted == true) return Voted;
-            else return Voted;
         }
-        else
-        {
-            return NotVoted;
-        }
+        return NotVoted;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

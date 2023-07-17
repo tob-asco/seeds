@@ -6,51 +6,38 @@ using seeds.Dal.Model;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UsersControllerTests
+public class UsersControllerTests : ApiBaseControllerTests
 {
     private readonly UsersController _controller;
-    private readonly User _originalTobi;
+    public List<User> Users { get; set; } = new();
 
-    /* This "function factory" is used for every test
-     * to fake the DB, from YT (teddy smith):
-     */
-    private static seedsApiContext GetDatabaseContext()
-    {
-        var options = new DbContextOptionsBuilder<seedsApiContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var databaseContext = new seedsApiContext(options);
-        databaseContext.Database.EnsureCreated();
-        if (!(databaseContext.User.Any()))
-        {
-            //we save 10 instances, but why?
-            for (int i = 1; i <= 10; i++)
-            {
-                databaseContext.User.Add(
-                new User()
-                {
-                    //Id = "Pikachu",
-                    Username = "tobi"+i, //unique
-                    Password = "tobi",
-                    Email = "tobi"+i+"@tobi.com", //unique
-                });
-                databaseContext.SaveChanges();
-            }
-        }
-        return databaseContext;
-    }
     public UsersControllerTests()
     {
-        _controller = new UsersController(GetDatabaseContext());
-        _originalTobi = new User()
-        {
-            //Id = -1,
-            Username = "tobi",
-            Password = "",
-            Email = ""
-        };
+        _controller = new(_context);
+
+        DummyUpTheProperties();
+
+        if (!_context.User.Any()) { _context.User.AddRange(Users); }
+
+        _context.SaveChanges();
     }
 
+    private void DummyUpTheProperties()
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            Users.Add(
+            new User()
+            {
+                Username = "tobi" + i, //unique
+                Password = "tobi",
+                Email = "tobi" + i + "@tobi.com", //unique
+            });
+        }
+
+    }
+
+    #region Unit Testing
     [Fact]
     public async Task UsersController_GetUserByUsernameAsync_ReturnsUser()
     {
@@ -84,14 +71,20 @@ public class UsersControllerTests
     public async Task UsersController_PostUserAsync_ReturnsSuccess()
     {
         //Arrange
+        User User = new User()
+        {
+            Username = "tobi",
+            Password = "",
+            Email = ""
+        };
 
         //Act
-        var result = await _controller.PostUserAsync(_originalTobi);
+        var result = await _controller.PostUserAsync(User);
 
         //Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
         var postedUser = Assert.IsType<User>(actionResult.Value);
-        postedUser.Should().BeEquivalentTo(_originalTobi);
+        postedUser.Should().BeEquivalentTo(User);
     }
 
     /* post the same user twice (id auto-generated) and
@@ -101,13 +94,21 @@ public class UsersControllerTests
     public async Task UsersController_PostUserAsync_ReturnsConflictDuplicate()
     {
         //Arrange
+        User User = new User()
+        {
+            Username = "tobi",
+            Password = "",
+            Email = ""
+        };
 
         //Act
-        var actionResultOk = await _controller.PostUserAsync(_originalTobi);
-        var actionResultBad = await _controller.PostUserAsync(_originalTobi);
+        var actionResultOk = await _controller.PostUserAsync(User);
+        var actionResultBad = await _controller.PostUserAsync(User);
 
         //Assert
         //actionResultOk.Result.Should().BeOfType<CreatedAtActionResult>();
         actionResultBad.Result.Should().BeOfType<ConflictObjectResult>();
     }
+
+    #endregion
 }

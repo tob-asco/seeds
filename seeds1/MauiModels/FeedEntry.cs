@@ -10,12 +10,15 @@ namespace seeds1.MauiModels;
 
 public partial class FeedEntry : ObservableObject
 {
-    public Idea Idea { get; set; }
-    public string CategoryName { get; set; }
+    public Idea Idea { get; set; } = new();
+    public string CategoryName { get; set; } = "No Category";
     [ObservableProperty]
-    int categoryPreference;
-
-    public bool Upvoted { get; set; }
-    public bool Downvoted { get; set; }
+    int categoryPreference = 0;
+    [ObservableProperty]
+    bool upvoted = false;
+    [ObservableProperty]
+    bool downvoted = false;
+    [ObservableProperty]
+    int upvotes = 0;
     //public bool IdeaMarked { get; set; } //for later review
 }

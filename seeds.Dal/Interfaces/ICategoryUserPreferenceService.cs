@@ -1,10 +1,10 @@
 ﻿using seeds.Dal.Model;
 
-namespace seeds.Dal.Services;
+namespace seeds.Dal.Interfaces;
 
 public interface ICategoryUserPreferenceService
 {
-    public Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(
+    public Task<CategoryUserPreference?> GetCategoryUserPreferenceAsync(
         string categoryKey,
         string username
         );

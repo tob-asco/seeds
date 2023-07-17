@@ -7,34 +7,32 @@ using seeds.Dal.Model;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CategoriesControllerTests
+public class CategoriesControllerTests : ApiBaseControllerTests
 {
     private readonly CategoriesController _controller;
+    public List<Category> Categories { get; set; } = new();
+
     public CategoriesControllerTests()
     {
-        _controller = new CategoriesController(GetDatabaseContext());
+        _controller = new(_context);
+
+        DummyUpTheProperties();
+
+        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
+
+        _context.SaveChanges();
     }
-    private static seedsApiContext GetDatabaseContext()
+    private void DummyUpTheProperties()
     {
-        var options = new DbContextOptionsBuilder<seedsApiContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var databaseContext = new seedsApiContext(options);
-        databaseContext.Database.EnsureCreated();
-        if (!(databaseContext.Category.Any()))
+        for (int i = 1; i <= 10; i++)
         {
-            for (int i = 1; i <= 10; i++)
+            Categories.Add(
+            new Category()
             {
-                databaseContext.Category.Add(
-                new Category()
-                {
-                    Key = $"Cat{i}",
-                    Name = $"Category{i}"
-                });
-                databaseContext.SaveChanges();
-            }
+                Key = $"Cat{i}",
+                Name = $"Category{i}"
+            });
         }
-        return databaseContext;
     }
 
     [Fact]

@@ -1,6 +1,6 @@
 ﻿using MvvmHelpers;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
-using seeds.Dal.Services;
 using seeds1.MauiModels;
 using seeds1.Services;
 using System.ComponentModel;
@@ -13,38 +13,56 @@ namespace seeds1.ViewModel;
 public partial class FeedViewModel : BasisViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 10;
-    private readonly IFeedEntryService _feedEntryService;
+    private readonly IFeedEntriesService _feedEntriesService;
+    private readonly IUserIdeaInteractionService _uiiService;
+    private readonly IIdeasService _ideasService;
     private readonly ICategoryUserPreferenceService _cupService;
     [ObservableProperty]
-    ObservableRangeCollection<FeedEntry> feedEntryCollection;
-    public FeedViewModel(IFeedEntryService feedEntryService,
+    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
+
+    public FeedViewModel(
+        IFeedEntriesService feedEntryService,
+        IUserIdeaInteractionService uiiService,
+        IIdeasService ideasService,
         ICategoryUserPreferenceService cupService)
     {
-        _feedEntryService = feedEntryService;
+        _feedEntriesService = feedEntryService;
+        _uiiService = uiiService;
+        _ideasService = ideasService;
         _cupService = cupService;
-        FeedEntryCollection = new();
+        FeedEntryVMCollection = new();
     }
 
     [RelayCommand]
     public async Task CollectFeedEntriesPaginated()
     {
-        // This fct. is called also OnNavigatedTo().
+        // This fct. is called in OnNavigatedTo() and from the view.
 
         int currentCount;
 
-        if (FeedEntryCollection == null) { currentCount = 0; }
-        else { currentCount = FeedEntryCollection.Count; }
+        if (FeedEntryVMCollection == null) { currentCount = 0; }
+        else { currentCount = FeedEntryVMCollection.Count; }
 
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
         try
         {
-            _feedEntryService.CurrentUser = CurrentUser;
-            var feedEntries = await _feedEntryService.GetFeedEntriesPaginated(
+            _feedEntriesService.CurrentUser = CurrentUser;
+            var feedEntries = await _feedEntriesService.GetFeedEntriesPaginated(
                 currentPages + 1, _maxFeedEntryPageSize);
 #if WINDOWS
             feedEntries.Reverse();
 #endif
-            FeedEntryCollection.AddRange(feedEntries);
+            List<FeedEntryVM> feedEntryVMs = new();
+            foreach (var fe in feedEntries)
+            {
+                feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
+                {
+                    CurrentUser = CurrentUser,
+                    FeedEntry = fe,
+                });
+            }
+
+            FeedEntryVMCollection.AddRange(feedEntryVMs);
         }
         catch //(Exception ex) 
         {
@@ -62,15 +80,15 @@ public partial class FeedViewModel : BasisViewModel
     {
         // update feed entries
         int? newCatPreference = null;
-        for (int i = 0; i < FeedEntryCollection.Count; i++)
+        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
-            if (FeedEntryCollection[i].Idea.CategoryKey == categoryKey)
+            if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
             {
-                FeedEntryCollection[i].CategoryPreference = StepCatPreference(
-                    FeedEntryCollection[i].CategoryPreference);
+                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = StepCatPreference(
+                    FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
 
                 // for the DB
-                newCatPreference ??= FeedEntryCollection[i].CategoryPreference;
+                newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
             }
         }
 

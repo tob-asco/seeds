@@ -1,94 +1,71 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using seeds.Api.Controllers;
-using seeds.Api.Data;
 using seeds.Dal.Model;
 using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CatUserPreferencesControllerTests : IDisposable
+public class CatUserPreferencesControllerTests : ApiBaseControllerTests
 {
-    private readonly seedsApiContext _context;
     private readonly CategoryUserPreferencesController _controller;
-    private readonly HttpClient _httpClient;
-
     public List<User> Users { get; set; } = new();
     public List<Category> Cats { get; set; } = new();
     public List<CategoryUserPreference> Cups { get; set; } = new();
 
     public CatUserPreferencesControllerTests()
     {
-        _context = CreateDb();
-        _controller = new CategoryUserPreferencesController(_context);
+        _controller = new(_context);
 
-        // Create the HttpClient using the in-memory server
-        var factory = new WebApplicationFactory<ProgramTest>()
-            .WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
-                {
-                    services.AddSingleton(_context);
-                });
-            });
-        _httpClient = factory.CreateClient();
-    }
+        DummyUpTheProperties();
 
-    private seedsApiContext CreateDb()
-    {
-        var options = new DbContextOptionsBuilder<seedsApiContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-            .Options;
-        var context = new seedsApiContext(options);
-        context.Database.EnsureCreated();
-        if (!(context.CategoryUserPreference.Any()))
+        if (!_context.Category.Any())
         {
-            for (int i = 1; i <= 10; i++)
-            {
-                Cats.Add(
-                new Category()
-                {
-                    Key = $"Cat{i}",
-                    Name = $"Category{i}"
-                });
-                Users.Add(
-                new User()
-                {
-                    Username = $"tobi{i}", //unique
-                    Password = "tobi",
-                    Email = "tobi" + i + "@tobi.com", //unique
-                });
-            }
-            context.Category.AddRange(Cats);
-            context.User.AddRange(Users);
-            foreach(var cat in Cats)
-            {
-                foreach(var user in Users)
-                {
-                    Cups.Add(
-                    new CategoryUserPreference()
-                    {
-                        CategoryKey = cat.Key,
-                        Username = user.Username,
-                        Value = (Cups.Count % 3) - 1
-                    });
-                }
-            }
-            context.CategoryUserPreference.AddRange(Cups);
-            context.SaveChanges();
+            _context.Category.AddRange(Cats);
         }
-        return context;
+        if (!_context.User.Any())
+        {
+            _context.User.AddRange(Users);
+        }
+        if (!_context.CategoryUserPreference.Any())
+        {
+            _context.CategoryUserPreference.AddRange(Cups);
+        }
+
+        _context.SaveChanges();
+    }
+    private void DummyUpTheProperties()
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            Cats.Add(
+            new Category()
+            {
+                Key = $"Cat{i}",
+                Name = $"Category{i}"
+            });
+            Users.Add(
+            new User()
+            {
+                Username = $"tobi{i}", //unique
+                Password = "tobi",
+                Email = "tobi" + i + "@tobi.com", //unique
+            });
+        }
+        foreach (var cat in Cats)
+        {
+            foreach (var user in Users)
+            {
+                Cups.Add(
+                new CategoryUserPreference()
+                {
+                    CategoryKey = cat.Key,
+                    Username = user.Username,
+                    Value = (Cups.Count % 3) - 1
+                });
+            }
+        }
     }
 
-    // Disposing the context is important to avoid "already tracked" errors
-    public void Dispose()
-    {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
-        _httpClient.Dispose();
-    }
 
     #region Unit Testing
 
@@ -100,7 +77,7 @@ public class CatUserPreferencesControllerTests : IDisposable
         string username = Users[2].Username;
 
         //Act
-        var result = await _controller.GetCategoryUserPreferenceAsync(key,username);
+        var result = await _controller.GetCategoryUserPreferenceAsync(key, username);
 
         //Assert
         var actionResult = Assert.IsType<ActionResult<CategoryUserPreference>>(result);
@@ -150,7 +127,7 @@ public class CatUserPreferencesControllerTests : IDisposable
     #region Enpoint Testing
 
     [Fact]
-    public async Task CatUserPrefencesController_GetEndpoint_ReturnsNotNull()
+    public async Task CatUserPrefencesController_GetEndpoint_ReturnsItself()
     {
         //Arrange
         string key = Cats[3].Key;
@@ -162,7 +139,7 @@ public class CatUserPreferencesControllerTests : IDisposable
         var result = await response.Content.ReadFromJsonAsync<CategoryUserPreference>();
 
         //Assert
-        response.IsSuccessStatusCode.Should().Be(true);
+        response.Should().BeSuccessful();
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(key);
         result?.Username.Should().Be(username);
