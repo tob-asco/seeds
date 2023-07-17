@@ -34,9 +34,6 @@ public class Idea
     public List<User> InteractedUsers { get; set; } = new();
     #endregion
 
-    [Column("upvotes")]
-    public int Upvotes { get; set; } = 0;
-
     [Column("slide1")]
     [AllowNull] //freedom? Or should there always be an image?
     public string Slide1 { get; set; } = "https://images.twinkl.co.uk/tr/raw/upload/u/ux/lightbulb-1875247-1920_ver_1.jpg";
