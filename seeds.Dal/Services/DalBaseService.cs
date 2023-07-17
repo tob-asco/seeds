@@ -10,16 +10,14 @@ public class DalBaseService
     {
         _httpClientWrapper = httpClientWrapper;
     }
-    public async Task<T?> GetDalModelAsync<T>(string url)// where T : class
+    public async Task<T?> GetDalModelAsync<T>(string url)
     {
         try
         {
             var response = await _httpClientWrapper.GetAsync(url);
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                return default(T); // my code for "not found"
-                                   // I hope it gives null for DAL model classes
-                                   // TODO: test this.
+                return default(T); // should give null for Dal model classes
             }
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadFromJsonAsync<T>();

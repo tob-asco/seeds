@@ -20,7 +20,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task CategoryService_GetCatByKeyAsync_ReturnsCategory()
+    public async Task CatService_GetCatByKeyAsync_ReturnsCategory()
     {
         #region Arrange
         string key = "ABC";
@@ -43,5 +43,29 @@ public class CategoryServiceTests
 
         // Assert
         result.Should().BeEquivalentTo(cat);
+    }
+    [Fact]
+    public async Task CatService_GetCatByKeyAsync_IfNotExistReturnsNull()
+    {
+        #region Arrange
+        string key = "ABC";
+        var cat = new Category()
+        {
+            Key = key,
+            Name = "ABeCe"
+        };
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.NotFound,
+        };
+        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
+            .Returns(response);
+        #endregion
+
+        // Act
+        var result = await _service.GetCategoryByKeyAsync(key);
+
+        // Assert
+        result.Should().BeNull();
     }
 }
