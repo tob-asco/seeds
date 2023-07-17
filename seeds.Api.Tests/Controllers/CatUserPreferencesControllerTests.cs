@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using seeds.Api.Controllers;
-using seeds.Api.Data;
 using seeds.Dal.Model;
 using System.Net.Http.Json;
 
@@ -11,15 +7,16 @@ namespace seeds.Api.Tests.Controllers;
 
 public class CatUserPreferencesControllerTests : ApiBaseControllerTests
 {
+    private readonly CategoryUserPreferencesController _controller;
     public List<User> Users { get; set; } = new();
     public List<Category> Cats { get; set; } = new();
     public List<CategoryUserPreference> Cups { get; set; } = new();
 
     public CatUserPreferencesControllerTests()
     {
-        DummyUpTheProperties();
+        _controller = new(_context);
 
-        _context.Database.EnsureCreated();
+        DummyUpTheProperties();
 
         if (!_context.Category.Any())
         {

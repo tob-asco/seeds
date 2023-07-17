@@ -1,18 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using seeds.Api.Controllers;
 using seeds.Api.Data;
-using seeds.Dal.Model;
-using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
 public class ApiBaseControllerTests : IDisposable
 {
     protected readonly seedsApiContext _context;
-    protected readonly CategoryUserPreferencesController _controller;
     protected readonly HttpClient _httpClient;
 
     public ApiBaseControllerTests()
@@ -22,7 +17,6 @@ public class ApiBaseControllerTests : IDisposable
             .Options;
         _context = new seedsApiContext(options);
         _context.Database.EnsureCreated();
-        _controller = new CategoryUserPreferencesController(_context);
 
         // Create the HttpClient using the in-memory server
         var factory = new WebApplicationFactory<ProgramTest>()
