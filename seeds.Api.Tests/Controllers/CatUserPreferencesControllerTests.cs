@@ -127,7 +127,7 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
     #region Enpoint Testing
 
     [Fact]
-    public async Task CatUserPrefencesController_GetEndpoint_ReturnsNotNull()
+    public async Task CatUserPrefencesController_GetEndpoint_ReturnsItself()
     {
         //Arrange
         string key = Cats[3].Key;
@@ -139,7 +139,7 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         var result = await response.Content.ReadFromJsonAsync<CategoryUserPreference>();
 
         //Assert
-        response.IsSuccessStatusCode.Should().Be(true);
+        response.Should().BeSuccessful();
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(key);
         result?.Username.Should().Be(username);
