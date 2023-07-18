@@ -5,18 +5,21 @@ using System.Net.Http.Json;
 
 namespace seeds.Dal.Services;
 
-public class IdeasService : DalBaseService, IIdeasService
+public class IdeasService : IIdeasService
 {
-    public IdeasService(IHttpClientWrapper httpClientWrapper)
-        : base(httpClientWrapper) { }
+    private readonly IDalBaseService _baseService;
+    public IdeasService(IDalBaseService baseService)
+    {
+        _baseService = baseService;
+    }
     public async Task<Idea?> GetIdeaAsync(int id)
     {
         string url = $"api/Ideas/{id}";
-        return await GetDalModelAsync<Idea>(url);
+        return await _baseService.GetDalModelAsync<Idea>(url);
     }
     public async Task<List<Idea>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         string url = $"api/ideas/page/{page}/size/{maxPageSize}";
-        return await GetDalModelAsync<List<Idea>>(url);
+        return await _baseService.GetDalModelAsync<List<Idea>>(url);
     }
 }
