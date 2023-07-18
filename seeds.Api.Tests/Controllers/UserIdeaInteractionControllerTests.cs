@@ -17,10 +17,10 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     public UserIdeaInteractionControllerTests()
     {
         _controller = new(_context);
-        PopulateAndAddProperties();
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
-    private void PopulateAndAddProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 22; i++)
         {

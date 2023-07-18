@@ -9,7 +9,6 @@ public class ApiBaseControllerTests : IDisposable
 {
     protected readonly seedsApiContext _context;
     protected readonly HttpClient _httpClient;
-
     public ApiBaseControllerTests()
     {
         var options = new DbContextOptionsBuilder<seedsApiContext>()

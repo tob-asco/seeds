@@ -14,14 +14,10 @@ public class IdeasControllerTests : ApiBaseControllerTests
     public IdeasControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if(!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 22; i++)
         {
@@ -31,6 +27,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
                 Title = "Idea #" + i
             });
         }
+        if(!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
     }
 
     [Theory]

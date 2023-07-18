@@ -15,14 +15,10 @@ public class CategoriesControllerTests : ApiBaseControllerTests
     public CategoriesControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
@@ -33,6 +29,7 @@ public class CategoriesControllerTests : ApiBaseControllerTests
                 Name = $"Category{i}"
             });
         }
+        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
     }
 
     [Fact]

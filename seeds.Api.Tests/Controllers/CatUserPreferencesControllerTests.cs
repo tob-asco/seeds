@@ -15,25 +15,10 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
     public CatUserPreferencesControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if (!_context.Category.Any())
-        {
-            _context.Category.AddRange(Cats);
-        }
-        if (!_context.User.Any())
-        {
-            _context.User.AddRange(Users);
-        }
-        if (!_context.CategoryUserPreference.Any())
-        {
-            _context.CategoryUserPreference.AddRange(Cups);
-        }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
@@ -51,6 +36,8 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
+        if (!_context.Category.Any()) { _context.Category.AddRange(Cats); }
+        if (!_context.User.Any()) { _context.User.AddRange(Users); }
         foreach (var cat in Cats)
         {
             foreach (var user in Users)
@@ -63,6 +50,10 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
                     Value = (Cups.Count % 3) - 1
                 });
             }
+        }
+        if (!_context.CategoryUserPreference.Any())
+        {
+            _context.CategoryUserPreference.AddRange(Cups);
         }
     }
 

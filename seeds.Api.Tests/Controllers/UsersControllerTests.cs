@@ -14,15 +14,11 @@ public class UsersControllerTests : ApiBaseControllerTests
     public UsersControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
 
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
@@ -34,7 +30,7 @@ public class UsersControllerTests : ApiBaseControllerTests
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
-
+        if (!_context.User.Any()) { _context.User.AddRange(Users); }
     }
 
     #region Unit Testing
