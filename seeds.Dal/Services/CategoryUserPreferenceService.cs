@@ -19,7 +19,10 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
         return await _baseService.GetDalModelAsync<CategoryUserPreference>(url);
     }
 
-    public async Task<bool> PutCategoryUserPreferenceAsync(string categoryKey, string username, int newPreference)
+    public async Task<bool> PutCategoryUserPreferenceAsync(
+        string categoryKey,
+        string username,
+        int newPreference)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
         CategoryUserPreference newCup = new()

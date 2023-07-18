@@ -1,68 +1,69 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds.Dal.Tests.Services;
 
 public class CatUserPreferenceServiceTests
 {
-    private readonly IHttpClientWrapper _httpClientWrapper;
+    private readonly IDalBaseService _baseService;
     private readonly CategoryUserPreferenceService _service;
     public CatUserPreferenceServiceTests()
     {
-        _httpClientWrapper = A.Fake<IHttpClientWrapper>();
-        _service = new CategoryUserPreferenceService(_httpClientWrapper);
+        _baseService = A.Fake<IDalBaseService>();
+        _service = new CategoryUserPreferenceService(_baseService);
     }
-
     [Fact]
-    public async Task CUPService_GetCUPAsync_ReturnsCUP()
+    public async Task CupService_GetCupAsync_ReturnsCup()
     {
         #region Arrange
         string key = "ABC";
         string uname = "dude";
-        var cup = new CategoryUserPreference()
+        CategoryUserPreference cup = new()
         {
             CategoryKey = key,
-            Username=uname,
-            Value=1
+            Username = uname,
+            Value = 1
         };
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.OK,
-            Content = new StringContent(JsonSerializer.Serialize(cup)),
-        };
-        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
-            .Returns(response);
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryUserPreference>(
+            A<string>.Ignored))
+            .Returns(cup);
         #endregion
 
         // Act
-        var result = await _service.GetCategoryUserPreferenceAsync(key,uname);
+        var result = await _service.GetCategoryUserPreferenceAsync(key, uname);
 
         // Assert
-        result.Should().BeEquivalentTo(cup);
+        result.Should().NotBeNull();
+        result?.CategoryKey.Should().Be(key);
+        result?.Username.Should().Be(uname);
     }
-
     [Fact]
-    public async Task CUPService_PutCUPAsync_ReturnsTrue()
+    public async Task CupService_GetCupAsync_IfNotExistReturnsNull()
     {
-        #region Arrange
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryUserPreference>(
+            A<string>.Ignored))
+            .Returns<CategoryUserPreference?>(null);
+
+        // Act
+        var result = await _service.GetCategoryUserPreferenceAsync("N0C","");
+
+        // Assert
+        result.Should().BeNull();
+    }
+    [Fact]
+    public async Task CupService_PutCupAsync_ReturnsTrue()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PutDalModelAsync<CategoryUserPreference>(
+            A<string>.Ignored, A<CategoryUserPreference>.Ignored))
+            .Returns(true);
         string key = "ABC";
         string uname = "dude";
         int newVal = -1;
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.OK
-        };
-        A.CallTo(() => _httpClientWrapper
-            .PutAsync(A<string>.Ignored,A<HttpContent>.Ignored))
-            .Returns(response);
-        #endregion
 
         // Act
         var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal);
@@ -70,22 +71,16 @@ public class CatUserPreferenceServiceTests
         // Assert
         result.Should().Be(true);
     }
-
     [Fact]
-    public async Task CUPService_PutCUPAsync_IfNotSuccessReturnsFalse()
+    public async Task CupService_PutCupAsync_IfNotSuccessReturnsFalse()
     {
-        #region Arrange
+        // Arrange
+        A.CallTo(() => _baseService.PutDalModelAsync<CategoryUserPreference>(
+            A<string>.Ignored, A<CategoryUserPreference>.Ignored))
+            .Returns(false);
         string key = "ABC";
         string uname = "dude";
         int newVal = -1;
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.BadRequest
-        };
-        A.CallTo(() => _httpClientWrapper
-            .PutAsync(A<string>.Ignored, A<HttpContent>.Ignored))
-            .Returns(response);
-        #endregion
 
         // Act
         var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal);

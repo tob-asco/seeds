@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
 using System;
@@ -12,37 +13,78 @@ namespace seeds.Dal.Tests.Services;
 
 public class IdeasServiceTests
 {
-    private readonly IHttpClientWrapper _httpClientWrapper;
+    private readonly IDalBaseService _baseService;
     private readonly IdeasService _service;
     public IdeasServiceTests()
     {
-        _httpClientWrapper = A.Fake<IHttpClientWrapper>();
-        _service = new IdeasService(_httpClientWrapper);
+        _baseService = A.Fake<IDalBaseService>();
+        _service = new IdeasService(_baseService);
     }
-
     [Fact]
-    public async void IdeasService_GetIdeasPaginated_ReturnsSameIdeas()
+    public async void IdeasService_GetIdeaAsync_ReturnsIdea()
+    {
+        // Arrange
+        int id = 1;
+        Idea idea = new() { Id = id, Title = "title", };
+        A.CallTo(() => _baseService.GetDalModelAsync<Idea>(A<string>.Ignored))
+            .Returns(idea);
+
+        // Act
+        var result = await _service.GetIdeaAsync(id);
+
+        // Assert
+        result.Should().NotBeNull();
+        result?.Id.Should().Be(id);
+    }
+    [Fact]
+    public async Task IdeasService_GetIdeaAsync_IfNotExistReturnsNull()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<Idea>(
+            A<string>.Ignored))
+            .Returns<Idea?>(null);
+
+        // Act
+        var result = await _service.GetIdeaAsync(1);
+
+        // Assert
+        result.Should().BeNull();
+    }
+    [Fact]
+    public async void IdeasService_GetIdeasPaginatedAsync_ReturnsSameIdeas()
     {
         #region Arrange
         int page = 2; int maxPageSize = 10;
-        var users = new List<Idea>()
+        int id1 = 1; int id2 = 2;
+        List<Idea> users = new()
         {
-            new Idea{ Title = "1st Idea" },
-            new Idea{ Title = "2nd Idea" },
+            new Idea{ Id = id1, Title = "1st Idea" },
+            new Idea{ Id = id2, Title = "2nd Idea" },
         };
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.OK,
-            Content = new StringContent(JsonSerializer.Serialize(users)),
-        };
-        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
-            .Returns(response);
+        A.CallTo(() => _baseService.GetDalModelAsync<List<Idea>>(A<string>.Ignored))
+            .Returns(users);
         #endregion
 
         // Act
         var result = await _service.GetIdeasPaginatedAsync(page, maxPageSize);
 
         // Assert
-        result.Should().BeEquivalentTo(users);
+        result.Should().NotBeNull();
+        result?[0].Id.Should().Be(id1);
+        result?[1].Id.Should().Be(id2);
+    }
+    [Fact]
+    public async Task IdeasService_GetIdeasPaginatedAsync_IfNotExistReturnsNull()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<Idea>>(
+            A<string>.Ignored))
+            .Returns<List<Idea>?>(null);
+
+        // Act
+        var result = await _service.GetIdeasPaginatedAsync(1, 10);
+
+        // Assert
+        result.Should().BeNull();
     }
 }
