@@ -14,7 +14,7 @@ public class DalBaseServiceTests
     public DalBaseServiceTests()
     {
         _httpClientWrapper = A.Fake<IHttpClientWrapper>();
-        _service = new CategoryService(_httpClientWrapper);
+        _service = new(_httpClientWrapper);
     }
 
     [Fact]
