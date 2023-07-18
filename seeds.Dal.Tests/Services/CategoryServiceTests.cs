@@ -1,19 +1,17 @@
 ﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
-using seeds.Dal.Wrappers;
-using System.Net;
 
 namespace seeds.Dal.Tests.Services;
 
 public class CategoryServiceTests
 {
     private readonly IDalBaseService _baseService;
-    private readonly ICategoryService _service;
+    private readonly CategoryService _service;
     public CategoryServiceTests()
     {
         _baseService = A.Fake<IDalBaseService>();
-        _service = A.Fake<ICategoryService>();
+        _service = new(_baseService);
     }
 
     [Fact]
@@ -21,9 +19,9 @@ public class CategoryServiceTests
     {
         // Arrange
         string key = "ABC";
-        var cat = new Category() { Key = key, Name = "ABeCe" };
+        Category cat = new() { Key = key, Name = "ABeCe" };
         A.CallTo(() => _baseService.GetDalModelAsync<Category>(A<string>.Ignored))
-            .Returns(cat);
+            .Returns<Category?>(cat);
 
         // Act
         var result = await _service.GetCategoryByKeyAsync(key);
@@ -37,7 +35,7 @@ public class CategoryServiceTests
     {
         // Arrange
         A.CallTo(() => _baseService.GetDalModelAsync<Category>(A<string>.Ignored))
-            .Returns(null);
+            .Returns<Category?>(null);
 
         // Act
         var result = await _service.GetCategoryByKeyAsync("N0C");

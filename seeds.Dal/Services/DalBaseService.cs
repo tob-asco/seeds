@@ -1,20 +1,21 @@
-﻿using seeds.Dal.Wrappers;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Wrappers;
 using System.Net.Http.Json;
 
 namespace seeds.Dal.Services;
 
-public class DalBaseService
+public class DalBaseService : IDalBaseService
 {
-    protected readonly IHttpClientWrapper _httpClientWrapper;
+    public IHttpClientWrapper HttpClientWrapper { get; }
     public DalBaseService(IHttpClientWrapper httpClientWrapper)
     {
-        _httpClientWrapper = httpClientWrapper;
+        HttpClientWrapper = httpClientWrapper;
     }
     public async Task<T?> GetDalModelAsync<T>(string url)
     {
         try
         {
-            var response = await _httpClientWrapper.GetAsync(url);
+            var response = await HttpClientWrapper.GetAsync(url);
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 return default(T); // should give null for Dal model classes
@@ -35,7 +36,7 @@ public class DalBaseService
         try
         {
             var httpContent = JsonContent.Create(newModel);
-            var response = await _httpClientWrapper.PutAsync(url, httpContent);
+            var response = await HttpClientWrapper.PutAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
             return true;
         }
@@ -50,7 +51,7 @@ public class DalBaseService
         try
         {
             var httpContent = JsonContent.Create(model);
-            var response = await _httpClientWrapper.PostAsync(url, httpContent);
+            var response = await HttpClientWrapper.PostAsync(url, httpContent);
             response.EnsureSuccessStatusCode();
             return true;
         }
