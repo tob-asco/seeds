@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
-using seeds.Dal.Dto.ToDb;
+using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -12,15 +12,15 @@ namespace seeds.Api.Tests.Controllers;
 
 public class IdeasControllerTests : ApiBaseControllerTests
 {
-    private readonly IdeasController _controller;
-    private readonly IMapper _mapper;
 
     public List<Idea> Ideas { get; set; } = new();
 
-    public IdeasControllerTests(IMapper mapper)
+    public IdeasControllerTests()
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -52,14 +52,14 @@ public class IdeasControllerTests : ApiBaseControllerTests
         if (Ideas.Count >= (page * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<Idea>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
             result.Should().HaveCount(maxPageSize);
         }
         else if (Ideas.Count < (page * maxPageSize) &&
             Ideas.Count > ((page - 1) * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<Idea>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
             result.Should().HaveCount(Ideas.Count - ((page - 1) * maxPageSize));
         }
         else
@@ -68,7 +68,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
         }
     }
     [Fact]
-    public async Task IdeasController_GetIdeaEndpoint_ReturnsIdea()
+    public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()
     {
         //Arrange
         int id = Ideas[0].Id;
@@ -76,7 +76,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<Idea>();
+        var result = await response.Content.ReadFromJsonAsync<IdeaDtoApi>();
 
         //Assert
         response.Should().BeSuccessful();
@@ -102,14 +102,13 @@ public class IdeasControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int id = Ideas[0].Id;
-        Idea idea = new()
+        IdeaDtoApi idea = new()
         {
             Id = id,
             Title = "new title"
         };
         string url = $"/api/Ideas/{id}";
         var content = JsonContent.Create(idea);
-        _context.ChangeTracker.Clear();
 
         //Act
         var response = await _httpClient.PutAsync(url, content);
@@ -134,7 +133,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     public async Task IdeasController_PostIdeaEndpoint_ReturnsSuccess()
     {
         //Arrange
-        Idea idea = new()
+        IdeaDtoApi idea = new()
         {
             Title = "new title",
         };

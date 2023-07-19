@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Wrappers;
 using System.Net.Http.Json;
@@ -12,14 +13,14 @@ public class IdeasService : IIdeasService
     {
         _baseService = baseService;
     }
-    public async Task<Idea?> GetIdeaAsync(int id)
+    public async Task<IdeaDtoApi?> GetIdeaAsync(int id)
     {
         string url = $"api/Ideas/{id}";
-        return await _baseService.GetDalModelAsync<Idea>(url);
+        return await _baseService.GetDalModelAsync<IdeaDtoApi>(url);
     }
-    public async Task<List<Idea>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
+    public async Task<List<IdeaDtoApi>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         string url = $"api/ideas/page/{page}/size/{maxPageSize}";
-        return await _baseService.GetDalModelAsync<List<Idea>>(url);
+        return await _baseService.GetDalModelAsync<List<IdeaDtoApi>>(url);
     }
 }

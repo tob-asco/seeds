@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Model;
 
 namespace seeds1.ViewModel;
 
@@ -6,7 +7,7 @@ public partial class BasisViewModel : ObservableObject //partial because of sour
 {
     public bool RedrawPage { get; set; } = false;
     [ObservableProperty] //Source generator
-    User currentUser;
+    UserDtoApi currentUser;
 
     [ObservableProperty] //Source generator
     //[NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"

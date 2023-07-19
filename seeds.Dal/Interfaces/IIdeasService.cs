@@ -1,16 +1,11 @@
-﻿using seeds.Dal.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using seeds.Dal.Dto.ToApi;
 
 namespace seeds.Dal.Interfaces;
 
 public interface IIdeasService
 {
     //public Task<List<Idea>> GetIdeas();
-    public Task<Idea?> GetIdeaAsync(int id);
-    public Task<List<Idea>?> GetIdeasPaginatedAsync(int page, int maxPageSize);
+    public Task<IdeaDtoApi?> GetIdeaAsync(int id);
+    public Task<List<IdeaDtoApi>?> GetIdeasPaginatedAsync(int page, int maxPageSize);
 
 }

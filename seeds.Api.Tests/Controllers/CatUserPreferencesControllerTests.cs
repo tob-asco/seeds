@@ -17,19 +17,19 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         _controller = new(_context);
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
-            Cats.Add(
-            new Category()
+            Cats.Add(new()
             {
                 Key = $"Cat{i}",
                 Name = $"Category{i}"
             });
-            Users.Add(
-            new User()
+            Users.Add(new()
             {
                 Username = $"tobi{i}", //unique
                 Password = "tobi",
@@ -145,7 +145,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         };
         string url = $"/api/CategoryUserPreferences/{key}/{username}";
         var content = JsonContent.Create(cup);
-        _context.ChangeTracker.Clear();
 
         //Act
         var putResponse = await _httpClient.PutAsync(url, content);

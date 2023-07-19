@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
@@ -25,8 +26,8 @@ public class IdeasServiceTests
     {
         // Arrange
         int id = 1;
-        Idea idea = new() { Id = id, Title = "title", };
-        A.CallTo(() => _baseService.GetDalModelAsync<Idea>(A<string>.Ignored))
+        IdeaDtoApi idea = new() { Id = id, Title = "title", };
+        A.CallTo(() => _baseService.GetDalModelAsync<IdeaDtoApi>(A<string>.Ignored))
             .Returns(idea);
 
         // Act
@@ -40,9 +41,9 @@ public class IdeasServiceTests
     public async Task IdeasService_GetIdeaAsync_IfNotExistReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<Idea>(
+        A.CallTo(() => _baseService.GetDalModelAsync<IdeaDtoApi>(
             A<string>.Ignored))
-            .Returns<Idea?>(null);
+            .Returns<IdeaDtoApi?>(null);
 
         // Act
         var result = await _service.GetIdeaAsync(1);
@@ -56,12 +57,12 @@ public class IdeasServiceTests
         #region Arrange
         int page = 2; int maxPageSize = 10;
         int id1 = 1; int id2 = 2;
-        List<Idea> users = new()
+        List<IdeaDtoApi> users = new()
         {
-            new Idea{ Id = id1, Title = "1st Idea" },
-            new Idea{ Id = id2, Title = "2nd Idea" },
+            new IdeaDtoApi{ Id = id1, Title = "1st Idea" },
+            new IdeaDtoApi{ Id = id2, Title = "2nd Idea" },
         };
-        A.CallTo(() => _baseService.GetDalModelAsync<List<Idea>>(A<string>.Ignored))
+        A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaDtoApi>>(A<string>.Ignored))
             .Returns(users);
         #endregion
 
@@ -77,9 +78,9 @@ public class IdeasServiceTests
     public async Task IdeasService_GetIdeasPaginatedAsync_IfNotExistReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<Idea>>(
+        A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaDtoApi>>(
             A<string>.Ignored))
-            .Returns<List<Idea>?>(null);
+            .Returns<List<IdeaDtoApi>?>(null);
 
         // Act
         var result = await _service.GetIdeasPaginatedAsync(1, 10);

@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 
@@ -19,9 +20,9 @@ public class CategoryServiceTests
     {
         // Arrange
         string key = "ABC";
-        Category cat = new() { Key = key, Name = "ABeCe" };
-        A.CallTo(() => _baseService.GetDalModelAsync<Category>(A<string>.Ignored))
-            .Returns<Category?>(cat);
+        CategoryDtoApi cat = new() { Key = key, Name = "ABeCe" };
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryDtoApi>(A<string>.Ignored))
+            .Returns<CategoryDtoApi?>(cat);
 
         // Act
         var result = await _service.GetCategoryByKeyAsync(key);
@@ -34,8 +35,8 @@ public class CategoryServiceTests
     public async Task CatService_GetCatByKeyAsync_IfNotExistReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<Category>(A<string>.Ignored))
-            .Returns<Category?>(null);
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryDtoApi>(A<string>.Ignored))
+            .Returns<CategoryDtoApi?>(null);
 
         // Act
         var result = await _service.GetCategoryByKeyAsync("N0C");

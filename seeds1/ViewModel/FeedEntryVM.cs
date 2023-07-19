@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
 using System;
@@ -14,7 +15,7 @@ public partial class FeedEntryVM : ObservableObject
     private readonly IUserIdeaInteractionService _uiiService;
     private readonly IIdeasService _ideasService;
 
-    public User CurrentUser { get; set; }
+    public UserDtoApi CurrentUser { get; set; }
     [ObservableProperty]
     FeedEntry feedEntry;
 

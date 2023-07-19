@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
+using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -10,22 +11,21 @@ namespace seeds.Api.Tests.Controllers;
 
 public class UsersControllerTests : ApiBaseControllerTests
 {
-    private readonly UsersController _controller;
     public List<User> Users { get; set; } = new();
 
     public UsersControllerTests()
     {
-        _controller = new(_context);
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
 
     private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
-            Users.Add(
-            new User()
+            Users.Add(new()
             {
                 Username = "tobi" + i, //unique
                 Password = "tobi",
@@ -43,7 +43,7 @@ public class UsersControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<User>();
+        var result = await response.Content.ReadFromJsonAsync<UserDtoApi>();
 
         //Assert
         response.Should().BeSuccessful();
@@ -67,9 +67,10 @@ public class UsersControllerTests : ApiBaseControllerTests
     public async Task UsersController_PostUserEndpoint_ReturnsSuccessAndUpdatesDb()
     {
         //Arrange
-        User user = new()
+        string username = "tooobi";
+        UserDtoApi user = new()
         {
-            Username = "tooobi",
+            Username = username,
             Password = "",
             Email = ""
         };
@@ -81,7 +82,7 @@ public class UsersControllerTests : ApiBaseControllerTests
 
         //Assert
         postResponse.Should().BeSuccessful();
-        _context.User.Should().ContainEquivalentOf(user);
+        _context.User.Should().Contain(u => u.Username == username);
     }
     /* post the same user twice (id auto-generated) and
      * assert returned Conflict due to (various) uniqueness constraints
@@ -90,7 +91,7 @@ public class UsersControllerTests : ApiBaseControllerTests
     public async Task UsersController_PostUserEndpoint_ReturnsConflictDuplicate()
     {
         //Arrange
-        User user = new User()
+        UserDtoApi user = new()
         {
             Username = "tobi",
             Password = "",
