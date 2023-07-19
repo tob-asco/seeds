@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
@@ -11,9 +12,12 @@ namespace seeds.Api.Tests.Controllers;
 
 public class IdeasControllerTests : ApiBaseControllerTests
 {
+    private readonly IdeasController _controller;
+    private readonly IMapper _mapper;
+
     public List<Idea> Ideas { get; set; } = new();
 
-    public IdeasControllerTests()
+    public IdeasControllerTests(IMapper mapper)
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();

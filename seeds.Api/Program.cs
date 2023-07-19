@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using seeds.Api.Data;
+using seeds.Api.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Services
 builder.Services.AddRazorPages();
 // register the DbContext with the connection string in "appsettings.json"
 builder.Services.AddDbContext<seedsApiContext>(options =>
@@ -12,6 +12,9 @@ builder.Services.AddDbContext<seedsApiContext>(options =>
     GetConnectionString("seedsApiContext") ?? throw new InvalidOperationException(
         "Connection string 'seedsApiContext' not found."
 )));
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+#endregion
 
 var app = builder.Build();
 
