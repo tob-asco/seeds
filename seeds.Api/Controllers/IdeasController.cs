@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers;
@@ -55,14 +56,6 @@ public class IdeasController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
-
-    // GET: api/Ideas
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasAsync()
-    {
-        return _context.Idea == null ?
-            NotFound() : await _context.Idea.ToListAsync();
     }
 
     // GET: api/Ideas/5
