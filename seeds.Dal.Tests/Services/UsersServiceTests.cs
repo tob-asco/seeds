@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
 using System;
@@ -13,75 +14,75 @@ namespace seeds.Dal.Tests.Services;
 
 public class UsersServiceTests
 {
-    private readonly IHttpClientWrapper _httpClientWrapper;
+    private readonly IDalBaseService _baseService;
     private readonly UsersService _service;
     public UsersServiceTests()
     {
-        _httpClientWrapper = A.Fake<IHttpClientWrapper>();
-        _service = new UsersService(_httpClientWrapper);
+        _baseService = A.Fake<IDalBaseService>();
+        _service = new UsersService(_baseService);
     }
-
     [Fact]
-    public async void UsersService_GetUsers_ReturnsUsers()
+    public async Task UsersService_GetUsersAsync_ReturnsUsers()
     {
         #region Arrange
+        string uname1 = "tobi1"; string uname2 = "tobi2";
         var users = new List<User>()
         {
-            new User { Username = "tobi1" },
-            new User { Username = "tobi2" },
+            new User { Username = uname1 },
+            new User { Username = uname2 },
         };
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.OK,
-            Content = new StringContent(JsonSerializer.Serialize(users)),
-        };
-        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
-            .Returns(response);
+        A.CallTo(() => _baseService.GetDalModelAsync<List<User>>(A<string>.Ignored))
+            .Returns(users);
         #endregion
 
         // Act
         var result = await _service.GetUsersAsync();
 
         // Assert
-        result.Should().BeEquivalentTo(users);
+        result.Should().NotBeNull();
+        result?[0].Username.Should().Be(uname1);
+        result?[1].Username.Should().Be(uname2);
     }
-
     [Fact]
-    public async void UsersService_GetUserByUsername_ReturnsUser()
+    public async Task UsersService_GetUsersAsync_IfErrorReturnsNull()
     {
-        #region Arrange
-        var user = new User { Username = "tobi" };
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.OK,
-            Content = new StringContent(JsonSerializer.Serialize(user)),
-        };
-        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
-            .Returns(response);
-        #endregion
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<User>>(
+            A<string>.Ignored))
+            .Returns<List<User>?>(null);
 
         // Act
-        var result = await _service.GetUserByUsernameAsync(user.Username);
+        var result = await _service.GetUsersAsync();
 
         // Assert
-        result.Should().BeEquivalentTo(user);
+        result.Should().BeNull();
     }
-
     [Fact]
-    public async void UsersService_GetUserByUsername_IfNotFoundReturnsNull()
+    public async Task UsersService_GetUserByUsernameAsync_ReturnsUser()
     {
-        #region Arrange
-        var user = new User { Username = "tobi" };
-        var response = new HttpResponseMessage
-        {
-            StatusCode = HttpStatusCode.NotFound
-        };
-        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
-            .Returns(response);
-        #endregion
+        // Arrange
+        string uname = "tobi1";
+        User user = new() { Username = uname, };
+        A.CallTo(() => _baseService.GetDalModelAsync<User>(A<string>.Ignored))
+            .Returns(user);
 
         // Act
-        var result = await _service.GetUserByUsernameAsync(user.Username);
+        var result = await _service.GetUserByUsernameAsync(uname);
+
+        // Assert
+        result.Should().NotBeNull();
+        result?.Username.Should().Be(uname);
+    }
+    [Fact]
+    public async Task UsersService_GetUserByUsernameAsync_IfNotFoundReturnsNull()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<User>(
+            A<string>.Ignored))
+            .Returns<User?>(null);
+
+        // Act
+        var result = await _service.GetUserByUsernameAsync("");
 
         // Assert
         result.Should().BeNull();

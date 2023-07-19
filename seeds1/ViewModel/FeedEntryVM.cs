@@ -36,15 +36,7 @@ public partial class FeedEntryVM : ObservableObject
                 if (await DbUpdateUiiAsync(false, FeedEntry.Downvoted))
                 {
                     FeedEntry.Upvoted = false;
-                    if (await DbUpdateIdeaVotesAsync(-1))
-                    {
-                        FeedEntry.Idea.Upvotes--;
-                        FeedEntry.Upvotes--;
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
-                    }
+                    FeedEntry.Upvotes--;
                 }
             }
             else
@@ -52,15 +44,7 @@ public partial class FeedEntryVM : ObservableObject
                 if (await DbUpdateUiiAsync(true, FeedEntry.Downvoted))
                 {
                     FeedEntry.Upvoted = true;
-                    if (await DbUpdateIdeaVotesAsync(+1))
-                    {
-                        FeedEntry.Idea.Upvotes++;
-                        FeedEntry.Upvotes++;
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
-                    }
+                    FeedEntry.Upvotes++;
                 }
             }
         }
@@ -71,15 +55,7 @@ public partial class FeedEntryVM : ObservableObject
                 if (await DbUpdateUiiAsync(FeedEntry.Upvoted, false))
                 {
                     FeedEntry.Downvoted = false;
-                    if (await DbUpdateIdeaVotesAsync(+1))
-                    {
-                        FeedEntry.Idea.Upvotes++;
-                        FeedEntry.Upvotes++;
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
-                    }
+                    FeedEntry.Upvotes++;
                 }
             }
             else
@@ -87,15 +63,7 @@ public partial class FeedEntryVM : ObservableObject
                 if (await DbUpdateUiiAsync(FeedEntry.Upvoted, true))
                 {
                     FeedEntry.Downvoted = true;
-                    if (await DbUpdateIdeaVotesAsync(-1))
-                    {
-                        FeedEntry.Idea.Upvotes--;
-                        FeedEntry.Upvotes--;
-                    }
-                    else
-                    {
-                        await Shell.Current.DisplayAlert("DB problem", "Uii updated, but Idea Votes not!!!!", "Bad");
-                    }
+                    FeedEntry.Upvotes--;
                 }
             }
         }
@@ -116,18 +84,6 @@ public partial class FeedEntryVM : ObservableObject
         catch
         {
             await Shell.Current.DisplayAlert("DB Access Error", "Error while updating the UII (in the DB).", "Ok");
-            return false;
-        }
-    }
-    private async Task<bool> DbUpdateIdeaVotesAsync(int updown)
-    {
-        try
-        {
-            return await _ideasService.VoteIdeaAsync(FeedEntry.Idea.Id, updown);
-        }
-        catch
-        {
-            await Shell.Current.DisplayAlert("DB Access Error", "Error while updating the vote count (in the DB).", "Ok");
             return false;
         }
     }

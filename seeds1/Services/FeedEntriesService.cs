@@ -42,7 +42,6 @@ public class FeedEntriesService : IFeedEntriesService
                     CategoryPreference = cup.Value,
                     Upvoted = uii.Upvoted,
                     Downvoted = uii.Downvoted,
-                    Upvotes = idea.Upvotes,
                 });
             }
             catch (Exception ex)

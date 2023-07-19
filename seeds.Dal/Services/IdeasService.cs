@@ -5,43 +5,21 @@ using System.Net.Http.Json;
 
 namespace seeds.Dal.Services;
 
-public class IdeasService : DalBaseService, IIdeasService
+public class IdeasService : IIdeasService
 {
-    public IdeasService(IHttpClientWrapper httpClientWrapper)
-        : base(httpClientWrapper) { }
+    private readonly IDalBaseService _baseService;
+    public IdeasService(IDalBaseService baseService)
+    {
+        _baseService = baseService;
+    }
     public async Task<Idea?> GetIdeaAsync(int id)
     {
         string url = $"api/Ideas/{id}";
-        return await GetDalModelAsync<Idea>(url);
+        return await _baseService.GetDalModelAsync<Idea>(url);
     }
     public async Task<List<Idea>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         string url = $"api/ideas/page/{page}/size/{maxPageSize}";
-        return await GetDalModelAsync<List<Idea>>(url);
-    }
-    public async Task<bool> VoteIdeaAsync(int id, int updown)
-    {
-        string url = $"api/Ideas/{id}";
-        Idea? idea = await GetIdeaAsync(id);
-        if (idea == null) { return false; }
-        if (updown == +1) { idea.Upvotes++; }
-        else if (updown == -1) { idea.Upvotes--; }
-        else { return false; }
-        return await PutDalModelAsync<Idea>(url, idea);
-        //try
-        //{
-        //    var idea = await GetIdeaAsync(id) ?? throw new NullReferenceException();
-        //    if (updown == +1) { idea.Upvotes++; }
-        //    else if (updown == -1) { idea.Upvotes--; }
-        //    else { return false; }
-        //    await _httpClientWrapper.PutAsync($"api/Ideas/{id}", JsonContent.Create(idea));
-
-        //    return true;
-        //}
-        //catch (Exception ex)
-        //{
-        //    Console.Write(ex);
-        //    return false;
-        //}
+        return await _baseService.GetDalModelAsync<List<Idea>>(url);
     }
 }

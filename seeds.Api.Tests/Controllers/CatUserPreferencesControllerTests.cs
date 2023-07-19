@@ -15,25 +15,10 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
     public CatUserPreferencesControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if (!_context.Category.Any())
-        {
-            _context.Category.AddRange(Cats);
-        }
-        if (!_context.User.Any())
-        {
-            _context.User.AddRange(Users);
-        }
-        if (!_context.CategoryUserPreference.Any())
-        {
-            _context.CategoryUserPreference.AddRange(Cups);
-        }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
@@ -51,6 +36,8 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
+        if (!_context.Category.Any()) { _context.Category.AddRange(Cats); }
+        if (!_context.User.Any()) { _context.User.AddRange(Users); }
         foreach (var cat in Cats)
         {
             foreach (var user in Users)
@@ -64,11 +51,13 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
                 });
             }
         }
+        if (!_context.CategoryUserPreference.Any())
+        {
+            _context.CategoryUserPreference.AddRange(Cups);
+        }
     }
 
-
     #region Unit Testing
-
     [Fact]
     public async Task CatUserPrefencesController_GetCatUserPreferenceAsync_ReturnsItself()
     {
@@ -85,7 +74,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         cup.Username.Should().Be(username);
         cup.CategoryKey.Should().Be(key);
     }
-
     [Fact]
     public async Task CatUserPrefencesController_GetCatUserPreferenceAsync_IfNotExistReturnsNotFound()
     {
@@ -100,7 +88,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         var actionResult = Assert.IsType<ActionResult<CategoryUserPreference>>(result);
         actionResult.Result.Should().BeOfType<NotFoundResult>();
     }
-
     //not working "entity with key value pair already being tracked" error
     //[Fact]
     //public async Task CatUserPrefencesController_PutCatUserPreferenceAsync_ReturnsSuccess()
@@ -125,7 +112,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
 
     #endregion
     #region Enpoint Testing
-
     [Fact]
     public async Task CatUserPrefencesController_GetEndpoint_ReturnsItself()
     {
@@ -144,7 +130,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         result?.CategoryKey.Should().Be(key);
         result?.Username.Should().Be(username);
     }
-
     [Fact]
     public async Task CatUserPrefencesController_PutEndpoint_UpdatesDb()
     {
@@ -174,6 +159,5 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         getResult.Should().NotBeNull();
         getResult?.Value.Should().Be(val);
     }
-
     #endregion
 }

@@ -5,19 +5,24 @@ using System.Net.Http.Json;
 
 namespace seeds.Dal.Services;
 
-public class CategoryUserPreferenceService : DalBaseService, ICategoryUserPreferenceService
+public class CategoryUserPreferenceService : ICategoryUserPreferenceService
 {
-    public CategoryUserPreferenceService(IHttpClientWrapper httpClientWrapper)
-        : base(httpClientWrapper) { }
+    private readonly IDalBaseService _baseService;
+    public CategoryUserPreferenceService(IDalBaseService baseService)
+    {
+        _baseService = baseService;
+    }
     public async Task<CategoryUserPreference?> GetCategoryUserPreferenceAsync(
         string categoryKey, string username)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
-        return await GetDalModelAsync<CategoryUserPreference>(url);
+        return await _baseService.GetDalModelAsync<CategoryUserPreference>(url);
     }
 
-    // returns true if HttpStatusCode is a successful one
-    public async Task<bool> PutCategoryUserPreferenceAsync(string categoryKey, string username, int newPreference)
+    public async Task<bool> PutCategoryUserPreferenceAsync(
+        string categoryKey,
+        string username,
+        int newPreference)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
         CategoryUserPreference newCup = new()
@@ -26,6 +31,6 @@ public class CategoryUserPreferenceService : DalBaseService, ICategoryUserPrefer
             Username = username,
             Value = newPreference
         };
-        return await PutDalModelAsync<CategoryUserPreference>(url, newCup);
+        return await _baseService.PutDalModelAsync<CategoryUserPreference>(url, newCup);
     }
 }

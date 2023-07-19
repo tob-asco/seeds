@@ -1,15 +1,18 @@
 ﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
-using seeds.Dal.Wrappers;
 namespace seeds.Dal.Services;
 
-public class CategoryService : DalBaseService, ICategoryService 
+public class CategoryService : ICategoryService 
 {
-    public CategoryService(IHttpClientWrapper httpClientWrapper)
-        : base(httpClientWrapper) { }
+    private readonly IDalBaseService _baseService;
+    public CategoryService(IDalBaseService baseService)
+    {
+        _baseService = baseService;
+    }
     public async Task<Category?> GetCategoryByKeyAsync(string categoryKey)
     {
         string url = $"api/Categories/{categoryKey}";
-        return await GetDalModelAsync<Category>(url);
+        var r = await _baseService.GetDalModelAsync<Category>(url);
+        return r;
     }
 }

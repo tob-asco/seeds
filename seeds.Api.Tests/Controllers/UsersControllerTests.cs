@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
 using seeds.Dal.Model;
+using System.Net;
+using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
@@ -14,15 +16,11 @@ public class UsersControllerTests : ApiBaseControllerTests
     public UsersControllerTests()
     {
         _controller = new(_context);
-
-        DummyUpTheProperties();
-
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
-
+        PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
     }
 
-    private void DummyUpTheProperties()
+    private void PopulatePropertiesAndAddToDb()
     {
         for (int i = 1; i <= 10; i++)
         {
@@ -34,81 +32,78 @@ public class UsersControllerTests : ApiBaseControllerTests
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
-
+        if (!_context.User.Any()) { _context.User.AddRange(Users); }
     }
-
-    #region Unit Testing
     [Fact]
-    public async Task UsersController_GetUserByUsernameAsync_ReturnsUser()
+    public async Task UsersController_GetUserEndpoint_ReturnsUser()
     {
         //Arrange
         string username = "tobi5";
+        string url = $"/api/Users/{username}";
 
         //Act
-        var result = await _controller.GetUserByUsernameAsync(username);
+        var response = await _httpClient.GetAsync(url);
+        var result = await response.Content.ReadFromJsonAsync<User>();
 
         //Assert
-        var actionResult = Assert.IsType<ActionResult<User>>(result);
-        var user = Assert.IsAssignableFrom<User>(actionResult.Value);
-        user.Username.Should().Be(username);
+        response.Should().BeSuccessful();
+        result.Should().NotBeNull();
+        result?.Username.Should().Be(username);
     }
-
     [Fact]
-    public async Task UsersController_GetUserByUsernameAsync_IfNotExistReturnsNotFound()
+    public async Task UsersController_GetUserEndpoint_IfNotExistReturnsNotFound()
     {
         //Arrange
         string username = "franz";
+        string url = $"/api/Users/{username}";
 
         //Act
-        var result = await _controller.GetUserByUsernameAsync(username);
+        var response = await _httpClient.GetAsync(url);
 
         //Assert
-        var actionResult = Assert.IsType<ActionResult<User>>(result);
-        actionResult.Result.Should().BeOfType<NotFoundResult>();
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
-
     [Fact]
-    public async Task UsersController_PostUserAsync_ReturnsSuccess()
+    public async Task UsersController_PostUserEndpoint_ReturnsSuccessAndUpdatesDb()
     {
         //Arrange
-        User User = new User()
+        User user = new()
         {
-            Username = "tobi",
+            Username = "tooobi",
             Password = "",
             Email = ""
         };
+        string url = "/api/Users";
+        HttpContent content = JsonContent.Create(user);
 
         //Act
-        var result = await _controller.PostUserAsync(User);
+        var postResponse = await _httpClient.PostAsync(url, content);
 
         //Assert
-        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-        var postedUser = Assert.IsType<User>(actionResult.Value);
-        postedUser.Should().BeEquivalentTo(User);
+        postResponse.Should().BeSuccessful();
+        _context.User.Should().ContainEquivalentOf(user);
     }
-
     /* post the same user twice (id auto-generated) and
      * assert returned Conflict due to (various) uniqueness constraints
      */
     [Fact]
-    public async Task UsersController_PostUserAsync_ReturnsConflictDuplicate()
+    public async Task UsersController_PostUserEndpoint_ReturnsConflictDuplicate()
     {
         //Arrange
-        User User = new User()
+        User user = new User()
         {
             Username = "tobi",
             Password = "",
             Email = ""
         };
+        string url = "/api/Users";
+        HttpContent content = JsonContent.Create(user);
 
         //Act
-        var actionResultOk = await _controller.PostUserAsync(User);
-        var actionResultBad = await _controller.PostUserAsync(User);
+        await _httpClient.PostAsync(url, content);
+        var response = await _httpClient.PostAsync(url, content);
 
         //Assert
-        //actionResultOk.Result.Should().BeOfType<CreatedAtActionResult>();
-        actionResultBad.Result.Should().BeOfType<ConflictObjectResult>();
+        response.Should().HaveStatusCode(HttpStatusCode.Conflict);
     }
-
-    #endregion
 }

@@ -100,5 +100,27 @@ namespace seeds.Api.Controllers
             return (_context.UserIdeaInteraction?.Any(e => e.Username == username && e.IdeaId == ideaId))
                 .GetValueOrDefault();
         }
+
+        [HttpGet("{ideaId}/upvotes")]
+        public async Task<ActionResult<int>> CountUpvotes(int ideaId)
+        {
+            if (_context.UserIdeaInteraction != null)
+            {
+                return await _context.UserIdeaInteraction.CountAsync(uii =>
+                    uii.IdeaId == ideaId && uii.Upvoted == true);
+            }
+            return NotFound();
+        }
+        [HttpGet("{ideaId}/downvotes")]
+        public async Task<ActionResult<int>> CountDownvotes(int ideaId)
+        {
+            if (_context.UserIdeaInteraction != null)
+            {
+                return await _context.UserIdeaInteraction.CountAsync(uii =>
+                    uii.IdeaId == ideaId && uii.Downvoted == true);
+            }
+            return NotFound();
+        }
+
     }
 }

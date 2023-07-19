@@ -55,6 +55,7 @@ public partial class FeedViewModel : BasisViewModel
             List<FeedEntryVM> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
+                fe.Upvotes = await _uiiService.CountVotesAsync(fe.Idea.Id);
                 feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
                 {
                     CurrentUser = CurrentUser,

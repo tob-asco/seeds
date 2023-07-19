@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using seeds.Api.Data;
@@ -11,9 +12,11 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    partial class seedsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230717130211_remove_ideas_upvote_column")]
+    partial class remove_ideas_upvote_column
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("categories", (string)null);
+                    b.ToTable("categories");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
@@ -57,7 +60,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("Username");
 
-                    b.ToTable("category_user", (string)null);
+                    b.ToTable("category_user");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
@@ -112,7 +115,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("CreatorName");
 
-                    b.ToTable("ideas", (string)null);
+                    b.ToTable("ideas");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -137,7 +140,7 @@ namespace seeds.Api.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.UserIdeaInteraction", b =>
@@ -162,7 +165,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("IdeaId");
 
-                    b.ToTable("user_idea", (string)null);
+                    b.ToTable("user_idea");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
