@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Services;
 
@@ -34,7 +35,7 @@ public partial class LoginViewModel : BasisViewModel
         }
         FailResponse("Checking..."); //shouldnt be a "fail" response..
         //look up DB for existence of entered data:
-        User user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
+        UserDtoApi user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         
         if (user != null) 
         {

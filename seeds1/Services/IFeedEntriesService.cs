@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Model;
 using seeds1.MauiModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace seeds1.Services;
 
 public interface IFeedEntriesService
 {
-    public User CurrentUser { get; set; }
+    public UserDtoApi CurrentUser { get; set; }
     public Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize);
 }

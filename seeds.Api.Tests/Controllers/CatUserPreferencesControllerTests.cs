@@ -24,14 +24,12 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
     {
         for (int i = 1; i <= 10; i++)
         {
-            Cats.Add(
-            new Category()
+            Cats.Add(new()
             {
                 Key = $"Cat{i}",
                 Name = $"Category{i}"
             });
-            Users.Add(
-            new User()
+            Users.Add(new()
             {
                 Username = $"tobi{i}", //unique
                 Password = "tobi",

@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
 
@@ -10,7 +11,7 @@ public class FeedEntriesService : IFeedEntriesService
     private readonly ICategoryService _categoryService;
     private readonly ICategoryUserPreferenceService _cupService;
     private readonly IUserIdeaInteractionService _uiiService;
-    public User CurrentUser { get; set; }
+    public UserDtoApi CurrentUser { get; set; }
     public FeedEntriesService(IIdeasService ideasService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService cupService,

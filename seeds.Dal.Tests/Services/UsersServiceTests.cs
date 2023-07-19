@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
@@ -26,12 +27,12 @@ public class UsersServiceTests
     {
         #region Arrange
         string uname1 = "tobi1"; string uname2 = "tobi2";
-        var users = new List<User>()
+        var users = new List<UserDtoApi>()
         {
-            new User { Username = uname1 },
-            new User { Username = uname2 },
+            new() { Username = uname1 },
+            new() { Username = uname2 },
         };
-        A.CallTo(() => _baseService.GetDalModelAsync<List<User>>(A<string>.Ignored))
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserDtoApi>>(A<string>.Ignored))
             .Returns(users);
         #endregion
 
@@ -47,9 +48,9 @@ public class UsersServiceTests
     public async Task UsersService_GetUsersAsync_IfErrorReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<User>>(
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserDtoApi>>(
             A<string>.Ignored))
-            .Returns<List<User>?>(null);
+            .Returns<List<UserDtoApi>?>(null);
 
         // Act
         var result = await _service.GetUsersAsync();
@@ -62,8 +63,8 @@ public class UsersServiceTests
     {
         // Arrange
         string uname = "tobi1";
-        User user = new() { Username = uname, };
-        A.CallTo(() => _baseService.GetDalModelAsync<User>(A<string>.Ignored))
+        UserDtoApi user = new() { Username = uname, };
+        A.CallTo(() => _baseService.GetDalModelAsync<UserDtoApi>(A<string>.Ignored))
             .Returns(user);
 
         // Act
@@ -77,9 +78,9 @@ public class UsersServiceTests
     public async Task UsersService_GetUserByUsernameAsync_IfNotFoundReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<User>(
+        A.CallTo(() => _baseService.GetDalModelAsync<UserDtoApi>(
             A<string>.Ignored))
-            .Returns<User?>(null);
+            .Returns<UserDtoApi?>(null);
 
         // Act
         var result = await _service.GetUserByUsernameAsync("");

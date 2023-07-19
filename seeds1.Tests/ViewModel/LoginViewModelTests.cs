@@ -1,4 +1,5 @@
 ﻿using FakeItEasy;
+using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Services;
@@ -30,7 +31,7 @@ public class LoginViewModelTests
         LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
         var enteredPassword = "password";
-        var user = new User
+        var user = new UserDtoApi
         {
             Username = "testuser",
             Password = "password"
@@ -57,7 +58,7 @@ public class LoginViewModelTests
         LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
         var enteredPassword = "";
-        var user = new User
+        var user = new UserDtoApi
         {
             Username = "testuser",
             Password = null
@@ -83,7 +84,7 @@ public class LoginViewModelTests
         MockNavigationService navigationService = new();
         LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
-        var user = new User
+        var user = new UserDtoApi
         {
             Username = "testuser",
             Password = ""
@@ -110,11 +111,13 @@ public class LoginViewModelTests
     {
         #region Arrange
         MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService);
-        vm.DisplayedLoginResponse = "";
+        LoginViewModel vm = new(_userService, navigationService)
+        {
+            DisplayedLoginResponse = ""
+        };
         var enteredUsername = "testuser";
         var enteredPassword = "password";
-        var user = new User
+        var user = new UserDtoApi
         {
             Username = "testuser",
             Password = "PASSWORD"
@@ -139,11 +142,13 @@ public class LoginViewModelTests
     {
         #region Arrange
         MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService);
-        vm.DisplayedLoginResponse = "";
+        LoginViewModel vm = new(_userService, navigationService)
+        {
+            DisplayedLoginResponse = ""
+        };
         var enteredUsername = "";
         var enteredPassword = "password";
-        var user = new User
+        var user = new UserDtoApi
         {
             Username = "",
             Password = "password"

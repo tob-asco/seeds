@@ -23,10 +23,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string username = "dummy";
-        User user = new()
-        {
-            Username = username
-        };
+        UserDtoApi user = new() { Username = username };
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.OK,
@@ -37,14 +34,14 @@ public class DalBaseServiceTests
         string url = "";
 
         // Act
-        var result = await _service.GetDalModelAsync<User>(url);
+        var result = await _service.GetDalModelAsync<UserDtoApi>(url);
 
         // Assert
         result.Should().NotBeNull();
         result?.Username.Should().Be(username);
     }
     [Theory]
-    [InlineData(typeof(User))]
+    [InlineData(typeof(UserDtoApi))]
     [InlineData(typeof(IdeaDtoApi))]
     [InlineData(typeof(Category))]
     [InlineData(typeof(CategoryUserPreference))]
@@ -93,7 +90,7 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        Func<Task> act1 = async () => await _service.GetDalModelAsync<User>("");
+        Func<Task> act1 = async () => await _service.GetDalModelAsync<UserDtoApi>("");
         Func<Task> act2 = async () => await _service.GetDalModelAsync<int>("");
 
         // Assert
@@ -106,7 +103,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        User user = new();
+        UserDtoApi user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Accepted,
@@ -125,7 +122,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        User user = new();
+        UserDtoApi user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.NotFound,
@@ -144,7 +141,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        User user = new();
+        UserDtoApi user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Accepted,
@@ -163,7 +160,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        User user = new();
+        UserDtoApi user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Conflict,

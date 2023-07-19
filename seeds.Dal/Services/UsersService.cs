@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Wrappers;
 
@@ -11,14 +12,14 @@ public class UsersService : IUsersService
     {
         _baseService = baseService;
     }
-    public async Task<List<User>?> GetUsersAsync()
+    public async Task<List<UserDtoApi>?> GetUsersAsync()
     {
         string url = "api/Users";
-        return await _baseService.GetDalModelAsync<List<User>>(url);
+        return await _baseService.GetDalModelAsync<List<UserDtoApi>>(url);
     }
-    public async Task<User?> GetUserByUsernameAsync(string username)
+    public async Task<UserDtoApi?> GetUserByUsernameAsync(string username)
     {
         string url = $"api/Users/{username}";
-        return await _baseService.GetDalModelAsync<User>(url);
+        return await _baseService.GetDalModelAsync<UserDtoApi>(url);
     }
 }
