@@ -29,7 +29,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas/page/5/size/20
     [HttpGet("page/{page}/size/{maxPageSize}")]
-    public async Task<ActionResult<IEnumerable<Idea>>> GetIdeasPaginated(
+    public async Task<ActionResult<IEnumerable<IdeaDtoApi>>> GetIdeasPaginated(
         int page, int maxPageSize)
     {
         try
@@ -42,7 +42,8 @@ public class IdeasController : ControllerBase
                     .Skip((page - 1) * maxPageSize)
                     .Take(maxPageSize)
                     .ToListAsync();
-                return ideaPage != null ? ideaPage : NotFound();
+                var ideaDtoPage = _mapper.Map<List<IdeaDtoApi>>(ideaPage);
+                return ideaDtoPage != null ? ideaDtoPage : NotFound();
             }
             else if (totCount > (page - 1) * maxPageSize)
             { //at least one more Idea found
@@ -51,7 +52,8 @@ public class IdeasController : ControllerBase
                     .Skip((page - 1) * maxPageSize)
                     .Take(totCount - ((page - 1) * maxPageSize))
                     .ToListAsync();
-                return ideaPage != null ? ideaPage : NotFound();
+                var ideaDtoPage = _mapper.Map<List<IdeaDtoApi>>(ideaPage);
+                return ideaDtoPage != null ? ideaDtoPage : NotFound();
             }
             else
             { //no more Ideas 
@@ -66,7 +68,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Idea>> GetIdea(int id)
+    public async Task<ActionResult<IdeaDtoApi>> GetIdea(int id)
     {
         if (_context.Idea == null)
         {
@@ -79,7 +81,9 @@ public class IdeasController : ControllerBase
             return NotFound();
         }
 
-        return idea;
+        var ideaDto = _mapper.Map<IdeaDtoApi>(idea);
+
+        return ideaDto;
     }
 
     // PUT: api/Ideas/5
