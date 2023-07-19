@@ -20,6 +20,8 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         _controller = new(_context);
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -174,7 +176,6 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         };
         string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
         var content = JsonContent.Create(uii);
-        _context.ChangeTracker.Clear();
 
         //Act
         var putResponse = await _httpClient.PutAsync(url, content);
@@ -202,7 +203,6 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         };
         string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
         var content = JsonContent.Create(uii);
-        _context.ChangeTracker.Clear();
 
         //Act
         var putResponse = await _httpClient.PutAsync(url, content);

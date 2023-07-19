@@ -19,6 +19,8 @@ public class IdeasControllerTests : ApiBaseControllerTests
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {

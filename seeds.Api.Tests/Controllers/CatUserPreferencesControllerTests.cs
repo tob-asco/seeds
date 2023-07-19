@@ -17,6 +17,8 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         _controller = new(_context);
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
+        // Clear the change tracker, so each test has a fresh _context
+        _context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -145,7 +147,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         };
         string url = $"/api/CategoryUserPreferences/{key}/{username}";
         var content = JsonContent.Create(cup);
-        _context.ChangeTracker.Clear();
 
         //Act
         var putResponse = await _httpClient.PutAsync(url, content);
