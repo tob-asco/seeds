@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
 using System;
@@ -44,7 +45,7 @@ public class DalBaseServiceTests
     }
     [Theory]
     [InlineData(typeof(User))]
-    [InlineData(typeof(Idea))]
+    [InlineData(typeof(IdeaDtoApi))]
     [InlineData(typeof(Category))]
     [InlineData(typeof(CategoryUserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]

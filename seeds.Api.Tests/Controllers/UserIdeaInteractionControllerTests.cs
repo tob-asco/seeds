@@ -27,13 +27,13 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     {
         for (int i = 1; i <= 22; i++)
         {
-            Users.Add(new User()
+            Users.Add(new()
             {
                 Username = $"tobi{i}", //unique
                 Password = "tobi",
                 Email = "tobi" + i + "@tobi.com", //unique
             });
-            Ideas.Add(new Idea()
+            Ideas.Add(new()
             {
                 Title = "Idea #" + i
             });

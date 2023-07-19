@@ -57,7 +57,7 @@ public class FeedVMTests
                 {
                     CategoryName = "ABeCe",
                     CategoryPreference = -1,
-                    Idea = new seeds.Dal.Model.Idea()
+                    Idea = new()
                     {
                         CategoryKey = key
                     }
@@ -69,7 +69,7 @@ public class FeedVMTests
                 {
                    CategoryName = "ABeCe",
                    CategoryPreference = 1,
-                   Idea = new seeds.Dal.Model.Idea()
+                   Idea = new()
                    {
                        CategoryKey = key
                    }
