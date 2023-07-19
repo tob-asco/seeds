@@ -52,14 +52,14 @@ public class IdeasControllerTests : ApiBaseControllerTests
         if (Ideas.Count >= (page * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<Idea>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
             result.Should().HaveCount(maxPageSize);
         }
         else if (Ideas.Count < (page * maxPageSize) &&
             Ideas.Count > ((page - 1) * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<Idea>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
             result.Should().HaveCount(Ideas.Count - ((page - 1) * maxPageSize));
         }
         else
@@ -68,7 +68,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
         }
     }
     [Fact]
-    public async Task IdeasController_GetIdeaEndpoint_ReturnsIdea()
+    public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()
     {
         //Arrange
         int id = Ideas[0].Id;
@@ -76,7 +76,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<Idea>();
+        var result = await response.Content.ReadFromJsonAsync<IdeaDtoApi>();
 
         //Assert
         response.Should().BeSuccessful();
