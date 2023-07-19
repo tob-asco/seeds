@@ -36,7 +36,7 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("Key");
 
-                    b.ToTable("categories");
+                    b.ToTable("categories", (string)null);
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
@@ -57,7 +57,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("Username");
 
-                    b.ToTable("category_user");
+                    b.ToTable("category_user", (string)null);
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
@@ -112,7 +112,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("CreatorName");
 
-                    b.ToTable("ideas");
+                    b.ToTable("ideas", (string)null);
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -137,7 +137,7 @@ namespace seeds.Api.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.UserIdeaInteraction", b =>
@@ -162,7 +162,7 @@ namespace seeds.Api.Migrations
 
                     b.HasIndex("IdeaId");
 
-                    b.ToTable("user_idea");
+                    b.ToTable("user_idea", (string)null);
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>

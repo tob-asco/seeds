@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using seeds.Api.Controllers;
 using seeds.Dal.Model;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
@@ -207,6 +208,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         var putResponse = await _httpClient.PutAsync(url, content);
 
         //Assert
+        putResponse.Should().HaveStatusCode(HttpStatusCode.NotFound);
         putResponse.IsSuccessStatusCode.Should().Be(false);
     }
 

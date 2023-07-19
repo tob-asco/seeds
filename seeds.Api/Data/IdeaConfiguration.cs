@@ -11,7 +11,7 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
         #region Relations
         // Idea : Cat = N : 1
         // setup in CategoryConfiguration
-        
+
         // User : Idea = 1 : N (maybe make N:M for idea collaborations)
         builder.HasOne(i => i.Creator)
             .WithMany(u => u.CreatedIdeas)

@@ -57,9 +57,7 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         }
     }
 
-
     #region Unit Testing
-
     [Fact]
     public async Task CatUserPrefencesController_GetCatUserPreferenceAsync_ReturnsItself()
     {
@@ -76,7 +74,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         cup.Username.Should().Be(username);
         cup.CategoryKey.Should().Be(key);
     }
-
     [Fact]
     public async Task CatUserPrefencesController_GetCatUserPreferenceAsync_IfNotExistReturnsNotFound()
     {
@@ -91,7 +88,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         var actionResult = Assert.IsType<ActionResult<CategoryUserPreference>>(result);
         actionResult.Result.Should().BeOfType<NotFoundResult>();
     }
-
     //not working "entity with key value pair already being tracked" error
     //[Fact]
     //public async Task CatUserPrefencesController_PutCatUserPreferenceAsync_ReturnsSuccess()
@@ -116,7 +112,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
 
     #endregion
     #region Enpoint Testing
-
     [Fact]
     public async Task CatUserPrefencesController_GetEndpoint_ReturnsItself()
     {
@@ -135,7 +130,6 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         result?.CategoryKey.Should().Be(key);
         result?.Username.Should().Be(username);
     }
-
     [Fact]
     public async Task CatUserPrefencesController_PutEndpoint_UpdatesDb()
     {
@@ -165,6 +159,5 @@ public class CatUserPreferencesControllerTests : ApiBaseControllerTests
         getResult.Should().NotBeNull();
         getResult?.Value.Should().Be(val);
     }
-
     #endregion
 }
