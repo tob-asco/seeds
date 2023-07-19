@@ -10,5 +10,7 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<IdeaDtoApi, Idea>();
         CreateMap<Idea, IdeaDtoApi>();
+        CreateMap<User, UserDtoApi>();
+        CreateMap<UserDtoApi, User>();
     }
 }
