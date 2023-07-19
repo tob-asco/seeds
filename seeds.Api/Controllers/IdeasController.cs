@@ -85,12 +85,14 @@ public class IdeasController : ControllerBase
     // PUT: api/Ideas/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutIdea(int id, Idea idea)
+    public async Task<IActionResult> PutIdea(int id, IdeaDtoApi ideaDto)
     {
-        if (id != idea.Id)
+        if (id != ideaDto.Id)
         {
             return BadRequest();
         }
+
+        var idea = _mapper.Map<Idea>(ideaDto);
 
         _context.Entry(idea).State = EntityState.Modified;
 
