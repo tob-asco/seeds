@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Model;
+﻿using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,5 @@ namespace seeds.Dal.Interfaces;
 
 public interface ICategoryService
 {
-    public Task<Category?> GetCategoryByKeyAsync(string categoryKey);
+    public Task<CategoryDtoApi?> GetCategoryByKeyAsync(string categoryKey);
 }

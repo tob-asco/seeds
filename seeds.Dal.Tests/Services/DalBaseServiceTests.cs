@@ -43,7 +43,7 @@ public class DalBaseServiceTests
     [Theory]
     [InlineData(typeof(UserDtoApi))]
     [InlineData(typeof(IdeaDtoApi))]
-    [InlineData(typeof(Category))]
+    [InlineData(typeof(CategoryDtoApi))]
     [InlineData(typeof(CategoryUserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
     [InlineData(typeof(int))]
