@@ -35,11 +35,13 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryVM>();
+        builder.Services.AddTransient<PreferencesViewModel>();
 
         //It's mandatory to register also the pages where we DI the VMs!
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
+        builder.Services.AddTransient<PreferencesPage>();
 
 
         /******************* auto-generated ********************/
