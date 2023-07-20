@@ -6,7 +6,7 @@
              x:DataType="local:PreferencesViewModel"
              Title="Preferences">
     <CollectionView
-        ItemsSource="{Binding Cats}"
+        ItemsSource="{Binding CatPreferences}"
         >
         <CollectionView.ItemTemplate>
             <DataTemplate>

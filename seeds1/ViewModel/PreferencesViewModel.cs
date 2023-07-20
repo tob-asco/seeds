@@ -1,5 +1,6 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
+using seeds1.MauiModels;
 using System.Collections.ObjectModel;
 
 namespace seeds1.ViewModel;
@@ -12,7 +13,7 @@ public partial class PreferencesViewModel : BasisViewModel
     private readonly ICategoryUserPreferenceService cupService;
 
     [ObservableProperty]
-    ObservableCollection<CategoryDtoApi> cats;
+    ObservableCollection<CatPreference> catPreferences;
 
     public PreferencesViewModel(
         ICategoryService catService,
