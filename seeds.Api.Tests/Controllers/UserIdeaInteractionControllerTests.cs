@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using seeds.Api.Controllers;
 using seeds.Dal.Model;
 using System.Net;
@@ -13,6 +12,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     public List<User> Users { get; } = new();
     public List<Idea> Ideas { get; } = new();
     public List<UserIdeaInteraction> Uiis { get; } = new();
+    private readonly int existingUiiUsernameAndIdeaId = 3;
     private readonly int noUiiUsernameAndIdeaId = 4;
 
     public UserIdeaInteractionControllerTests()
@@ -42,14 +42,9 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
         Uiis.Add(new UserIdeaInteraction()
         {
-            Username = Users[0].Username,
-            IdeaId = Ideas[3].Id,
+            Username = Users[existingUiiUsernameAndIdeaId].Username,
+            IdeaId = Ideas[existingUiiUsernameAndIdeaId].Id,
             Upvoted = true,
-        });
-        Uiis.Add(new UserIdeaInteraction()
-        {
-            Username = Users[3].Username,
-            IdeaId = Ideas[0].Id,
             Downvoted = true,
         });
         if (!_context.UserIdeaInteraction.Any())
@@ -59,93 +54,15 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         var uii = _context.UserIdeaInteraction.Find(
             Users[noUiiUsernameAndIdeaId].Username,
             Ideas[noUiiUsernameAndIdeaId].Id);
-        if (uii != null)
-        {
-            _context.UserIdeaInteraction.Remove(uii);
-        }
+        if (uii != null) { _context.UserIdeaInteraction.Remove(uii); }
     }
 
-    #region Unit Testing
-    [Fact]
-    public async Task UiiController_GetUii_ReturnsItself()
-    {
-        // Arrange
-        string username = Users[0].Username;
-        int ideaId = Ideas[3].Id;
-
-        // Act
-        var result = await _controller.GetUserIdeaInteraction(username, ideaId);
-
-        // Assert
-        var actionResult = Assert.IsType<ActionResult<UserIdeaInteraction>>(result);
-        var uii = Assert.IsAssignableFrom<UserIdeaInteraction>(actionResult.Value);
-        uii.Should().NotBeNull();
-        uii?.Username.Should().Be(username);
-        uii?.IdeaId.Should().Be(ideaId);
-    }
-    [Fact]
-    public async Task UiiController_GetUii_IfNotExistReturnsNotFound()
-    {
-        // Arrange
-        string username = Users[noUiiUsernameAndIdeaId].Username;
-        int ideaId = Ideas[noUiiUsernameAndIdeaId].Id;
-
-        // Act
-        var result = await _controller.GetUserIdeaInteraction(username, ideaId);
-
-        // Assert
-        var actionResult = Assert.IsType<ActionResult<UserIdeaInteraction>>(result);
-        actionResult.Result.Should().BeOfType<NotFoundResult>();
-    }
-    [Fact]
-    public async Task UiiController_PostUii_ReturnsItself()
-    {
-        //Arrange
-        UserIdeaInteraction uii = new()
-        {
-            Username = Users[4].Username,
-            IdeaId = Ideas[3].Id,
-            Upvoted = true,
-        };
-        //Act
-        var result = await _controller.PostUserIdeaInteraction(uii);
-
-        //Assert
-        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-        var postedUii = Assert.IsType<UserIdeaInteraction>(actionResult.Value);
-        postedUii.Should().BeEquivalentTo(uii);
-    }
-    /* Error: "The instance of entity type 'UserIdeaInteraction' cannot be tracked
-     * because another instance with the same key value for {'Username', 'IdeaId'}
-     * is already being tracked."
-     */
-    //[Fact]
-    //public async Task UiiController_PostUii_IfExistsReturnsConflict()
-    //{
-    //    //Arrange
-    //    UserIdeaInteraction uii = new()
-    //    {
-    //        Username = Users[0].Username,
-    //        IdeaId = Ideas[3].Id,
-    //        Upvoted = true,
-    //    };
-
-    //    //Act
-    //    var result = await _controller.PostUserIdeaInteraction(uii);
-
-    //    //Assert
-    //    var actionResult = Assert.IsType<ActionResult<UserIdeaInteraction>>(result);
-    //    actionResult.Result.Should().BeOfType<ConflictResult>();
-    //}
-
-    #endregion
-    #region Endpoint Testing
     [Fact]
     public async Task UiiController_GetEndpoint_ReturnsItself()
     {
         //Arrange
-        string username = Users[3].Username;
-        int ideaId = Ideas[0].Id;
+        string username = Users[existingUiiUsernameAndIdeaId].Username;
+        int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
         string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
 
         //Act
@@ -158,37 +75,41 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         result?.Username.Should().Be(username);
         result?.IdeaId.Should().Be(ideaId);
     }
-    [Theory]
-    [InlineData(false,false)]
-    [InlineData(false,true)]
-    [InlineData(true,true)]
-    public async Task UiiController_PutEndpoint_UpdatedDb(bool up, bool down)
+    [Fact]
+    public async Task UiiController_GetEndpoint_IfNotExistReturnsNotFound()
+    {
+        // Arrange
+        string username = Users[noUiiUsernameAndIdeaId].Username;
+        int ideaId = Ideas[noUiiUsernameAndIdeaId].Id;
+        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+
+        // Act
+        var response = await _httpClient.GetAsync(url);
+
+        // Assert
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+    }
+    [Fact]
+    public async Task UiiController_PutEndpoint_ReturnsSuccessAndUpdatesDb()
     {
         //Arrange
-        string username = Users[3].Username;
-        int ideaId = Ideas[0].Id;
+        string username = Users[existingUiiUsernameAndIdeaId].Username;
+        int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
         UserIdeaInteraction uii = new()
         {
             Username = username,
             IdeaId = ideaId,
-            Upvoted = up,
-            Downvoted = down,
+            Upvoted = false,
+            Downvoted = true,
         };
         string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
-        var content = JsonContent.Create(uii);
 
         //Act
-        var putResponse = await _httpClient.PutAsync(url, content);
-        var getResponse = await _httpClient.GetAsync(url);
-        var getResult = await getResponse.Content
-            .ReadFromJsonAsync<UserIdeaInteraction>();
+        var response = await _httpClient.PutAsync(url,JsonContent.Create(uii));
 
         //Assert
-        putResponse.Should().BeSuccessful();
-        getResponse.Should().BeSuccessful();
-        getResult.Should().NotBeNull();
-        getResult?.Upvoted.Should().Be(up);
-        getResult?.Downvoted.Should().Be(down);
+        response.Should().BeSuccessful();
+        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
     public async Task UiiController_PutEndpoint_IfNotExistReturnsNotFound()
@@ -202,15 +123,104 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             IdeaId = ideaId,
         };
         string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
-        var content = JsonContent.Create(uii);
 
         //Act
-        var putResponse = await _httpClient.PutAsync(url, content);
+        var response = await _httpClient.PutAsync(url, JsonContent.Create(uii));
 
         //Assert
-        putResponse.Should().HaveStatusCode(HttpStatusCode.NotFound);
-        putResponse.IsSuccessStatusCode.Should().Be(false);
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
+    [Fact]
+    public async Task UiiController_PostEndpoint_ReturnsSuccessAndUpdatesDb()
+    {
+        //Arrange
+        UserIdeaInteraction uii = new()
+        {
+            Username = Users[noUiiUsernameAndIdeaId].Username,
+            IdeaId = Ideas[noUiiUsernameAndIdeaId].Id,
+            Upvoted = true,
+        };
+        string url = "api/UserIdeaInteractions";
 
-    #endregion
+        //Act
+        var response = await _httpClient.PostAsync(url, JsonContent.Create(uii));
+
+        //Assert
+        response.Should().BeSuccessful();
+        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
+    }
+    [Fact]
+    public async Task UiiController_PostEndpoint_IfExistsReturnsConflict()
+    {
+        //Arrange
+        UserIdeaInteraction uii = new()
+        {
+            Username = Users[existingUiiUsernameAndIdeaId].Username,
+            IdeaId = Ideas[existingUiiUsernameAndIdeaId].Id,
+            Upvoted = true,
+        };
+        string url = "api/UserIdeaInteractions";
+
+        //Act
+        var response = await _httpClient.PostAsync(url, JsonContent.Create(uii));
+
+        //Assert
+        response.Should().HaveStatusCode(HttpStatusCode.Conflict);
+    }
+    [Fact]
+    public async Task UiiController_CountUpvotesEndpoint_ReturnsCorrectUpvoteCount()
+    {
+        //Arrange
+        int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
+        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+        var result = await response.Content.ReadFromJsonAsync<int>();
+
+        //Assert
+        response.Should().BeSuccessful();
+        result.Should().Be(1);
+    }
+    [Fact]
+    public async Task UiiController_CountUpvotesEndpoint_IfNotExistReturnsNotFound()
+    {
+        //Arrange
+        int ideaId = -1;
+        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+    }
+    [Fact]
+    public async Task UiiController_CountDownvotesEndpoint_ReturnsCorrectDownvotesCount()
+    {
+        //Arrange
+        int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
+        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+        var result = await response.Content.ReadFromJsonAsync<int>();
+
+        //Assert
+        response.Should().BeSuccessful();
+        result.Should().Be(1);
+    }
+    [Fact]
+    public async Task UiiController_CountDownvotesEndpoint_IfNotExistReturnsNotFound()
+    {
+        //Arrange
+        int ideaId = -1;
+        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+    }
 }

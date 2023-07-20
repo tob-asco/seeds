@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using seeds.Api.Controllers;
-using seeds.Api.Data;
-using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;

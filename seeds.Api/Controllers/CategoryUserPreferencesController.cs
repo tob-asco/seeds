@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
@@ -23,7 +18,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/CategoryUserPreferences/NoC/tobi
         [HttpGet("{categoryKey}/{username}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreferenceAsync(string categoryKey, string username)
+        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(string categoryKey, string username)
         {
             try
             {
@@ -39,7 +34,7 @@ namespace seeds.Api.Controllers
         // PUT: api/CategoryUserPreferences/NoC/tobi
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{categoryKey}/{username}")]
-        public async Task<IActionResult> PutCategoryUserPreferenceAsync(
+        public async Task<IActionResult> PutCategoryUserPreference(
             string categoryKey,
             string username,
             CategoryUserPreference cup)

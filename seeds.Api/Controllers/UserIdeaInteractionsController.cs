@@ -18,7 +18,8 @@ namespace seeds.Api.Controllers
 
         // GET: api/UserIdeaInteractions/tobi/0
         [HttpGet("{username}/{ideaId}")]
-        public async Task<ActionResult<UserIdeaInteraction>> GetUserIdeaInteraction(string username, int ideaId)
+        public async Task<ActionResult<UserIdeaInteraction>> GetUserIdeaInteraction(
+            string username, int ideaId)
         {
             // uii's need not exist in the DB. The first interaction will post the uii.
             if (_context.UserIdeaInteraction != null && UserIdeaInteractionExists(username, ideaId))
@@ -50,7 +51,7 @@ namespace seeds.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserIdeaInteractionExists(username,ideaId))
+                if (!UserIdeaInteractionExists(username, ideaId))
                 {
                     return NotFound();
                 }
@@ -66,7 +67,8 @@ namespace seeds.Api.Controllers
         // POST: api/UserIdeaInteractions
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserIdeaInteraction>> PostUserIdeaInteraction(UserIdeaInteraction uii)
+        public async Task<ActionResult<UserIdeaInteraction>> PostUserIdeaInteraction(
+            UserIdeaInteraction uii)
         {
             if (_context.UserIdeaInteraction == null)
             {
@@ -77,7 +79,7 @@ namespace seeds.Api.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch //(DbUpdateException)
             {
                 if (UserIdeaInteractionExists(uii.Username, uii.IdeaId))
                 {
@@ -88,7 +90,6 @@ namespace seeds.Api.Controllers
                     throw;
                 }
             }
-
             return CreatedAtAction(
                 "GetUserIdeaInteraction",
                 new { username = uii.Username, ideaId = uii.IdeaId },
@@ -104,7 +105,8 @@ namespace seeds.Api.Controllers
         [HttpGet("{ideaId}/upvotes")]
         public async Task<ActionResult<int>> CountUpvotes(int ideaId)
         {
-            if (_context.UserIdeaInteraction != null)
+            if (_context.UserIdeaInteraction != null &&
+                (_context.Idea?.Any(e => e.Id == ideaId)).GetValueOrDefault())
             {
                 return await _context.UserIdeaInteraction.CountAsync(uii =>
                     uii.IdeaId == ideaId && uii.Upvoted == true);
@@ -114,7 +116,8 @@ namespace seeds.Api.Controllers
         [HttpGet("{ideaId}/downvotes")]
         public async Task<ActionResult<int>> CountDownvotes(int ideaId)
         {
-            if (_context.UserIdeaInteraction != null)
+            if (_context.UserIdeaInteraction != null &&
+                (_context.Idea?.Any(e => e.Id == ideaId)).GetValueOrDefault())
             {
                 return await _context.UserIdeaInteraction.CountAsync(uii =>
                     uii.IdeaId == ideaId && uii.Downvoted == true);

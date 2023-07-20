@@ -39,7 +39,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     [InlineData(1, 10)] // MaxPageSize length
     [InlineData(4, 7)] // At least one
     [InlineData(5, 10)] // None
-    public async Task IdeasController_GetPaginatedEndpoint_ReturnsListOfSizeEitherMaxOrAtLeastOneOrNotFound(
+    public async Task IdeasController_GetPaginatedEndpoint_ReturnsListOfCorrectSizeOrNotFound(
         int page, int maxPageSize)
     {
         //Arrange

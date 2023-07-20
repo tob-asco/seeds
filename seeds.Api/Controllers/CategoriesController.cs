@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
@@ -29,7 +24,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryDtoApi>>> GetCategoriesAsync()
+        public async Task<ActionResult<IEnumerable<CategoryDtoApi>>> GetCategories()
         {
             if (_context.Category == null)
             {
@@ -42,7 +37,7 @@ namespace seeds.Api.Controllers
 
         // GET: api/Categories/NoC
         [HttpGet("{categoryKey}")]
-        public async Task<ActionResult<CategoryDtoApi>> GetCategoryAsync(string categoryKey)
+        public async Task<ActionResult<CategoryDtoApi>> GetCategory(string categoryKey)
         {
             if (_context.Category == null)
             {
@@ -54,7 +49,6 @@ namespace seeds.Api.Controllers
                 return NotFound();
             }
             var categoryDto = mapper.Map<CategoryDtoApi>(category);
-
             return categoryDto;
         }
     }
