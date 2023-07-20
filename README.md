@@ -1,4 +1,8 @@
-# seeds
+# seeds - Humanity's Database of Creativity
+## TODOs
+- [ ] test MAUI Services
+- [ ] test `CategoriesController.GetCategoriesAsync`
+- [ ] create CurrentUser singleton
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
