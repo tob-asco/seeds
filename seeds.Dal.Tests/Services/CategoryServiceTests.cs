@@ -1,6 +1,5 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
 using seeds.Dal.Services;
 
 namespace seeds.Dal.Tests.Services;
@@ -16,7 +15,7 @@ public class CategoryServiceTests
     }
 
     [Fact]
-    public async Task CatService_GetCatByKeyAsync_ReturnsCategory()
+    public async Task CatService_GetCatByKeyAsync_ReturnsItself()
     {
         // Arrange
         string key = "ABC";

@@ -22,7 +22,7 @@ public class IdeasServiceTests
         _service = new IdeasService(_baseService);
     }
     [Fact]
-    public async void IdeasService_GetIdeaAsync_ReturnsIdea()
+    public async void IdeasService_GetIdeaAsync_ReturnsItself()
     {
         // Arrange
         int id = 1;
@@ -46,13 +46,13 @@ public class IdeasServiceTests
             .Returns<IdeaDtoApi?>(null);
 
         // Act
-        var result = await _service.GetIdeaAsync(1);
+        var result = await _service.GetIdeaAsync(1); //"1" doesn't matter
 
         // Assert
         result.Should().BeNull();
     }
     [Fact]
-    public async void IdeasService_GetIdeasPaginatedAsync_ReturnsSameIdeas()
+    public async void IdeasService_GetIdeasPaginatedAsync_ReturnsAllItselfs()
     {
         #region Arrange
         int page = 2; int maxPageSize = 10;

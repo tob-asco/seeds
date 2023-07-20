@@ -2,9 +2,7 @@
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
-using System;
 using System.Net;
-using System.Net.Http.Json;
 
 namespace seeds.Dal.Tests.Services;
 
@@ -46,8 +44,8 @@ public class DalBaseServiceTests
     [InlineData(typeof(CategoryDtoApi))]
     [InlineData(typeof(CategoryUserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
-    [InlineData(typeof(int))]
-    public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(Type T)
+    public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(
+        Type T)
     {
         // Arrange
         var response = new HttpResponseMessage
@@ -71,16 +69,21 @@ public class DalBaseServiceTests
             .GetProperty("Result")?.GetValue(task);
 
         // Assert
-        if (T == typeof(int)) { result.Should().Be(0); }
-        else { result.Should().BeNull(); }
+        result.Should().BeNull();
     }
     [Theory]
     [InlineData(HttpStatusCode.Conflict)]
     [InlineData(HttpStatusCode.BadGateway)]
     [InlineData(HttpStatusCode.Forbidden)]
     [InlineData(HttpStatusCode.GatewayTimeout)]
-    public async Task DalBaseService_GetDalModelAsync_IfNon404ErrorThrows(HttpStatusCode code)
+    public async Task DalBaseService_GetDalModelAsync_IfNon404ErrorThrows(
+        HttpStatusCode code)
     {
+        /* Important behaviour because we use GetDalModelAsync() also
+         * on datatypes that do not have null as default.
+         * E.g. int has default(int)=0 and it would be very bad to interpret
+         * this 0 as an actual count result.
+         */
         // Arrange
         var response = new HttpResponseMessage
         {
@@ -97,7 +100,6 @@ public class DalBaseServiceTests
         await act1.Should().ThrowAsync<Exception>();
         await act2.Should().ThrowAsync<Exception>();
     }
-
     [Fact]
     public async Task DalBaseService_PutDalModelAsync_ReturnsTrue()
     {
@@ -156,7 +158,7 @@ public class DalBaseServiceTests
         result.Should().BeTrue();
     }
     [Fact]
-    public async Task DalBaseService_PostDalModelAsync_IfBadStatusCodeReturnsFalse()
+    public async Task DalBaseService_PostDalModelAsync_IfConflictReturnsFalse()
     {
         // Arrange
         string url = "";

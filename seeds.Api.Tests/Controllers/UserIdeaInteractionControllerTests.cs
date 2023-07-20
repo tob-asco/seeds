@@ -150,7 +150,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
-    public async Task UiiController_PostEndpoint_IfExistsReturnsConflict()
+    public async Task UiiController_PostEndpoint_IfExistReturnsConflict()
     {
         //Arrange
         UserIdeaInteraction uii = new()

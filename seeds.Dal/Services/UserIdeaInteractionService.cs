@@ -12,13 +12,13 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
     {
         _baseService = baseService;
     }
+
     public async Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username, int ideaId)
     {
         string url = $"api/UserIdeaInteractions/{username}/{ideaId}";
         return await _baseService.GetDalModelAsync<UserIdeaInteraction>(url);
     }
-
     public async Task<bool> PutUserIdeaInteractionAsync(string username, int ideaId, bool newUpvoted, bool newDownvoted)
     {
         string url = $"api/UserIdeaInteractions/{username}/{ideaId}";

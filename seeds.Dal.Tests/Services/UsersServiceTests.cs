@@ -1,15 +1,6 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
 using seeds.Dal.Services;
-using seeds.Dal.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace seeds.Dal.Tests.Services;
 
@@ -23,7 +14,7 @@ public class UsersServiceTests
         _service = new UsersService(_baseService);
     }
     [Fact]
-    public async Task UsersService_GetUsersAsync_ReturnsUsers()
+    public async Task UsersService_GetUsersAsync_ReturnsItselfs()
     {
         #region Arrange
         string uname1 = "tobi1"; string uname2 = "tobi2";
@@ -59,7 +50,7 @@ public class UsersServiceTests
         result.Should().BeNull();
     }
     [Fact]
-    public async Task UsersService_GetUserByUsernameAsync_ReturnsUser()
+    public async Task UsersService_GetUserByUsernameAsync_ReturnsItself()
     {
         // Arrange
         string uname = "tobi1";

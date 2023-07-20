@@ -16,7 +16,7 @@ public class CatUserPreferenceServiceTests
         _service = new CategoryUserPreferenceService(_baseService);
     }
     [Fact]
-    public async Task CupService_GetCupAsync_ReturnsCup()
+    public async Task CupService_GetCupAsync_ReturnsItself()
     {
         #region Arrange
         string key = "ABC";

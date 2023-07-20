@@ -15,6 +15,7 @@ public class DalBaseService : IDalBaseService
     {
         HttpClientWrapper = httpClientWrapper;
     }
+
     public async Task<T?> GetDalModelAsync<T>(string url)
     {
         try

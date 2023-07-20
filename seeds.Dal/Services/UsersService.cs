@@ -1,7 +1,5 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
-using seeds.Dal.Wrappers;
 
 namespace seeds.Dal.Services;
 

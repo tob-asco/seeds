@@ -14,7 +14,7 @@ public class UserIdeaInteractionServiceTests
         _service = new(_baseService);
     }
     [Fact]
-    public async Task UiiService_GetUiiAsync_ReturnsUii()
+    public async Task UiiService_GetUiiAsync_ReturnsItself()
     {
         #region Arrange
         string uname = "dude";
@@ -46,7 +46,7 @@ public class UserIdeaInteractionServiceTests
             .Returns<UserIdeaInteraction?>(null);
 
         // Act
-        var result = await _service.GetUserIdeaInteractionAsync("N0C",0);
+        var result = await _service.GetUserIdeaInteractionAsync("N0C", 0);
 
         // Assert
         result.Should().BeNull();
@@ -86,5 +86,142 @@ public class UserIdeaInteractionServiceTests
 
         // Assert
         result.Should().Be(false);
+    }
+    [Fact]
+    public async Task UiiService_PostUiiAsync_ReturnsTrue()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(true);
+
+        // Act
+        var result = await _service.PostUserIdeaInteractionAsync(new());
+
+        // Assert
+        result.Should().Be(true);
+    }
+    [Fact]
+    public async Task UiiService_PostUiiAsync_IfNotSuccessReturnsFalse()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(false);
+
+        // Act
+        var result = await _service.PostUserIdeaInteractionAsync(new());
+
+        // Assert
+        result.Should().Be(false);
+    }
+    [Fact]
+    public async Task UiiService_PostOrPutUiiAsync_IfExistReturnsTrue()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(false);
+        A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(true);
+
+        // Act
+        var result = await _service.PostOrPutUserIdeaInteractionAsync(new());
+
+        // Assert
+        result.Should().Be(true);
+    }
+    [Fact]
+    public async Task UiiService_PostOrPutUiiAsync_IfNotFoundReturnsTrue()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(true);
+        A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(false);
+
+        // Act
+        var result = await _service.PostOrPutUserIdeaInteractionAsync(new());
+
+        // Assert
+        result.Should().Be(true);
+    }
+    [Fact]
+    public async Task UiiService_PostOrPutUiiAsync_IfErrorReturnsFalse()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(false);
+        A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(
+            A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
+            .Returns(false);
+
+        // Act
+        var result = await _service.PostOrPutUserIdeaInteractionAsync(new());
+
+        // Assert
+        result.Should().Be(false);
+    }
+    [Fact]
+    public async Task UiiService_CountVotesAsync_ReturnsCorrectVotes()
+    {
+        // Arrange
+        int ideaId = 1;
+        int upvotes = 7;
+        int downvotes = 2;
+        string upvotesUrl = $"api/UserIdeaInteractions/{ideaId}/upvotes";
+        string downvotesUrl = $"api/UserIdeaInteractions/{ideaId}/downvotes";
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(upvotesUrl))
+            .Returns(upvotes);
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(downvotesUrl))
+            .Returns(downvotes);
+
+        // Act
+        var result = await _service.CountVotesAsync(ideaId);
+
+        // Assert
+        result.Should().Be(upvotes - downvotes);
+    }
+    [Fact]
+    public async Task UiiService_CountVotesAsync_IfUpvoteGetErrorThrows()
+    {
+        // Arrange
+        int ideaId = 1;
+        int downvotes = 2;
+        string upvotesUrl = $"api/UserIdeaInteractions/{ideaId}/upvotes";
+        string downvotesUrl = $"api/UserIdeaInteractions/{ideaId}/downvotes";
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(upvotesUrl))
+            .Throws<Exception>();
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(downvotesUrl))
+            .Returns(downvotes);
+
+        // Act
+        Func<Task> act = async () => await _service.CountVotesAsync(ideaId);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task UiiService_CountVotesAsync_IfDownvoteGetErrorThrows()
+    {
+        // Arrange
+        int ideaId = 1;
+        int upvotes = 7;
+        string upvotesUrl = $"api/UserIdeaInteractions/{ideaId}/upvotes";
+        string downvotesUrl = $"api/UserIdeaInteractions/{ideaId}/downvotes";
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(upvotesUrl))
+            .Returns(upvotes);
+        A.CallTo(() => _baseService.GetDalModelAsync<int>(downvotesUrl))
+            .Throws<Exception>();
+
+        // Act
+        Func<Task> act = async () => await _service.CountVotesAsync(ideaId);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
     }
 }
