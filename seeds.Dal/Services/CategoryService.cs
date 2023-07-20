@@ -9,6 +9,12 @@ public class CategoryService : ICategoryService
     {
         _baseService = baseService;
     }
+    public async Task<List<CategoryDtoApi>?> GetCategoriesAsync()
+    {
+        string url = $"api/Categories";
+        var r = await _baseService.GetDalModelAsync<List<CategoryDtoApi>>(url);
+        return r;
+    }
     public async Task<CategoryDtoApi?> GetCategoryByKeyAsync(string categoryKey)
     {
         string url = $"api/Categories/{categoryKey}";

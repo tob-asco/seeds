@@ -10,5 +10,6 @@ namespace seeds.Dal.Interfaces;
 
 public interface ICategoryService
 {
+    public Task<List<CategoryDtoApi>?> GetCategoriesAsync();
     public Task<CategoryDtoApi?> GetCategoryByKeyAsync(string categoryKey);
 }
