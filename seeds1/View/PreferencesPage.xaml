@@ -12,7 +12,11 @@
         >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="mauiModel:CatPreference">
+                <FlexLayout>
                 <Button
+                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, 
+                            Path=ChangeCategoryPreferenceCommand}"
+                            CommandParameter="{Binding Key}"
                         >
                     <Button.Text>
                         <MultiBinding Converter="{converter:CatBtnTextConverter}"
@@ -29,7 +33,7 @@
                                 Path="Value"
                                  />
                     </Button.Style>
-                </Button>
+                </Button></FlexLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
