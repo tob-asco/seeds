@@ -6,7 +6,7 @@ namespace seeds1.View;
 public partial class FeedPage : ContentPage
 {
     private readonly INavigationService navigationService;
-    private FeedViewModel _vm;
+    private FeedViewModel vm;
     public FeedPage(
         //FeedViewModel vm,
         INavigationService navigationService)
@@ -22,18 +22,23 @@ public partial class FeedPage : ContentPage
     {
         base.OnNavigatedTo(args);
 
-        if (_vm == null || BindingContext == null ||
+        if (vm == null || BindingContext == null ||
             navigationService.RedrawNavigationTarget == true)
         {
             // create a new instance of the VM w/o calling its constructor:
-            _vm = Application.Current.Handler.MauiContext.Services.GetService<FeedViewModel>();
-            BindingContext = _vm;
-            if(_vm.FeedEntryVMCollection == null || 
-                _vm.FeedEntryVMCollection?.Count == 0)
+            vm = Application.Current.Handler.MauiContext.Services.GetService<FeedViewModel>();
+            BindingContext = vm;
+            if(vm.FeedEntryVMCollection == null || 
+                vm.FeedEntryVMCollection?.Count == 0)
             {
-                await _vm.CollectFeedEntriesPaginated();
+                await vm.CollectFeedEntriesPaginated();
             }
             navigationService.RedrawNavigationTarget = false;
+        }
+        
+        if (vm != null)
+        {
+            await vm.LoadCatPreferencesFromDbAsync();
         }
     }
 }

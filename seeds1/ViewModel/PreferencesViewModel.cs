@@ -28,7 +28,6 @@ public partial class PreferencesViewModel : BasisViewModel
     {
         /* Called also in OnNavigatedTo()
          */
-        catPrefService.CurrentUser = CurrentUser;
         try
         {
             var catPrefs = await catPrefService.GetCatPreferencesAsync();

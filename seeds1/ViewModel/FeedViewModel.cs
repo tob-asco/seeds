@@ -105,4 +105,21 @@ public partial class FeedViewModel : BasisViewModel
             }
         }
     }
+
+    public async Task LoadCatPreferencesFromDbAsync()
+    {
+        var catPrefs = await catPrefService.GetCatPreferencesAsync();
+        Dictionary<string, int> catPrefsDict = new();
+        foreach (var catPref in catPrefs)
+        {
+            catPrefsDict.Add(catPref.Key, catPref.Value);
+        }
+
+        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
+        {
+            FeedEntryVMCollection[i].FeedEntry
+                .CategoryPreference = catPrefsDict[FeedEntryVMCollection[i]
+                .FeedEntry.Idea.CategoryKey];
+        }
+    }
 }
