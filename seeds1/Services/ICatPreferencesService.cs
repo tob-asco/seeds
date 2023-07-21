@@ -5,7 +5,6 @@ namespace seeds1.Services;
 
 public interface ICatPreferencesService
 {
-    public UserDtoApi CurrentUser { get; set; }
     public Task<IEnumerable<CatPreference>> GetCatPreferencesAsync();
     public int StepCatPreference(int oldPreference);
 }

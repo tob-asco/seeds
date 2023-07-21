@@ -6,14 +6,16 @@ namespace seeds1.Services;
 
 public class CatPreferencesService : ICatPreferencesService
 {
+    private readonly IGlobalVmService globalService;
     private readonly ICategoryService categoryService;
     private readonly ICategoryUserPreferenceService cupService;
 
-    public UserDtoApi CurrentUser { get; set; }
     public CatPreferencesService(
+        IGlobalVmService globalService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService cupService)
     {
+        this.globalService = globalService;
         this.categoryService = categoryService;
         this.cupService = cupService;
     }
@@ -27,7 +29,7 @@ public class CatPreferencesService : ICatPreferencesService
             try
             {
                 var cup = await cupService.GetCategoryUserPreferenceAsync(
-                    cat.Key, CurrentUser.Username);
+                    cat.Key, globalService.CurrentUser.Username);
                 catPrefs.Add(new()
                 {
                     Key = cat.Key,
