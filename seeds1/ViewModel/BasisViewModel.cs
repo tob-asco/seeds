@@ -1,12 +1,11 @@
 ﻿using seeds.Dal.Dto.ToApi;
-using seeds.Dal.Model;
 using seeds1.Services;
 
 namespace seeds1.ViewModel;
 
 public partial class BasisViewModel : ObservableObject //partial because of source generation
 {
-    public bool RedrawPage { get; set; } = false;
+    private readonly IGlobalVmService globalService;
     public UserDtoApi CurrentUser
     {
         get => globalService.CurrentUser;
@@ -19,7 +18,6 @@ public partial class BasisViewModel : ObservableObject //partial because of sour
     [ObservableProperty] //Source generator
     [NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
     bool isBusy;
-    private readonly IGlobalVmService globalService;
 
     public bool IsNotBusy => !IsBusy;
 

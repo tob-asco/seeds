@@ -6,7 +6,6 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-[QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
 public partial class FeedViewModel : BasisViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 10;
@@ -15,7 +14,7 @@ public partial class FeedViewModel : BasisViewModel
     private readonly IIdeasService _ideasService;
     private readonly ICategoryUserPreferenceService _cupService;
     [ObservableProperty]
-    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
+    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
 
     public FeedViewModel(
         IGlobalVmService globalService,
@@ -29,7 +28,6 @@ public partial class FeedViewModel : BasisViewModel
         _uiiService = uiiService;
         _ideasService = ideasService;
         _cupService = cupService;
-        FeedEntryVMCollection = new();
     }
 
     [RelayCommand]

@@ -47,11 +47,12 @@ public partial class LoginViewModel : BasisViewModel
             {
                 // Login
                 CurrentUser = user;
+                _navigationService.RedrawNavigationTarget = true;
                 // pass full user object, not just username
                 var navParameters = new Dictionary<string, object>
                 {
                     //{ nameof(CurrentUser), user },
-                    { nameof(RedrawPage), true }
+                    //{ nameof(RedrawPage), true }
                 };
 
                 //the amount of "/" to prepend depends on the shell's design
