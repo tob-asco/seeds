@@ -14,6 +14,9 @@
     <FlyoutItem Title="Feed">
         <ShellContent ContentTemplate="{DataTemplate local:View.FeedPage}" Route="FeedPage" />
     </FlyoutItem>
+    <FlyoutItem Title="Preferences">
+        <ShellContent ContentTemplate="{DataTemplate local:View.PreferencesPage}" Route="PreferencePage" />
+    </FlyoutItem>
 
     <MenuFlyoutItem Text="Logout"
               Command="{Binding LogoutCommand}"/>
