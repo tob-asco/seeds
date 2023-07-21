@@ -1,14 +1,11 @@
 ﻿using MvvmHelpers;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
-using seeds1.MauiModels;
 using seeds1.Services;
-using System.ComponentModel;
 
 namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
-[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
+//[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 [QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
 public partial class FeedViewModel : BasisViewModel
 {
@@ -21,10 +18,12 @@ public partial class FeedViewModel : BasisViewModel
     ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
 
     public FeedViewModel(
+        IGlobalVmService globalService,
         IFeedEntriesService feedEntryService,
         IUserIdeaInteractionService uiiService,
         IIdeasService ideasService,
         ICategoryUserPreferenceService cupService)
+        : base(globalService)
     {
         _feedEntriesService = feedEntryService;
         _uiiService = uiiService;

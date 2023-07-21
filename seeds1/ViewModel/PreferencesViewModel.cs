@@ -1,31 +1,40 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using MvvmHelpers;
+using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
 using seeds1.MauiModels;
-using System.Collections.ObjectModel;
+using seeds1.Services;
 
 namespace seeds1.ViewModel;
 
-[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-[QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
+//[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : BasisViewModel
 {
-    private readonly ICategoryService catService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatPreferencesService catPrefService;
 
     [ObservableProperty]
-    ObservableCollection<CatPreference> catPreferences;
-
+    ObservableRangeCollection<CatPreference> catPreferences = new();
     public PreferencesViewModel(
-        ICategoryService catService,
-        ICategoryUserPreferenceService cupService)
+        IGlobalVmService globalService,
+        ICatPreferencesService catPrefService)
+        : base(globalService)
     {
-        this.catService = catService;
-        this.cupService = cupService;
+        this.catPrefService = catPrefService;
     }
 
     [RelayCommand]
-    public async Task GetCategoriesAsync()
+    public async Task GetCatPreferencesAsync()
     {
-        
+        /* Called also in OnNavigatedTo()
+         */
+        catPrefService.CurrentUser = CurrentUser;
+        try
+        {
+            var catPrefs = await catPrefService.GetCatPreferencesAsync();
+            CatPreferences.AddRange(catPrefs);
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 }

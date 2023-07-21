@@ -1,19 +1,22 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
 using seeds1.Services;
 
 namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : BasisViewModel
 {
+    private readonly IGlobalVmService globalService;
     private readonly IUsersService _usersService;
     private readonly INavigationService _navigationService;
 
     public LoginViewModel(
+        IGlobalVmService globalService,
         IUsersService usersService,
         INavigationService navigationService)
+        : base(globalService)
     {
+        this.globalService = globalService;
         _usersService = usersService;
         _navigationService = navigationService;
     }
@@ -43,11 +46,11 @@ public partial class LoginViewModel : BasisViewModel
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
                 // Login
-                
+                CurrentUser = user;
                 // pass full user object, not just username
                 var navParameters = new Dictionary<string, object>
                 {
-                    { nameof(CurrentUser), user },
+                    //{ nameof(CurrentUser), user },
                     { nameof(RedrawPage), true }
                 };
 

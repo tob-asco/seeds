@@ -31,6 +31,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<ICatPreferencesService, CatPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
+        builder.Services.AddSingleton<IGlobalVmService, GlobalVmService>();
 
         builder.Services.AddTransient<BasisViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
