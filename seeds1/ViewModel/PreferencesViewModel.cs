@@ -10,15 +10,17 @@ namespace seeds1.ViewModel;
 public partial class PreferencesViewModel : BasisViewModel
 {
     private readonly ICatPreferencesService catPrefService;
-
+    private readonly ICategoryUserPreferenceService cupService;
     [ObservableProperty]
     ObservableRangeCollection<CatPreference> catPreferences = new();
     public PreferencesViewModel(
         IGlobalVmService globalService,
-        ICatPreferencesService catPrefService)
+        ICatPreferencesService catPrefService,
+        ICategoryUserPreferenceService cupService)
         : base(globalService)
     {
         this.catPrefService = catPrefService;
+        this.cupService = cupService;
     }
 
     [RelayCommand]
@@ -36,6 +38,30 @@ public partial class PreferencesViewModel : BasisViewModel
         catch (Exception ex)
         {
             throw ex;
+        }
+    }
+    [RelayCommand]
+    public async Task ChangeCategoryPreference(string categoryKey)
+    {
+        // update entry
+        int index = CatPreferences.IndexOf(CatPreferences.FirstOrDefault(cp =>
+            cp.Key == categoryKey));
+        if (index == -1)
+        {
+            await Shell.Current.DisplayAlert("Error", "Key not found.", "Ok");
+            return;
+        }
+
+        CatPreferences[index].Value = catPrefService.StepCatPreference(
+         CatPreferences[index].Value);
+
+        // update DB
+        if (await cupService.PutCategoryUserPreferenceAsync(
+            categoryKey,
+            CurrentUser.Username,
+            CatPreferences[index].Value) == false)
+        {
+            await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
         }
     }
 }

@@ -13,6 +13,7 @@ public partial class FeedViewModel : BasisViewModel
     private readonly IUserIdeaInteractionService _uiiService;
     private readonly IIdeasService _ideasService;
     private readonly ICategoryUserPreferenceService _cupService;
+    private readonly ICatPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
 
@@ -21,13 +22,15 @@ public partial class FeedViewModel : BasisViewModel
         IFeedEntriesService feedEntryService,
         IUserIdeaInteractionService uiiService,
         IIdeasService ideasService,
-        ICategoryUserPreferenceService cupService)
+        ICategoryUserPreferenceService cupService,
+        ICatPreferencesService catPrefService)
         : base(globalService)
     {
         _feedEntriesService = feedEntryService;
         _uiiService = uiiService;
         _ideasService = ideasService;
         _cupService = cupService;
+        this.catPrefService = catPrefService;
     }
 
     [RelayCommand]
@@ -82,8 +85,8 @@ public partial class FeedViewModel : BasisViewModel
         {
             if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
             {
-                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = StepCatPreference(
-                    FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
+                    .StepCatPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
 
                 // for the DB
                 newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
@@ -91,28 +94,15 @@ public partial class FeedViewModel : BasisViewModel
         }
 
         // update DB
-        try
+        if (newCatPreference != null)
         {
-            if (newCatPreference == null)
-            {
-                throw new NullReferenceException(nameof(newCatPreference));
-            }
-            await _cupService.PutCategoryUserPreferenceAsync(
+            if (await _cupService.PutCategoryUserPreferenceAsync(
                 categoryKey,
                 CurrentUser.Username,
-                (int)newCatPreference);
+                (int)newCatPreference) == false)
+            {
+                await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
+            }
         }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Put Error", ex.Message, "Ignore");
-            Console.Write(ex);
-        }
-    }
-
-    private static int StepCatPreference(int oldPreference)
-    {
-        if (oldPreference == 0) { return 1; }
-        else if (oldPreference == 1) { return -1; }
-        else { return 0; }
     }
 }

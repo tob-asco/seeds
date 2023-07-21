@@ -7,4 +7,5 @@ public interface ICatPreferencesService
 {
     public UserDtoApi CurrentUser { get; set; }
     public Task<IEnumerable<CatPreference>> GetCatPreferencesAsync();
+    public int StepCatPreference(int oldPreference);
 }

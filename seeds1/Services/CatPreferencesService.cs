@@ -43,4 +43,10 @@ public class CatPreferencesService : ICatPreferencesService
         }
         return catPrefs;
     }
+    public int StepCatPreference(int oldPreference)
+    {
+        if (oldPreference == 0) { return 1; }
+        else if (oldPreference == 1) { return -1; }
+        else { return 0; }
+    }
 }
