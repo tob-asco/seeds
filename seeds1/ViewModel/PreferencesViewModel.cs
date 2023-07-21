@@ -30,6 +30,7 @@ public partial class PreferencesViewModel : BasisViewModel
         try
         {
             var catPrefs = await catPrefService.GetCatPreferencesAsync();
+            CatPreferences = new();
             CatPreferences.AddRange(catPrefs);
         }
         catch (Exception ex)

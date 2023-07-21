@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:seeds1.ViewModel"
              xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
+             xmlns:converter="clr-namespace:seeds1.Converter"
              x:Class="seeds1.View.PreferencesPage"
              x:DataType="local:PreferencesViewModel"
              Title="Preferences">
@@ -11,9 +12,23 @@
         >
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="mauiModel:CatPreference">
-                <Button 
-                        Text="{Binding Name}"
+                <Button
                         >
+                    <Button.Text>
+                        <MultiBinding Converter="{converter:CatBtnTextConverter}"
+                                              >
+                            <Binding Path="Key"/>
+                            <Binding Path="Name"/>
+                        </MultiBinding>
+                    </Button.Text>
+                    <Button.Style>
+                        <Binding Converter="{converter:IntToPriorityConverter 
+                                MediumPriority={StaticResource buttonMediumStyle}, 
+                                MaximumPriority={StaticResource buttonMaximumStyle},
+                                MinimumPriority={StaticResource buttonMinimumStyle}}"
+                                Path="Value"
+                                 />
+                    </Button.Style>
                 </Button>
             </DataTemplate>
         </CollectionView.ItemTemplate>
