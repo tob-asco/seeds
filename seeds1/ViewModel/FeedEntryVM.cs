@@ -1,7 +1,7 @@
 ﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
+using seeds1.Interfaces;
 using seeds1.MauiModels;
-using seeds1.Services;
 
 namespace seeds1.ViewModel;
 

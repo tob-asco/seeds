@@ -1,6 +1,6 @@
 ﻿using MvvmHelpers;
 using seeds.Dal.Interfaces;
-using seeds1.Services;
+using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
@@ -95,7 +95,7 @@ public partial class FeedViewModel : BasisViewModel
         }
     }
 
-    public async Task UpdateCategoryPreferencesAsync()
+    public async Task LoadCatPreferencesFromDbAsync()
     {
         var catPrefs = await catPrefService.GetCatPreferencesAsync();
         Dictionary<string, int> catPrefsDict = new();

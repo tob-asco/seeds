@@ -1,4 +1,4 @@
-﻿using seeds1.Services;
+﻿using seeds1.Interfaces;
 
 namespace seeds1.Tests.Services;
 

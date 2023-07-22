@@ -1,7 +1,6 @@
-﻿using seeds.Dal.Dto.ToApi;
-using seeds1.MauiModels;
+﻿using seeds1.MauiModels;
 
-namespace seeds1.Services;
+namespace seeds1.Interfaces;
 
 public interface ICatPreferencesService
 {

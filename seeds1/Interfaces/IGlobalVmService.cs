@@ -1,6 +1,6 @@
 ﻿using seeds.Dal.Dto.ToApi;
 
-namespace seeds1.Services;
+namespace seeds1.Interfaces;
 
 public interface IGlobalVmService
 {

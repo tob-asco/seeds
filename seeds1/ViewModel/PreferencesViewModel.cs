@@ -1,7 +1,7 @@
 ﻿using MvvmHelpers;
 using seeds.Dal.Interfaces;
+using seeds1.Interfaces;
 using seeds1.MauiModels;
-using seeds1.Services;
 
 namespace seeds1.ViewModel;
 

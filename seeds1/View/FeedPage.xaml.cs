@@ -1,4 +1,4 @@
-using seeds1.Services;
+using seeds1.Interfaces;
 using System.Runtime.CompilerServices;
 
 namespace seeds1.View;
@@ -38,7 +38,7 @@ public partial class FeedPage : ContentPage
         
         if (vm != null)
         {
-            await vm.UpdateCategoryPreferencesAsync();
+            await vm.LoadCatPreferencesFromDbAsync();
         }
     }
 }

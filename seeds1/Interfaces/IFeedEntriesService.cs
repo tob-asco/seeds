@@ -1,6 +1,6 @@
 ﻿using seeds1.MauiModels;
 
-namespace seeds1.Services;
+namespace seeds1.Interfaces;
 
 public interface IFeedEntriesService
 {
