@@ -1,5 +1,4 @@
 ﻿using MvvmHelpers;
-using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
 using seeds1.MauiModels;
 using seeds1.Services;
@@ -12,7 +11,7 @@ public partial class PreferencesViewModel : BasisViewModel
     private readonly ICatPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;
     [ObservableProperty]
-    ObservableRangeCollection<CatPreference> catPreferences = new();
+    ObservableRangeCollection<CatPreference> preferences = new();
     public PreferencesViewModel(
         IGlobalVmService globalService,
         ICatPreferencesService catPrefService,
@@ -31,8 +30,8 @@ public partial class PreferencesViewModel : BasisViewModel
         try
         {
             var catPrefs = await catPrefService.GetCatPreferencesAsync();
-            CatPreferences = new();
-            CatPreferences.AddRange(catPrefs);
+            Preferences = new();
+            Preferences.AddRange(catPrefs);
         }
         catch (Exception ex)
         {
@@ -43,7 +42,7 @@ public partial class PreferencesViewModel : BasisViewModel
     public async Task ChangeCategoryPreference(string categoryKey)
     {
         // update entry
-        int index = CatPreferences.IndexOf(CatPreferences.FirstOrDefault(cp =>
+        int index = Preferences.IndexOf(Preferences.FirstOrDefault(cp =>
             cp.Key == categoryKey));
         if (index == -1)
         {
@@ -51,14 +50,14 @@ public partial class PreferencesViewModel : BasisViewModel
             return;
         }
 
-        CatPreferences[index].Value = catPrefService.StepCatPreference(
-         CatPreferences[index].Value);
+        Preferences[index].Value = catPrefService.StepCatPreference(
+            Preferences[index].Value);
 
         // update DB
         if (await cupService.PutCategoryUserPreferenceAsync(
             categoryKey,
             CurrentUser.Username,
-            CatPreferences[index].Value) == false)
+            Preferences[index].Value) == false)
         {
             await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
         }
