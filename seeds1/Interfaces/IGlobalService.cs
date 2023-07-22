@@ -2,7 +2,7 @@
 
 namespace seeds1.Interfaces;
 
-public interface IGlobalVmService
+public interface IGlobalService
 {
     public UserDtoApi CurrentUser { get; set; }
 }

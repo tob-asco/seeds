@@ -7,13 +7,13 @@ namespace seeds1.Services;
 
 public class FeedEntriesService : IFeedEntriesService
 {
-    private readonly IGlobalVmService globalService;
+    private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
     public FeedEntriesService(
-        IGlobalVmService globalService,
+        IGlobalService globalService,
         IIdeasService ideasService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService cupService,

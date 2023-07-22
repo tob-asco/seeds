@@ -5,14 +5,14 @@ using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
-public class CatPreferencesService : ICatPreferencesService
+public class CategoryPreferencesService : ICategoryPreferencesService
 {
-    private readonly IGlobalVmService globalService;
+    private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly ICategoryUserPreferenceService cupService;
 
-    public CatPreferencesService(
-        IGlobalVmService globalService,
+    public CategoryPreferencesService(
+        IGlobalService globalService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService cupService)
     {

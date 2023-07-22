@@ -6,12 +6,12 @@ namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : BasisViewModel
 {
-    private readonly IGlobalVmService globalService;
+    private readonly IGlobalService globalService;
     private readonly IUsersService _usersService;
     private readonly INavigationService _navigationService;
 
     public LoginViewModel(
-        IGlobalVmService globalService,
+        IGlobalService globalService,
         IUsersService usersService,
         INavigationService navigationService)
         : base(globalService)

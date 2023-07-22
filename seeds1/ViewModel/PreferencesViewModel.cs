@@ -8,13 +8,13 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : BasisViewModel
 {
-    private readonly ICatPreferencesService catPrefService;
+    private readonly ICategoryPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;
     [ObservableProperty]
     ObservableRangeCollection<CatPreference> preferences = new();
     public PreferencesViewModel(
-        IGlobalVmService globalService,
-        ICatPreferencesService catPrefService,
+        IGlobalService globalService,
+        ICategoryPreferencesService catPrefService,
         ICategoryUserPreferenceService cupService)
         : base(globalService)
     {

@@ -11,15 +11,15 @@ public partial class FeedViewModel : BasisViewModel
     private static readonly int _maxFeedEntryPageSize = 5;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
-    private readonly ICatPreferencesService catPrefService;
+    private readonly ICategoryPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
 
     public FeedViewModel(
-        IGlobalVmService globalService,
+        IGlobalService globalService,
         IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
-        ICatPreferencesService catPrefService)
+        ICategoryPreferencesService catPrefService)
         : base(globalService)
     {
         this.feedEntriesService = feedEntriesService;

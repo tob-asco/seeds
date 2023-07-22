@@ -7,13 +7,13 @@ namespace seeds1.ViewModel;
 
 public partial class FeedEntryVM : ObservableObject
 {
-    private readonly IGlobalVmService globalService;
+    private readonly IGlobalService globalService;
     private readonly IUserIdeaInteractionService uiiService;
 
     public FeedEntry FeedEntry { get; set; }
 
     public FeedEntryVM(
-        IGlobalVmService globalService,
+        IGlobalService globalService,
         IUserIdeaInteractionService uiiService)
     {
         this.globalService = globalService;

@@ -5,7 +5,7 @@ namespace seeds1.ViewModel;
 
 public partial class BasisViewModel : ObservableObject //partial because of source generation
 {
-    private readonly IGlobalVmService globalService;
+    private readonly IGlobalService globalService;
     public UserDtoApi CurrentUser
     {
         get => globalService.CurrentUser;
@@ -22,7 +22,7 @@ public partial class BasisViewModel : ObservableObject //partial because of sour
     public bool IsNotBusy => !IsBusy;
 
 
-    public BasisViewModel(IGlobalVmService globalService)
+    public BasisViewModel(IGlobalService globalService)
     {
         this.globalService = globalService;
     }
