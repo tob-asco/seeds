@@ -38,7 +38,7 @@ public partial class FeedPage : ContentPage
         
         if (vm != null)
         {
-            await vm.LoadCatPreferencesFromDbAsync();
+            await vm.UpdateCategoryPreferencesAsync();
         }
     }
 }

@@ -1,30 +1,23 @@
-﻿using seeds.Dal.Dto.ToApi;
-using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using seeds1.Services;
 
 namespace seeds1.ViewModel;
 
 public partial class FeedEntryVM : ObservableObject
 {
-    private readonly IUserIdeaInteractionService _uiiService;
-    private readonly IIdeasService _ideasService;
+    private readonly IGlobalVmService globalService;
+    private readonly IUserIdeaInteractionService uiiService;
 
-    public UserDtoApi CurrentUser { get; set; }
-    [ObservableProperty]
-    FeedEntry feedEntry;
+    public FeedEntry FeedEntry { get; set; }
 
     public FeedEntryVM(
-        IUserIdeaInteractionService uiiService,
-        IIdeasService ideasService)
+        IGlobalVmService globalService,
+        IUserIdeaInteractionService uiiService)
     {
-        _uiiService = uiiService;
-        _ideasService = ideasService;
+        this.globalService = globalService;
+        this.uiiService = uiiService;
     }
 
     [RelayCommand]
@@ -73,10 +66,10 @@ public partial class FeedEntryVM : ObservableObject
     {
         try
         {
-            return await _uiiService.PostOrPutUserIdeaInteractionAsync(
+            return await uiiService.PostOrPutUserIdeaInteractionAsync(
                 new UserIdeaInteraction()
                 {
-                    Username = CurrentUser.Username,
+                    Username = globalService.CurrentUser.Username,
                     IdeaId = FeedEntry.Idea.Id,
                     Upvoted = newUpvoted,
                     Downvoted = newDownvoted

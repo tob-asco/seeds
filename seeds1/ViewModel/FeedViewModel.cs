@@ -8,28 +8,22 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class FeedViewModel : BasisViewModel
 {
-    private static readonly int _maxFeedEntryPageSize = 10;
-    private readonly IFeedEntriesService _feedEntriesService;
-    private readonly IUserIdeaInteractionService _uiiService;
-    private readonly IIdeasService _ideasService;
-    private readonly ICategoryUserPreferenceService _cupService;
+    private static readonly int _maxFeedEntryPageSize = 5;
+    private readonly IFeedEntriesService feedEntriesService;
+    private readonly ICategoryUserPreferenceService cupService;
     private readonly ICatPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
 
     public FeedViewModel(
         IGlobalVmService globalService,
-        IFeedEntriesService feedEntryService,
-        IUserIdeaInteractionService uiiService,
-        IIdeasService ideasService,
+        IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
         ICatPreferencesService catPrefService)
         : base(globalService)
     {
-        _feedEntriesService = feedEntryService;
-        _uiiService = uiiService;
-        _ideasService = ideasService;
-        _cupService = cupService;
+        this.feedEntriesService = feedEntriesService;
+        this.cupService = cupService;
         this.catPrefService = catPrefService;
     }
 
@@ -37,7 +31,6 @@ public partial class FeedViewModel : BasisViewModel
     public async Task CollectFeedEntriesPaginated()
     {
         // This fct. is called in OnNavigatedTo() and from the view.
-
         int currentCount;
 
         if (FeedEntryVMCollection == null) { currentCount = 0; }
@@ -46,28 +39,24 @@ public partial class FeedViewModel : BasisViewModel
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
         try
         {
-            _feedEntriesService.CurrentUser = CurrentUser;
-            var feedEntries = await _feedEntriesService.GetFeedEntriesPaginated(
+            var feedEntries = await feedEntriesService.GetFeedEntriesPaginated(
                 currentPages + 1, _maxFeedEntryPageSize);
+            if (feedEntries == null || feedEntries.Count == 0) { return; }
 #if WINDOWS
             feedEntries.Reverse();
 #endif
             List<FeedEntryVM> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                fe.Upvotes = await _uiiService.CountVotesAsync(fe.Idea.Id);
-                feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
-                {
-                    CurrentUser = CurrentUser,
-                    FeedEntry = fe,
-                });
+                var vm = Application.Current.Handler.MauiContext.Services.GetService<FeedEntryVM>();
+                vm.FeedEntry = fe;
+                feedEntryVMs.Add(vm);
             }
-
             FeedEntryVMCollection.AddRange(feedEntryVMs);
         }
-        catch //(Exception ex) 
+        catch (Exception ex) 
         {
-            //not too bad, possibly just no more ideas
+            await Shell.Current.DisplayAlert("Error On Collecting FeedEntries", ex.Message, "Ok");
             return;
         }
     }
@@ -96,7 +85,7 @@ public partial class FeedViewModel : BasisViewModel
         // update DB
         if (newCatPreference != null)
         {
-            if (await _cupService.PutCategoryUserPreferenceAsync(
+            if (await cupService.PutCategoryUserPreferenceAsync(
                 categoryKey,
                 CurrentUser.Username,
                 (int)newCatPreference) == false)
@@ -106,7 +95,7 @@ public partial class FeedViewModel : BasisViewModel
         }
     }
 
-    public async Task LoadCatPreferencesFromDbAsync()
+    public async Task UpdateCategoryPreferencesAsync()
     {
         var catPrefs = await catPrefService.GetCatPreferencesAsync();
         Dictionary<string, int> catPrefsDict = new();

@@ -9,7 +9,7 @@
              Title="{Binding CurrentUser.Username,StringFormat='{}{0}s feed'}">
     <CollectionView
         ItemsSource="{Binding FeedEntryVMCollection}"
-        RemainingItemsThreshold="1"
+        RemainingItemsThreshold="2"
         RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}"
         >
         <CollectionView.ItemTemplate>
