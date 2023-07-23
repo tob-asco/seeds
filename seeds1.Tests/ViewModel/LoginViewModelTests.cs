@@ -1,6 +1,7 @@
 ﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
 using seeds1.Interfaces;
+using seeds1.Tests.Services;
 using seeds1.ViewModel;
 
 namespace seeds1.Tests.ViewModel;
@@ -16,7 +17,7 @@ public class LoginViewModelTests
     {
         globalService = A.Fake<IGlobalService>();
         userService = A.Fake<IUsersService>();
-        navService = A.Fake<INavigationService>();
+        navService = (INavigationService)new MockNavigationService();
         vm = new(globalService, userService, navService);
     }
 
