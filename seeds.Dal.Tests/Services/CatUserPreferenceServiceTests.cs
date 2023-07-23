@@ -41,7 +41,7 @@ public class CatUserPreferenceServiceTests
         result?.Username.Should().Be(uname);
     }
     [Fact]
-    public async Task CupService_GetCupAsync_IfNotExistReturnsNull()
+    public async Task CupService_GetCupAsync_IfNotExistThrows()
     {
         // Arrange
         A.CallTo(() => _baseService.GetDalModelAsync<CategoryUserPreference>(
@@ -49,10 +49,10 @@ public class CatUserPreferenceServiceTests
             .Returns<CategoryUserPreference?>(null);
 
         // Act
-        var result = await _service.GetCategoryUserPreferenceAsync("N0C","");
+        Func<Task> act = async () => await _service.GetCategoryUserPreferenceAsync("N0C","");
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
     public async Task CupService_PutCupAsync_ReturnsTrue()

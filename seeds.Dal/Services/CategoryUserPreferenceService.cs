@@ -10,11 +10,13 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
     {
         _baseService = baseService;
     }
-    public async Task<CategoryUserPreference?> GetCategoryUserPreferenceAsync(
+
+    public async Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(
         string categoryKey, string username)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
-        return await _baseService.GetDalModelAsync<CategoryUserPreference>(url);
+        return await _baseService.GetDalModelAsync<CategoryUserPreference>(url)
+            ?? throw new Exception($"The Get URL {url} returned null.");
     }
 
     public async Task<bool> PutCategoryUserPreferenceAsync(
