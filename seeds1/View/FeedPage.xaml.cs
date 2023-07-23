@@ -1,27 +1,44 @@
+using seeds1.Interfaces;
 using System.Runtime.CompilerServices;
 
 namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
-    private readonly FeedViewModel _vm;
-    public FeedPage(FeedViewModel vm)
+    private readonly INavigationService navigationService;
+    private FeedViewModel vm;
+    public FeedPage(
+        //FeedViewModel vm,
+        INavigationService navigationService)
     {
         InitializeComponent();
+        this.navigationService = navigationService;
 
-        BindingContext = vm;
-        _vm = vm;
+        //BindingContext = vm;
+        //_vm = vm;
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        // add first page of feed entries.
-        // here, not in OnAppearing, because otherwise CurrentUser were null
-        if (_vm != null && _vm.RedrawPage)
+
+        if (vm == null || BindingContext == null ||
+            navigationService.RedrawNavigationTarget == true)
         {
-            _vm.FeedEntryVMCollection = new();
-            await _vm.CollectFeedEntriesPaginated();
+            // create a new instance of the VM w/o calling its constructor:
+            vm = Application.Current.Handler.MauiContext.Services.GetService<FeedViewModel>();
+            BindingContext = vm;
+            if(vm.FeedEntryVMCollection == null || 
+                vm.FeedEntryVMCollection?.Count == 0)
+            {
+                await vm.CollectFeedEntriesPaginated();
+            }
+            navigationService.RedrawNavigationTarget = false;
+        }
+        
+        if (vm != null)
+        {
+            await vm.LoadCatPreferencesFromDbAsync();
         }
     }
 }

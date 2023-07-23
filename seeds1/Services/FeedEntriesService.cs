@@ -1,40 +1,46 @@
-﻿using seeds.Dal.Dto.ToApi;
-using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
+using seeds1.Interfaces;
 using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
 public class FeedEntriesService : IFeedEntriesService
 {
-    private readonly IIdeasService _ideaService;
-    private readonly ICategoryService _categoryService;
-    private readonly ICategoryUserPreferenceService _cupService;
-    private readonly IUserIdeaInteractionService _uiiService;
-    public UserDtoApi CurrentUser { get; set; }
-    public FeedEntriesService(IIdeasService ideasService,
+    private readonly IGlobalService globalService;
+    private readonly IIdeasService ideasService;
+    private readonly ICategoryService categoryService;
+    private readonly ICategoryUserPreferenceService cupService;
+    private readonly IUserIdeaInteractionService uiiService;
+    public FeedEntriesService(
+        IGlobalService globalService,
+        IIdeasService ideasService,
         ICategoryService categoryService,
         ICategoryUserPreferenceService cupService,
         IUserIdeaInteractionService uiiService)
     {
-        _ideaService = ideasService;
-        _categoryService = categoryService;
-        _cupService = cupService;
-        _uiiService = uiiService;
+        this.globalService = globalService;
+        this.ideasService = ideasService;
+        this.categoryService = categoryService;
+        this.cupService = cupService;
+        this.uiiService = uiiService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
     {
         List<FeedEntry> feedEntryPage = new();
-        var ideaPage = await _ideaService.GetIdeasPaginatedAsync(page, maxPageSize);
+        var ideaPage = await ideasService.GetIdeasPaginatedAsync(page, maxPageSize);
+        // we get null if there are now more ideas
+        if (ideaPage == null) { return new(); }
         foreach (var idea in ideaPage)
         {
             try
             {
-                var category = await _categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
-                var cup = await _cupService.GetCategoryUserPreferenceAsync(
-                    idea.CategoryKey, CurrentUser.Username);
-                var uii = await _uiiService.GetUserIdeaInteractionAsync(
-                    CurrentUser.Username, idea.Id)
+                var upvotes = await uiiService.CountVotesAsync(idea.Id);
+                var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
+                var cup = await cupService.GetCategoryUserPreferenceAsync(
+                    idea.CategoryKey, globalService.CurrentUser.Username);
+                var uii = await uiiService.GetUserIdeaInteractionAsync(
+                    globalService.CurrentUser.Username, idea.Id)
                     ?? new UserIdeaInteraction();
                 feedEntryPage.Add(new FeedEntry
                 {
@@ -43,6 +49,7 @@ public class FeedEntriesService : IFeedEntriesService
                     CategoryPreference = cup.Value,
                     Upvoted = uii.Upvoted,
                     Downvoted = uii.Downvoted,
+                    Upvotes = upvotes,
                 });
             }
             catch (Exception ex)

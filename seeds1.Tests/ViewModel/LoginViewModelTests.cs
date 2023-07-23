@@ -1,25 +1,23 @@
-﻿using FakeItEasy;
-using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
-using seeds1.Services;
-using seeds1.Tests.Services;
+using seeds1.Interfaces;
 using seeds1.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds1.Tests.ViewModel;
 
 public class LoginViewModelTests
 {
-    private readonly IUsersService _userService;
+    private readonly IGlobalService globalService;
+    private readonly IUsersService userService;
+    private readonly INavigationService navService;
+    private readonly LoginViewModel vm;
 
     public LoginViewModelTests()
     {
-        _userService = A.Fake<IUsersService>();
+        globalService = A.Fake<IGlobalService>();
+        userService = A.Fake<IUsersService>();
+        navService = A.Fake<INavigationService>();
+        vm = new(globalService, userService, navService);
     }
 
     #region Positive Tests
@@ -27,8 +25,6 @@ public class LoginViewModelTests
     public async Task LoginViewModel_LoginCommand_NavigatesToFeed()
     {
         #region Arrange
-        MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
         var enteredPassword = "password";
         var user = new UserDtoApi
@@ -37,7 +33,7 @@ public class LoginViewModelTests
             Password = "password"
         };
 
-        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
+        A.CallTo(() => userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -47,15 +43,13 @@ public class LoginViewModelTests
         await vm.Login();
 
         // Assert
-        navigationService.NavigationCalled.Should().BeTrue();
+        navService.NavigationCalled.Should().BeTrue();
     }
 
     [Fact]
     public async Task LoginViewModel_LoginCommand_NavigatesToFeedEmptyPw()
     {
         #region Arrange
-        MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
         var enteredPassword = "";
         var user = new UserDtoApi
@@ -64,7 +58,7 @@ public class LoginViewModelTests
             Password = null
         };
 
-        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
+        A.CallTo(() => userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -74,15 +68,13 @@ public class LoginViewModelTests
         await vm.Login();
 
         // Assert
-        navigationService.NavigationCalled.Should().BeTrue();
+        navService.NavigationCalled.Should().BeTrue();
     }
 
     [Fact]
     public async Task LoginViewModel_LoginCommand_NavigatesToFeedNullPw()
     {
         #region Arrange
-        MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService);
         var enteredUsername = "testuser";
         var user = new UserDtoApi
         {
@@ -90,7 +82,7 @@ public class LoginViewModelTests
             Password = ""
         };
 
-        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
+        A.CallTo(() => userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -100,7 +92,7 @@ public class LoginViewModelTests
         await vm.Login();
 
         // Assert
-        navigationService.NavigationCalled.Should().BeTrue();
+        navService.NavigationCalled.Should().BeTrue();
     }
 
     #endregion
@@ -110,11 +102,7 @@ public class LoginViewModelTests
     public async Task LoginViewModel_LoginCommand_IfInvalidCredentialsNoNavigationButDisplayMessage()
     {
         #region Arrange
-        MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService)
-        {
-            DisplayedLoginResponse = ""
-        };
+        vm.DisplayedLoginResponse = "";
         var enteredUsername = "testuser";
         var enteredPassword = "password";
         var user = new UserDtoApi
@@ -123,7 +111,7 @@ public class LoginViewModelTests
             Password = "PASSWORD"
         };
 
-        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
+        A.CallTo(() => userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -133,7 +121,7 @@ public class LoginViewModelTests
         await vm.Login();
 
         // Assert
-        navigationService.NavigationCalled.Should().BeFalse();
+        navService.NavigationCalled.Should().BeFalse();
         vm.DisplayedLoginResponse.Should().NotBeNullOrEmpty();
     }
 
@@ -141,11 +129,7 @@ public class LoginViewModelTests
     public async Task LoginViewModel_LoginCommand_IfNoUsernameNoNavigationButDisplayMessage()
     {
         #region Arrange
-        MockNavigationService navigationService = new();
-        LoginViewModel vm = new(_userService, navigationService)
-        {
-            DisplayedLoginResponse = ""
-        };
+        vm.DisplayedLoginResponse = "";
         var enteredUsername = "";
         var enteredPassword = "password";
         var user = new UserDtoApi
@@ -154,7 +138,7 @@ public class LoginViewModelTests
             Password = "password"
         };
 
-        A.CallTo(() => _userService.GetUserByUsernameAsync(A<string>.Ignored))
+        A.CallTo(() => userService.GetUserByUsernameAsync(A<string>.Ignored))
             .Returns(user);
         #endregion
 
@@ -164,7 +148,7 @@ public class LoginViewModelTests
         await vm.Login();
 
         // Assert
-        navigationService.NavigationCalled.Should().BeFalse();
+        navService.NavigationCalled.Should().BeFalse();
         vm.DisplayedLoginResponse.Should().NotBeNullOrEmpty();
     }
 

@@ -1,43 +1,36 @@
 ﻿using MvvmHelpers;
 using seeds.Dal.Interfaces;
-using seeds.Dal.Model;
-using seeds1.MauiModels;
-using seeds1.Services;
-using System.ComponentModel;
+using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
-[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-[QueryProperty(nameof(RedrawPage),nameof(RedrawPage))]
+//[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class FeedViewModel : BasisViewModel
 {
-    private static readonly int _maxFeedEntryPageSize = 10;
-    private readonly IFeedEntriesService _feedEntriesService;
-    private readonly IUserIdeaInteractionService _uiiService;
-    private readonly IIdeasService _ideasService;
-    private readonly ICategoryUserPreferenceService _cupService;
+    private static readonly int _maxFeedEntryPageSize = 5;
+    private readonly IFeedEntriesService feedEntriesService;
+    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICategoryPreferencesService catPrefService;
     [ObservableProperty]
-    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection;
+    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
 
     public FeedViewModel(
-        IFeedEntriesService feedEntryService,
-        IUserIdeaInteractionService uiiService,
-        IIdeasService ideasService,
-        ICategoryUserPreferenceService cupService)
+        IGlobalService globalService,
+        IFeedEntriesService feedEntriesService,
+        ICategoryUserPreferenceService cupService,
+        ICategoryPreferencesService catPrefService)
+        : base(globalService)
     {
-        _feedEntriesService = feedEntryService;
-        _uiiService = uiiService;
-        _ideasService = ideasService;
-        _cupService = cupService;
-        FeedEntryVMCollection = new();
+        this.feedEntriesService = feedEntriesService;
+        this.cupService = cupService;
+        this.catPrefService = catPrefService;
     }
 
     [RelayCommand]
     public async Task CollectFeedEntriesPaginated()
     {
         // This fct. is called in OnNavigatedTo() and from the view.
-
         int currentCount;
 
         if (FeedEntryVMCollection == null) { currentCount = 0; }
@@ -46,28 +39,24 @@ public partial class FeedViewModel : BasisViewModel
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
         try
         {
-            _feedEntriesService.CurrentUser = CurrentUser;
-            var feedEntries = await _feedEntriesService.GetFeedEntriesPaginated(
+            var feedEntries = await feedEntriesService.GetFeedEntriesPaginated(
                 currentPages + 1, _maxFeedEntryPageSize);
+            if (feedEntries == null || feedEntries.Count == 0) { return; }
 #if WINDOWS
             feedEntries.Reverse();
 #endif
             List<FeedEntryVM> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                fe.Upvotes = await _uiiService.CountVotesAsync(fe.Idea.Id);
-                feedEntryVMs.Add(new FeedEntryVM(_uiiService, _ideasService)
-                {
-                    CurrentUser = CurrentUser,
-                    FeedEntry = fe,
-                });
+                var vm = Application.Current.Handler.MauiContext.Services.GetService<FeedEntryVM>();
+                vm.FeedEntry = fe;
+                feedEntryVMs.Add(vm);
             }
-
             FeedEntryVMCollection.AddRange(feedEntryVMs);
         }
-        catch //(Exception ex) 
+        catch (Exception ex) 
         {
-            //not too bad, possibly just no more ideas
+            await Shell.Current.DisplayAlert("Error On Collecting FeedEntries", ex.Message, "Ok");
             return;
         }
     }
@@ -85,8 +74,8 @@ public partial class FeedViewModel : BasisViewModel
         {
             if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
             {
-                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = StepCatPreference(
-                    FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
+                    .StepCatPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
 
                 // for the DB
                 newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
@@ -94,28 +83,32 @@ public partial class FeedViewModel : BasisViewModel
         }
 
         // update DB
-        try
+        if (newCatPreference != null)
         {
-            if (newCatPreference == null)
-            {
-                throw new NullReferenceException(nameof(newCatPreference));
-            }
-            await _cupService.PutCategoryUserPreferenceAsync(
+            if (await cupService.PutCategoryUserPreferenceAsync(
                 categoryKey,
                 CurrentUser.Username,
-                (int)newCatPreference);
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Put Error", ex.Message, "Ignore");
-            Console.Write(ex);
+                (int)newCatPreference) == false)
+            {
+                await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
+            }
         }
     }
 
-    private static int StepCatPreference(int oldPreference)
+    public async Task LoadCatPreferencesFromDbAsync()
     {
-        if (oldPreference == 0) { return 1; }
-        else if (oldPreference == 1) { return -1; }
-        else { return 0; }
+        var catPrefs = await catPrefService.GetCatPreferencesAsync();
+        Dictionary<string, int> catPrefsDict = new();
+        foreach (var catPref in catPrefs)
+        {
+            catPrefsDict.Add(catPref.Key, catPref.Value);
+        }
+
+        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
+        {
+            FeedEntryVMCollection[i].FeedEntry
+                .CategoryPreference = catPrefsDict[FeedEntryVMCollection[i]
+                .FeedEntry.Idea.CategoryKey];
+        }
     }
 }

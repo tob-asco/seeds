@@ -1,23 +1,36 @@
 ﻿using seeds.Dal.Dto.ToApi;
-using seeds.Dal.Model;
+using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
 public partial class BasisViewModel : ObservableObject //partial because of source generation
 {
-    public bool RedrawPage { get; set; } = false;
+    private readonly IGlobalService globalService;
+    public UserDtoApi CurrentUser
+    {
+        get => globalService.CurrentUser;
+        set
+        {
+            globalService.CurrentUser = value;
+            OnPropertyChanged(nameof(CurrentUser));
+        }
+    }
     [ObservableProperty] //Source generator
-    UserDtoApi currentUser;
-
-    [ObservableProperty] //Source generator
-    //[NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
+    [NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
     bool isBusy;
 
-    //public bool IsNotBusy => !IsBusy;
+    public bool IsNotBusy => !IsBusy;
+
+
+    public BasisViewModel(IGlobalService globalService)
+    {
+        this.globalService = globalService;
+    }
 
     [RelayCommand]
     public async Task Logout()
     {
-        await Shell.Current.GoToAsync("///LoginPage",false);
+        CurrentUser = null!;
+        await Shell.Current.GoToAsync("///LoginPage", false);
     }
 }

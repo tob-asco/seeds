@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:seeds1.ViewModel"
+             xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
+             xmlns:converter="clr-namespace:seeds1.Converter"
+             x:Class="seeds1.View.PreferencesPage"
+             x:DataType="local:PreferencesViewModel"
+             Title="Preferences">
+    <RefreshView>
+        <ScrollView>
+            <FlexLayout 
+            BindableLayout.ItemsSource="{Binding Preferences}"
+            Wrap="Wrap"
+            AlignContent="Start"
+            >
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="mauiModel:CatPreference">
+                        <Button
+                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, 
+                            Path=ChangeCategoryPreferenceCommand}"
+                            CommandParameter="{Binding Key}"
+                            HeightRequest="45"
+                            Margin="1"
+                        >
+                            <Button.Text>
+                                <MultiBinding Converter="{converter:CatBtnTextConverter}"
+                                              >
+                                    <Binding Path="Key"/>
+                                    <Binding Path="Name"/>
+                                </MultiBinding>
+                            </Button.Text>
+                            <Button.Style>
+                                <Binding Converter="{converter:IntToPriorityConverter 
+                                MediumPriority={StaticResource buttonMediumStyle}, 
+                                MaximumPriority={StaticResource buttonMaximumStyle},
+                                MinimumPriority={StaticResource buttonMinimumStyle}}"
+                                Path="Value"
+                                 />
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

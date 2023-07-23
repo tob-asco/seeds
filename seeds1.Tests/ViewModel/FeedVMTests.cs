@@ -1,6 +1,6 @@
 ﻿using seeds.Dal.Interfaces;
+using seeds1.Interfaces;
 using seeds1.MauiModels;
-using seeds1.Services;
 using seeds1.ViewModel;
 using System.ComponentModel;
 
@@ -8,18 +8,20 @@ namespace seeds1.Tests.ViewModel;
 
 public class FeedVMTests
 {
-    private readonly IFeedEntriesService _feedEntriesService;
-    private readonly IUserIdeaInteractionService _uiiService;
-    private readonly IIdeasService _ideasService;
-    private readonly ICategoryUserPreferenceService _cupService;
+    private readonly IGlobalService globalService;
+    private readonly IFeedEntriesService feedEntriesService;
+    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICategoryPreferencesService catPrefService;
+    private readonly IUserIdeaInteractionService uiiService;
     private readonly FeedViewModel _vm;
     public FeedVMTests()
     {
-        _feedEntriesService = A.Fake<IFeedEntriesService>();
-        _uiiService = A.Fake<IUserIdeaInteractionService>();
-        _ideasService = A.Fake<IIdeasService>();
-        _cupService = A.Fake<ICategoryUserPreferenceService>();
-        _vm = new FeedViewModel(_feedEntriesService, _uiiService, _ideasService, _cupService);
+        globalService = A.Fake<IGlobalService>();
+        feedEntriesService = A.Fake<IFeedEntriesService>();
+        cupService = A.Fake<ICategoryUserPreferenceService>();
+        catPrefService = A.Fake<ICategoryPreferencesService>();
+        uiiService = A.Fake<IUserIdeaInteractionService>();
+        _vm = new FeedViewModel(globalService, feedEntriesService, cupService, catPrefService);
     }
 
     [Fact]
@@ -32,7 +34,7 @@ public class FeedVMTests
             new FeedEntry {},
             new FeedEntry {}
         };
-        A.CallTo(() => _feedEntriesService.GetFeedEntriesPaginated(
+        A.CallTo(() => feedEntriesService.GetFeedEntriesPaginated(
             A<int>.Ignored, A<int>.Ignored))
             .Returns(feedEntries);
 
@@ -51,7 +53,7 @@ public class FeedVMTests
         string key = "ABC";
         _vm.FeedEntryVMCollection = new()
         {
-            new FeedEntryVM(_uiiService, _ideasService)
+            new FeedEntryVM(globalService, uiiService)
             {
                 FeedEntry = new FeedEntry()
                 {
@@ -63,7 +65,7 @@ public class FeedVMTests
                     }
                 }
             },
-            new FeedEntryVM(_uiiService, _ideasService)
+            new FeedEntryVM(globalService, uiiService)
             {
                 FeedEntry = new FeedEntry()
                 {
@@ -81,7 +83,7 @@ public class FeedVMTests
         List<PropertyChangedEventArgs> eventArgs = new();
         _vm.FeedEntryVMCollection[0].FeedEntry.PropertyChanged += (s, e) => eventArgs.Add(e);
         _vm.CurrentUser = new();
-        A.CallTo(() => _cupService.PutCategoryUserPreferenceAsync(
+        A.CallTo(() => cupService.PutCategoryUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<int>.Ignored))
             .Returns(true);
         #endregion
