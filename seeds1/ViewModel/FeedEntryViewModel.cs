@@ -5,14 +5,14 @@ using seeds1.MauiModels;
 
 namespace seeds1.ViewModel;
 
-public partial class FeedEntryVM : ObservableObject
+public partial class FeedEntryViewModel : ObservableObject
 {
     private readonly IGlobalService globalService;
     private readonly IUserIdeaInteractionService uiiService;
 
     public FeedEntry FeedEntry { get; set; }
 
-    public FeedEntryVM(
+    public FeedEntryViewModel(
         IGlobalService globalService,
         IUserIdeaInteractionService uiiService)
     {

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:seeds1.ViewModel"
              xmlns:converter="clr-namespace:seeds1.Converter"
-             x:DataType="local:FeedEntryVM"
+             x:DataType="local:FeedEntryViewModel"
              x:Class="seeds1.View.FeedEntryView">
     <Frame BackgroundColor="#222" Margin="0,15,0,0" Padding="0">
     <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->

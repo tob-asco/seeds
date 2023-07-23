@@ -13,7 +13,7 @@ public partial class FeedViewModel : BaseViewModel
     private readonly ICategoryUserPreferenceService cupService;
     private readonly ICategoryPreferencesService catPrefService;
     [ObservableProperty]
-    ObservableRangeCollection<FeedEntryVM> feedEntryVMCollection = new();
+    ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
     public FeedViewModel(
         IGlobalService globalService,
@@ -45,10 +45,10 @@ public partial class FeedViewModel : BaseViewModel
 #if WINDOWS
             feedEntries.Reverse();
 #endif
-            List<FeedEntryVM> feedEntryVMs = new();
+            List<FeedEntryViewModel> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                var vm = Application.Current.Handler.MauiContext.Services.GetService<FeedEntryVM>();
+                var vm = Application.Current.Handler.MauiContext.Services.GetService<FeedEntryViewModel>();
                 vm.FeedEntry = fe;
                 feedEntryVMs.Add(vm);
             }
