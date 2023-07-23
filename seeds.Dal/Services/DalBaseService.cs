@@ -1,5 +1,6 @@
 ﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Wrappers;
+using System.ComponentModel;
 using System.Net.Http.Json;
 
 namespace seeds.Dal.Services;
@@ -18,52 +19,47 @@ public class DalBaseService : IDalBaseService
 
     public async Task<T?> GetDalModelAsync<T>(string url)
     {
-        try
+        var response = await HttpClientWrapper.GetAsync(url);
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
-            var response = await HttpClientWrapper.GetAsync(url);
-            if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                return default(T); // should give null for Dal model classes
-            }
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<T>();
+            return default(T); // gives null for Dal model classes (cf. tests)
         }
-        catch (Exception ex)
+        if (!response.IsSuccessStatusCode)
         {
-            // All non-successful response messages other than 4xx (not found)
-            // will land here, and they are bad.
-            Console.Write(ex);
-            throw;
+            throw new Exception($"The Get URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}");
         }
+        return await response.Content.ReadFromJsonAsync<T>();
     }
     public async Task<bool> PutDalModelAsync<T>(string url, T newModel)
     {
-        try
+        var httpContent = JsonContent.Create(newModel);
+        var response = await HttpClientWrapper.PutAsync(url, httpContent);
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
-            var httpContent = JsonContent.Create(newModel);
-            var response = await HttpClientWrapper.PutAsync(url, httpContent);
-            response.EnsureSuccessStatusCode();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.Write(ex);
             return false;
         }
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"The Put URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}");
+        }
+        return true;
     }
     public async Task<bool> PostDalModelAsync<T>(string url, T model)
     {
-        try
+        var httpContent = JsonContent.Create(model);
+        var response = await HttpClientWrapper.PostAsync(url, httpContent);
+        if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
         {
-            var httpContent = JsonContent.Create(model);
-            var response = await HttpClientWrapper.PostAsync(url, httpContent);
-            response.EnsureSuccessStatusCode();
-            return true;
-        }
-        catch (Exception ex)
-        {
-            Console.Write(ex);
             return false;
         }
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"The Post URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}. Were the only problem an existing" +
+                $" equivalent {typeof(T)}, the status code were Conflict.");
+        }
+        return true;
     }
 }
