@@ -4,8 +4,11 @@ namespace seeds.Dal.Interfaces;
 
 public interface IIdeasService
 {
-    //public Task<List<Idea>> GetIdeas();
-    public Task<IdeaDtoApi?> GetIdeaAsync(int id);
+    /* If base returns null, throws.
+     */
+    public Task<IdeaDtoApi> GetIdeaAsync(int id);
+    /* Can return null as there might be no more ideas
+     */
     public Task<List<IdeaDtoApi>?> GetIdeasPaginatedAsync(int page, int maxPageSize);
 
 }
