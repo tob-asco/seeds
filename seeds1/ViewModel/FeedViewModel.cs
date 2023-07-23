@@ -43,7 +43,7 @@ public partial class FeedViewModel : MyBaseViewModel
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
         try
         {
-            var feedEntries = await feedEntriesService.GetFeedEntriesPaginated(
+            var feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
                 currentPages + 1, _maxFeedEntryPageSize);
             if (feedEntries == null || feedEntries.Count == 0) { return; }
 #if WINDOWS

@@ -25,20 +25,23 @@ public class FeedEntriesService : IFeedEntriesService
         this.cupService = cupService;
         this.uiiService = uiiService;
     }
-    public async Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize)
+    public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(int page, int maxPageSize)
     {
         List<FeedEntry> feedEntryPage = new();
         var ideaPage = await ideasService.GetIdeasPaginatedAsync(page, maxPageSize);
-        // we get null if there are now more ideas
+        // we get null if there are no more ideas
         if (ideaPage == null) { return new(); }
         foreach (var idea in ideaPage)
         {
             try
             {
                 var upvotes = await uiiService.CountVotesAsync(idea.Id);
-                var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
+                var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey)
+                    ?? throw new Exception($"Category with key {idea.CategoryKey} returned null.");
                 var cup = await cupService.GetCategoryUserPreferenceAsync(
-                    idea.CategoryKey, globalService.CurrentUser.Username);
+                    idea.CategoryKey, globalService.CurrentUser.Username)
+                    ?? throw new Exception($"Category with key {idea.CategoryKey} returned" +
+                    $" user preference null.");
                 var uii = await uiiService.GetUserIdeaInteractionAsync(
                     globalService.CurrentUser.Username, idea.Id)
                     ?? new UserIdeaInteraction();

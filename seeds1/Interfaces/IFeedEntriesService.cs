@@ -4,5 +4,5 @@ namespace seeds1.Interfaces;
 
 public interface IFeedEntriesService
 {
-    public Task<List<FeedEntry>> GetFeedEntriesPaginated(int page, int maxPageSize);
+    public Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(int page, int maxPageSize);
 }
