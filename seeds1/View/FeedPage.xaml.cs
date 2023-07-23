@@ -1,3 +1,4 @@
+using seeds1.Factories;
 using seeds1.Interfaces;
 using System.Runtime.CompilerServices;
 
@@ -5,17 +6,16 @@ namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
+    private readonly IGenericFactory<FeedViewModel> vmFactory;
     private readonly INavigationService navigationService;
     private FeedViewModel vm;
     public FeedPage(
-        //FeedViewModel vm,
+        IGenericFactory<FeedViewModel> vmFactory,
         INavigationService navigationService)
     {
         InitializeComponent();
+        this.vmFactory = vmFactory;
         this.navigationService = navigationService;
-
-        //BindingContext = vm;
-        //_vm = vm;
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -26,7 +26,7 @@ public partial class FeedPage : ContentPage
             navigationService.RedrawNavigationTarget == true)
         {
             // create a new instance of the VM w/o calling its constructor:
-            vm = Application.Current.Handler.MauiContext.Services.GetService<FeedViewModel>();
+            vm = vmFactory.Create();
             BindingContext = vm;
             if(vm.FeedEntryVMCollection == null || 
                 vm.FeedEntryVMCollection?.Count == 0)
