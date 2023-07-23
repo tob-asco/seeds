@@ -138,6 +138,29 @@ public class DalBaseServiceTests
         // Assert
         result.Should().BeFalse();
     }
+    [Theory]
+    [InlineData(HttpStatusCode.BadRequest)]
+    [InlineData(HttpStatusCode.Conflict)]
+    [InlineData(HttpStatusCode.Forbidden)]
+    public async Task DalBaseService_PutDalModelAsync_IfNon404ErrorThrows(
+        HttpStatusCode code)
+    {
+        // Arrange
+        string url = "";
+        UserDtoApi user = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = code,
+        };
+        A.CallTo(() => _httpClientWrapper.PutAsync(A<string>.Ignored, A<HttpContent>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () => await _service.PutDalModelAsync(url, user);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
     [Fact]
     public async Task DalBaseService_PostDalModelAsync_ReturnsTrue()
     {
@@ -175,5 +198,28 @@ public class DalBaseServiceTests
 
         // Assert
         result.Should().BeFalse();
+    }
+    [Theory]
+    [InlineData(HttpStatusCode.BadRequest)]
+    [InlineData(HttpStatusCode.BadGateway)]
+    [InlineData(HttpStatusCode.Forbidden)]
+    public async Task DalBaseService_PostDalModelAsync_IfNonConflictErrorThrows(
+        HttpStatusCode code)
+    {
+        // Arrange
+        string url = "";
+        UserDtoApi user = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = code,
+        };
+        A.CallTo(() => _httpClientWrapper.PostAsync(A<string>.Ignored, A<HttpContent>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () => await _service.PostDalModelAsync(url, user);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
     }
 }
