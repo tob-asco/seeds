@@ -6,7 +6,7 @@ using seeds1.MauiModels;
 namespace seeds1.ViewModel;
 
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class PreferencesViewModel : BasisViewModel
+public partial class PreferencesViewModel : MvvmHelpers.BaseViewModel
 {
     private readonly ICategoryPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;

@@ -6,7 +6,7 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class FeedViewModel : BasisViewModel
+public partial class FeedViewModel : BaseViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 5;
     private readonly IFeedEntriesService feedEntriesService;

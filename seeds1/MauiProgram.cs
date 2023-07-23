@@ -2,7 +2,6 @@
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
-using seeds1.Interfaces;
 using seeds1.Services;
 
 namespace seeds1;
@@ -30,21 +29,17 @@ public static class MauiProgram
         builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
-        builder.Services.AddSingleton<ICategoryPreferencesService, CategoryPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
-        builder.Services.AddSingleton<IGlobalService, GlobalService>();
 
-        builder.Services.AddTransient<BasisViewModel>();
+        builder.Services.AddTransient<BaseViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryVM>();
-        builder.Services.AddTransient<PreferencesViewModel>();
 
         //It's mandatory to register also the pages where we DI the VMs!
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
-        builder.Services.AddTransient<PreferencesPage>();
 
 
         /******************* auto-generated ********************/

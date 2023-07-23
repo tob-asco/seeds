@@ -5,7 +5,7 @@ namespace seeds1;
 
 public partial class App : Application
 {
-	public App(BasisViewModel vm)
+	public App(BaseViewModel vm)
 	{
 		InitializeComponent();
 
