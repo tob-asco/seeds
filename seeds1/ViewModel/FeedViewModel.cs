@@ -1,14 +1,16 @@
 ﻿using MvvmHelpers;
 using seeds.Dal.Interfaces;
+using seeds1.Factories;
 using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class FeedViewModel : BaseViewModel
+public partial class FeedViewModel : MyBaseViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 5;
+    private readonly IFeedEntryViewModelFactory feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly ICategoryPreferencesService catPrefService;
@@ -17,11 +19,13 @@ public partial class FeedViewModel : BaseViewModel
 
     public FeedViewModel(
         IGlobalService globalService,
+        IFeedEntryViewModelFactory feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
         ICategoryPreferencesService catPrefService)
         : base(globalService)
     {
+        this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
         this.cupService = cupService;
         this.catPrefService = catPrefService;
@@ -48,7 +52,7 @@ public partial class FeedViewModel : BaseViewModel
             List<FeedEntryViewModel> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                var vm = Application.Current.Handler.MauiContext.Services.GetService<FeedEntryViewModel>();
+                var vm = feedEntryVmFactory.CreateFeedEntryViewModel();
                 vm.FeedEntry = fe;
                 feedEntryVMs.Add(vm);
             }

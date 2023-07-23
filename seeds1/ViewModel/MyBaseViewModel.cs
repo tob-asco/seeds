@@ -3,7 +3,7 @@ using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
-public partial class BaseViewModel : ObservableObject //partial because of source generation
+public partial class MyBaseViewModel : ObservableObject //partial because of source generation
 {
     private readonly IGlobalService globalService;
     public UserDtoApi CurrentUser
@@ -22,7 +22,7 @@ public partial class BaseViewModel : ObservableObject //partial because of sourc
     public bool IsNotBusy => !IsBusy;
 
 
-    public BaseViewModel(IGlobalService globalService)
+    public MyBaseViewModel(IGlobalService globalService)
     {
         this.globalService = globalService;
     }

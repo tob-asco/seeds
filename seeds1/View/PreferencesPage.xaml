@@ -10,7 +10,7 @@
     <RefreshView>
         <ScrollView>
             <FlexLayout 
-            BindableLayout.ItemsSource="{Binding Preferences}"
+            BindableLayout.ItemsSource="{Binding CatPrefs}"
             Wrap="Wrap"
             AlignContent="Start"
             >

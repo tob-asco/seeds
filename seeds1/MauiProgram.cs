@@ -2,6 +2,8 @@
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
+using seeds1.Factories;
+using seeds1.Interfaces;
 using seeds1.Services;
 
 namespace seeds1;
@@ -28,10 +30,12 @@ public static class MauiProgram
         builder.Services.AddScoped<ICategoryService, CategoryService>();
         builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
+
+        builder.Services.AddSingleton<IFeedEntryViewModelFactory, FeedEntryViewModelFactory>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
-        builder.Services.AddTransient<BaseViewModel>();
+        builder.Services.AddTransient<MyBaseViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryViewModel>();

@@ -4,7 +4,7 @@ using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
-public partial class LoginViewModel : BaseViewModel
+public partial class LoginViewModel : MyBaseViewModel
 {
     private readonly IGlobalService globalService;
     private readonly IUsersService _usersService;

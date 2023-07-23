@@ -3,7 +3,7 @@ namespace seeds1;
 
 public partial class AppShell : Shell
 {
-	public AppShell(BaseViewModel vm)
+	public AppShell(MyBaseViewModel vm)
 	{
 		InitializeComponent();
         BindingContext = vm;

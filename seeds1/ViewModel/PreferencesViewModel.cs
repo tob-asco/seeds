@@ -6,12 +6,12 @@ using seeds1.MauiModels;
 namespace seeds1.ViewModel;
 
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class PreferencesViewModel : MvvmHelpers.BaseViewModel
+public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICategoryPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;
     [ObservableProperty]
-    ObservableRangeCollection<CatPreference> preferences = new();
+    ObservableRangeCollection<CatPreference> catPrefs = new();
     public PreferencesViewModel(
         IGlobalService globalService,
         ICategoryPreferencesService catPrefService,
@@ -30,8 +30,8 @@ public partial class PreferencesViewModel : MvvmHelpers.BaseViewModel
         try
         {
             var catPrefs = await catPrefService.GetCatPreferencesAsync();
-            Preferences = new();
-            Preferences.AddRange(catPrefs);
+            CatPrefs = new();
+            CatPrefs.AddRange(catPrefs);
         }
         catch (Exception ex)
         {
@@ -42,7 +42,7 @@ public partial class PreferencesViewModel : MvvmHelpers.BaseViewModel
     public async Task ChangeCategoryPreference(string categoryKey)
     {
         // update entry
-        int index = Preferences.IndexOf(Preferences.FirstOrDefault(cp =>
+        int index = CatPrefs.IndexOf(CatPrefs.FirstOrDefault(cp =>
             cp.Key == categoryKey));
         if (index == -1)
         {
@@ -50,14 +50,14 @@ public partial class PreferencesViewModel : MvvmHelpers.BaseViewModel
             return;
         }
 
-        Preferences[index].Value = catPrefService.StepCatPreference(
-            Preferences[index].Value);
+        CatPrefs[index].Value = catPrefService.StepCatPreference(
+            CatPrefs[index].Value);
 
         // update DB
         if (await cupService.PutCategoryUserPreferenceAsync(
             categoryKey,
             CurrentUser.Username,
-            Preferences[index].Value) == false)
+            CatPrefs[index].Value) == false)
         {
             await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
         }
