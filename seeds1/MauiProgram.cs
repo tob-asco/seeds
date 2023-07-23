@@ -39,11 +39,18 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryViewModel>();
+        builder.Services.AddTransient<PreferencesViewModel>();
 
         //It's mandatory to register also the pages where we DI the VMs!
+        /* Although the Pages are registered as transient, they might not
+         * be re-painted upon navigation. This is NOT because the DI doesn't 
+         * function properly. It's because a Page is cached and navigation to 
+         * it simply doesn't re-call the constructor.
+         */
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
+        builder.Services.AddTransient<PreferencesPage>();
 
 
         /******************* auto-generated ********************/
