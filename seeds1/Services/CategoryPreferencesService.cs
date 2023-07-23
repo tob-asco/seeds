@@ -21,28 +21,24 @@ public class CategoryPreferencesService : ICategoryPreferencesService
         this.cupService = cupService;
     }
 
-    public async Task<IEnumerable<CatPreference>> GetCatPreferencesAsync()
+    public async Task<List<CatPreference>> GetCatPreferencesAsync()
     {
         List<CatPreference> catPrefs = new();
-        var cats = await categoryService.GetCategoriesAsync();
+        var cats = await categoryService.GetCategoriesAsync()
+            ?? throw new Exception("No Categories returned.");
         foreach (var cat in cats)
         {
-            try
+            var cup = await cupService.GetCategoryUserPreferenceAsync(
+                cat.Key, globalService.CurrentUser.Username)
+                ?? throw new Exception(
+                    $"No preference for category {cat.Name} found" +
+                    $" from user {globalService.CurrentUser.Username}");
+            catPrefs.Add(new()
             {
-                var cup = await cupService.GetCategoryUserPreferenceAsync(
-                    cat.Key, globalService.CurrentUser.Username);
-                catPrefs.Add(new()
-                {
-                    Key = cat.Key,
-                    Name = cat.Name,
-                    Value = cup.Value
-                });
-            }
-            catch (Exception ex)
-            {
-                // we will not have this category
-                Console.WriteLine(ex);
-            }
+                Key = cat.Key,
+                Name = cat.Name,
+                Value = cup.Value
+            });
         }
         return catPrefs;
     }

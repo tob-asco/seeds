@@ -4,6 +4,6 @@ namespace seeds1.Interfaces;
 
 public interface ICategoryPreferencesService
 {
-    public Task<IEnumerable<CatPreference>> GetCatPreferencesAsync();
+    public Task<List<CatPreference>> GetCatPreferencesAsync();
     public int StepCatPreference(int oldPreference);
 }

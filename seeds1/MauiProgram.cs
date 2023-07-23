@@ -31,7 +31,9 @@ public static class MauiProgram
         builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
 
-        builder.Services.AddSingleton<IGenericFactory, FeedEntryViewModelFactory>();
+        builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
+        builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
+        builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
