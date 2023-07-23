@@ -1,27 +1,25 @@
+using seeds1.Factories;
 using seeds1.Interfaces;
 
 namespace seeds1.View;
 
 public partial class PreferencesPage : ContentPage
 {
+    private readonly IGenericFactory<PreferencesViewModel> vmFactory;
     private PreferencesViewModel vm;
-    private readonly INavigationService navigationService;
 
     public PreferencesPage(
-        //PreferencesViewModel vm,
-        INavigationService navigationService)
+        IGenericFactory<PreferencesViewModel> vmFactory)
     {
         InitializeComponent();
-        //BindingContext = vm;
-        //this.vm = vm;
-        this.navigationService = navigationService;
+        this.vmFactory = vmFactory;
     }
 
     protected async override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
         // Always re-create the VM.
-        vm = Application.Current.Handler.MauiContext.Services.GetService<PreferencesViewModel>();
+        vm = vmFactory.Create();
         BindingContext = vm;
         await vm.GetCatPreferencesAsync();
     }
