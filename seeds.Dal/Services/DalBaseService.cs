@@ -62,4 +62,14 @@ public class DalBaseService : IDalBaseService
         }
         return true;
     }
+    public async Task<T?> GetNonDalModelAsync<T>(string url)
+    {
+        var response = await HttpClientWrapper.GetAsync(url);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"The Get URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}");
+        }
+        return await response.Content.ReadFromJsonAsync<T>();
+    }
 }

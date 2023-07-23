@@ -222,4 +222,44 @@ public class DalBaseServiceTests
         // Assert
         await act.Should().ThrowAsync<Exception>();
     }
+    [Fact]
+    public async Task DalBaseService_GetNonDalModelAsync_ReturnsInt()
+    {
+        // Arrange
+        int someInt = 8;
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.OK,
+            Content = new StringContent(JsonSerializer.Serialize(someInt)),
+        };
+        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
+            .Returns(response);
+
+        // Act
+        var result = await _service.GetDalModelAsync<int>("");
+
+        // Assert
+        result.Should().Be(someInt);
+    }
+    [Theory]
+    [InlineData(HttpStatusCode.NotFound)]
+    [InlineData(HttpStatusCode.Conflict)]
+    [InlineData(HttpStatusCode.GatewayTimeout)]
+    public async Task DalBaseService_GetNonDalModelAsync_IfBadResponseThrows(
+        HttpStatusCode code)
+    {
+        // Arrange
+        var response = new HttpResponseMessage
+        {
+            StatusCode = code,
+        };
+        A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () => await _service.GetNonDalModelAsync<int>("");
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
 }
