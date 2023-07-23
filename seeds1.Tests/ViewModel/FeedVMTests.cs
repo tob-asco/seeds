@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Interfaces;
+using seeds1.Factories;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 using seeds1.ViewModel;
@@ -9,6 +10,7 @@ namespace seeds1.Tests.ViewModel;
 public class FeedVMTests
 {
     private readonly IGlobalService globalService;
+    private readonly IFeedEntryViewModelFactory feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly ICategoryPreferencesService catPrefService;
@@ -17,11 +19,12 @@ public class FeedVMTests
     public FeedVMTests()
     {
         globalService = A.Fake<IGlobalService>();
+        feedEntryVmFactory = A.Fake<IFeedEntryViewModelFactory>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
         cupService = A.Fake<ICategoryUserPreferenceService>();
         catPrefService = A.Fake<ICategoryPreferencesService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        _vm = new FeedViewModel(globalService, feedEntriesService, cupService, catPrefService);
+        _vm = new FeedViewModel(globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
     }
 
     [Fact]
@@ -53,7 +56,7 @@ public class FeedVMTests
         string key = "ABC";
         _vm.FeedEntryVMCollection = new()
         {
-            new FeedEntryVM(globalService, uiiService)
+            new FeedEntryViewModel(globalService, uiiService)
             {
                 FeedEntry = new FeedEntry()
                 {
@@ -65,7 +68,7 @@ public class FeedVMTests
                     }
                 }
             },
-            new FeedEntryVM(globalService, uiiService)
+            new FeedEntryViewModel(globalService, uiiService)
             {
                 FeedEntry = new FeedEntry()
                 {
