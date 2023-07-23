@@ -3,7 +3,7 @@ using seeds1.Interfaces;
 
 namespace seeds1.Factories;
 
-public class FeedEntryViewModelFactory : IFeedEntryViewModelFactory
+public class FeedEntryViewModelFactory : IGenericFactory<FeedEntryViewModel>
 {
     private readonly IServiceProvider serviceProvider;
 
@@ -12,7 +12,7 @@ public class FeedEntryViewModelFactory : IFeedEntryViewModelFactory
     {
         this.serviceProvider = serviceProvider;
     }
-    public FeedEntryViewModel CreateFeedEntryViewModel()
+    public FeedEntryViewModel Create()
     {
         return new FeedEntryViewModel(
             serviceProvider.GetRequiredService<IGlobalService>(),

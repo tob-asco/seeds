@@ -10,7 +10,7 @@ namespace seeds1.Tests.ViewModel;
 public class FeedVMTests
 {
     private readonly IGlobalService globalService;
-    private readonly IFeedEntryViewModelFactory feedEntryVmFactory;
+    private readonly IGenericFactory feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly ICategoryPreferencesService catPrefService;
@@ -19,7 +19,7 @@ public class FeedVMTests
     public FeedVMTests()
     {
         globalService = A.Fake<IGlobalService>();
-        feedEntryVmFactory = A.Fake<IFeedEntryViewModelFactory>();
+        feedEntryVmFactory = A.Fake<IGenericFactory>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
         cupService = A.Fake<ICategoryUserPreferenceService>();
         catPrefService = A.Fake<ICategoryPreferencesService>();

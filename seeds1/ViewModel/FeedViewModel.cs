@@ -10,7 +10,7 @@ namespace seeds1.ViewModel;
 public partial class FeedViewModel : MyBaseViewModel
 {
     private static readonly int _maxFeedEntryPageSize = 5;
-    private readonly IFeedEntryViewModelFactory feedEntryVmFactory;
+    private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly ICategoryPreferencesService catPrefService;
@@ -19,7 +19,7 @@ public partial class FeedViewModel : MyBaseViewModel
 
     public FeedViewModel(
         IGlobalService globalService,
-        IFeedEntryViewModelFactory feedEntryVmFactory,
+        IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
         ICategoryPreferencesService catPrefService)
@@ -52,7 +52,7 @@ public partial class FeedViewModel : MyBaseViewModel
             List<FeedEntryViewModel> feedEntryVMs = new();
             foreach (var fe in feedEntries)
             {
-                var vm = feedEntryVmFactory.CreateFeedEntryViewModel();
+                var vm = feedEntryVmFactory.Create();
                 vm.FeedEntry = fe;
                 feedEntryVMs.Add(vm);
             }
