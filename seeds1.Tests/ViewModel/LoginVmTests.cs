@@ -6,14 +6,14 @@ using seeds1.ViewModel;
 
 namespace seeds1.Tests.ViewModel;
 
-public class LoginViewModelTests
+public class LoginVmTests
 {
     private readonly IGlobalService globalService;
     private readonly IUsersService userService;
     private readonly INavigationService navService;
     private readonly LoginViewModel vm;
 
-    public LoginViewModelTests()
+    public LoginVmTests()
     {
         globalService = A.Fake<IGlobalService>();
         userService = A.Fake<IUsersService>();
