@@ -10,10 +10,11 @@ public class UsersService : IUsersService
     {
         _baseService = baseService;
     }
-    public async Task<List<UserDtoApi>?> GetUsersAsync()
+    public async Task<List<UserDtoApi>> GetUsersAsync()
     {
         string url = "api/Users";
-        return await _baseService.GetDalModelAsync<List<UserDtoApi>>(url);
+        return await _baseService.GetDalModelAsync<List<UserDtoApi>>(url)
+            ?? throw new Exception($"The Get URL {url} returned null.");
     }
     public async Task<UserDtoApi?> GetUserByUsernameAsync(string username)
     {

@@ -44,10 +44,10 @@ public class UsersServiceTests
             .Returns<List<UserDtoApi>?>(null);
 
         // Act
-        var result = await _service.GetUsersAsync();
+        Func<Task> act = async () => await _service.GetUsersAsync();
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
     public async Task UsersService_GetUserByUsernameAsync_ReturnsItself()
