@@ -58,7 +58,7 @@ public partial class FeedEntryViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("DB Access Error", ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("DB Error", ex.Message, "Ok");
         }
     }
     private async Task DbUpdateUiiAsync(bool newUpvoted, bool newDownvoted)
