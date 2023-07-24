@@ -2,6 +2,7 @@
 using seeds.Dal.Interfaces;
 using seeds1.Factories;
 using seeds1.Interfaces;
+using seeds1.MauiModels;
 
 namespace seeds1.ViewModel;
 
@@ -41,28 +42,31 @@ public partial class FeedViewModel : MyBaseViewModel
         else { currentCount = FeedEntryVMCollection.Count; }
 
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
+
+        List<FeedEntry> feedEntries = new();
         try
         {
-            var feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
+            feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
                 currentPages + 1, _maxFeedEntryPageSize);
-            if (feedEntries == null || feedEntries.Count == 0) { return; }
-#if WINDOWS
-            feedEntries.Reverse();
-#endif
-            List<FeedEntryViewModel> feedEntryVMs = new();
-            foreach (var fe in feedEntries)
-            {
-                var vm = feedEntryVmFactory.Create();
-                vm.FeedEntry = fe;
-                feedEntryVMs.Add(vm);
-            }
-            FeedEntryVMCollection.AddRange(feedEntryVMs);
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Error On Collecting FeedEntries", ex.Message, "Ok");
             return;
         }
+
+        if (feedEntries.Count == 0) { return; }
+#if WINDOWS
+            feedEntries.Reverse();
+#endif
+        List<FeedEntryViewModel> feedEntryVMs = new();
+        foreach (var fe in feedEntries)
+        {
+            var vm = feedEntryVmFactory.Create();
+            vm.FeedEntry = fe;
+            feedEntryVMs.Add(vm);
+        }
+        FeedEntryVMCollection.AddRange(feedEntryVMs);
     }
 
     /* update all feed entries that have the same categoryKey
@@ -89,19 +93,37 @@ public partial class FeedViewModel : MyBaseViewModel
         // update DB
         if (newCatPreference != null)
         {
-            if (await cupService.PutCategoryUserPreferenceAsync(
-                categoryKey,
-                CurrentUser.Username,
-                (int)newCatPreference) == false)
+            try
             {
-                await Shell.Current.DisplayAlert("Put Error", "The DB is not updated. Please refresh.", "Ok");
+                if (await cupService.PutCategoryUserPreferenceAsync(
+                    categoryKey,
+                    CurrentUser.Username,
+                    (int)newCatPreference) == false)
+                {
+                    throw new Exception($"The user preference for category {categoryKey}" +
+                        $" could not be Put. Please refresh.");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("DB Error",
+                    ex.Message, "Ok");
             }
         }
     }
 
     public async Task LoadCatPreferencesFromDbAsync()
     {
-        var catPrefs = await catPrefService.GetCatPreferencesAsync();
+        List<CatPreference> catPrefs = new();
+        try
+        {
+            catPrefs = await catPrefService.GetCatPreferencesAsync();
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("DB Error",
+                ex.Message, "Ok");
+        }
         Dictionary<string, int> catPrefsDict = new();
         foreach (var catPref in catPrefs)
         {
