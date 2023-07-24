@@ -31,6 +31,7 @@ namespace seeds.Api.Controllers
                 return NotFound();
             }
             var categories = await _context.Category.ToListAsync();
+            if (categories == null || categories?.Count == 0) { return NotFound(); }
             var categoriesDto = mapper.Map<List<CategoryDtoApi>>(categories);
             return categoriesDto;
         }

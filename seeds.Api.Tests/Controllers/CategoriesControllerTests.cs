@@ -1,9 +1,4 @@
-﻿using FakeItEasy.Configuration;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using seeds.Api.Controllers;
-using seeds.Api.Data;
-using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToApi;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -49,6 +44,20 @@ public class CategoriesControllerTests : ApiBaseControllerTests
         response.Should().BeSuccessful();
         result.Should().NotBeNull();
         result?.Should().HaveCount(Categories.Count);
+    }
+    [Fact]
+    public async Task CatsController_GetAllEndpoint_IfEmptyReturnsNotFound()
+    {
+        // Arrange
+        _context.Category.RemoveRange(Categories);
+        _context.SaveChanges();
+        string url = $"api/Categories";
+
+        // Act
+        var response = await _httpClient.GetAsync(url);
+
+        // Assert
+        response.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
     [Fact]
     public async Task CatsController_GetEndpoint_ReturnsCat()
