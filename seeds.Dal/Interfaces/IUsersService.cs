@@ -4,6 +4,10 @@ namespace seeds.Dal.Interfaces;
 
 public interface IUsersService
 {
-    public Task<List<UserDtoApi>?> GetUsersAsync();
+    /* if base returns null, throws.
+     */
+    public Task<List<UserDtoApi>> GetUsersAsync();
+    /* may return null, only base may throw.
+     */
     public Task<UserDtoApi?> GetUserByUsernameAsync(string username);
 }

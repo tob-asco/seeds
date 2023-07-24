@@ -31,16 +31,16 @@ public class CategoryServiceTests
         result?.Key.Should().Be(key);
     }
     [Fact]
-    public async Task CatService_GetCatByKeyAsync_IfNotExistReturnsNull()
+    public async Task CatService_GetCatByKeyAsync_IfBaseReturnsNullThrows()
     {
         // Arrange
         A.CallTo(() => _baseService.GetDalModelAsync<CategoryDtoApi>(A<string>.Ignored))
             .Returns<CategoryDtoApi?>(null);
 
         // Act
-        var result = await _service.GetCategoryByKeyAsync("N0C");
+        Func<Task> act = async () => await _service.GetCategoryByKeyAsync("N0C");
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<Exception>();
     }
 }

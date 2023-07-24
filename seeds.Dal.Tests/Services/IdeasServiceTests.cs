@@ -3,12 +3,6 @@ using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds.Dal.Tests.Services;
 
@@ -38,7 +32,7 @@ public class IdeasServiceTests
         result?.Id.Should().Be(id);
     }
     [Fact]
-    public async Task IdeasService_GetIdeaAsync_IfNotExistReturnsNull()
+    public async Task IdeasService_GetIdeaAsync_IfNotExistThrows()
     {
         // Arrange
         A.CallTo(() => _baseService.GetDalModelAsync<IdeaDtoApi>(
@@ -46,10 +40,10 @@ public class IdeasServiceTests
             .Returns<IdeaDtoApi?>(null);
 
         // Act
-        var result = await _service.GetIdeaAsync(1); //"1" doesn't matter
+        Func<Task> act = async () => await _service.GetIdeaAsync(1); //"1" doesn't matter
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
     public async void IdeasService_GetIdeasPaginatedAsync_ReturnsAllItselfs()

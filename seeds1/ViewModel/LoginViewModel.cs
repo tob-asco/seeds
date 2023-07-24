@@ -37,8 +37,17 @@ public partial class LoginViewModel : MyBaseViewModel
             return;
         }
         FailResponse("Checking..."); //shouldnt be a "fail" response..
-        //look up DB for existence of entered data:
-        UserDtoApi user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
+        UserDtoApi user = null!;
+
+        try
+        {
+            user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("DB Error",
+                ex.Message, "Ok");
+        }
         
         if (user != null) 
         {

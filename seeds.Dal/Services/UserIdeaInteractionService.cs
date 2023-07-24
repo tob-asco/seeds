@@ -36,21 +36,23 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
         string url = "api/UserIdeaInteractions";
         return await _baseService.PostDalModelAsync<UserIdeaInteraction>(url, uii);
     }
-    public async Task<bool> PostOrPutUserIdeaInteractionAsync(UserIdeaInteraction newUii)
+    public async Task PostOrPutUserIdeaInteractionAsync(UserIdeaInteraction newUii)
     {
-        if (await PostUserIdeaInteractionAsync(newUii)) return true;
-        return await PutUserIdeaInteractionAsync(
+        if (await PostUserIdeaInteractionAsync(newUii)) { return; }
+        if (await PutUserIdeaInteractionAsync(
             newUii.Username,
             newUii.IdeaId,
             newUii.Upvoted,
-            newUii.Downvoted);
+            newUii.Downvoted)) { return; }
+        throw new Exception("Neither could we Post, nor Put the specified interaction" +
+            $"of {newUii.Username} with the idea of ID {newUii.IdeaId}.");
     }
     public async Task<int> CountVotesAsync(int ideaId)
     {
         string upvotesUrl = $"api/UserIdeaInteractions/{ideaId}/upvotes";
         string downvotesUrl = $"api/UserIdeaInteractions/{ideaId}/downvotes";
-        int upvotes = await _baseService.GetDalModelAsync<int>(upvotesUrl);
-        int downvotes = await _baseService.GetDalModelAsync<int>(downvotesUrl);
+        int upvotes = await _baseService.GetNonDalModelAsync<int>(upvotesUrl);
+        int downvotes = await _baseService.GetNonDalModelAsync<int>(downvotesUrl);
         return upvotes - downvotes;
     }
 }

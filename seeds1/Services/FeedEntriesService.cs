@@ -29,37 +29,29 @@ public class FeedEntriesService : IFeedEntriesService
     {
         List<FeedEntry> feedEntryPage = new();
         var ideaPage = await ideasService.GetIdeasPaginatedAsync(page, maxPageSize);
-        // we get null if there are no more ideas
-        if (ideaPage == null) { return new(); }
+        if (ideaPage == null) { return new(); } // we get null if there are no more ideas
         foreach (var idea in ideaPage)
         {
-            try
+            /* According to the general philo, no error- / badNull- handling here.
+             * badNull-handling is done in the services,
+             * error-handling is done in the VMs
+             */
+            var upvotes = await uiiService.CountVotesAsync(idea.Id);
+            var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
+            var cup = await cupService.GetCategoryUserPreferenceAsync(
+                idea.CategoryKey, globalService.CurrentUser.Username);
+            var uii = await uiiService.GetUserIdeaInteractionAsync(
+                globalService.CurrentUser.Username, idea.Id)
+                ?? new UserIdeaInteraction();
+            feedEntryPage.Add(new FeedEntry
             {
-                var upvotes = await uiiService.CountVotesAsync(idea.Id);
-                var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey)
-                    ?? throw new Exception($"Category with key {idea.CategoryKey} returned null.");
-                var cup = await cupService.GetCategoryUserPreferenceAsync(
-                    idea.CategoryKey, globalService.CurrentUser.Username)
-                    ?? throw new Exception($"Category with key {idea.CategoryKey} returned" +
-                    $" user preference null.");
-                var uii = await uiiService.GetUserIdeaInteractionAsync(
-                    globalService.CurrentUser.Username, idea.Id)
-                    ?? new UserIdeaInteraction();
-                feedEntryPage.Add(new FeedEntry
-                {
-                    Idea = idea,
-                    CategoryName = category.Name,
-                    CategoryPreference = cup.Value,
-                    Upvoted = uii.Upvoted,
-                    Downvoted = uii.Downvoted,
-                    Upvotes = upvotes,
-                });
-            }
-            catch (Exception ex)
-            {
-                // we will not have this FeedEntry
-                Console.WriteLine(ex);
-            }
+                Idea = idea,
+                CategoryName = category.Name,
+                CategoryPreference = cup.Value,
+                Upvoted = uii.Upvoted,
+                Downvoted = uii.Downvoted,
+                Upvotes = upvotes,
+            });
         }
         return feedEntryPage;
     }

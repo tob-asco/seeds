@@ -10,10 +10,11 @@ public class IdeasService : IIdeasService
     {
         _baseService = baseService;
     }
-    public async Task<IdeaDtoApi?> GetIdeaAsync(int id)
+    public async Task<IdeaDtoApi> GetIdeaAsync(int id)
     {
         string url = $"api/Ideas/{id}";
-        return await _baseService.GetDalModelAsync<IdeaDtoApi>(url);
+        return await _baseService.GetDalModelAsync<IdeaDtoApi>(url)
+            ?? throw new Exception($"The Get URL {url} returned null.");
     }
     public async Task<List<IdeaDtoApi>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
