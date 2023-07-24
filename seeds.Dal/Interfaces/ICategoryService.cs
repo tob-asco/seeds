@@ -9,5 +9,5 @@ public interface ICategoryService
     public Task<List<CategoryDtoApi>> GetCategoriesAsync();
     /* If no category found, throws.
      */
-    public Task<CategoryDtoApi?> GetCategoryByKeyAsync(string categoryKey);
+    public Task<CategoryDtoApi> GetCategoryByKeyAsync(string categoryKey);
 }

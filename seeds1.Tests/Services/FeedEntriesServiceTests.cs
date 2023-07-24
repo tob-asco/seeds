@@ -45,7 +45,7 @@ public class FeedEntriesServiceTests
             .Returns(cat2);
         A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored))
-            .Returns<CategoryUserPreference?>(new());
+            .Returns<CategoryUserPreference>(new());
         #endregion
 
         // Act
