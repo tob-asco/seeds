@@ -1,8 +1,8 @@
 # seeds - Humanity's Database of Creativity
 ## TODOs
-- [ ] test MAUI Services
-- [ ] test `CategoriesController.GetCategoriesAsync`
-- [ ] create CurrentUser singleton
+- [x] test MAUI Services
+- [x] test `CategoriesController.GetCategoriesAsync`
+- [x] create CurrentUser singleton
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
@@ -68,6 +68,11 @@
   - **ViewModel**: Unit tests. Tests include
     - *Raise Property Changed Event* (PCE) - tests
     - *Navigates to* - tests (using mocked navigation services)
+
+## Error Handling Philosophy
+Trying to streamline the throwing & try-catching procedure of exceptions throughout the solution:
+1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
+2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
 
 ## What You Should Do When...
 - **You want to add a new EF Core model class that defines a seperate entity** (not a join entity)
