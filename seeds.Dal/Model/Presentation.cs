@@ -6,7 +6,7 @@ namespace seeds.Dal.Model;
 /* No navigation properties, so also no DTO for this one.
  */
 
-[Table("presentation")]
+[Table("presentations")]
 public class Presentation
 {
     [Column("id")]
