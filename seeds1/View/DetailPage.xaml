@@ -5,9 +5,10 @@
              x:Class="seeds1.View.DetailPage"
              x:DataType="local:DetailViewModel"
              Title="{Binding FeedEntry.Idea.Title}">
-    <VerticalStackLayout>
+    <VerticalStackLayout
+        Margin="5">
         <Label 
-            Text="{Binding FeedEntry.Idea.Slogan}"
+            Text="{Binding DisplayedDescription}"
             />
     </VerticalStackLayout>
 </ContentPage>
