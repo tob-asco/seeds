@@ -17,7 +17,7 @@ namespace seeds.Api.Controllers
         }
 
         // GET: api/Presentations/5
-        [HttpGet("{id}")]
+        [HttpGet("{ideaId}")]
         public async Task<ActionResult<Presentation>> GetPresentationByIdeaId(int ideaId)
         {
             if (_context.Presentation == null)
@@ -37,10 +37,10 @@ namespace seeds.Api.Controllers
 
         // PUT: api/Presentations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutPresentation(int id, Presentation presentation)
+        [HttpPut("{ideaId}")]
+        public async Task<IActionResult> PutPresentationByIdeaId(int ideaId, Presentation presentation)
         {
-            if (id != presentation.Id)
+            if (ideaId != presentation.IdeaId)
             {
                 return BadRequest();
             }
@@ -53,7 +53,7 @@ namespace seeds.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PresentationExists(id))
+                if (!IdeaExists(ideaId) || !PresentationExists(presentation.Id))
                 {
                     return NotFound();
                 }
@@ -80,9 +80,25 @@ namespace seeds.Api.Controllers
                 return Problem($"Foreign key {nameof(Presentation.IdeaId)} not existing.");
             }
             _context.Presentation.Add(presentation);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetPresentationByIdeaId), new { ideaId = presentation.IdeaId }, presentation);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch //(DbUpdateException)
+            {
+                if (PresentationExists(presentation.Id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return CreatedAtAction(
+                nameof(GetPresentationByIdeaId),
+                new { ideaId = presentation.IdeaId },
+                presentation);
         }
         private bool PresentationExists(int id)
         {
