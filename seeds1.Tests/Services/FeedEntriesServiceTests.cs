@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -29,9 +29,9 @@ public class FeedEntriesServiceTests
     {
         #region Arrange
         int page = 1; int pageSize = 2;
-        CategoryDtoApi cat1 = new() { Key = "Cat1" };
-        CategoryDtoApi cat2 = new() { Key = "Cat2" };
-        List<IdeaDtoApi> ideaPage = new() {
+        CategoryFromDb cat1 = new() { Key = "Cat1" };
+        CategoryFromDb cat2 = new() { Key = "Cat2" };
+        List<IdeaFromDb> ideaPage = new() {
             new(){ CategoryKey = cat1.Key},
             new(){ CategoryKey = cat2.Key},
         };
@@ -62,7 +62,7 @@ public class FeedEntriesServiceTests
         #region Arrange
         int page = 1; int pageSize = 2;
         A.CallTo(() => ideasService.GetIdeasPaginatedAsync(page, pageSize))
-            .Returns<List<IdeaDtoApi>?>(null);
+            .Returns<List<IdeaFromDb>?>(null);
         #endregion
 
         // Act

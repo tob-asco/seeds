@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Controllers;
 using seeds.Api.Data;
-using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -52,14 +52,14 @@ public class IdeasControllerTests : ApiBaseControllerTests
         if (Ideas.Count >= (page * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
             result.Should().HaveCount(maxPageSize);
         }
         else if (Ideas.Count < (page * maxPageSize) &&
             Ideas.Count > ((page - 1) * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
             result.Should().HaveCount(Ideas.Count - ((page - 1) * maxPageSize));
         }
         else
@@ -76,7 +76,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<IdeaDtoApi>();
+        var result = await response.Content.ReadFromJsonAsync<IdeaFromDb>();
 
         //Assert
         response.Should().BeSuccessful();
@@ -102,7 +102,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int id = Ideas[0].Id;
-        IdeaDtoApi idea = new()
+        IdeaFromDb idea = new()
         {
             Id = id,
             Title = "new title"
@@ -133,7 +133,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     public async Task IdeasController_PostIdeaEndpoint_ReturnsSuccess()
     {
         //Arrange
-        IdeaDtoApi idea = new()
+        IdeaFromDb idea = new()
         {
             Title = "new title",
         };

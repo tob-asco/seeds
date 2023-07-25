@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Interfaces;
 
 namespace seeds.Dal.Services;
@@ -10,15 +10,15 @@ public class IdeasService : IIdeasService
     {
         _baseService = baseService;
     }
-    public async Task<IdeaDtoApi> GetIdeaAsync(int id)
+    public async Task<IdeaFromDb> GetIdeaAsync(int id)
     {
         string url = $"api/Ideas/{id}";
-        return await _baseService.GetDalModelAsync<IdeaDtoApi>(url)
+        return await _baseService.GetDalModelAsync<IdeaFromDb>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
-    public async Task<List<IdeaDtoApi>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
+    public async Task<List<IdeaFromDb>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
     {
         string url = $"api/ideas/page/{page}/size/{maxPageSize}";
-        return await _baseService.GetDalModelAsync<List<IdeaDtoApi>>(url);
+        return await _baseService.GetDalModelAsync<List<IdeaFromDb>>(url);
     }
 }

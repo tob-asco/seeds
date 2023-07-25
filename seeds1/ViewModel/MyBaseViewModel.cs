@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.FromDb;
 using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
@@ -6,7 +6,7 @@ namespace seeds1.ViewModel;
 public partial class MyBaseViewModel : ObservableObject //partial because of source generation
 {
     private readonly IGlobalService globalService;
-    public UserDtoApi CurrentUser
+    public UserFromDb CurrentUser
     {
         get => globalService.CurrentUser;
         set
