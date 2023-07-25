@@ -6,7 +6,12 @@
              x:DataType="local:FeedEntryViewModel"
              x:Class="seeds1.View.FeedEntryView">
     <Frame BackgroundColor="#222" Margin="0,15,0,0" Padding="0">
-    <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->
+        <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer 
+                  Command="{Binding GoToDetailsCommand}"
+                  CommandParameter="{Binding FeedEntry}"/>
+        </Frame.GestureRecognizers>
         <VerticalStackLayout>
             <!--Use Flex instead of HorizontalStack to put one on left, one on right-->
             <FlexLayout Grid.Row="0" Wrap="NoWrap" JustifyContent="SpaceBetween" 
@@ -79,7 +84,7 @@
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </VerticalStackLayout>
-    <!--</Grid>-->
+        <!--</Grid>-->
     </Frame>
 
     <ContentView.Resources>

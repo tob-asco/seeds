@@ -61,6 +61,18 @@ public partial class FeedEntryViewModel : ObservableObject
             await Shell.Current.DisplayAlert("DB Error", ex.Message, "Ok");
         }
     }
+    [RelayCommand]
+    public async Task GoToDetails(FeedEntry fe)
+    {
+        if (fe == null) { return; }
+
+        await Shell.Current.GoToAsync(
+            nameof(DetailPage), false,
+            new Dictionary<string, object>()
+            {
+                { nameof(FeedEntry), fe }
+            });
+    }
     private async Task DbUpdateUiiAsync(bool newUpvoted, bool newDownvoted)
     {
         await uiiService.PostOrPutUserIdeaInteractionAsync(

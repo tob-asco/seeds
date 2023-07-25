@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Data
@@ -21,6 +17,7 @@ namespace seeds.Api.Data
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryUserPreferenceConfiguration());
             modelBuilder.ApplyConfiguration(new UserIdeaInteractionConfiguration());
+            modelBuilder.ApplyConfiguration(new PresentationConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -29,5 +26,6 @@ namespace seeds.Api.Data
         public DbSet<seeds.Dal.Model.Category> Category { get; set; } = default!;
         public DbSet<seeds.Dal.Model.CategoryUserPreference> CategoryUserPreference { get; set; } = default!;
         public DbSet<seeds.Dal.Model.UserIdeaInteraction> UserIdeaInteraction { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.Presentation> Presentation { get; set; } = default!;
     }
 }

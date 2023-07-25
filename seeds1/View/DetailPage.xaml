@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:seeds1.ViewModel"
+             x:Class="seeds1.View.DetailPage"
+             x:DataType="local:DetailViewModel"
+             Title="{Binding FeedEntry.Idea.Title}">
+    <VerticalStackLayout
+        Margin="5">
+        <Label 
+            Text="{Binding DisplayedDescription}"
+            />
+    </VerticalStackLayout>
+</ContentPage>
