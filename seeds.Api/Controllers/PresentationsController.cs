@@ -75,6 +75,10 @@ namespace seeds.Api.Controllers
             {
                 return Problem("Entity set 'seedsApiContext.Presentation'  is null.");
             }
+            if (!IdeaExists(presentation.IdeaId))
+            {
+                return Problem($"Foreign key {nameof(Presentation.IdeaId)} not existing.");
+            }
             _context.Presentation.Add(presentation);
             await _context.SaveChangesAsync();
 
@@ -83,6 +87,10 @@ namespace seeds.Api.Controllers
         private bool PresentationExists(int id)
         {
             return (_context.Presentation?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+        private bool IdeaExists(int id)
+        {
+            return (_context.Idea?.Any(i => i.Id == id)).GetValueOrDefault();
         }
     }
 }
