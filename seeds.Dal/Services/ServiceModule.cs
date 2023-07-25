@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Wrappers;
 
@@ -14,6 +9,12 @@ public static class ServiceModule
     public static void DIregistration(IServiceCollection service)
     {
         service.AddSingleton<IHttpClientWrapper, HttpClientWrapper>();
-        service.AddSingleton<IDalBaseService, DalBaseService>();
+        service.AddScoped<IDalBaseService, DalBaseService>();
+        service.AddScoped<IIdeasService, IdeasService>();
+        service.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
+        service.AddScoped<ICategoryService, CategoryService>();
+        service.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
+        service.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
+        service.AddScoped<IPresentationService, PresentationService>();
     }                               
 }

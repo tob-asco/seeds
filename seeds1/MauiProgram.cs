@@ -25,16 +25,12 @@ public static class MauiProgram
         //call the DI registration method of the DAL project
         ServiceModule.DIregistration(builder.Services);
 
-        builder.Services.AddScoped<IUsersService, UsersService>(); //AddScoped suitable for Web Apps
-        builder.Services.AddScoped<IIdeasService, IdeasService>();
-        builder.Services.AddScoped<ICategoryService, CategoryService>();
-        builder.Services.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
-        builder.Services.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
-
+        builder.Services.AddSingleton<IGlobalService, GlobalService>();
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
+        builder.Services.AddSingleton<ICategoryPreferencesService, CategoryPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddTransient<MyBaseViewModel>();
