@@ -1,8 +1,6 @@
 # seeds - Humanity's Database of Creativity
 ## TODOs
-- [x] test MAUI Services
-- [x] test `CategoriesController.GetCategoriesAsync`
-- [x] create CurrentUser singleton
+- [ ] change id datatype to GUID
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
