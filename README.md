@@ -82,7 +82,8 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
   6. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
   7. Create an interface `seeds.Dal.Interfaces.IMyModelService.cs`
   8. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
-  9. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
+  9. Register the last two points to the DI container
+  10. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
 - **You add a new join entity EF Core model class**
   1. Add an EF Core model class `seeds.Dal.Model.MyJoinEntity.cs`
      - contains 2 foreign keys
@@ -91,6 +92,7 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
      - probably needs to define its primary key as a combination of the two FKs like `builder.HasKey(je => new {je.FK1, je.FK2});`
   3. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyJoinEntity` as model and the existing context class and hence create `seeds.Api.Controllers.MyJoinEntitiesController.cs`
   4. Minimally adapt the `MyJoinEntitiesController` class, e.g. delete useless endpoints
-  7. Create an interface `seeds.Dal.Interfaces.IMyJoinEntityService.cs`
-  8. Implement it in a service class `seeds.Dal.Services.MyJoinEntityService.cs` that accesses the endpoints
-  7. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyJoinEntitiesControllerTests.cs` and `seeds.Dal.Tests.Services.MyJoinEntityServiceTests.cs`
+  5. Create an interface `seeds.Dal.Interfaces.IMyJoinEntityService.cs`
+  6. Implement it in a service class `seeds.Dal.Services.MyJoinEntityService.cs` that accesses the endpoints
+  7. Register the last two points to the DI container
+  8. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyJoinEntitiesControllerTests.cs` and `seeds.Dal.Tests.Services.MyJoinEntityServiceTests.cs`
