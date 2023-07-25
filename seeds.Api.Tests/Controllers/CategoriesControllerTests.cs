@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -38,7 +38,7 @@ public class CategoriesControllerTests : ApiBaseControllerTests
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<List<CategoryFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
 
         // Assert
         response.Should().BeSuccessful();
@@ -68,7 +68,7 @@ public class CategoriesControllerTests : ApiBaseControllerTests
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<CategoryFromDb>();
+        var result = await response.Content.ReadFromJsonAsync<CategoryDto>();
 
         // Assert
         response.Should().BeSuccessful();

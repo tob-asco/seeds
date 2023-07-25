@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -29,8 +30,8 @@ public class FeedEntriesServiceTests
     {
         #region Arrange
         int page = 1; int pageSize = 2;
-        CategoryFromDb cat1 = new() { Key = "Cat1" };
-        CategoryFromDb cat2 = new() { Key = "Cat2" };
+        CategoryDto cat1 = new() { Key = "Cat1" };
+        CategoryDto cat2 = new() { Key = "Cat2" };
         List<IdeaFromDb> ideaPage = new() {
             new(){ CategoryKey = cat1.Key},
             new(){ CategoryKey = cat2.Key},

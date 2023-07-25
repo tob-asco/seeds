@@ -1,6 +1,6 @@
-﻿namespace seeds.Dal.Dto.FromDb;
+﻿namespace seeds.Dal.Dto.ToAndFromDb;
 
-public class CategoryFromDb
+public class CategoryDto
 {
     public string Key { get; set; } = "NoC"; //GAD, ITE, ENV, H4H, ...
     public string Name { get; set; } = "No Category";

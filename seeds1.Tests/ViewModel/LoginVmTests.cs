@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds1.Interfaces;
 using seeds1.Tests.Services;
@@ -28,7 +28,7 @@ public class LoginVmTests
         #region Arrange
         var enteredUsername = "testuser";
         var enteredPassword = "password";
-        var user = new UserFromDb
+        var user = new UserDto
         {
             Username = "testuser",
             Password = "password"
@@ -53,7 +53,7 @@ public class LoginVmTests
         #region Arrange
         var enteredUsername = "testuser";
         var enteredPassword = "";
-        var user = new UserFromDb
+        var user = new UserDto
         {
             Username = "testuser",
             Password = null
@@ -77,7 +77,7 @@ public class LoginVmTests
     {
         #region Arrange
         var enteredUsername = "testuser";
-        var user = new UserFromDb
+        var user = new UserDto
         {
             Username = "testuser",
             Password = ""
@@ -106,7 +106,7 @@ public class LoginVmTests
         vm.DisplayedLoginResponse = "";
         var enteredUsername = "testuser";
         var enteredPassword = "password";
-        var user = new UserFromDb
+        var user = new UserDto
         {
             Username = "testuser",
             Password = "PASSWORD"
@@ -133,7 +133,7 @@ public class LoginVmTests
         vm.DisplayedLoginResponse = "";
         var enteredUsername = "";
         var enteredPassword = "password";
-        var user = new UserFromDb
+        var user = new UserDto
         {
             Username = "",
             Password = "password"

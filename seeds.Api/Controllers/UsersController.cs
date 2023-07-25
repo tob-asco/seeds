@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
-using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers;
@@ -24,7 +24,7 @@ public class UsersController : ControllerBase
 
     // GET: api/Users/dummyName
     [HttpGet("{username}")]
-    public async Task<ActionResult<UserFromDb>> GetUserByUsername(string username)
+    public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
     {
         if (_context.User == null)
         {
@@ -32,14 +32,14 @@ public class UsersController : ControllerBase
         }
         var user = await _context.User
             .SingleOrDefaultAsync(u => u.Username == username);
-        var userDto = mapper.Map<UserFromDb>(user);
+        var userDto = mapper.Map<UserDto>(user);
         return userDto == null ? NotFound() : userDto;
     }
 
     // POST: api/Users
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<User>> PostUser(UserFromDb userDto)
+    public async Task<ActionResult<User>> PostUser(UserDto userDto)
     {
         if (_context.User == null)
         { return Problem("Entity set 'seedsApiContext.User'  is null."); }

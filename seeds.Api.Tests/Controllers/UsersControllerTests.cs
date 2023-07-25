@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -39,7 +39,7 @@ public class UsersControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<UserFromDb>();
+        var result = await response.Content.ReadFromJsonAsync<UserDto>();
 
         //Assert
         response.Should().BeSuccessful();
@@ -64,7 +64,7 @@ public class UsersControllerTests : ApiBaseControllerTests
     {
         //Arrange
         string username = "tooobi";
-        UserFromDb user = new()
+        UserDto user = new()
         {
             Username = username,
             Password = "",
@@ -87,7 +87,7 @@ public class UsersControllerTests : ApiBaseControllerTests
     public async Task UsersController_PostUserEndpoint_ReturnsConflictDuplicate()
     {
         //Arrange
-        UserFromDb user = new()
+        UserDto user = new()
         {
             Username = "tobi",
             Password = "",

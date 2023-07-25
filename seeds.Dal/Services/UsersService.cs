@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 
 namespace seeds.Dal.Services;
@@ -10,15 +10,15 @@ public class UsersService : IUsersService
     {
         _baseService = baseService;
     }
-    public async Task<List<UserFromDb>> GetUsersAsync()
+    public async Task<List<UserDto>> GetUsersAsync()
     {
         string url = "api/Users";
-        return await _baseService.GetDalModelAsync<List<UserFromDb>>(url)
+        return await _baseService.GetDalModelAsync<List<UserDto>>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
-    public async Task<UserFromDb?> GetUserByUsernameAsync(string username)
+    public async Task<UserDto?> GetUserByUsernameAsync(string username)
     {
         string url = $"api/Users/{username}";
-        return await _baseService.GetDalModelAsync<UserFromDb>(url);
+        return await _baseService.GetDalModelAsync<UserDto>(url);
     }
 }

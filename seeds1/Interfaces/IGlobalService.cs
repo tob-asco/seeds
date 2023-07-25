@@ -1,8 +1,8 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 
 namespace seeds1.Interfaces;
 
 public interface IGlobalService
 {
-    public UserFromDb CurrentUser { get; set; }
+    public UserDto CurrentUser { get; set; }
 }

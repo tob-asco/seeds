@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
@@ -6,7 +6,7 @@ namespace seeds1.ViewModel;
 public partial class MyBaseViewModel : ObservableObject //partial because of source generation
 {
     private readonly IGlobalService globalService;
-    public UserFromDb CurrentUser
+    public UserDto CurrentUser
     {
         get => globalService.CurrentUser;
         set

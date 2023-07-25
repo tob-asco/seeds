@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 
@@ -11,9 +12,9 @@ public class AutoMapperProfiles : Profile
     {
         CreateMap<IdeaToDb, Idea>();
         CreateMap<Idea, IdeaFromDb>();
-        CreateMap<User, UserFromDb>();
-        CreateMap<UserFromDb, User>();
-        CreateMap<Category, CategoryFromDb>();
-        CreateMap<CategoryFromDb, Category>();
+        CreateMap<User, UserDto>();
+        CreateMap<UserDto, User>();
+        CreateMap<Category, CategoryDto>();
+        CreateMap<CategoryDto, Category>();
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace seeds.Dal.Dto.FromDb;
+namespace seeds.Dal.Dto.ToAndFromDb;
 
-public class UserFromDb
+public class UserDto
 {
     public string Username { get; set; } = string.Empty;
     [AllowNull]

@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
@@ -21,7 +22,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string username = "dummy";
-        UserFromDb user = new() { Username = username };
+        UserDto user = new() { Username = username };
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.OK,
@@ -32,16 +33,16 @@ public class DalBaseServiceTests
         string url = "";
 
         // Act
-        var result = await _service.GetDalModelAsync<UserFromDb>(url);
+        var result = await _service.GetDalModelAsync<UserDto>(url);
 
         // Assert
         result.Should().NotBeNull();
         result?.Username.Should().Be(username);
     }
     [Theory]
-    [InlineData(typeof(UserFromDb))]
+    [InlineData(typeof(UserDto))]
     [InlineData(typeof(IdeaFromDb))]
-    [InlineData(typeof(CategoryFromDb))]
+    [InlineData(typeof(CategoryDto))]
     [InlineData(typeof(CategoryUserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
     public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(
@@ -93,7 +94,7 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        Func<Task> act1 = async () => await _service.GetDalModelAsync<UserFromDb>("");
+        Func<Task> act1 = async () => await _service.GetDalModelAsync<UserDto>("");
         Func<Task> act2 = async () => await _service.GetDalModelAsync<int>("");
 
         // Assert
@@ -105,7 +106,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Accepted,
@@ -124,7 +125,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.NotFound,
@@ -147,7 +148,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = code,
@@ -166,7 +167,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Accepted,
@@ -185,7 +186,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.Conflict,
@@ -208,7 +209,7 @@ public class DalBaseServiceTests
     {
         // Arrange
         string url = "";
-        UserFromDb user = new();
+        UserDto user = new();
         var response = new HttpResponseMessage
         {
             StatusCode = code,

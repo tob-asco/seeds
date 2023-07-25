@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Services;
 
@@ -19,9 +19,9 @@ public class CategoryServiceTests
     {
         // Arrange
         string key = "ABC";
-        CategoryFromDb cat = new() { Key = key, Name = "ABeCe" };
-        A.CallTo(() => _baseService.GetDalModelAsync<CategoryFromDb>(A<string>.Ignored))
-            .Returns<CategoryFromDb?>(cat);
+        CategoryDto cat = new() { Key = key, Name = "ABeCe" };
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryDto>(A<string>.Ignored))
+            .Returns<CategoryDto?>(cat);
 
         // Act
         var result = await _service.GetCategoryByKeyAsync(key);
@@ -34,8 +34,8 @@ public class CategoryServiceTests
     public async Task CatService_GetCatByKeyAsync_IfBaseReturnsNullThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<CategoryFromDb>(A<string>.Ignored))
-            .Returns<CategoryFromDb?>(null);
+        A.CallTo(() => _baseService.GetDalModelAsync<CategoryDto>(A<string>.Ignored))
+            .Returns<CategoryDto?>(null);
 
         // Act
         Func<Task> act = async () => await _service.GetCategoryByKeyAsync("N0C");

@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Services;
 
@@ -18,12 +18,12 @@ public class UsersServiceTests
     {
         #region Arrange
         string uname1 = "tobi1"; string uname2 = "tobi2";
-        var users = new List<UserFromDb>()
+        var users = new List<UserDto>()
         {
             new() { Username = uname1 },
             new() { Username = uname2 },
         };
-        A.CallTo(() => _baseService.GetDalModelAsync<List<UserFromDb>>(A<string>.Ignored))
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserDto>>(A<string>.Ignored))
             .Returns(users);
         #endregion
 
@@ -39,9 +39,9 @@ public class UsersServiceTests
     public async Task UsersService_GetUsersAsync_IfErrorReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<UserFromDb>>(
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserDto>>(
             A<string>.Ignored))
-            .Returns<List<UserFromDb>?>(null);
+            .Returns<List<UserDto>?>(null);
 
         // Act
         Func<Task> act = async () => await _service.GetUsersAsync();
@@ -54,8 +54,8 @@ public class UsersServiceTests
     {
         // Arrange
         string uname = "tobi1";
-        UserFromDb user = new() { Username = uname, };
-        A.CallTo(() => _baseService.GetDalModelAsync<UserFromDb>(A<string>.Ignored))
+        UserDto user = new() { Username = uname, };
+        A.CallTo(() => _baseService.GetDalModelAsync<UserDto>(A<string>.Ignored))
             .Returns(user);
 
         // Act
@@ -69,9 +69,9 @@ public class UsersServiceTests
     public async Task UsersService_GetUserByUsernameAsync_IfNotFoundReturnsNull()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<UserFromDb>(
+        A.CallTo(() => _baseService.GetDalModelAsync<UserDto>(
             A<string>.Ignored))
-            .Returns<UserFromDb?>(null);
+            .Returns<UserDto?>(null);
 
         // Act
         var result = await _service.GetUserByUsernameAsync("");
