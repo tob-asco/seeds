@@ -21,7 +21,7 @@ public class PresentationService : IPresentationService
     public async Task PostOrPutPresentationAsync(Presentation presi)
     {
         if (await PostPresentationAsync(presi)) { return; }
-        if (await PutPresentationAsync(presi.Id, presi)) { return; }
+        if (await PutPresentationByIdeaIdAsync(presi.Id, presi)) { return; }
         throw new Exception("Neither could we Post, nor Put the specified presentation" +
             $"of Id {presi.Id}.");
     }
@@ -32,9 +32,9 @@ public class PresentationService : IPresentationService
         return await baseService.PostDalModelAsync(url, presi);
     }
 
-    public async Task<bool> PutPresentationAsync(int id, Presentation presi)
+    public async Task<bool> PutPresentationByIdeaIdAsync(int ideaId, Presentation presi)
     {
-        string url = $"api/Presentations/{id}";
+        string url = $"api/Presentations/{ideaId}";
         return await baseService.PutDalModelAsync(url, presi);
     }
 }

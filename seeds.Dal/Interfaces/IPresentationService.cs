@@ -11,7 +11,7 @@ public interface IPresentationService
       * if NotFound returns false,
       * else: base throws.
       */
-    public Task<bool> PutPresentationAsync(int id, Presentation presi);
+    public Task<bool> PutPresentationByIdeaIdAsync(int ideaId, Presentation presi);
     /* If successful returns true,
       * if Conflict returns false,
       * else: base throws.
