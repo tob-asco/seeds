@@ -12,5 +12,10 @@ public class PresentationConfiguration : IEntityTypeConfiguration<Presentation>
         // Idea : Presentation = 1 : 1
         // setup in IdeaConfiguration
         #endregion
+
+        //auto-generate the id
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id)
+            .ValueGeneratedOnAdd();
     }
 }
