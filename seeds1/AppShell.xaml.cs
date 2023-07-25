@@ -8,7 +8,7 @@ public partial class AppShell : Shell
 		InitializeComponent();
         BindingContext = vm;
 
-        // HT: here we register routes that aren't visible in the flyout
-        //Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+        // Here we register routes that aren't visible in the flyout
+        Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
     }
 }
