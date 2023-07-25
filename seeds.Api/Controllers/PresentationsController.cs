@@ -16,26 +16,16 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/Presentations
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Presentation>>> GetPresentation()
-        {
-          if (_context.Presentation == null)
-          {
-              return NotFound();
-          }
-            return await _context.Presentation.ToListAsync();
-        }
-
         // GET: api/Presentations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Presentation>> GetPresentation(int id)
+        public async Task<ActionResult<Presentation>> GetPresentationByIdeaId(int ideaId)
         {
-          if (_context.Presentation == null)
-          {
-              return NotFound();
-          }
-            var presentation = await _context.Presentation.FindAsync(id);
+            if (_context.Presentation == null)
+            {
+                return NotFound();
+            }
+            var presentation = await _context.Presentation.FirstOrDefaultAsync(
+                p => p.IdeaId == ideaId);
 
             if (presentation == null)
             {
@@ -81,36 +71,15 @@ namespace seeds.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Presentation>> PostPresentation(Presentation presentation)
         {
-          if (_context.Presentation == null)
-          {
-              return Problem("Entity set 'seedsApiContext.Presentation'  is null.");
-          }
+            if (_context.Presentation == null)
+            {
+                return Problem("Entity set 'seedsApiContext.Presentation'  is null.");
+            }
             _context.Presentation.Add(presentation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPresentation", new { id = presentation.Id }, presentation);
+            return CreatedAtAction(nameof(GetPresentationByIdeaId), new { ideaId = presentation.IdeaId }, presentation);
         }
-
-        // DELETE: api/Presentations/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePresentation(int id)
-        {
-            if (_context.Presentation == null)
-            {
-                return NotFound();
-            }
-            var presentation = await _context.Presentation.FindAsync(id);
-            if (presentation == null)
-            {
-                return NotFound();
-            }
-
-            _context.Presentation.Remove(presentation);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
         private bool PresentationExists(int id)
         {
             return (_context.Presentation?.Any(e => e.Id == id)).GetValueOrDefault();
