@@ -20,6 +20,12 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
 
         // User : Idea = M : N (UserIdeaInteraction)
         // setup in UserConfiguration
+
+        // Idea : Presentation = 1 : 1
+        builder.HasOne<Presentation>()
+            .WithOne()
+            .HasForeignKey<Presentation>(p => p.IdeaId)
+            .IsRequired(true);
         #endregion
 
         //auto-generate the id
