@@ -42,6 +42,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryViewModel>();
         builder.Services.AddTransient<PreferencesViewModel>();
+        builder.Services.AddTransient<DetailViewModel>();
 
         //It's mandatory to register also the pages where we DI the VMs!
         /* Although the Pages are registered as transient, they might not
@@ -53,6 +54,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
         builder.Services.AddTransient<PreferencesPage>();
+        builder.Services.AddTransient<DetailPage>();
 
 
         /******************* auto-generated ********************/
