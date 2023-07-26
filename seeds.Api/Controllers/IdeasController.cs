@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers;
@@ -87,7 +83,6 @@ public class IdeasController : ControllerBase
     }
 
     // PUT: api/Ideas/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
     public async Task<IActionResult> PutIdea(int id, IdeaFromDb ideaDto)
     {
@@ -120,9 +115,8 @@ public class IdeasController : ControllerBase
     }
 
     // POST: api/Ideas
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Idea>> PostIdea(IdeaFromDb ideaDto)
+    public async Task<ActionResult<Idea>> PostIdea(IdeaToDb ideaDto)
     {
         if (_context.Idea == null)
         {
@@ -131,10 +125,10 @@ public class IdeasController : ControllerBase
 
         Idea idea = _mapper.Map<Idea>(ideaDto);
 
-        _context.Idea.Add(idea);
+        _context.Idea.Add(idea); // this updates idea! (test this; yess)
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetIdea", new { id = ideaDto.Id }, ideaDto);
+        return CreatedAtAction("GetIdea", new { id = idea.Id }, idea);
     }
 
     // DELETE: api/Ideas/5

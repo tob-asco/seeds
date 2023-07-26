@@ -10,8 +10,9 @@ public class AutoMapperProfiles : Profile
 {
     public AutoMapperProfiles()
     {
-        CreateMap<IdeaToDb, Idea>();
-        CreateMap<Idea, IdeaFromDb>();
+        CreateMap<IdeaToDb, Idea>(); // for POST
+        CreateMap<IdeaFromDb, Idea>(); // for PUT
+        CreateMap<Idea, IdeaFromDb>(); // for GET
         CreateMap<User, UserDto>();
         CreateMap<UserDto, User>();
         CreateMap<Category, CategoryDto>();

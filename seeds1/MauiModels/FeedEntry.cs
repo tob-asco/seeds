@@ -1,11 +1,5 @@
 ﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace seeds1.MauiModels;
 

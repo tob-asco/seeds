@@ -70,7 +70,7 @@ public class DalBaseServiceTests
             .GetProperty("Result")?.GetValue(task);
 
         // Assert
-        result.Should().BeNull();
+        result.Should().BeNull(because: "higher layers rely on Null meaning 404");
     }
     [Theory]
     [InlineData(HttpStatusCode.Conflict)]
