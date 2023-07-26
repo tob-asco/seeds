@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:seeds1.ViewModel"
+             x:Class="seeds1.View.AddPage"
+             x:DataType="local:AddViewModel"
+             Title="Add Idea">
+    <VerticalStackLayout>
+        <Label Text="Title"/>
+        <Entry Text="{Binding EnteredTitle}"/>
+        <Label Text="Slogan"/>
+        <Entry Text="{Binding EnteredSlogan}"/>
+        <Label Text="Description"/>
+        <Entry Text="{Binding EnteredDescription}"
+               HeightRequest="500"/>
+        <Button 
+            Text="Add"
+            Command="{Binding AddIdeaCommand}"
+                />
+    </VerticalStackLayout>
+</ContentPage>
