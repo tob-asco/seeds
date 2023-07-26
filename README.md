@@ -42,9 +42,11 @@
     - *PUT*
       1. `ControllerName_PutEndpoint_ReturnsSuccessAndUpdatedDb()` (i.e. update the context)
       2. `ControllerName_PutEndpoint_IfNotExistReturnsNotFound()`
+      3. if `MyModelFromDb` and hence an AutoMapper map exists: `ControllerName_PutEndpoint_LeavesSomeProperty()` to ensure that AutoMapper doesn't update provided values
     - *POST*
       1. `ControllerName_PostEndpoint_ReturnsSuccessAndUpdatedDb()` (i.e. update the context)
       2. `ControllerName_PostEndpoint_IfExistReturnsConflict()`
+      3. if `MyModelToDb` exists: `ControllerName_PostEndpoint_ReturnsUpdatedPk()` to ensure that we recieve the model as is in the DB from POST
     - e.g. `UserControllerTests.cs`
   - `ProgramTest.cs` (the test server startup class)
 - **seeds.Dal.Tests** (xUnit test project of the DAL units)
@@ -52,12 +54,12 @@
     - *GET*
       1. `ServiceName_GetModelAsync_ReturnsItself()`
       2. `ServiceName_GetModelAsync_IfNotExistReturnsNull()`
-    - *PUT*
-      1. `ServiceName_PutModelAsync_ReturnsTrue()`
-      2. `ServiceName_PutModelAsync_IfNotSuccessReturnsFalse()`
+    - *PUT* (depending on whether a PUT must succeed or can fail, e.g. if the PK need not exist)
+      1. `ServiceName_PutModelAsync_ReturnsTrue()` or `ServiceName_PutModelAsync_Returns()`
+      2. `ServiceName_PutModelAsync_IfNotSuccessReturnsFalse()` or `ServiceName_PutModelAsync_IfNotSuccessThrows()`
     - *POST*
-      1. `ServiceName_PostModelAsync_ReturnsTrue()`
-      2. `ServiceName_PostModelAsync_IfNotSuccessReturnsFalse()`
+      1. `ServiceName_PostModelAsync_ReturnsTrue()` or ... (cf. PUT)
+      2. `ServiceName_PostModelAsync_IfNotSuccessReturnsFalse()` or ... (cf. PUT)
     - e.g. `UsersServiceTests.cs`
     - `DalBaseServiceTests.cs` (generic unit tests)
       - tests that `default(T)` w/ `T` a Model gives `null`
