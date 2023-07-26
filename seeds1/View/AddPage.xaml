@@ -6,6 +6,10 @@
              x:DataType="local:AddViewModel"
              Title="Add Idea">
     <VerticalStackLayout>
+        <Picker 
+            SelectedItem="{Binding PickedCat}"
+            ItemsSource="{Binding Cats}"
+            />
         <Label Text="Title"/>
         <Entry Text="{Binding EnteredTitle}"/>
         <Label Text="Slogan"/>

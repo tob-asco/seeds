@@ -26,7 +26,9 @@ public partial class AddViewModel : MyBaseViewModel
     }
 
     [ObservableProperty]
-    ObservableRangeCollection<CategoryDto> cats;
+    ObservableRangeCollection<CategoryDto> cats = new();
+    [ObservableProperty]
+    CategoryDto pickedCat = new();
     [ObservableProperty]
     string enteredTitle, enteredSlogan, enteredDescription;
     [ObservableProperty]
@@ -41,6 +43,7 @@ public partial class AddViewModel : MyBaseViewModel
             {
                 Cats.AddRange(await categoryService.GetCategoriesAsync());
             }
+            PickedCat = Cats.FirstOrDefault(c => c.Key == "NoC");
         }
         catch (Exception ex)
         {
@@ -55,6 +58,7 @@ public partial class AddViewModel : MyBaseViewModel
         {
             IdeaFromDb idea = await ideasService.PostIdeaAsync(new()
             {
+                CategoryKey = PickedCat.Key,
                 Title = EnteredTitle,
                 Slogan = EnteredSlogan,
                 CreatorName = CurrentUser.Username,
