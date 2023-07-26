@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
@@ -81,5 +82,19 @@ public class IdeasServiceTests
 
         // Assert
         result.Should().BeNull();
+    }
+    [Fact]
+    public async Task IdeasService_PostIdeaAsync_NoException()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.PostDalModelAsync<IdeaToDb, IdeaFromDb>(
+            A<string>.Ignored, A<IdeaToDb>.Ignored))
+            .Returns(new IdeaFromDb());
+
+        // Act
+        Func<Task> act = async () => await _service.PostIdeaAsync(new());
+
+        // Assert
+        await act.Should().NotThrowAsync<Exception>();
     }
 }

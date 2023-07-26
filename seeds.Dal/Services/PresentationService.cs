@@ -29,7 +29,7 @@ public class PresentationService : IPresentationService
     public async Task<bool> PostPresentationAsync(Presentation presi)
     {
         string url = "api/Presentations";
-        return await baseService.PostDalModelAsync(url, presi);
+        return await baseService.PostDalModelBoolReturnAsync(url, presi);
     }
 
     public async Task<bool> PutPresentationByIdeaIdAsync(int ideaId, Presentation presi)

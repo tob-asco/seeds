@@ -34,7 +34,7 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
     public async Task<bool> PostUserIdeaInteractionAsync(UserIdeaInteraction uii)
     {
         string url = "api/UserIdeaInteractions";
-        return await _baseService.PostDalModelAsync<UserIdeaInteraction>(url, uii);
+        return await _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(url, uii);
     }
     public async Task PostOrPutUserIdeaInteractionAsync(UserIdeaInteraction newUii)
     {

@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Interfaces;
 
 namespace seeds.Dal.Services;
@@ -20,5 +21,10 @@ public class IdeasService : IIdeasService
     {
         string url = $"api/ideas/page/{page}/size/{maxPageSize}";
         return await _baseService.GetDalModelAsync<List<IdeaFromDb>>(url);
+    }
+    public async Task<IdeaFromDb> PostIdeaAsync(IdeaToDb idea)
+    {
+        string url = "api/Ideas";
+        return await _baseService.PostDalModelAsync<IdeaToDb, IdeaFromDb>(url, idea);
     }
 }

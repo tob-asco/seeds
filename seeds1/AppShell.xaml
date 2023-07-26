@@ -11,6 +11,9 @@
         <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:View.LoginPage}"/>
     </ShellItem>
 
+    <FlyoutItem Title="Add">
+        <ShellContent ContentTemplate="{DataTemplate local:View.AddPage}" Route="AddPage" />
+    </FlyoutItem>
     <FlyoutItem Title="Feed">
         <ShellContent ContentTemplate="{DataTemplate local:View.FeedPage}" Route="FeedPage" />
     </FlyoutItem>

@@ -1,9 +1,12 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using FakeItEasy.Sdk;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
 using System.Net;
+using System.Net.Http.Json;
 
 namespace seeds.Dal.Tests.Services;
 
@@ -163,26 +166,26 @@ public class DalBaseServiceTests
         await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
-    public async Task DalBaseService_PostDalModelAsync_ReturnsTrue()
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_ReturnsTrue()
     {
         // Arrange
         string url = "";
         UserDto user = new();
         var response = new HttpResponseMessage
         {
-            StatusCode = HttpStatusCode.Accepted,
+            StatusCode = HttpStatusCode.Created,
         };
         A.CallTo(() => _httpClientWrapper.PostAsync(A<string>.Ignored, A<HttpContent>.Ignored))
             .Returns(response);
 
         // Act
-        var result = await _service.PostDalModelAsync(url, user);
+        var result = await _service.PostDalModelBoolReturnAsync(url, user);
 
         // Assert
         result.Should().BeTrue();
     }
     [Fact]
-    public async Task DalBaseService_PostDalModelAsync_IfConflictReturnsFalse()
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_IfConflictReturnsFalse()
     {
         // Arrange
         string url = "";
@@ -195,7 +198,7 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        var result = await _service.PostDalModelAsync(url, user);
+        var result = await _service.PostDalModelBoolReturnAsync(url, user);
 
         // Assert
         result.Should().BeFalse();
@@ -204,7 +207,7 @@ public class DalBaseServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     [InlineData(HttpStatusCode.BadGateway)]
     [InlineData(HttpStatusCode.Forbidden)]
-    public async Task DalBaseService_PostDalModelAsync_IfNonConflictErrorThrows(
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_IfNonConflictErrorThrows(
         HttpStatusCode code)
     {
         // Arrange
@@ -218,7 +221,67 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        Func<Task> act = async () => await _service.PostDalModelAsync(url, user);
+        Func<Task> act = async () => await _service.PostDalModelBoolReturnAsync(url, user);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task DalBaseService_PostDalModelAsync_NoExceptionOnIdea()
+    {
+        // Arrange
+        IdeaFromDb ideaFromDb = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.Created,
+            Content = JsonContent.Create(ideaFromDb)
+        };
+        A.CallTo(() => _httpClientWrapper.PostAsync(A<string>.Ignored, A<HttpContent>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.PostDalModelAsync<IdeaToDb, IdeaFromDb>("", new());
+
+        // Assert
+        await act.Should().NotThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task DalBaseService_PostDalModelAsync_IfErrorThrows()
+    {
+        // Arrange
+        IdeaFromDb ideaFromDb = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.Conflict,
+            Content = JsonContent.Create(ideaFromDb)
+        };
+        A.CallTo(() => _httpClientWrapper.PostAsync(A<string>.Ignored, A<HttpContent>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.PostDalModelAsync<IdeaToDb, IdeaFromDb>("", new());
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task DalBaseService_PostDalModelAsync_IfReturnsNullThrows()
+    {
+        // Arrange
+        IdeaFromDb ideaFromDb = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.Created,
+            Content = null!
+        };
+        A.CallTo(() => _httpClientWrapper.PostAsync(A<string>.Ignored, A<HttpContent>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.PostDalModelAsync<IdeaToDb, IdeaFromDb>("", new());
 
         // Assert
         await act.Should().ThrowAsync<Exception>();

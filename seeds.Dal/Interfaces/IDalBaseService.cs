@@ -13,10 +13,13 @@ public interface IDalBaseService
      * Other bad response throw.
      */
     public Task<bool> PutDalModelAsync<T>(string url, T newModel);
-    /* Returns Null only if the response is Conflict.
+    /* Returns false only if the response is Conflict.
      * Other bad response throw.
      */
-    public Task<bool> PostDalModelAsync<T>(string url, T model);
+    public Task<bool> PostDalModelBoolReturnAsync<T>(string url, T model);
+    /* Returns ModelFromDb if success, otherwise throws.
+     */
+    public Task<FromDb> PostDalModelAsync<ToDb,FromDb>(string url, ToDb toDbModel);
     /* All bad responses throw.
      */
     public Task<T?> GetNonDalModelAsync<T>(string url);

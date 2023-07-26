@@ -79,7 +79,7 @@ public class PresentationServiceTests
     public async Task PresentationService_PostPresentationAsync_ReturnsTrue()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<Presentation>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<Presentation>(
             A<string>.Ignored, A<Presentation>.Ignored))
             .Returns(true);
 
@@ -93,7 +93,7 @@ public class PresentationServiceTests
     public async Task PresentationService_PostPresentationAsync_IfNotSuccessReturnsFalse()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<Presentation>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<Presentation>(
             A<string>.Ignored, A<Presentation>.Ignored))
             .Returns(false);
 
@@ -107,7 +107,7 @@ public class PresentationServiceTests
     public async Task PresentationService_PostOrPutPresentationAsync_IfExistNoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<Presentation>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<Presentation>(
             A<string>.Ignored, A<Presentation>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.PutDalModelAsync<Presentation>(
@@ -124,7 +124,7 @@ public class PresentationServiceTests
     public async Task PresentationService_PostOrPutPresentationAsync_IfNotFoundNoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<Presentation>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<Presentation>(
             A<string>.Ignored, A<Presentation>.Ignored))
             .Returns(true);
         A.CallTo(() => _baseService.PutDalModelAsync<Presentation>(
@@ -141,7 +141,7 @@ public class PresentationServiceTests
     public async Task PresentationService_PostOrPutPresentationAsync_IfErrorThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<Presentation>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<Presentation>(
             A<string>.Ignored, A<Presentation>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.PutDalModelAsync<Presentation>(

@@ -91,7 +91,7 @@ public class UserIdeaInteractionServiceTests
     public async Task UiiService_PostUiiAsync_ReturnsTrue()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(
             A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
             .Returns(true);
 
@@ -105,7 +105,7 @@ public class UserIdeaInteractionServiceTests
     public async Task UiiService_PostUiiAsync_IfNotSuccessReturnsFalse()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(
             A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
             .Returns(false);
 
@@ -119,7 +119,7 @@ public class UserIdeaInteractionServiceTests
     public async Task UiiService_PostOrPutUiiAsync_IfExistNoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(
             A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(
@@ -136,7 +136,7 @@ public class UserIdeaInteractionServiceTests
     public async Task UiiService_PostOrPutUiiAsync_IfNotFoundNoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(
             A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
             .Returns(true);
         A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(
@@ -153,7 +153,7 @@ public class UserIdeaInteractionServiceTests
     public async Task UiiService_PostOrPutUiiAsync_IfErrorThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<UserIdeaInteraction>(
+        A.CallTo(() => _baseService.PostDalModelBoolReturnAsync<UserIdeaInteraction>(
             A<string>.Ignored, A<UserIdeaInteraction>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.PutDalModelAsync<UserIdeaInteraction>(

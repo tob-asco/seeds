@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:seeds1.ViewModel"
+             x:Class="seeds1.View.AddPage"
+             x:DataType="local:AddViewModel"
+             Title="Add Idea">
+    <Grid Padding="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Picker 
+                Grid.Row="0"
+            Grid.ColumnSpan="2"
+                SelectedItem="{Binding PickedCat}"
+                ItemsSource="{Binding Cats}"
+            />
+        <Label
+                Grid.Row="1"
+            VerticalOptions="Center"
+            HorizontalTextAlignment="Center"
+            FontAttributes="Bold"
+                Text="Title"/>
+        <Entry
+                Grid.Row="1" Grid.Column="1"
+                Text="{Binding EnteredTitle}"/>
+        <Label
+                Grid.Row="2"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontAttributes="Bold"
+            Margin="5"
+                Text="Slogan"/>
+        <Entry
+                Grid.Row="2" Grid.Column="1"
+                Text="{Binding EnteredSlogan}"/>
+        <Editor
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+        Margin="0,5"
+                Placeholder="Description (optional)"
+                VerticalTextAlignment="Start"
+                Text="{Binding EnteredDescription}"
+                />
+        <Button 
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Text="Add"
+                Command="{Binding AddIdeaCommand}"
+                />
+    </Grid>
+</ContentPage>
