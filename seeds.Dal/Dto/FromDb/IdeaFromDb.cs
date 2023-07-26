@@ -1,6 +1,6 @@
-﻿namespace seeds.Dal.Dto.ToApi;
+﻿namespace seeds.Dal.Dto.FromDb;
 
-public class IdeaDtoApi
+public class IdeaFromDb
 {
     public int Id { get; set; }
     public string Title { get; set; } = "Idea's Short Title";

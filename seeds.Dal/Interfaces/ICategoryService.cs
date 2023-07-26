@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 
 namespace seeds.Dal.Interfaces;
 
@@ -6,8 +6,8 @@ public interface ICategoryService
 {
     /* If no categories are found, throws.
      */
-    public Task<List<CategoryDtoApi>> GetCategoriesAsync();
+    public Task<List<CategoryDto>> GetCategoriesAsync();
     /* If no category found, throws.
      */
-    public Task<CategoryDtoApi> GetCategoryByKeyAsync(string categoryKey);
+    public Task<CategoryDto> GetCategoryByKeyAsync(string categoryKey);
 }

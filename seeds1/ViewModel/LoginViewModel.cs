@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds1.Interfaces;
 
@@ -37,7 +37,7 @@ public partial class LoginViewModel : MyBaseViewModel
             return;
         }
         FailResponse("Checking..."); //shouldnt be a "fail" response..
-        UserDtoApi user = null!;
+        UserDto user = null!;
 
         try
         {

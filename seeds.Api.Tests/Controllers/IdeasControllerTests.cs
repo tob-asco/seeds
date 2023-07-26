@@ -1,9 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using seeds.Api.Controllers;
-using seeds.Api.Data;
-using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -52,14 +48,14 @@ public class IdeasControllerTests : ApiBaseControllerTests
         if (Ideas.Count >= (page * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
             result.Should().HaveCount(maxPageSize);
         }
         else if (Ideas.Count < (page * maxPageSize) &&
             Ideas.Count > ((page - 1) * maxPageSize))
         {
             response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaDtoApi>>();
+            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
             result.Should().HaveCount(Ideas.Count - ((page - 1) * maxPageSize));
         }
         else
@@ -76,7 +72,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<IdeaDtoApi>();
+        var result = await response.Content.ReadFromJsonAsync<IdeaFromDb>();
 
         //Assert
         response.Should().BeSuccessful();
@@ -102,7 +98,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int id = Ideas[0].Id;
-        IdeaDtoApi idea = new()
+        IdeaFromDb idea = new()
         {
             Id = id,
             Title = "new title"
@@ -115,6 +111,30 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Assert
         response.Should().BeSuccessful();
+    }
+    [Fact]
+    public async Task IdeasController_PutIdeaEndpoint_UpdatesTitleAndLeavesIdAndCreationTime()
+    {
+        //Arrange
+        int index = 0;
+        int id = Ideas[index].Id;
+        DateTime time = DateTime.MinValue;
+        IdeaFromDb idea = new()
+        {
+            Id = id,
+            CreationTime = time,
+            Title = Guid.NewGuid().ToString(),
+        };
+        string url = $"/api/Ideas/{id}";
+        var content = JsonContent.Create(idea);
+
+        //Act
+        await _httpClient.PutAsync(url, content);
+
+        //Assert
+        _context.Idea.Find(id).Should().NotBeNull();
+        _context.Idea.Find(id)?.CreationTime.Should().Be(time);
+        _context.Idea.Find(id)?.Title.Should().NotBe(Ideas[index].Title);
     }
     [Fact]
     public async Task IdeasController_PutIdeaEndpoint_IfNotExistReturnsNotFound()
@@ -133,7 +153,7 @@ public class IdeasControllerTests : ApiBaseControllerTests
     public async Task IdeasController_PostIdeaEndpoint_ReturnsSuccess()
     {
         //Arrange
-        IdeaDtoApi idea = new()
+        IdeaToDb idea = new()
         {
             Title = "new title",
         };
@@ -145,5 +165,26 @@ public class IdeasControllerTests : ApiBaseControllerTests
 
         //Assert
         response.Should().BeSuccessful();
+    }
+    [Fact]
+    public async Task IdeasController_PostIdeaEndpoint_ReturnsIdeaWithPkFromDb()
+    {
+        //Arrange
+        string title = Guid.NewGuid().ToString();
+        IdeaToDb idea = new()
+        {
+            Title = title,
+        };
+        string url = $"/api/Ideas";
+        var content = JsonContent.Create(idea);
+
+        //Act
+        var response = await _httpClient.PostAsync(url, content);
+
+        //Assert
+        var result = await response.Content.ReadFromJsonAsync<Idea>();
+        result.Should().NotBeNull();
+        result?.Id.Should().Be(
+            _context.Idea.FirstOrDefault(i=>i.Title == title)!.Id);
     }
 }

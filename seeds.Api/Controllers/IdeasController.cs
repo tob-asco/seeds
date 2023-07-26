@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
-using seeds.Dal.Dto.ToApi;
+using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers;
@@ -29,7 +25,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas/page/5/size/20
     [HttpGet("page/{page}/size/{maxPageSize}")]
-    public async Task<ActionResult<IEnumerable<IdeaDtoApi>>> GetIdeasPaginated(
+    public async Task<ActionResult<IEnumerable<IdeaFromDb>>> GetIdeasPaginated(
         int page, int maxPageSize)
     {
         try
@@ -42,7 +38,7 @@ public class IdeasController : ControllerBase
                     .Skip((page - 1) * maxPageSize)
                     .Take(maxPageSize)
                     .ToListAsync();
-                var ideaDtoPage = _mapper.Map<List<IdeaDtoApi>>(ideaPage);
+                var ideaDtoPage = _mapper.Map<List<IdeaFromDb>>(ideaPage);
                 return ideaDtoPage != null ? ideaDtoPage : NotFound();
             }
             else if (totCount > (page - 1) * maxPageSize)
@@ -52,7 +48,7 @@ public class IdeasController : ControllerBase
                     .Skip((page - 1) * maxPageSize)
                     .Take(totCount - ((page - 1) * maxPageSize))
                     .ToListAsync();
-                var ideaDtoPage = _mapper.Map<List<IdeaDtoApi>>(ideaPage);
+                var ideaDtoPage = _mapper.Map<List<IdeaFromDb>>(ideaPage);
                 return ideaDtoPage != null ? ideaDtoPage : NotFound();
             }
             else
@@ -68,7 +64,7 @@ public class IdeasController : ControllerBase
 
     // GET: api/Ideas/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<IdeaDtoApi>> GetIdea(int id)
+    public async Task<ActionResult<IdeaFromDb>> GetIdea(int id)
     {
         if (_context.Idea == null)
         {
@@ -81,15 +77,14 @@ public class IdeasController : ControllerBase
             return NotFound();
         }
 
-        var ideaDto = _mapper.Map<IdeaDtoApi>(idea);
+        var ideaDto = _mapper.Map<IdeaFromDb>(idea);
 
         return ideaDto;
     }
 
     // PUT: api/Ideas/5
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutIdea(int id, IdeaDtoApi ideaDto)
+    public async Task<IActionResult> PutIdea(int id, IdeaFromDb ideaDto)
     {
         if (id != ideaDto.Id)
         {
@@ -120,9 +115,8 @@ public class IdeasController : ControllerBase
     }
 
     // POST: api/Ideas
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPost]
-    public async Task<ActionResult<Idea>> PostIdea(IdeaDtoApi ideaDto)
+    public async Task<ActionResult<Idea>> PostIdea(IdeaToDb ideaDto)
     {
         if (_context.Idea == null)
         {
@@ -131,10 +125,10 @@ public class IdeasController : ControllerBase
 
         Idea idea = _mapper.Map<Idea>(ideaDto);
 
-        _context.Idea.Add(idea);
+        _context.Idea.Add(idea); // this updates idea! (test this; yess)
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetIdea", new { id = ideaDto.Id }, ideaDto);
+        return CreatedAtAction("GetIdea", new { id = idea.Id }, idea);
     }
 
     // DELETE: api/Ideas/5

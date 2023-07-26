@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace seeds.Dal.Dto.ToApi;
+namespace seeds.Dal.Dto.ToAndFromDb;
 
-public class UserDtoApi
+public class UserDto
 {
-    public string Username { get; set; } = String.Empty;
+    public string Username { get; set; } = string.Empty;
     [AllowNull]
     public string Password { get; set; }
     [AllowNull]

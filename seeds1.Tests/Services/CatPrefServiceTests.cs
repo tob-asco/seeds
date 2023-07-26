@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToApi;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -28,7 +28,7 @@ public class CatPrefServiceTests
         #region Arrange
         string key1 = "Cat1";
         string key2 = "Cat2";
-        List<CategoryDtoApi> cats = new()
+        List<CategoryDto> cats = new()
         {
             new() {Key=key1},
             new() {Key=key2},
@@ -60,7 +60,7 @@ public class CatPrefServiceTests
     {
         #region Arrange
         A.CallTo(() => categoryService.GetCategoriesAsync())
-            .Returns<List<CategoryDtoApi>?>(null);
+            .Returns<List<CategoryDto>?>(null);
         #endregion
 
         // Act
@@ -75,7 +75,7 @@ public class CatPrefServiceTests
         #region Arrange
         string key1 = "Cat1";
         string key2 = "Cat2";
-        List<CategoryDtoApi> cats = new()
+        List<CategoryDto> cats = new()
         {
             new() {Key=key1},
             new() {Key=key2},
