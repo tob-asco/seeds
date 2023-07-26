@@ -28,7 +28,7 @@ public partial class AddViewModel : MyBaseViewModel
     [ObservableProperty]
     ObservableRangeCollection<CategoryDto> cats = new();
     [ObservableProperty]
-    CategoryDto pickedCat = new();
+    CategoryDto pickedCat;
     [ObservableProperty]
     string enteredTitle, enteredSlogan, enteredDescription;
     [ObservableProperty]
@@ -43,7 +43,7 @@ public partial class AddViewModel : MyBaseViewModel
             {
                 Cats.AddRange(await categoryService.GetCategoriesAsync());
             }
-            PickedCat = Cats.FirstOrDefault(c => c.Key == "NoC");
+            PickedCat ??= Cats.FirstOrDefault(c => c.Key == "NoC");
         }
         catch (Exception ex)
         {

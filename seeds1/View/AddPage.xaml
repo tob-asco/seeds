@@ -5,21 +5,26 @@
              x:Class="seeds1.View.AddPage"
              x:DataType="local:AddViewModel"
              Title="Add Idea">
-    <VerticalStackLayout>
-        <Picker 
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="2">
+            <Picker 
             SelectedItem="{Binding PickedCat}"
             ItemsSource="{Binding Cats}"
             />
-        <Label Text="Title"/>
-        <Entry Text="{Binding EnteredTitle}"/>
-        <Label Text="Slogan"/>
-        <Entry Text="{Binding EnteredSlogan}"/>
-        <Label Text="Description"/>
-        <Entry Text="{Binding EnteredDescription}"
-               HeightRequest="500"/>
-        <Button 
+            <Label Text="Title"/>
+            <Entry Text="{Binding EnteredTitle}"/>
+            <Label Text="Slogan"/>
+            <Entry Text="{Binding EnteredSlogan}"/>
+            <Label Text="Description"/>
+            <Editor
+                VerticalTextAlignment="Start"
+                Text="{Binding EnteredDescription}"
+                HeightRequest="500"/>
+            <Button 
             Text="Add"
             Command="{Binding AddIdeaCommand}"
                 />
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
