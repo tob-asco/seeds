@@ -163,7 +163,7 @@ public class DalBaseServiceTests
         await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
-    public async Task DalBaseService_PostDalModelAsync_ReturnsTrue()
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_ReturnsTrue()
     {
         // Arrange
         string url = "";
@@ -176,13 +176,13 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        var result = await _service.PostDalModelAsync(url, user);
+        var result = await _service.PostDalModelBoolReturnAsync(url, user);
 
         // Assert
         result.Should().BeTrue();
     }
     [Fact]
-    public async Task DalBaseService_PostDalModelAsync_IfConflictReturnsFalse()
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_IfConflictReturnsFalse()
     {
         // Arrange
         string url = "";
@@ -195,7 +195,7 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        var result = await _service.PostDalModelAsync(url, user);
+        var result = await _service.PostDalModelBoolReturnAsync(url, user);
 
         // Assert
         result.Should().BeFalse();
@@ -204,7 +204,7 @@ public class DalBaseServiceTests
     [InlineData(HttpStatusCode.BadRequest)]
     [InlineData(HttpStatusCode.BadGateway)]
     [InlineData(HttpStatusCode.Forbidden)]
-    public async Task DalBaseService_PostDalModelAsync_IfNonConflictErrorThrows(
+    public async Task DalBaseService_PostDalModelBoolReturnAsync_IfNonConflictErrorThrows(
         HttpStatusCode code)
     {
         // Arrange
@@ -218,7 +218,7 @@ public class DalBaseServiceTests
             .Returns(response);
 
         // Act
-        Func<Task> act = async () => await _service.PostDalModelAsync(url, user);
+        Func<Task> act = async () => await _service.PostDalModelBoolReturnAsync(url, user);
 
         // Assert
         await act.Should().ThrowAsync<Exception>();

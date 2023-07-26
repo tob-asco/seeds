@@ -87,28 +87,14 @@ public class IdeasServiceTests
     public async Task IdeasService_PostIdeaAsync_NoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<IdeaToDb>(
+        A.CallTo(() => _baseService.PostDalModelAsync<IdeaToDb, IdeaFromDb>(
             A<string>.Ignored, A<IdeaToDb>.Ignored))
-            .Returns(true);
+            .Returns(new IdeaFromDb());
 
         // Act
         Func<Task> act = async () => await _service.PostIdeaAsync(new());
 
         // Assert
         await act.Should().NotThrowAsync<Exception>();
-    }
-    [Fact]
-    public async Task IdeasService_PostIdeaAsync_IfErrorThrows()
-    {
-        // Arrange
-        A.CallTo(() => _baseService.PostDalModelAsync<IdeaToDb>(
-            A<string>.Ignored, A<IdeaToDb>.Ignored))
-            .Returns(false);
-
-        // Act
-        Func<Task> act = async () => await _service.PostIdeaAsync(new());
-
-        // Assert
-        await act.Should().ThrowAsync<Exception>();
     }
 }

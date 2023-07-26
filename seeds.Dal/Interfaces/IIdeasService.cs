@@ -13,6 +13,6 @@ public interface IIdeasService
     public Task<List<IdeaFromDb>?> GetIdeasPaginatedAsync(int page, int maxPageSize);
     /* Success or throw.
      */
-    public Task PostIdeaAsync(IdeaToDb idea);
+    public Task<IdeaFromDb> PostIdeaAsync(IdeaToDb idea);
 
 }

@@ -46,7 +46,7 @@ public class DalBaseService : IDalBaseService
         }
         return true;
     }
-    public async Task<bool> PostDalModelAsync<T>(string url, T model)
+    public async Task<bool> PostDalModelBoolReturnAsync<T>(string url, T model)
     {
         var httpContent = JsonContent.Create(model);
         var response = await HttpClientWrapper.PostAsync(url, httpContent);
@@ -62,6 +62,18 @@ public class DalBaseService : IDalBaseService
         }
         return true;
     }
+    public async Task<FromDb> PostDalModelAsync<ToDb, FromDb>(string url, ToDb toDbModel)
+    {
+        var httpContent = JsonContent.Create(toDbModel);
+        var response = await HttpClientWrapper.PostAsync(url, httpContent);
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"The Post URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}.");
+        }
+        return await response.Content.ReadFromJsonAsync<FromDb>()
+            ?? throw new Exception($"The Post URL {url} returned null.");
+    }
     public async Task<T?> GetNonDalModelAsync<T>(string url)
     {
         var response = await HttpClientWrapper.GetAsync(url);
@@ -72,4 +84,5 @@ public class DalBaseService : IDalBaseService
         }
         return await response.Content.ReadFromJsonAsync<T>();
     }
+
 }
