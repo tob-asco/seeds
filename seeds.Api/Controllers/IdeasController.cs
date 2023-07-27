@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Api.Pages;
 using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 
 namespace seeds.Api.Controllers;
 
@@ -12,53 +15,53 @@ namespace seeds.Api.Controllers;
 [ApiController]
 public class IdeasController : ControllerBase
 {
-    private readonly seedsApiContext _context;
-    private readonly IMapper _mapper;
+    private readonly seedsApiContext context;
+    private readonly IMapper mapper;
 
     public IdeasController(
         seedsApiContext context,
         IMapper mapper)
     {
-        _context = context;
-        this._mapper = mapper;
+        this.context = context;
+        this.mapper = mapper;
     }
 
-    // GET: api/Ideas/page/5/size/20
-    [HttpGet("page/{page}/size/{maxPageSize}")]
+    // GET: api/Ideas/page/5?isDescending=false&pageSize=20
+    [HttpGet("page/{pageIndex}")]
     public async Task<ActionResult<IEnumerable<IdeaFromDb>>> GetIdeasPaginated(
-        int page, int maxPageSize)
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
         try
         {
-            var totCount = await _context.Idea.CountAsync();
+            var validColumns = new[] {
+                nameof(IdeaFromDb.Id).ToLower(),
+                nameof(IdeaFromDb.CreationTime).ToLower()
+            };
+            if (!validColumns.Contains(orderByColumn.ToLower()))
+            {
+                return BadRequest("Invalid column name for sorting.");
+            }
 
-            if (totCount >= page * maxPageSize)
-            { //at least one more maxPageSize of Ideas found
-                var ideaPage = await _context.Idea
-                    .Skip((page - 1) * maxPageSize)
-                    .Take(maxPageSize)
-                    .ToListAsync();
-                var ideaDtoPage = _mapper.Map<List<IdeaFromDb>>(ideaPage);
-                return ideaDtoPage != null ? ideaDtoPage : NotFound();
-            }
-            else if (totCount > (page - 1) * maxPageSize)
-            { //at least one more Idea found
-              //return all ideas that are left
-                var ideaPage = await _context.Idea
-                    .Skip((page - 1) * maxPageSize)
-                    .Take(totCount - ((page - 1) * maxPageSize))
-                    .ToListAsync();
-                var ideaDtoPage = _mapper.Map<List<IdeaFromDb>>(ideaPage);
-                return ideaDtoPage != null ? ideaDtoPage : NotFound();
-            }
-            else
-            { //no more Ideas 
-                return NotFound();
-            }
+            IQueryable<Idea> query = context.Idea;
+
+            // Apply dynamic sorting
+            var orderDirection = isDescending ? "descending" : "ascending";
+            query = query.OrderBy($"{orderByColumn} {orderDirection}");
+
+            // Apply pagination. Take(pageSize) should take #(<= pageSize) ideas
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            // using Linq.Dynamic.Core's query will only lazily access the DB,
+            // once the query is enumerated, which happens now:
+            var ideas = mapper.Map<List<IdeaFromDb>>(await query.ToListAsync());
+
+            return Ok(ideas);
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            // Handle exceptions appropriately
+            return StatusCode(500, ex.Message);
         }
     }
 
@@ -66,18 +69,18 @@ public class IdeasController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<IdeaFromDb>> GetIdea(int id)
     {
-        if (_context.Idea == null)
+        if (context.Idea == null)
         {
             return NotFound();
         }
-        var idea = await _context.Idea.FindAsync(id);
+        var idea = await context.Idea.FindAsync(id);
 
         if (idea == null)
         {
             return NotFound();
         }
 
-        var ideaDto = _mapper.Map<IdeaFromDb>(idea);
+        var ideaDto = mapper.Map<IdeaFromDb>(idea);
 
         return ideaDto;
     }
@@ -91,13 +94,13 @@ public class IdeasController : ControllerBase
             return BadRequest();
         }
 
-        var idea = _mapper.Map<Idea>(ideaDto);
+        var idea = mapper.Map<Idea>(ideaDto);
 
-        _context.Entry(idea).State = EntityState.Modified;
+        context.Entry(idea).State = EntityState.Modified;
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -118,15 +121,15 @@ public class IdeasController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Idea>> PostIdea(IdeaToDb ideaDto)
     {
-        if (_context.Idea == null)
+        if (context.Idea == null)
         {
             return Problem("Entity set 'seedsApiContext.Idea'  is null.");
         }
 
-        Idea idea = _mapper.Map<Idea>(ideaDto);
+        Idea idea = mapper.Map<Idea>(ideaDto);
 
-        _context.Idea.Add(idea); // this updates idea! (test this; yess)
-        await _context.SaveChangesAsync();
+        context.Idea.Add(idea); // this updates idea! (test this; yess)
+        await context.SaveChangesAsync();
 
         return CreatedAtAction("GetIdea", new { id = idea.Id }, idea);
     }
@@ -135,24 +138,24 @@ public class IdeasController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteIdea(int id)
     {
-        if (_context.Idea == null)
+        if (context.Idea == null)
         {
             return NotFound();
         }
-        var idea = await _context.Idea.FindAsync(id);
+        var idea = await context.Idea.FindAsync(id);
         if (idea == null)
         {
             return NotFound();
         }
 
-        _context.Idea.Remove(idea);
-        await _context.SaveChangesAsync();
+        context.Idea.Remove(idea);
+        await context.SaveChangesAsync();
 
         return NoContent();
     }
 
     private bool IdeaExists(int id)
     {
-        return (_context.Idea?.Any(e => e.Id == id)).GetValueOrDefault();
+        return (context.Idea?.Any(e => e.Id == id)).GetValueOrDefault();
     }
 }
