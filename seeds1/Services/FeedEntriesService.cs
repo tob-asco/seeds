@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
@@ -25,10 +26,13 @@ public class FeedEntriesService : IFeedEntriesService
         this.cupService = cupService;
         this.uiiService = uiiService;
     }
-    public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(int page, int maxPageSize)
+    public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
         List<FeedEntry> feedEntryPage = new();
-        var ideaPage = await ideasService.GetIdeasPaginatedAsync(page, maxPageSize);
+        var ideaPage = await ideasService.GetIdeasPaginatedAsync(
+            pageIndex, pageSize, orderByColumn, isDescending);
         if (ideaPage == null) { return new(); } // we get null if there are no more ideas
         foreach (var idea in ideaPage)
         {

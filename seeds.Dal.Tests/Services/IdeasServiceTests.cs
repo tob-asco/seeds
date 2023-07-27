@@ -17,7 +17,7 @@ public class IdeasServiceTests
         _service = new IdeasService(_baseService);
     }
     [Fact]
-    public async void IdeasService_GetIdeaAsync_ReturnsItself()
+    public async Task IdeasService_GetIdeaAsync_ReturnsItself()
     {
         // Arrange
         int id = 1;
@@ -47,10 +47,10 @@ public class IdeasServiceTests
         await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
-    public async void IdeasService_GetIdeasPaginatedAsync_ReturnsAllItselfs()
+    public async Task IdeasService_GetIdeasPaginatedAsync_ReturnsAllItselfs()
     {
         #region Arrange
-        int page = 2; int maxPageSize = 10;
+        int page = 2;
         int id1 = 1; int id2 = 2;
         List<IdeaFromDb> users = new()
         {
@@ -62,7 +62,7 @@ public class IdeasServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetIdeasPaginatedAsync(page, maxPageSize);
+        var result = await _service.GetIdeasPaginatedAsync(page);
 
         // Assert
         result.Should().NotBeNull();
@@ -70,7 +70,22 @@ public class IdeasServiceTests
         result?[1].Id.Should().Be(id2);
     }
     [Fact]
-    public async Task IdeasService_GetIdeasPaginatedAsync_IfNotExistReturnsNull()
+    public async Task IdeasService_GetIdeasPaginatedAsync_IfNotExistReturnsEmptyList()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaFromDb>>(
+            A<string>.Ignored))
+            .Returns<List<IdeaFromDb>?>(new());
+
+        // Act
+        var result = await _service.GetIdeasPaginatedAsync(1, 10);
+
+        // Assert
+        result.Should().NotBeNull();
+        result?.Should().HaveCount(0);
+    }
+    [Fact]
+    public async Task IdeasService_GetIdeasPaginatedAsync_IfBaseNullThrows()
     {
         // Arrange
         A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaFromDb>>(
@@ -78,10 +93,10 @@ public class IdeasServiceTests
             .Returns<List<IdeaFromDb>?>(null);
 
         // Act
-        var result = await _service.GetIdeasPaginatedAsync(1, 10);
+        Func<Task> act = async () => await _service.GetIdeasPaginatedAsync(1);
 
         // Assert
-        result.Should().BeNull();
+        await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
     public async Task IdeasService_PostIdeaAsync_NoException()
