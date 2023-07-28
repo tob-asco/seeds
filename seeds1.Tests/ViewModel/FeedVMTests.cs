@@ -38,7 +38,7 @@ public class FeedVMTests
             new FeedEntry {}
         };
         A.CallTo(() => feedEntriesService.GetFeedEntriesPaginatedAsync(
-            A<int>.Ignored, A<int>.Ignored))
+            A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(feedEntries);
 
         // Act

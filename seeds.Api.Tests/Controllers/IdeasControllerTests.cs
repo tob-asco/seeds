@@ -1,6 +1,8 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Api.Pages;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
+using System.Drawing.Printing;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -20,48 +22,67 @@ public class IdeasControllerTests : ApiBaseControllerTests
     }
     private void PopulatePropertiesAndAddToDb()
     {
-        for (int i = 1; i <= 22; i++)
+        Random random = new();
+        for (int i = 0; i <= 22; i++)
         {
             Ideas.Add(
             new Idea()
             {
-                Title = "Idea #" + i
+                Title = "Idea #" + i,
+                CreationTime = new(2023, 07, random.Next(1, 31))
             });
         }
         if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
     }
 
     [Theory]
-    [InlineData(1, 10)] // MaxPageSize length
+    [InlineData(1, 10)] // pageSize length
     [InlineData(4, 7)] // At least one
-    [InlineData(5, 10)] // None
-    public async Task IdeasController_GetPaginatedEndpoint_ReturnsListOfCorrectSizeOrNotFound(
-        int page, int maxPageSize)
+    [InlineData(6, 12)] // None
+    public async Task IdeasController_GetPaginatedEndpoint_ReturnsSuccessAndCorrectSizeList(
+        int pageIndex, int pageSize)
     {
         //Arrange
-        string url = $"api/Ideas/page/{page}/size/{maxPageSize}";
+        string url = $"api/Ideas/page/{pageIndex}?pageSize={pageSize}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
-        if (Ideas.Count >= (page * maxPageSize))
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
+        if (Ideas.Count >= (pageIndex * pageSize))
         {
-            response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
-            result.Should().HaveCount(maxPageSize);
+            result.Should().HaveCount(pageSize);
         }
-        else if (Ideas.Count < (page * maxPageSize) &&
-            Ideas.Count > ((page - 1) * maxPageSize))
+        else if (Ideas.Count < (pageIndex * pageSize) &&
+            Ideas.Count > ((pageIndex - 1) * pageSize))
         {
-            response.Should().BeSuccessful();
-            var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
-            result.Should().HaveCount(Ideas.Count - ((page - 1) * maxPageSize));
+            result.Should().HaveCount(Ideas.Count - ((pageIndex - 1) * pageSize));
         }
         else
         {
-            response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+            result.Should().HaveCount(0);
         }
+    }
+    [Fact]
+    public async Task IdeasController_GetPaginatedEndpoint_OrdersByCreationTime()
+    {
+        //Arrange
+        _context.Idea.Add(new() { CreationTime = DateTime.MinValue });
+        _context.Idea.Add(new() { CreationTime = DateTime.MaxValue });
+        _context.SaveChanges();
+        string url = $"api/Ideas/page/1?pageSize={Ideas.Count + 10}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
+        result.Should().NotBeNull();
+        var ordered = result?.OrderByDescending(x => x.CreationTime).ToList();
+        ordered?.Should().BeEquivalentTo(result);
     }
     [Fact]
     public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()

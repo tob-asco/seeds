@@ -17,10 +17,14 @@ public class IdeasService : IIdeasService
         return await _baseService.GetDalModelAsync<IdeaFromDb>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
-    public async Task<List<IdeaFromDb>?> GetIdeasPaginatedAsync(int page, int maxPageSize)
+    public async Task<List<IdeaFromDb>> GetIdeasPaginatedAsync(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
-        string url = $"api/ideas/page/{page}/size/{maxPageSize}";
-        return await _baseService.GetDalModelAsync<List<IdeaFromDb>>(url);
+        string url = $"api/ideas/page/{pageIndex}?pageSize={pageSize}" +
+            $"&orderByColumn={orderByColumn}&isDescending={isDescending}";
+        return await _baseService.GetDalModelAsync<List<IdeaFromDb>>(url)
+            ?? throw new Exception($"The Get URL {url} returned null.");
     }
     public async Task<IdeaFromDb> PostIdeaAsync(IdeaToDb idea)
     {

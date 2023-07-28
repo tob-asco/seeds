@@ -29,14 +29,15 @@ public class FeedEntriesServiceTests
     public async Task FeedEntriesService_GetFeedEntriesPaginatedAsync_ReturnsItselfs()
     {
         #region Arrange
-        int page = 1; int pageSize = 2;
+        int pageIndex = 1; int pageSize = 2;
         CategoryDto cat1 = new() { Key = "Cat1" };
         CategoryDto cat2 = new() { Key = "Cat2" };
         List<IdeaFromDb> ideaPage = new() {
             new(){ CategoryKey = cat1.Key},
             new(){ CategoryKey = cat2.Key},
         };
-        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(page, pageSize))
+        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(
+            A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(ideaPage);
         A.CallTo(() => uiiService.CountVotesAsync(A<int>.Ignored))
             .Returns(0);
@@ -50,7 +51,7 @@ public class FeedEntriesServiceTests
         #endregion
 
         // Act
-        var result = await service.GetFeedEntriesPaginatedAsync(page, pageSize);
+        var result = await service.GetFeedEntriesPaginatedAsync(pageIndex, pageSize);
 
         // Assert
         result.Should().HaveCount(ideaPage.Count);
@@ -62,8 +63,8 @@ public class FeedEntriesServiceTests
     {
         #region Arrange
         int page = 1; int pageSize = 2;
-        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(page, pageSize))
-            .Returns<List<IdeaFromDb>?>(null);
+        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(page, 5, "CreationTime", true))
+            .Returns<List<IdeaFromDb>>(new());
         #endregion
 
         // Act
