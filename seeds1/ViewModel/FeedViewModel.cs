@@ -10,7 +10,7 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class FeedViewModel : MyBaseViewModel
 {
-    private static readonly int _maxFeedEntryPageSize = 5;
+    private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
@@ -41,13 +41,13 @@ public partial class FeedViewModel : MyBaseViewModel
         if (FeedEntryVMCollection == null) { currentCount = 0; }
         else { currentCount = FeedEntryVMCollection.Count; }
 
-        int currentPages = (int)Math.Ceiling((decimal)currentCount / _maxFeedEntryPageSize);
+        int currentPages = (int)Math.Ceiling((decimal)currentCount / _feedEntryPageSize);
 
         List<FeedEntry> feedEntries = new();
         try
         {
             feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
-                currentPages + 1, _maxFeedEntryPageSize);
+                currentPages + 1, _feedEntryPageSize);
         }
         catch (Exception ex)
         {

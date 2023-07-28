@@ -5,7 +5,7 @@
              xmlns:converter="clr-namespace:seeds1.Converter"
              x:DataType="local:FeedEntryViewModel"
              x:Class="seeds1.View.FeedEntryView">
-    <Frame BackgroundColor="#222" Margin="0,15,0,0" Padding="0">
+    <Frame BackgroundColor="#222" Margin="0,5,0,0" Padding="0,5,0,0">
         <!--<Grid ColumnDefinitions="*" RowDefinitions="50,Auto" Margin="0,15,0,0" BackgroundColor="#111">-->
         <Frame.GestureRecognizers>
             <TapGestureRecognizer 
@@ -51,12 +51,12 @@
                                Style="{StaticResource slogan}" 
                                HorizontalOptions="CenterAndExpand" Padding="10"/>
                 <Image Source="{Binding FeedEntry.Idea.Slide1}"
-                   HeightRequest="400"/>
+                   HeightRequest="400"
+                       Margin="0,5"/>
                 <HorizontalStackLayout
                             HorizontalOptions="EndAndExpand"
                             HeightRequest="45"
                             Margin="0,0,5,5" Padding="0">
-                    <Label Text="{Binding FeedEntry.Upvotes}"/>
                     <Button Text="+1"
                             Command="{Binding ChangeVoteCommand}"
                             CommandParameter="up"
@@ -68,10 +68,14 @@
                                          Path="FeedEntry.Upvoted"/>
                         </Button.Style>
                     </Button>
+                    <Label 
+                        VerticalTextAlignment="Center"
+                        FontSize="Large"
+                        Text="{Binding FeedEntry.Upvotes}"/>
                     <Button Text="-1"
                             Command="{Binding ChangeVoteCommand}"
                             CommandParameter="down"
-                            Margin="0,0,10,0">
+                            Margin="10,0,10,0">
                         <Button.Style>
                             <Binding Converter="{converter:BoolToVotedConverter 
                                 NotVoted={StaticResource voteButtonMediumStyle}, 
