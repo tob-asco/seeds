@@ -7,40 +7,20 @@
              x:DataType="local:FeedViewModel"
              x:Class="seeds1.View.FeedPage"
              Title="{Binding CurrentUser.Username,StringFormat='{}{0}s feed'}">
-    <CollectionView
+    <RefreshView
+        x:DataType="local:FeedViewModel"
+        Command="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
+        <CollectionView
         ItemsSource="{Binding FeedEntryVMCollection}"
         RemainingItemsThreshold="2"
         RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}"
         >
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <views:FeedEntryView BindingContext="{Binding .}"/>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
-
-    
-    <!--<RefreshView
-        IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-        >
-        <CollectionView
-            BackgroundColor="Transparent"
-            IsGrouped="True"
-            ItemSizingStrategy="MeasureAllItems"
-            ItemsSource="{Binding IdeaCollection}"
-            RemainingItemsThreshold="1"
-            RemainingItemsThresholdReachedCommand="{Binding CollectIdeasPaginatedCommand}"
-            >
-            <CollectionView.EmptyView>
-                <StackLayout Padding="12">
-                    <Label HorizontalOptions="Center" Text="No Ideas..." />
-                </StackLayout>
-            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Label Text="{Binding IdeaCollection.Title}"/>
+                    <views:FeedEntryView BindingContext="{Binding .}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </RefreshView>-->
+    </RefreshView>
 </ContentPage>

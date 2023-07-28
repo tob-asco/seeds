@@ -10,8 +10,6 @@ public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICategoryPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;
-    [ObservableProperty]
-    ObservableRangeCollection<CatPreference> catPrefs = new();
     public PreferencesViewModel(
         IGlobalService globalService,
         ICategoryPreferencesService catPrefService,
@@ -22,6 +20,21 @@ public partial class PreferencesViewModel : MyBaseViewModel
         this.cupService = cupService;
     }
 
+    [ObservableProperty]
+    ObservableRangeCollection<CatPreference> catPrefs = new();
+    [ObservableProperty]
+    bool isRefreshing = false;
+
+    [RelayCommand]
+    public async Task Refresh()
+    {
+        if (!IsRefreshing)
+        {
+            IsRefreshing = true;
+            await GetCatPreferencesAsync();
+            IsRefreshing = false;
+        }
+    }
     [RelayCommand]
     public async Task GetCatPreferencesAsync()
     {

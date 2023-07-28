@@ -32,6 +32,19 @@ public partial class FeedViewModel : MyBaseViewModel
         this.catPrefService = catPrefService;
     }
 
+    [ObservableProperty]
+    bool isRefreshing = false;
+    [RelayCommand]
+    public async Task Refresh()
+    {
+        if (!IsRefreshing)
+        {
+            IsRefreshing = true;
+            FeedEntryVMCollection = new();
+            await CollectFeedEntriesPaginated();
+            IsRefreshing = false;
+        }
+    }
     [RelayCommand]
     public async Task CollectFeedEntriesPaginated()
     {

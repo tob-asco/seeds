@@ -7,7 +7,10 @@
              x:Class="seeds1.View.PreferencesPage"
              x:DataType="local:PreferencesViewModel"
              Title="Preferences">
-    <RefreshView>
+    <RefreshView
+        x:DataType="local:PreferencesViewModel"
+        Command="{Binding GetCatPreferencesCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
         <ScrollView>
             <FlexLayout 
             BindableLayout.ItemsSource="{Binding CatPrefs}"
@@ -21,7 +24,7 @@
                             Path=ChangeCategoryPreferenceCommand}"
                             CommandParameter="{Binding Key}"
                             HeightRequest="45"
-                            Margin="1"
+                            Margin="1,2"
                         >
                             <Button.Text>
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}"
