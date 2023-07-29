@@ -21,6 +21,14 @@
                     <views:FeedEntryView BindingContext="{Binding .}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                    <Button
+                        Command="{Binding CollectFeedEntriesPaginatedCommand}"
+                        HeightRequest="40"
+                        Text="Load More" />
+                </StackLayout>
+            </CollectionView.Footer>
         </CollectionView>
     </RefreshView>
 </ContentPage>
