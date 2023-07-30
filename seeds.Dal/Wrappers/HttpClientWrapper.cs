@@ -17,8 +17,10 @@ public class HttpClientWrapper : IHttpClientWrapper
 
     public HttpClientWrapper()
     {
-        _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/");
+        _httpClient = new HttpClient
+        {
+            BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/")
+        };
         //_httpClient.BaseAddress = new Uri("http://localhost:5282/");
     }
     public async Task<HttpResponseMessage> GetAsync(string url)

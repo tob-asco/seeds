@@ -22,7 +22,7 @@ public class DalBaseService : IDalBaseService
         var response = await HttpClientWrapper.GetAsync(url);
         if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
-            return default(T); // gives null for Dal model classes (cf. tests)
+            return default; // gives null for Dal model classes (cf. tests)
         }
         if (!response.IsSuccessStatusCode)
         {

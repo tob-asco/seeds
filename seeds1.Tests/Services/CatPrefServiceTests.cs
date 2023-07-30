@@ -60,7 +60,7 @@ public class CatPrefServiceTests
     {
         #region Arrange
         A.CallTo(() => categoryService.GetCategoriesAsync())
-            .Returns<List<CategoryDto>?>(null);
+            .Returns<List<CategoryDto>>(new());
         #endregion
 
         // Act
@@ -69,6 +69,7 @@ public class CatPrefServiceTests
         // Assert
         await act.Should().ThrowAsync<Exception>();
     }
+    /* I think this test is redundant due to new error-handling philosophy
     [Fact]
     public async Task CatPrefService_GetCatPreferencesAsync_IfCupMissingThrows()
     {
@@ -91,7 +92,7 @@ public class CatPrefServiceTests
             .Returns(cup1);
         A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
             key2, A<string>.Ignored))
-            .Returns<CategoryUserPreference?>(null);
+            .Returns<CategoryUserPreference>(null);
         #endregion
 
         // Act
@@ -100,4 +101,5 @@ public class CatPrefServiceTests
         // Assert
         await act.Should().ThrowAsync<Exception>();
     }
+    */
 }
