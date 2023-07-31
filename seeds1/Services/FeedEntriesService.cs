@@ -40,21 +40,21 @@ public class FeedEntriesService : IFeedEntriesService
              * badNull-handling is done in the DAL services,
              * error-handling is done in the VMs
              */
-            //var upvotes = await uiiService.CountVotesAsync(idea.Id);
-            //var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
-            //var cup = await cupService.GetCategoryUserPreferenceAsync(
-            //    idea.CategoryKey, globalService.CurrentUser.Username);
-            //var uii = await uiiService.GetUserIdeaInteractionAsync(
-            //    globalService.CurrentUser.Username, idea.Id)
-            //    ?? new UserIdeaInteraction();
+            var upvotes = await uiiService.CountVotesAsync(idea.Id);
+            var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
+            var cup = await cupService.GetCategoryUserPreferenceAsync(
+                idea.CategoryKey, globalService.CurrentUser.Username);
+            var uii = await uiiService.GetUserIdeaInteractionAsync(
+                globalService.CurrentUser.Username, idea.Id)
+                ?? new UserIdeaInteraction();
             feedEntryPage.Add(new FeedEntry
             {
                 Idea = idea,
-                CategoryName = "NoC",//category.Name,
-                CategoryPreference = 0,//cup.Value,
-                Upvoted = false,//uii.Upvoted,
-                Downvoted = false,//uii.Downvoted,
-                Upvotes = 0//upvotes,
+                CategoryName = category.Name,
+                CategoryPreference = cup.Value,
+                Upvoted = uii.Upvoted,
+                Downvoted = uii.Downvoted,
+                Upvotes = upvotes,
             });
         }
         return feedEntryPage;
