@@ -4,18 +4,8 @@ using seeds1.Interfaces;
 
 namespace seeds1.ViewModel;
 
-public partial class LoginViewModel : ObservableObject//MyBaseViewModel
+public partial class LoginViewModel : MyBaseViewModel
 {
-    public UserDto CurrentUser
-    {
-        get => globalService.CurrentUser;
-        set
-        {
-            globalService.CurrentUser = value;
-            OnPropertyChanged(nameof(CurrentUser));
-        }
-    }
-    private readonly IGlobalService globalService;
     private readonly IUsersService _usersService;
     private readonly INavigationService _navigationService;
 
@@ -23,9 +13,8 @@ public partial class LoginViewModel : ObservableObject//MyBaseViewModel
         IGlobalService globalService,
         IUsersService usersService,
         INavigationService navigationService)
-        //: base(globalService)
+        : base(globalService)
     {
-        this.globalService = globalService;
         _usersService = usersService;
         _navigationService = navigationService;
     }

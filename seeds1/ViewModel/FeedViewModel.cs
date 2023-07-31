@@ -9,18 +9,8 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class FeedViewModel : CommunityToolkit.Mvvm.ComponentModel.ObservableObject//MyBaseViewModel
+public partial class FeedViewModel :MyBaseViewModel
 {
-    private readonly IGlobalService globalService;
-    public UserDto CurrentUser
-    {
-        get => globalService.CurrentUser;
-        set
-        {
-            globalService.CurrentUser = value;
-            OnPropertyChanged(nameof(CurrentUser));
-        }
-    }
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
@@ -35,9 +25,8 @@ public partial class FeedViewModel : CommunityToolkit.Mvvm.ComponentModel.Observ
         IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
         ICategoryPreferencesService catPrefService)
-        //: base(globalService)
+        : base(globalService)
     {
-        this.globalService = globalService;
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
         this.cupService = cupService;
