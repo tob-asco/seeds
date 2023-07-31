@@ -26,6 +26,7 @@ public static class MauiProgram
         ServiceModule.DIregistration(builder.Services);
 
         builder.Services.AddSingleton<IGlobalService, GlobalService>();
+        builder.Services.AddSingleton<IGenericFactory<LoginViewModel>, LoginViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();

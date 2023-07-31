@@ -63,8 +63,6 @@ public partial class LoginViewModel : MyBaseViewModel
                 //according to:
                 //  https://github.com/xamarin/Xamarin.Forms/issues/6096
                 await _navigationService.NavigateToAsync($"///{nameof(FeedPage)}");
-
-                Cleanup();
             }
             else
             {
@@ -78,14 +76,6 @@ public partial class LoginViewModel : MyBaseViewModel
             FailResponse("Invalid Credentials.");
         }
     }
-
-    private void Cleanup()
-    {
-        EnteredUsername = "";
-        EnteredPassword = "";
-        DisplayedLoginResponse = "";
-    }
-
     public void FailResponse(string text)
     {
         DisplayedLoginResponse = text;
