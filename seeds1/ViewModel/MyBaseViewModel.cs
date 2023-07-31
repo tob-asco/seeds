@@ -26,11 +26,4 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
     {
         this.globalService = globalService;
     }
-
-    [RelayCommand]
-    public async Task Logout()
-    {
-        CurrentUser = null!;
-        await Shell.Current.GoToAsync("///LoginPage", false);
-    }
 }

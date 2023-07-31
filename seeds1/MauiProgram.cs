@@ -33,6 +33,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICategoryPreferencesService, CategoryPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
+        builder.Services.AddSingleton<AppShell>();
+
         builder.Services.AddTransient<MyBaseViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<FeedViewModel>();
