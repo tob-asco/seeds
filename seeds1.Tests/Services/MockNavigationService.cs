@@ -12,4 +12,10 @@ public class MockNavigationService : INavigationService
         NavigationCalled = true;
         return Task.CompletedTask;
     }
+
+    public Task NavigateToAsync(string url)
+    {
+        NavigationCalled = true;
+        return Task.CompletedTask;
+    }
 }

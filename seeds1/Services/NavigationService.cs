@@ -12,4 +12,9 @@ public class NavigationService : INavigationService
     {
         await Shell.Current.GoToAsync(url, true, navParameters);
     }
+
+    public async Task NavigateToAsync(string url)
+    {
+        await Shell.Current.GoToAsync(url, true);
+    }
 }
