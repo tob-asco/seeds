@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Api.Helpers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.AddDbContext<seedsApiContext>(options =>
 )));
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+Log.Logger = new LoggerConfiguration()
+        .WriteTo.File(
+            "C:\\Users\\tobia\\source\\repos\\seeds\\log.txt",
+            rollingInterval: RollingInterval.Day)
+        .CreateLogger();
 #endregion
 
 var app = builder.Build();
@@ -27,9 +33,14 @@ var dbContext = services.GetRequiredService<seedsApiContext>();
 var dataSeeder = new DataSeeder(dbContext);
 dataSeeder.SeedData();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
+    // in development mode, we display detailed error messages
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    // in not dev. mode, we display a better-looking /Error page
     app.UseExceptionHandler("/Error");
 }
 app.UseStaticFiles();
