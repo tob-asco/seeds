@@ -5,10 +5,9 @@ namespace seeds1;
 
 public partial class App : Application
 {
-	public App(MyBaseViewModel vm)
+	public App(AppShell shell)
 	{
 		InitializeComponent();
-
-		MainPage = new AppShell(vm);
+		MainPage = shell;
 	}
 }

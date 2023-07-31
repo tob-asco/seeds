@@ -6,7 +6,6 @@ namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : MyBaseViewModel
 {
-    private readonly IGlobalService globalService;
     private readonly IUsersService _usersService;
     private readonly INavigationService _navigationService;
 
@@ -16,7 +15,6 @@ public partial class LoginViewModel : MyBaseViewModel
         INavigationService navigationService)
         : base(globalService)
     {
-        this.globalService = globalService;
         _usersService = usersService;
         _navigationService = navigationService;
     }
@@ -57,12 +55,6 @@ public partial class LoginViewModel : MyBaseViewModel
                 // Login
                 CurrentUser = user;
                 _navigationService.RedrawNavigationTarget = true;
-                // pass full user object, not just username
-                var navParameters = new Dictionary<string, object>
-                {
-                    //{ nameof(CurrentUser), user },
-                    //{ nameof(RedrawPage), true }
-                };
 
                 //the amount of "/" to prepend depends on the shell's design
                 //r.n. I use "///" because the debugger suggested it
@@ -70,8 +62,7 @@ public partial class LoginViewModel : MyBaseViewModel
                 //That 1*/ does not work seems not to be my bad, but MAUI's
                 //according to:
                 //  https://github.com/xamarin/Xamarin.Forms/issues/6096
-                await _navigationService.NavigateToAsync(
-                    $"///{nameof(FeedPage)}", navParameters);
+                await _navigationService.NavigateToAsync($"///{nameof(FeedPage)}");
 
                 Cleanup();
             }

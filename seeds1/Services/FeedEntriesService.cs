@@ -37,7 +37,7 @@ public class FeedEntriesService : IFeedEntriesService
         foreach (var idea in ideaPage)
         {
             /* According to the general philo, no error- / badNull- handling here.
-             * badNull-handling is done in the services,
+             * badNull-handling is done in the DAL services,
              * error-handling is done in the VMs
              */
             var upvotes = await uiiService.CountVotesAsync(idea.Id);

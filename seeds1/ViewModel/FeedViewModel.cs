@@ -1,4 +1,5 @@
 ﻿using MvvmHelpers;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds1.Factories;
 using seeds1.Interfaces;
@@ -8,7 +9,7 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class FeedViewModel : MyBaseViewModel
+public partial class FeedViewModel :MyBaseViewModel
 {
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;

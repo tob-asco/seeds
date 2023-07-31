@@ -3,26 +3,29 @@
     x:Class="seeds1.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:seeds1"
-    x:DataType="local:ViewModel.MyBaseViewModel">
+    xmlns:local="clr-namespace:seeds1.ViewModel"
+    xmlns:view="clr-namespace:seeds1.View"
+    x:DataType="local:MyBaseViewModel"
+    FlyoutBackgroundColor="Black"
+    >
 
     <ShellItem Title="Login"
                FlyoutItemIsVisible="False">
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:View.LoginPage}"/>
+        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate view:LoginPage}"/>
     </ShellItem>
 
     <FlyoutItem Title="Add">
-        <ShellContent ContentTemplate="{DataTemplate local:View.AddPage}" Route="AddPage" />
+        <ShellContent ContentTemplate="{DataTemplate view:AddPage}" Route="AddPage" />
     </FlyoutItem>
     <FlyoutItem Title="Feed">
-        <ShellContent ContentTemplate="{DataTemplate local:View.FeedPage}" Route="FeedPage" />
+        <ShellContent ContentTemplate="{DataTemplate view:FeedPage}" Route="FeedPage" />
     </FlyoutItem>
     <FlyoutItem Title="Preferences">
-        <ShellContent ContentTemplate="{DataTemplate local:View.PreferencesPage}" Route="PreferencePage" />
+        <ShellContent ContentTemplate="{DataTemplate view:PreferencesPage}" Route="PreferencePage" />
     </FlyoutItem>
 
     <MenuFlyoutItem Text="Logout"
-              Command="{Binding LogoutCommand}"/>
+              Clicked="LogoutButton_Click"/>
 
     <!--<Shell.FlyoutFooter>
         <Label Text="{Binding CurrentUsername}"/>

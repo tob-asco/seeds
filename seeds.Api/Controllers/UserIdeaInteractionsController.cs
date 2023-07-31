@@ -77,18 +77,15 @@ namespace seeds.Api.Controllers
             _context.UserIdeaInteraction.Add(uii);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch //(DbUpdateException)
-            {
                 if (UserIdeaInteractionExists(uii.Username, uii.IdeaId))
                 {
                     return Conflict();
                 }
-                else
-                {
-                    throw;
-                }
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return Problem(ex.Message);
             }
             return CreatedAtAction(
                 "GetUserIdeaInteraction",
