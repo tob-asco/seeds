@@ -10,4 +10,18 @@ public partial class App : Application
 		InitializeComponent();
 		MainPage = shell;
 	}
+#if WINDOWS
+    protected override Window CreateWindow(IActivationState activationState)
+    {
+        var window = base.CreateWindow(activationState);
+
+        const int newWidth = 500;
+        const int newHeight = 800;
+
+        window.Width = newWidth;
+        window.Height = newHeight;
+
+        return window;
+    }
+#endif
 }
