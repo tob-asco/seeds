@@ -8,5 +8,6 @@
   - Solution: New DevTunnel (public - private showed some other errors), or use localhost
 - (08.07.23) User-Unhandled Exception thrown in `JNINativeWrapper.g.cs` (Android) or `App.g.i.cs` (Windows)
   - Problem: Non-registered dependencies
-  - Solution: Register all interfaces of each project that are DI'ed into some constructor.
+  - Solution: Register all interfaces to the app builder of each project that are DI'ed into some constructor.
     Also register all VMs and the respective pages/views.
+    This is done in `MauiProgram.cs`, the entry point of the app.
