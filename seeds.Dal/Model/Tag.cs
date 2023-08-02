@@ -14,5 +14,6 @@ public class Tag
     #region Navigation
     public Category Category { get; set; } = null!;
     public List<User> Users { get; } = new();
+    public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
     #endregion
 }
