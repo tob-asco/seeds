@@ -16,6 +16,7 @@ public class DataSeeder
         // create lists to have entries it before
         // saving the changes to the DB
         List<Category> categories = new();
+        List<Tag> tags = new();
         List<User> users = new();
 
         #region Categories
@@ -60,6 +61,18 @@ public class DataSeeder
         }
         else { categories = _dbContext.Category.ToList(); }
         #endregion
+        #region Tags
+        tags.Add(new Tag
+        {
+            CategoryKey = "NoC",
+            Name = "tag"
+        });
+        if (!_dbContext.Tag.Any())
+        {
+            _dbContext.Tag.AddRange(tags);
+        }
+        else { categories = _dbContext.Category.ToList(); }
+        #endregion
         #region Users
         users.Add(new User { Username = "tobi" });
         users.Add(new User { Username = "Tobi" });
@@ -78,14 +91,24 @@ public class DataSeeder
         //categories and users are ready, so we can seed their relation:
         if (!_dbContext.CategoryUserPreference.Any())
         {
-            foreach (var category in categories)
+            foreach (var user in users)
             {
-                foreach (var user in users)
+                foreach (var category in categories)
                 {
                     _dbContext.CategoryUserPreference.Add(new CategoryUserPreference
                     {
                         CategoryKey = category.Key,
                         Username = user.Username,
+                        Value = 0
+                    });
+                }
+                foreach (var tag in tags)
+                {
+                    _dbContext.CategoryUserPreference.Add(new CategoryUserPreference
+                    {
+                        CategoryKey = tag.CategoryKey,
+                        Username = user.Username,
+                        TagName = tag.Name,
                         Value = 0
                     });
                 }
