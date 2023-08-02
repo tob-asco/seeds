@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace seeds.Dal.Model;
 
@@ -18,6 +14,9 @@ public class CategoryUserPreference
 {
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
+    [Column("tag_name")]
+    [AllowNull] // if null in DB, then this is a category preference
+    public string TagName { get; set; }
     [Column("username")]
     public string Username { get; set; } = "tobi";
 

@@ -8,6 +8,6 @@ public class CategoryUserPreferenceConfiguration : IEntityTypeConfiguration<Cate
 {
     public void Configure(EntityTypeBuilder<CategoryUserPreference> builder)
     {
-        builder.HasKey(cp => new {cp.CategoryKey, cp.Username});
+        builder.HasKey(cp => new {cp.CategoryKey, cp.Username, cp.TagName});
     }
 }
