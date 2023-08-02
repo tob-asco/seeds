@@ -24,13 +24,13 @@ namespace seeds.Api.Controllers
             try
             {
                 var categoryUserPreference = await _context.CategoryUserPreference
-                    .FindAsync(categoryKey, username, tagName);
+                    .FirstAsync(cup =>
+                    cup.CategoryKey == categoryKey &&
+                    cup.Username == username &&
+                    cup.TagName == tagName); // test that a null tagName does what you want
                 return categoryUserPreference != null ? categoryUserPreference : NotFound();
             }
-            catch (Exception ex)
-            {
-                return Problem(ex.Message);
-            }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
         // PUT: api/CategoryUserPreferences/NoC/tobi
@@ -41,27 +41,18 @@ namespace seeds.Api.Controllers
             CategoryUserPreference cup)
         {
             if (categoryKey != cup.CategoryKey
-                || username != cup.Username)
-            {
-                return BadRequest();
-            }
+                || username != cup.Username) { return BadRequest(); }
 
             _context.Entry(cup).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
+            try { await _context.SaveChangesAsync(); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!CategoryUserPreferenceExists(categoryKey, username, tagName))
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                else { throw; }
             }
             return NoContent();
         }
