@@ -16,5 +16,6 @@ public static class ServiceModule
         service.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
         service.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
         service.AddScoped<IPresentationService, PresentationService>();
+        service.AddScoped<ITagService, TagService>();
     }                               
 }
