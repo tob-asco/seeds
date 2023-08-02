@@ -32,6 +32,7 @@ public class User
     #region Navigation
     public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
     public List<Category> Categories { get; } = new();
+    public List<Tag> Tags { get; } = new();
     public List<Idea> CreatedIdeas { get; set; } = new();
     public List<Idea> InteractedIdeas { get; set; } = new();
     #endregion
