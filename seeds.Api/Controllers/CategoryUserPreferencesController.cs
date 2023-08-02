@@ -16,18 +16,20 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/CategoryUserPreferences/NoC/tobi
+        // GET: api/CategoryUserPreferences/NoC/tobi?tagName=tag
         [HttpGet("{categoryKey}/{username}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(string categoryKey, string username)
+        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(
+            string categoryKey, string username, string? tagName)
         {
             try
             {
-                var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(categoryKey, username);
+                var categoryUserPreference = await _context.CategoryUserPreference
+                    .FindAsync(categoryKey, username, tagName);
                 return categoryUserPreference != null ? categoryUserPreference : NotFound();
             }
-            catch
+            catch (Exception ex)
             {
-                return NotFound();
+                return Problem(ex.Message);
             }
         }
 
@@ -35,8 +37,7 @@ namespace seeds.Api.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{categoryKey}/{username}")]
         public async Task<IActionResult> PutCategoryUserPreference(
-            string categoryKey,
-            string username,
+            string categoryKey, string username, string? tagName,
             CategoryUserPreference cup)
         {
             if (categoryKey != cup.CategoryKey
@@ -53,7 +54,7 @@ namespace seeds.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoryUserPreferenceExists(categoryKey, username))
+                if (!CategoryUserPreferenceExists(categoryKey, username, tagName))
                 {
                     return NotFound();
                 }
@@ -65,10 +66,12 @@ namespace seeds.Api.Controllers
             return NoContent();
         }
 
-        private bool CategoryUserPreferenceExists(string categoryKey, string username)
+        private bool CategoryUserPreferenceExists(string categoryKey, string username, string? tagName)
         {
             return (_context.CategoryUserPreference?.Any(e =>
-                e.CategoryKey == categoryKey && e.Username == username))
+                e.CategoryKey == categoryKey && 
+                e.Username == username &&
+                e.TagName == tagName))
                 .GetValueOrDefault();
         }
     }
