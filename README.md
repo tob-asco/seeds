@@ -1,6 +1,7 @@
 # seeds - Humanity's Database of Creativity
 ## TODOs
 - [ ] DTO for CUP (bc. we have a GUID PK now)
+- [ ] if it's your idea in the feed, make you name cool
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
