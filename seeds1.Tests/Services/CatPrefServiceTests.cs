@@ -40,10 +40,10 @@ public class CatPrefServiceTests
         CategoryUserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
         CategoryUserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
         A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
-            key1, A<string>.Ignored))
+            key1, A<string>.Ignored, A<string?>.Ignored))
             .Returns(cup1);
         A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
-            key2, A<string>.Ignored))
+            key2, A<string>.Ignored, A<string?>.Ignored))
             .Returns(cup2);
         #endregion
 
@@ -58,10 +58,9 @@ public class CatPrefServiceTests
     [Fact]
     public async Task CatPrefService_GetCatPreferencesAsync_IfNoCatsThrows()
     {
-        #region Arrange
+        // Arrange
         A.CallTo(() => categoryService.GetCategoriesAsync())
             .Returns<List<CategoryDto>>(new());
-        #endregion
 
         // Act
         Func<Task> act = async () => await service.GetCatPreferencesAsync();
