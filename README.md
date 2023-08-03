@@ -1,6 +1,6 @@
 # seeds - Humanity's Database of Creativity
 ## TODOs
-- [ ] change id datatype to GUID
+- [ ] DTO for CUP (bc. we have a GUID PK now)
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
@@ -36,14 +36,14 @@
 - **seeds.Api.Tests** (xUnit test project of the Web API)
   - **Controllers**: No Unit tests, only endpoint tests
     - `ApiBaseControllerTests.cs` (provides unpopulated _context and an _httpClient accessing it, through the `ProgramTest.cs` in-memory server)
-    - *GET*
+    - *GET* endpoint test recommendations
       1. `ControllerName_GetEndpoint_ReturnsItself()`
-      2. `ControllerName_GetEndpoint_IfNotExistReturnsNotFound()`
-    - *PUT*
+      2. `ControllerName_GetEndpoint_IfColumn1NotExistReturnsNotFound()`, ... for other Column2,3,...
+    - *PUT* endpoint test recommendations
       1. `ControllerName_PutEndpoint_ReturnsSuccessAndUpdatedDb()` (i.e. update the context)
-      2. `ControllerName_PutEndpoint_IfNotExistReturnsNotFound()`
+      2. `ControllerName_PutEndpoint_IfColumns1NotExistReturnsNotFound()`, ... for other Column2,3,...
       3. if `MyModelFromDb` and hence an AutoMapper map exists: `ControllerName_PutEndpoint_LeavesSomeProperty()` to ensure that AutoMapper doesn't update provided values
-    - *POST*
+    - *POST* endpoint test recommendations
       1. `ControllerName_PostEndpoint_ReturnsSuccessAndUpdatedDb()` (i.e. update the context)
       2. `ControllerName_PostEndpoint_IfExistReturnsConflict()`
       3. if `MyModelToDb` exists: `ControllerName_PostEndpoint_ReturnsUpdatedPk()` to ensure that we recieve the model as is in the DB from POST
@@ -51,13 +51,13 @@
   - `ProgramTest.cs` (the test server startup class)
 - **seeds.Dal.Tests** (xUnit test project of the DAL units)
   - **Services**: Unit tests
-    - *GET*
+    - *GET* service test recommendations
       1. `ServiceName_GetModelAsync_ReturnsItself()`
       2. `ServiceName_GetModelAsync_IfNotExistReturnsNull()`
     - *PUT* (depending on whether a PUT must succeed or can fail, e.g. if the PK need not exist)
       1. `ServiceName_PutModelAsync_ReturnsTrue()` or `ServiceName_PutModelAsync_Returns()`
       2. `ServiceName_PutModelAsync_IfNotSuccessReturnsFalse()` or `ServiceName_PutModelAsync_IfNotSuccessThrows()`
-    - *POST*
+    - *POST* service test recommendations
       1. `ServiceName_PostModelAsync_ReturnsTrue()` or ... (cf. PUT)
       2. `ServiceName_PostModelAsync_IfNotSuccessReturnsFalse()` or ... (cf. PUT)
     - e.g. `UsersServiceTests.cs`
@@ -75,30 +75,17 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
 2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
 
 ## What You Should Do When...
-### **You want to add a new EF Core model class that defines a seperate entity** (not a join entity)
+### **You want to add a new EF Core model class that defines a DB entity** (join entity similar)
   1. Add an EF Core model class `seeds.Dal.Model.MyModel.cs`
-     - the class should be singular and CamelCase, the table should be plural and sql_case
+     - the class's name should be singular and CamelCase, the table should be plural and sql_case
      - the columns should be singular and sql_case
   3. Add a DTO Model `MyModelDto.cs` somewhere appropriate in `seeds.Dal.Dto`
   4. Create the corresponding AutoMapper mappings in `seeds.Api.Helpers.AutoMapperProfiles.cs`
   5. Add a configuration class `seeds.Api.Data.MyModelConfiguration.cs` and call it in `seedsApiContext.cs`
-  6. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
-  7. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
-  8. Create an interface `seeds.Dal.Interfaces.IMyModelService.cs`
-  9. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
-  10. Register the last two points to the DI container
-  11. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
-### **You add a new join entity EF Core model class**
-  1. Add an EF Core model class `seeds.Dal.Model.MyJoinEntity.cs`
-     - the class should be singular and CamelCase, the table should be plural and sql_case
-     - the columns should be singular and sql_case
-     - contains 2 foreign keys
-     - probably contains payload
-  3. Add a configuration class `seeds.Api.Data.MyJoinEntityConfiguration.cs`
-     - probably needs to define its primary key as a combination of the two FKs like `builder.HasKey(je => new {je.FK1, je.FK2});`
-  4. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyJoinEntity` as model and the existing context class and hence create `seeds.Api.Controllers.MyJoinEntitiesController.cs`
-  5. Minimally adapt the `MyJoinEntitiesController` class, e.g. delete useless endpoints
-  6. Create an interface `seeds.Dal.Interfaces.IMyJoinEntityService.cs`
-  7. Implement it in a service class `seeds.Dal.Services.MyJoinEntityService.cs` that accesses the endpoints
-  8. Register the last two points to the DI container
-  9. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyJoinEntitiesControllerTests.cs` and `seeds.Dal.Tests.Services.MyJoinEntityServiceTests.cs`
+  6. Migrate to the DB using `dotnet-ef migrations add new_entity_mymodel` in the API's console
+  7. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
+  8. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
+  9. Create an interface `seeds.Dal.Interfaces.IMyModelService.cs`
+  10. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
+  11. Register the last two points to the DI container
+  12. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
