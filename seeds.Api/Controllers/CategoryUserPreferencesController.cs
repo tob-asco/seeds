@@ -24,7 +24,7 @@ namespace seeds.Api.Controllers
             try
             {
                 var categoryUserPreference = await _context.CategoryUserPreference
-                    .FirstAsync(cup =>
+                    .FirstOrDefaultAsync(cup =>
                     cup.CategoryKey == categoryKey &&
                     cup.Username == username &&
                     cup.TagName == tagName); // test that a null tagName does what you want
@@ -33,7 +33,7 @@ namespace seeds.Api.Controllers
             catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        // PUT: api/CategoryUserPreferences/NoC/tobi
+        // PUT: api/CategoryUserPreferences/NoC/tobi?tagName=tag
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{categoryKey}/{username}")]
         public async Task<IActionResult> PutCategoryUserPreference(
@@ -41,26 +41,34 @@ namespace seeds.Api.Controllers
             CategoryUserPreference cup)
         {
             if (categoryKey != cup.CategoryKey
-                || username != cup.Username) { return BadRequest(); }
+                || username != cup.Username) { return BadRequest("Inconsistent request."); }
 
-            _context.Entry(cup).State = EntityState.Modified;
+            // we use that the triple (cup.CategoryKey, cup.Username, cup.TagName) is unique!
+            var oldCup = await _context.CategoryUserPreference.FirstOrDefaultAsync(e =>
+                e.CategoryKey == categoryKey &&
+                e.Username == username &&
+                e.TagName == tagName);
 
-            try { await _context.SaveChangesAsync(); }
-            catch (DbUpdateConcurrencyException)
+            if (oldCup != null)
             {
-                if (!CategoryUserPreferenceExists(categoryKey, username, tagName))
+                // oldCup is part of the Change Tracker so we can simply change it and
+                // this will affect the _context.
+                oldCup.Value = cup.Value;
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else { throw; }
+                catch (Exception ex) { return Problem(ex.Message); }
             }
+            else { return NotFound(); }
+
             return NoContent();
         }
 
         private bool CategoryUserPreferenceExists(string categoryKey, string username, string? tagName)
         {
             return (_context.CategoryUserPreference?.Any(e =>
-                e.CategoryKey == categoryKey && 
+                e.CategoryKey == categoryKey &&
                 e.Username == username &&
                 e.TagName == tagName))
                 .GetValueOrDefault();
