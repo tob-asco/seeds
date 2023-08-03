@@ -12,23 +12,25 @@ public class CategoryUserPreferenceService : ICategoryUserPreferenceService
     }
 
     public async Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(
-        string categoryKey, string username)
+        string categoryKey, string username, string? tagName = null)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
+        if (tagName != null) { url += $"?tagName={tagName}"; }
         return await _baseService.GetDalModelAsync<CategoryUserPreference>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
 
     public async Task<bool> PutCategoryUserPreferenceAsync(
-        string categoryKey,
-        string username,
-        int newPreference)
+        string categoryKey, string username,
+        int newPreference, string? tagName = null)
     {
         string url = $"api/CategoryUserPreferences/{categoryKey}/{username}";
+        if (tagName != null) { url += $"?tagName={tagName}"; }
         CategoryUserPreference newCup = new()
         {
             CategoryKey = categoryKey,
             Username = username,
+            TagName = tagName,
             Value = newPreference
         };
         return await _baseService.PutDalModelAsync<CategoryUserPreference>(url, newCup);

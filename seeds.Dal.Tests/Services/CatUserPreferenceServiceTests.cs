@@ -33,12 +33,13 @@ public class CatUserPreferenceServiceTests
         #endregion
 
         // Act
-        var result = await _service.GetCategoryUserPreferenceAsync(key, uname);
+        var result = await _service.GetCategoryUserPreferenceAsync(key, uname, null);
 
         // Assert
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(key);
         result?.Username.Should().Be(uname);
+        result?.TagName.Should().BeNull();
     }
     [Fact]
     public async Task CupService_GetCupAsync_IfNotExistThrows()
@@ -49,7 +50,7 @@ public class CatUserPreferenceServiceTests
             .Returns<CategoryUserPreference?>(null);
 
         // Act
-        Func<Task> act = async () => await _service.GetCategoryUserPreferenceAsync("N0C","");
+        Func<Task> act = async () => await _service.GetCategoryUserPreferenceAsync("","","");
 
         // Assert
         await act.Should().ThrowAsync<Exception>();
@@ -66,7 +67,7 @@ public class CatUserPreferenceServiceTests
         int newVal = -1;
 
         // Act
-        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal);
+        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal, null);
 
         // Assert
         result.Should().Be(true);
@@ -83,7 +84,7 @@ public class CatUserPreferenceServiceTests
         int newVal = -1;
 
         // Act
-        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal);
+        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal, null);
 
         // Assert
         result.Should().Be(false);
