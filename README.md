@@ -1,7 +1,7 @@
-# seeds - Humanity's Database of Creativity
+# seeds - A Database of Creativity
 ## TODOs
 - [ ] DTO for CUP (bc. we have a GUID PK now)
-- [ ] if it's your idea in the feed, make you name cool
+- [ ] if it's your idea in the feed, make your feed entry's name flashy
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
@@ -70,23 +70,23 @@
     - *Raise Property Changed Event* (PCE) - tests
     - *Navigates to* - tests (using mocked navigation services)
 
-## Error Handling Philosophy
+## Exception Handling Philosophy
 Trying to streamline the throwing & try-catching procedure of exceptions throughout the solution:
 1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
 2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
 
 ## What You Should Do When...
 ### **You want to add a new EF Core model class that defines a DB entity** (join entity similar)
-  1. Add an EF Core model class `seeds.Dal.Model.MyModel.cs`
+  1. :heavy_plus_sign: EF Core model class `seeds.Dal.Model.MyModel.cs`
      - the class's name should be singular and CamelCase, the table should be plural and sql_case
      - the columns should be singular and sql_case
-  3. Add a DTO Model `MyModelDto.cs` somewhere appropriate in `seeds.Dal.Dto`
-  4. Create the corresponding AutoMapper mappings in `seeds.Api.Helpers.AutoMapperProfiles.cs`
-  5. Add a configuration class `seeds.Api.Data.MyModelConfiguration.cs` and call it in `seedsApiContext.cs`
+  3. :heavy_plus_sign: DTO Model `MyModelDto.cs` somewhere appropriate in `seeds.Dal.Dto`
+  4. :heavy_plus_sign: AutoMapper mappings in `seeds.Api.Helpers.AutoMapperProfiles.cs`
+  5. :heavy_plus_sign: configuration class `seeds.Api.Data.MyModelConfiguration.cs` and call it in `seedsApiContext.cs`
   6. Migrate to the DB using `dotnet-ef migrations add new_entity_mymodel` in the API's console
   7. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
   8. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
-  9. Create an interface `seeds.Dal.Interfaces.IMyModelService.cs`
+  9. :heavy_plus_sign: interface `seeds.Dal.Interfaces.IMyModelService.cs`
   10. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
   11. Register the last two points to the DI container
   12. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
