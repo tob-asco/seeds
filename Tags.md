@@ -145,6 +145,29 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :cool: funky, exciting
    - :abacus: problem-adapted language
 8. code snippets / scripts
+## `H4H - Human for Human`
+Generally for this category:
+- :cool: morally pleasing
+- :cool: very motivating, e.g. there exist the concept of donations
+- :cool: some people strive to help
+1. `diminishing inequality`
+   - :exclamation: possible overusage
+   - :exclamation: possibly too polarizing
+   - :abacus: societal restructuring
+   - :abacus: identification of (root) causes
+2. `food/water supply`
+   - :abacus: simple solution that can be realized in poor countries
+3. `power supply`
+   - :abacus: simple solution that can be realized in poor countries
+4. education supply
+5. `contra unemployment`
+   - :cool: political relevance
+   - :abacus: new strategies to integrate (so far) lost cases
+   - :abacus: new jobs that can be done by (so far) unemployed
+
+
+
+
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
