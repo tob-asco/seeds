@@ -121,8 +121,30 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: new recycling techniques
    - :abacus: reduction solutions
    - :abacus: collecting solutions
-
-
+## `CPU - Software`
+1. `games`
+   - :cool: gamer community
+   - :abacus: new concrete games
+   - :abacus: new types of games
+2. visualization / rendering / 3d
+3. programming packages
+4. `mobile apps`
+   - :cool: developers are hungry for good app ideas
+   - :cool: non-developers are hungry to see their ideas realized
+   - :abacus: "I want to write an app in..."
+5. `databases`
+   - :cool: DBs are everywhere
+   - :cool: e.g. annual postgreSQL convention
+   - :abacus: new ways to store
+   - :abacus: new ways to query
+   - :abacus: e.g. AI adapted
+6. `server`
+   - :cool: geeks, server admins
+   - :abacus: I don't know, but probably enough
+7. `new languages`
+   - :cool: funky, exciting
+   - :abacus: problem-adapted language
+8. code snippets / scripts
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
