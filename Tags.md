@@ -101,9 +101,26 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: less polution
    - :abacus: atmospheric cleaning
    - :abacus: law
-2. `climate change`
-
-
+2. forrest protection
+3. `climate change`
+   - :cool: FFF, IPCC
+   - :abacus: impacts, adaption, vulnerability, mitigation
+   - :abacus: reasons
+4. saving water
+5. `extreme weather`
+   - :cool: people are heavily affected
+   - :abacus: impatcts, adatpion vulnerability, mitigation
+6. `save the bees`
+   - :cool: Einstein's warning
+   - :cool: we like bees
+   - :abacus: new housings
+   - :abacus: strengthening them
+7. `reduce plastic`
+   - :cool: we strongly dislike plastic
+   - :cool: discovery channels pictures of dying fish
+   - :abacus: new recycling techniques
+   - :abacus: reduction solutions
+   - :abacus: collecting solutions
 
 
 
