@@ -81,6 +81,9 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :cool: retirees
    - :abacus: suggestions what to do with no: {friends, money, standing up, sun, ...}
    - :abacus: new hobbies
+6. `life hacks`
+   - :cool: elegant solutions with rudimentary things
+   - :abacus: cf. all the YT videos or reals on this
 ## `HOME - Living`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
@@ -183,7 +186,7 @@ Generally for this category:
 6. elderlies
    - :abacus: systems adapted to old people
    - :abacus: people live longer, what to do after 65?
-## `FOOD - Food`
+## `FOOD - Food & Drinks`
 1. `coffee`
    - :cool: *coffee culture*
    - :abacus: many different kinds
@@ -199,15 +202,68 @@ Generally for this category:
    - :abacus: new recipes
    - :abacus: cocktail bar suggestions
    - :abacus: designs of glasses or gear
-4. `secret recipe`
+4. `secret recipes`
    - :cool: if you want cooking inspiration
    - :abacus: all the recipes, no further subsets for now
 5. beer
    - :cool: *beer culture*
 6. wine
-   - :wine: *wine culture*
+   - :cool: *wine culture*
 7. liquour
-   - :wine: alcoholophiles
+   - :cool: alcoholophiles
+   - :abacus: all the different kinds
+## `HEAL - Health`
+1. `healing movements`
+   - :cool: becoming popular, cf. *Liebscher & Bracht*
+   - :abacus: stretching at home
+   - :abacus: (minimal) movement plans
+   - :abacus: movements adapted to concrete pains
+   - :abacus: fascia roll excercises
+2. `nutrition`
+   - :cool: "My body is my temple"
+   - :cool: many don't want to waste much thinking time on it
+   - :cool: obese people
+   - :abacus: nutrition plans
+   - :abacus: unrecognized plants
+   - :abacus: new findings
+3. `meditational`
+   - :cool: we all desire the skill to sit for 10' and get calm
+   - :abacus: moving meditation, resting meditation
+   - :abacus: sports that have meditational side-effects
+   - :abacus: new findings
+4. `mental health`
+   - :cool: "My body is my temple"
+   - :cool: for people struggling with mental health
+   - :abacus: minimal plans
+   - :abacus: techniques to deal with concrete problematics
+5. `minimal workout`
+   - :cool: people with time constraints
+   - :abacus: stuff like 7-minute workout
+   - :abacus: lesser-known sports
+6. `prophylactic lifestyle`
+   - :cool: spice up your lifestyle with healthy suggestions
+   - :abacus: nutrition
+   - :abacus: movement
+   - :abacus: lifestyle
+   - :abacus: minimal suggestions to include in your daily life (e.g. eye excercising)
+7. long live *you*!
+8. `contra addiction`
+   - :cool: the :cool:s from `H4H`
+   - :cool: many non-addicts are also affected by their close circle
+   - :abacus: *how to quit ...*
+   - :abacus: substituting behaviour / chemicals
+   - :abacus: awareness
+9. muscular health
+10. joint health
+11. `grandma's medicine`
+   - :cool: magical solutions to pressing pains/problems
+   - :cool: interesting to see unexpected positive side effects
+   - :abacus: all the grandmas out there can contribute
+12. `muscle vs. pain`
+   - :cool: see some healthy excercises
+   - :cool: for the ones that have the pain
+   - :abacus: digital Kieser
+   
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
