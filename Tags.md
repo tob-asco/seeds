@@ -56,6 +56,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: new chemical solutions, all about the charging process
 3. `reduction`
    - :cool: I think this should be much more actively discussed
+   - :abacus: in lifestyle
+   - :abacus: in devices
 4. distribution
 5. fossile
 6. production
@@ -74,9 +76,11 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :cool: polarizing (e.g. not interesting if you're 10, or happily wed)
    - :abacus: apps
    - :abacus: date suggestions, different kinds of prevention
-5. `contra boredom`
+5. `time to spend`
    - :cool: those who are bored will love it
+   - :cool: retirees
    - :abacus: suggestions what to do with no: {friends, money, standing up, sun, ...}
+   - :abacus: new hobbies
 ## `HOME - Living`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
@@ -176,9 +180,34 @@ Generally for this category:
    - :cool: such a critical phase of life
    - :cool: new parents nowadays are extremely cautious and informed, i.e. interested
    - :abacus: babies, Kitas, Kindergardens, primary schools
-
-
-
+6. elderlies
+   - :abacus: systems adapted to old people
+   - :abacus: people live longer, what to do after 65?
+## `FOOD - Food`
+1. `coffee`
+   - :cool: *coffee culture*
+   - :abacus: many different kinds
+   - :abacus: studies on what factors matter
+   - :abacus: new gear to cook, adapted to situations (like travelling)
+2. `tea`
+   - :cool: *tea culture*
+   - :abacus: new flavors
+   - :abacus: new things to put in boiling water
+3. `cocktails`
+   - :cool: great pictures
+   - :cool: fancy ambience
+   - :abacus: new recipes
+   - :abacus: cocktail bar suggestions
+   - :abacus: designs of glasses or gear
+4. `secret recipe`
+   - :cool: if you want cooking inspiration
+   - :abacus: all the recipes, no further subsets for now
+5. beer
+   - :cool: *beer culture*
+6. wine
+   - :wine: *wine culture*
+7. liquour
+   - :wine: alcoholophiles
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
