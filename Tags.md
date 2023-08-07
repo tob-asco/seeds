@@ -2,6 +2,8 @@
 A tag becomes a `tag`, if it comes with convincing arguments for the :cool: axiom, and convincing arguments for the :abacus: axiom. See other file for what :cool:, :abacus: stand for.
 In short:
 A Tag is :cool: if it is sufficiently interesting and polarizing, and :abacus: if it covers enough possible ideas.
+
+
 ## `FEA - Features`
 Generally for this category:
 - :cool: existing brands can scavenge improving ideas
@@ -27,6 +29,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: the trend of security-enhancement shows that developers strongly adapt to customer wishes
 6. `games`
    - :abacus: gamers are in particular game-testers and developers should listen for their bug reports or suggestions 
+
+
 ## `TRA - Transportation`
 1. `electro`
    - :cool: the *revolutionary* spirit makes up the community
@@ -47,6 +51,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
 6. fossile
 7. trains
 8. aero
+
+
 ## `POW - Energy`
 1. `alternatives`
    - :cool: *biggest hope for future* - community
@@ -61,6 +67,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
 4. distribution
 5. fossile
 6. production
+
+
 ## `LIFE - Lifestyle`
 1. `gaming`
    - :cool: huuuuuge community
@@ -84,6 +92,12 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
 6. `life hacks`
    - :cool: elegant solutions with rudimentary things
    - :abacus: cf. all the YT videos or reals on this
+7. `series & movies`
+   - :cool: possible future series or movies
+   - :abacus: series or movie pitches
+   - :abacus: sequel pitches
+
+
 ## `HOME - Living`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
@@ -102,6 +116,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
 5. cleaning
    - :cool: annoying but big part of life
    - :abacus: vacuum, kitchen, dust, garbage
+
+
 ## `ENV - Environment`
 1. `CO2 reduction`
    - :cool: FFF
@@ -128,6 +144,8 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: new recycling techniques
    - :abacus: reduction solutions
    - :abacus: collecting solutions
+
+
 ## `CPU - Software`
 1. `games`
    - :cool: gamer community
@@ -152,6 +170,13 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :cool: funky, exciting
    - :abacus: problem-adapted language
 8. code snippets / scripts
+9. `hacking / security`
+   - :cool: hacking is fascinating
+   - :cool: very interesting for developers to learn what they are facing
+   - :abacus: tiny scripts that have big impact
+   - :abacus: new ideas on improving/streamlining security development 
+
+
 ## `H4H - Human for Human`
 Generally for this category:
 - :cool: morally pleasing
@@ -171,6 +196,8 @@ Generally for this category:
    - :cool: political relevance
    - :abacus: new strategies to integrate (so far) lost cases
    - :abacus: new jobs that can be done by (so far) unemployed
+
+
 ## `EDU - Education`
 2. universities
    - :abacus: new teaching styles
@@ -186,6 +213,8 @@ Generally for this category:
 6. elderlies
    - :abacus: systems adapted to old people
    - :abacus: people live longer, what to do after 65?
+
+
 ## `FOOD - Food & Drinks`
 1. `coffee`
    - :cool: *coffee culture*
@@ -212,6 +241,8 @@ Generally for this category:
 7. liquour
    - :cool: alcoholophiles
    - :abacus: all the different kinds
+
+
 ## `HEAL - Health`
 1. `healing movements`
    - :cool: becoming popular, cf. *Liebscher & Bracht*
@@ -264,6 +295,49 @@ Generally for this category:
    - :cool: for the ones that have the pain
    - :abacus: digital Kieser
    
+
+## `NEER - Engineering`
+1. new electronic components
+2. minimal circuitry
+   - :cool: elegant solutions
+3. tools
+   - :abacus: new / adapted tool designs
+
+
+## GOV - Governmental
+1. `new law`
+   - :cool: a glimpse into society's urges
+   - :cool: inspiration for law makers (showing Us that Our opinion is important)
+   - :abacus: any type of progress needs legislative adaption
+   - :abacus: expressing dissatisfaction
+2. `adapting law`
+   - :cool: ridiculously outdated paragraphs
+   - :cool: a glimpse into society's development
+   - :abacus: as for `new law`
+3. `reducing law`
+   - :cool: towards a less regulated society with increased trust in people
+   - :cool: *Anarchy!*
+   - :abacus: laws that are unneccessary
+   - :abacus: laws that protect "bad" people
+4. `for country: {all countries}` (195 countries on Earth)
+   - :cool: same reason why we watch national news
+   - :cool: feeling like direct democracy
+   - :abacus: momentary crisis solution
+   - :abacus: suggestions for new period of governance
+5. `for city: {all cities}` (approx. 10 000 cities on Earth)
+   - :cool: space for you and your "neighbours" to discuss on an international platform
+   - :cool: interesting to see the local problems, you might literally be able to walk there
+   - :abacus: soooo much (e.g. U5 station names) 
+
+
+
+
+
+
+
+
+
+
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
