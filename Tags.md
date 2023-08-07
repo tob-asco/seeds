@@ -294,11 +294,12 @@ Generally for this category:
    - :cool: see some healthy excercises
    - :cool: for the ones that have the pain
    - :abacus: digital Kieser
-13. `energize yourself`
+13. `energize me`
    - :cool: we HATE to be tired
    - :abacus: nutrition
    - :abacus: 5 min solutions to exit the tiredness
    - :abacus: lifestyle
+   - :abacus: solutions for schools/universities to energize students
 14. `get happy!`
    - :cool: see what makes others happy (i.e. compare w/ the effect on you)
    - :cool: by some the declared single sense of life
@@ -377,9 +378,46 @@ Generally for this category:
    - :abacus: *da Vinci* solutions
    - :abacus: the interesting substitue for "stuff"
    - :abacus: fusion
+8. `shoes`
+   - :cool: it is a separate category of shopping after all
+   - :cool: the craziest designs that are actually worn
+   - :abacus: limited editions
+   - :abacus: new trends (e.g. barefoot)
+   - :abacus: new damping, new laces, ...
+9. `survival`
+   - :cool: same reason I go into every outdoor store
+   - :cool: feel like being outside
+   - :cool: elegant solutions
+   - :abacus: spork/foon, tent, ...
 
 
+## `ART - Arts`
+Generally for this category:
+- :cool: you can look at new art
+- :cool: you can shop for new art
+- :abacus: publish to maybe make a name
+1. `painting`
+   - :abacus: new techniques, new colours
+   - :abacus: all kinds of material (oil, ..) and colours (pastell, ..)
+2. `sculpting`
+   - :abacus: new techniques
+3. `movement: {major movements like Modernism, Realism, Cubism, Avant-Garde, ...}`
+   - :cool: filter for your favorite movement
+   - :abacus: any kind of art
 
+
+## `MUS - Music`
+Generally for this category:
+- :cool: you can listen to new music
+- :cool::question: feature: while browsing through the app you could listen to this music as if it were playing in a separate music player 
+- :abacus: publish to maybe be discovered
+1. genre: {major genres like Classical, Rock, Electro, Rap, ...}
+2. `mood: {electro, party, dancing, heroic, classic, deep, tense, ...}`
+   - :cool: pick one and hit shuffle
+3. `local: {all countries}`
+   - :cool: you feel like home
+   - :cool: observe trends near you (what are the lyrics about)
+   - :abacus: even easier to be discovered as there is less competition
 
 
 
