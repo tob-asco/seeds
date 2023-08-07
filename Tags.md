@@ -164,7 +164,18 @@ Generally for this category:
    - :cool: political relevance
    - :abacus: new strategies to integrate (so far) lost cases
    - :abacus: new jobs that can be done by (so far) unemployed
-
+## `EDU - Education`
+2. universities
+   - :abacus: new teaching styles
+4. `educational system`
+   - :cool: largely discussed e.g. in news or politics
+   - :cool: one spends so much time in school
+   - :abacus: ideas about time (of day, of week, of life)
+   - :abacus: brand new systems like Steiner's or Montessori's
+5. `early development`
+   - :cool: such a critical phase of life
+   - :cool: new parents nowadays are extremely cautious and informed, i.e. interested
+   - :abacus: babies, Kitas, Kindergardens, primary schools
 
 
 
