@@ -294,6 +294,17 @@ Generally for this category:
    - :cool: see some healthy excercises
    - :cool: for the ones that have the pain
    - :abacus: digital Kieser
+13. `energize yourself`
+   - :cool: we HATE to be tired
+   - :abacus: nutrition
+   - :abacus: 5 min solutions to exit the tiredness
+   - :abacus: lifestyle
+14. `get happy!`
+   - :cool: see what makes others happy (i.e. compare w/ the effect on you)
+   - :cool: by some the declared single sense of life
+   - :abacus: lifestyle
+   - :abacus: (natural) medicine
+   - :abacus: ideals
    
 
 ## `NEER - Engineering`
@@ -330,7 +341,42 @@ Generally for this category:
    - :abacus: soooo much (e.g. U5 station names) 
 
 
-
+## DSGN - Design
+Generally for this category:
+- :cool: beautiful pictures
+- :cool: the enchanting power of luxury
+- :cool: weird or crazy designs
+- :abacus: publish to maybe be discovered and employed
+1. `furniture`
+   - :cool: like a shopping tour
+   - :cool: smooth integrations like fusion
+   - :abacus: bed, desk, table, chair, ...
+2. `architectural`
+   - :abacus: alternative designs for existing buildings
+   - :abacus: proposals for destroyed buildings
+3. `stationery` (= Schreibwaren)
+   - :cool: like shopping
+   - :cool: to see what is out there
+   - :abacus: crayon, various kinds of pens, sharpeners, colour, ruler, rubber, ...
+4. `electronic devices`
+   - :cool: maybe your future phone/laptop/...
+   - :abacus: phone, laptop, headphone, tablet, TV, CPU, ...
+5. `haut couture`
+   - :cool: why we watch fashion shows
+   - :cool: it is an art, right?
+   - :cool: watching models
+   - :abacus: you name it
+6. `jewelery`
+   - :cool: extra luxurious
+   - :cool: looking for a present, are you?
+   - :abacus: well, all the jewelery
+7. `autarkic solutions`
+   - :cool: high elegance because no power source
+   - :cool: beatiful problem solvers
+   - :cool: *shut up and take my money*
+   - :abacus: *da Vinci* solutions
+   - :abacus: the interesting substitue for "stuff"
+   - :abacus: fusion
 
 
 
