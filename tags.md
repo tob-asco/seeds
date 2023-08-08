@@ -12,8 +12,6 @@ Generally for this category:
 - :cool: users obtain a stage to present their ideas to concrete employers
 - :cool: users might learn about existing features
 - :abacus: only if the brands are likely to listen to their customers
-
-So this category mainly needs :abacus: reasons, as all the above :cool: reasons should apply to all examples.
 1. `music app: {main music streaming apps}`
    - :abacus: music is lifestyle/emotional so the user experience carries some extra relevance
 2. `streaming provider: {main video streaming providers}`
@@ -28,7 +26,7 @@ So this category mainly needs :abacus: reasons, as all the above :cool: reasons 
    - :abacus: for closed source, user experience becomes more and more important
    - :abacus: the trend of security-enhancement shows that developers strongly adapt to customer wishes
 6. `games`
-   - :abacus: gamers are in particular game-testers and developers should listen for their bug reports or suggestions 
+   - :abacus: gamers are in particular game-testers and developers should care for their bug reports or suggestions 
 
 
 ## `TRA - Transportation`
@@ -199,18 +197,23 @@ Generally for this category:
 
 
 ## `EDU - Education`
-2. universities
-   - :abacus: new teaching styles
-4. `educational system`
+2. `teaching style`
+   - :cool: we have the feeling that there should be better styles
+   - :cool: looking for suggestions to throw at your teacher
+   - :abacus: new styles
+   - :abacus: digital styles (e.g. new software)
+   - :abacus: just listing the style of your favourite prof.
+4. universities
+5. `educational system`
    - :cool: largely discussed e.g. in news or politics
    - :cool: one spends so much time in school
    - :abacus: ideas about time (of day, of week, of life)
    - :abacus: brand new systems like Steiner's or Montessori's
-5. `early development`
+6. `early development`
    - :cool: such a critical phase of life
    - :cool: new parents nowadays are extremely cautious and informed, i.e. interested
    - :abacus: babies, Kitas, Kindergardens, primary schools
-6. elderlies
+7. elderlies
    - :abacus: systems adapted to old people
    - :abacus: people live longer, what to do after 65?
 
@@ -316,7 +319,7 @@ Generally for this category:
    - :abacus: new / adapted tool designs
 
 
-## GOV - Governmental
+## `GOV - Governmental`
 1. `new law`
    - :cool: a glimpse into society's urges
    - :cool: inspiration for law makers (showing Us that Our opinion is important)
@@ -342,7 +345,7 @@ Generally for this category:
    - :abacus: soooo much (e.g. U5 station names) 
 
 
-## DSGN - Design
+## `DSGN - Design`
 Generally for this category:
 - :cool: beautiful pictures
 - :cool: the enchanting power of luxury
@@ -396,6 +399,7 @@ Generally for this category:
 - :cool: you can look at new art
 - :cool: you can shop for new art
 - :abacus: publish to maybe make a name
+- :abacus: publish multiple to decide which direction to focus on
 1. `painting`
    - :abacus: new techniques, new colours
    - :abacus: all kinds of material (oil, ..) and colours (pastell, ..)
@@ -420,7 +424,28 @@ Generally for this category:
    - :abacus: even easier to be discovered as there is less competition
 
 
+## `LIT - Literature`
+Generally for this category:
+- :abacus: publish to find some recognition and motivation
+- :abacus: publish to obtain improving remarks
+1. `poem: {all languages, maybe also dialects}`
+   - :cool: quick read of contemporary poems
+   - :cool: see what is important to your people
+2. `short: {all languages, maybe also dialects}`
+   - :cool: cool stories, emotionally stimulating
+3. `novel topics`
+   - :cool: find new authors you may like in the future
+   - :abacus: decide which novel to focus on
+5. `sciFi topics`
+   - :cool: crazy suggestions of alternate worlds
 
+
+## `SOC - Society`
+1. `grand movement`
+   - :cool: find something to be part of
+   - :cool: look at the new world-moving trends
+   - :abacus: ideas that leverage masses
+   - :abacus: call for demonstrations
 
 
 ## `GAD - Gadgets` or `UOT - Things`
