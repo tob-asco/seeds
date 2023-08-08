@@ -256,6 +256,21 @@ Generally for this category:
 7. liquour
    - :cool: alcoholophiles
    - :abacus: all the different kinds
+8. `hospitality industry` (= Gastronomie)
+   - :cool: huge working branch
+   - :cool: much money involved
+   - :abacus: new technologies
+   - :abacus: worker distribution
+   - :abacus: law
+9. `substitutes`
+   - :cool: desperatly needed by vegetarian newcomers
+   - :cool: always hunting for alternatives
+   - :abacus: new ways to prepare something
+   - :abacus: new interpretations as substitues of well-known ingredients
+10. `vegan recipes`
+   - :cool: big market
+   - :cool: challenging to come up with
+   - :abacus: all vegan recipes
 
 
 ## `HEAL - Health`
@@ -305,8 +320,8 @@ Generally for this category:
    - :cool: magical solutions to pressing pains/problems
    - :cool: interesting to see unexpected positive side effects
    - :abacus: all the grandmas out there can contribute
-12. `muscle vs. pain`
-   - :cool: see some healthy excercises
+12. `exercises vs. pain`
+   - :cool: healthy inspiration for your workout
    - :cool: for the ones that have the pain
    - :abacus: digital Kieser
 13. `energize me`
@@ -332,6 +347,12 @@ Generally for this category:
    - :cool: some are obsessed with hygiene
    - :abacus: new chemicals
    - :abacus: new ways to distribute it
+17. `allergies`
+   - :cool: sooo annoying
+   - :abacus: methods that work (we don't know why)
+   - :abacus: root, symptoms
+   - :abacus: stuff against it
+   - :abacus: findings
    
 
 ## `NEER - Engineering`
@@ -432,10 +453,29 @@ Generally for this category:
    - :abacus: what to eat / drink
    - :abacus: hunting
    - :abacus: helpful plants
-3. survival gear
-4. camping
-5. backpacking
-6. tents
+3. `survival gear`
+   - :cool: elegant solutions (lightweight, fusion, etc.)
+   - :cool: sometimes sort of luxurious
+   - :cool: Bear Grylls feeling
+   - :abacus: stuff you find in Globetrotter
+5. `camping`
+   - :cool: elegant solutions (lightweight, etc.)
+   - :cool: luxurious
+   - :cool: travelling feeling
+   - :abacus: new designs or materials
+   - :abacus: new kinds (tarp, hammock)
+7. `backpacking`
+   - :cool: elegant solutions (lightweight, etc.)
+   - :cool: fusion (e.g. Camelback, avalanche baloons)
+   - :cool: luxurious
+   - :abacus: new features
+   - :abacus: new designs or materials
+8. `tents`
+   - :cool: elegant solutions (lightweight, etc.)
+   - :cool: travelling feeling
+   - :cool: luxurious
+   - :abacus: new features
+   - :abacus: new designs or materials
 
 
 ## `ART - Arts`
@@ -491,6 +531,12 @@ Generally for this category:
    - :cool: like a lightning strike of words
    - :abacus: random thoughts
    - :abacus: verses from songs
+8. `showerthoughts`
+   - :cool: showerthoughts are strikingly true and bizarre
+   - :abacus: showerthoughts
+   - :abacus: philosophical guidelines for big questions (meaning of life, moral, ..)
+9. `for language: {all languages and dialects}`
+   - :cool: some messages are only cool in a certain language
 
 
 ## `SOC - Society`
@@ -499,6 +545,12 @@ Generally for this category:
    - :cool: look at the new world-moving trends
    - :abacus: ideas that leverage masses
    - :abacus: call for demonstrations
+2. `global crisis`
+   - :cool: Corona
+   - :abacus: Corona
+3. `communities`
+   - :cool: wanting to be part of something
+   - :abacus: new communities
 
 
 ## `GAD - Gadgets` or `UOT - Things`
@@ -531,24 +583,6 @@ Generally for this category:
    - :abacus: what sports to include / which to kick
    - :abacus: how to improve sports
    - :abacus: doping, location, ...
+
 list of major sports:
-1. working out
-2. climbing sports
-3. hiking
-4. snow sports
-5. soccer
-6. football
-7. baseball
-8. basketball
-9. cricket
-10. swimming
-11. dancing
-12. chess
-13. MMA disciplinces
-14. fencing sports
-15. table tennis
-16. tennis
-17. golf
-18. ice hockey
-19. floorball
-20. w/ horse
+working out, climbing sports, hiking, snow sports, soccer, football, baseball, basketball, cricket, swimming, dancing, chess, MMA disciplinces, fencing sports, table tennis, tennis, golf, ice hockey, floorball, w/ horse
