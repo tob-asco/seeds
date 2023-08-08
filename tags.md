@@ -94,6 +94,12 @@ Generally for this category:
    - :cool: possible future series or movies
    - :abacus: series or movie pitches
    - :abacus: sequel pitches
+8. `house plants`
+   - :cool: we love plants
+   - :cool: we tend to kill our plants
+   - :abacus: ways to display them
+   - :abacus: ways to keep them alive
+   - :abacus: ways to tell what they need
 
 
 ## `HOME - Living`
@@ -309,6 +315,12 @@ Generally for this category:
    - :abacus: lifestyle
    - :abacus: (natural) medicine
    - :abacus: ideals
+15. `posture`
+   - :cool: laptop work worsens the posture of many people
+   - :cool: bad posture looks bad
+   - :abacus: minimal excercises to improve it
+   - :abacus: lifestyle suggestions
+   - :abacus: ideas to remind
    
 
 ## `NEER - Engineering`
@@ -438,6 +450,11 @@ Generally for this category:
    - :abacus: decide which novel to focus on
 5. `sciFi topics`
    - :cool: crazy suggestions of alternate worlds
+6. `sayings`
+   - :cool: judge other people's new sayings
+   - :cool: evaluate if you can feel this new saying
+   - :abacus: if you have a flash of mind, put it up there
+   - :abacus: make a name as a wise person
 
 
 ## `SOC - Society`
@@ -459,21 +476,43 @@ Generally for this category:
 3. `3d prints`
    - :cool: to be downloaded and immediately printed by 3d printer-owner
    - :abacus: cf. thingiverse.com
+
+
 ## `SPO - Sport`
-1. `climbing`
-2. `hiking`
-3. `snow sports`
-4. `soccer`
-5. `football`
-6. `baseball`
-7. `basketball`
-8. `cricket`
-9. `swimming`
-10. `dancing`
-11. `chess`
-12. `MMA disciplinces`
-13. `fencing sports`
-14. `(table)tennis`
-15. `golf`
-16. `(ice) hockey`
-17. `w/ horse`
+1. `sports gear: {major sports}`
+   - :cool: you're an expert in your sport and might actually have valuable input
+   - :abacus: gear for during the sport / while gameplay
+   - :abacus: gear to train yourself for the sport
+2. `new moves: {major sports}`
+   - :cool: you can use those ideas next time you go do the sport
+   - :cool: it's your community - find new training partners
+   - :abacus: strategies
+   - :abacus: actual body movements
+   - :abacus: techniques
+3. `olympiad`
+   - :cool: the absolute peak of sport
+   - :cool: lots of emotions here
+   - :abacus: what sports to include / which to kick
+   - :abacus: how to improve sports
+   - :abacus: doping, location, ...
+list of major sports:
+1. working out
+2. climbing sports
+3. hiking
+4. snow sports
+5. soccer
+6. football
+7. baseball
+8. basketball
+9. cricket
+10. swimming
+11. dancing
+12. chess
+13. MMA disciplinces
+14. fencing sports
+15. table tennis
+16. tennis
+17. golf
+18. ice hockey
+19. floorball
+20. w/ horse
