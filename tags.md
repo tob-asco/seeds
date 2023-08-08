@@ -82,7 +82,7 @@ Generally for this category:
    - :cool: polarizing (e.g. not interesting if you're 10, or happily wed)
    - :abacus: apps
    - :abacus: date suggestions, different kinds of prevention
-5. `time to spend`
+5. `too much time`
    - :cool: those who are bored will love it
    - :cool: retirees
    - :abacus: suggestions what to do with no: {friends, money, standing up, sun, ...}
@@ -94,12 +94,17 @@ Generally for this category:
    - :cool: possible future series or movies
    - :abacus: series or movie pitches
    - :abacus: sequel pitches
-8. `house plants`
+8. `home plants`
    - :cool: we love plants
    - :cool: we tend to kill our plants
    - :abacus: ways to display them
    - :abacus: ways to keep them alive
    - :abacus: ways to tell what they need
+9. `tinkering` (= basteln)
+   - :cool: find inspiration for what to tinker
+   - :cool: if you have children, you can impress
+   - :cool: nice pictures of finished tinkerings
+   - :abacus: instructions
 
 
 ## `HOME - Living`
@@ -117,9 +122,10 @@ Generally for this category:
    - :cool: calming because of nature
    - :abacus: solutions adapted to common problems
    - :abacus: beautiful pictures of new gardens (cf. this DMAX series about ponds)
-5. cleaning
+5. `keep it clean`
    - :cool: annoying but big part of life
    - :abacus: vacuum, kitchen, dust, garbage
+   - :abacus: bad smell
 
 
 ## `ENV - Environment`
@@ -321,6 +327,11 @@ Generally for this category:
    - :abacus: minimal excercises to improve it
    - :abacus: lifestyle suggestions
    - :abacus: ideas to remind
+16. `hygiene`
+   - :cool: people have gotten used to desinfecting their hands
+   - :cool: some are obsessed with hygiene
+   - :abacus: new chemicals
+   - :abacus: new ways to distribute it
    
 
 ## `NEER - Engineering`
@@ -404,6 +415,27 @@ Generally for this category:
    - :cool: feel like being outside
    - :cool: elegant solutions
    - :abacus: spork/foon, tent, ...
+10. `watches`
+   - :cool: watches are just cool and their design is crucial
+   - :cool: some people scroll through watch websites regularly
+   - :abacus: your new designs
+   - :abacus: new features for watches
+   - :abacus: stuff on wrist bands
+   - :abacsu: stuff on closing mechanisms
+
+
+## `OUT - Outdoors`
+1. `surviving`
+   - :cool: we might want to survive one day
+   - :cool: trying to remember all the strategies
+   - :abacus: principles
+   - :abacus: what to eat / drink
+   - :abacus: hunting
+   - :abacus: helpful plants
+3. survival gear
+4. camping
+5. backpacking
+6. tents
 
 
 ## `ART - Arts`
@@ -440,7 +472,7 @@ Generally for this category:
 Generally for this category:
 - :abacus: publish to find some recognition and motivation
 - :abacus: publish to obtain improving remarks
-1. `poem: {all languages, maybe also dialects}`
+1. `poetry: {all languages, maybe also dialects}`
    - :cool: quick read of contemporary poems
    - :cool: see what is important to your people
 2. `short: {all languages, maybe also dialects}`
@@ -455,6 +487,10 @@ Generally for this category:
    - :cool: evaluate if you can feel this new saying
    - :abacus: if you have a flash of mind, put it up there
    - :abacus: make a name as a wise person
+7. `one-liners`
+   - :cool: like a lightning strike of words
+   - :abacus: random thoughts
+   - :abacus: verses from songs
 
 
 ## `SOC - Society`
