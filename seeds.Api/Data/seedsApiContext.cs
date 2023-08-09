@@ -30,5 +30,6 @@ namespace seeds.Api.Data
         public DbSet<seeds.Dal.Model.UserIdeaInteraction> UserIdeaInteraction { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Presentation> Presentation { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Tag> Tag { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.IdeaTag> IdeaTag { get; set; } = default!;
     }
 }
