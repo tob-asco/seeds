@@ -5,15 +5,16 @@ namespace seeds.Dal.Model;
 [Table("tags")]
 public class Tag
 {
-    [Column("name")]
-    public string Name { get; set; } = "tag";
-
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
 
+    [Column("name")]
+    public string Name { get; set; } = "tag";
+
     #region Navigation
-    public Category Category { get; set; } = null!;
-    public List<User> Users { get; } = new();
+    public Category Category { get; set; } = null!; // the parent category (required)
+    public List<Idea> Ideas { get; set; } = new(); // ideas that carry this Tag
+    public List<User> Users { get; } = new(); // user interactions with this Tag
     public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
     #endregion
 }

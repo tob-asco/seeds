@@ -29,8 +29,9 @@ public class Idea
     public string CategoryKey { get; set; } = "NoC";
 
     #region Navigation
-    public User Creator { get; } = null!;
-    public Category Category { get; } = null!;
+    public User Creator { get; } = null!; // the idea's creator
+    public Category Category { get; } = null!; // the category (maybe obsolete)
+    public List<Tag> Tags { get; set; } = new(); // the idea's tags
     public List<User> InteractedUsers { get; set; } = new();
     #endregion
 
