@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace seeds.Dal.Wrappers;
+﻿namespace seeds.Dal.Wrappers;
 
 public class HttpClientWrapper : IHttpClientWrapper
 {
-    private readonly HttpClient _httpClient;
+    private readonly HttpClient httpClient;
     public Uri BaseAddress
     {
-        get => _httpClient.BaseAddress ?? new Uri("");
-        set => _httpClient.BaseAddress = value;
+        get => httpClient.BaseAddress ?? new Uri("");
+        set => httpClient.BaseAddress = value;
     }
 
     public HttpClientWrapper()
     {
-        _httpClient = new HttpClient
+        httpClient = new HttpClient
         {
             //BaseAddress = new Uri("https://z4bppc68-5282.uks1.devtunnels.ms/") // #1, not working
             //BaseAddress = new Uri("https://q73sqz83-5282.euw.devtunnels.ms/") // #2
@@ -27,15 +21,20 @@ public class HttpClientWrapper : IHttpClientWrapper
     }
     public async Task<HttpResponseMessage> GetAsync(string url)
     {
-        return await _httpClient.GetAsync(url);
+        return await httpClient.GetAsync(url);
     }
 
     public async Task<HttpResponseMessage> PutAsync(string url, HttpContent httpContent)
     {
-        return await _httpClient.PutAsync(url, httpContent);
+        return await httpClient.PutAsync(url, httpContent);
     }
     public async Task<HttpResponseMessage> PostAsync(string url, HttpContent httpContent)
     {
-        return await _httpClient.PostAsync(url, httpContent);
+        return await httpClient.PostAsync(url, httpContent);
+    }
+
+    public async Task<HttpResponseMessage> DeleteAsync(string url)
+    {
+        return await httpClient.DeleteAsync(url);
     }
 }
