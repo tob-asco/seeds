@@ -31,6 +31,21 @@ public class IdeaTagsController : ControllerBase
         return ideaTag;
     }
 
+    // GET: api/IdeaTags/0
+    [HttpGet("{ideaId}")]
+    public async Task<ActionResult<List<IdeaTag>>> GetTagsOfIdea(int ideaId)
+    {
+        if (_context.IdeaTag == null) { return NotFound(); }
+
+        var ideaTags = _context.IdeaTag.Where(it => it.IdeaId == ideaId);
+
+        if (ideaTags == null)
+        {
+            return new List<IdeaTag>();
+        }
+
+        return await ideaTags.ToListAsync();
+    }
     // PUT: api/IdeaTags/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{ideaId}/{catKey}/{tagName}")]
@@ -89,7 +104,7 @@ public class IdeaTagsController : ControllerBase
     {
         if (_context.IdeaTag == null) { return NotFound(); }
         var ideaTag = await _context.IdeaTag.FindAsync(ideaId, catKey, tagName);
-        if (ideaTag == null) { return NotFound(); } 
+        if (ideaTag == null) { return NotFound(); }
 
         _context.IdeaTag.Remove(ideaTag);
         await _context.SaveChangesAsync();
