@@ -19,6 +19,7 @@ namespace seeds.Api.Data
             modelBuilder.ApplyConfiguration(new UserIdeaInteractionConfiguration());
             modelBuilder.ApplyConfiguration(new PresentationConfiguration());
             modelBuilder.ApplyConfiguration(new TagConfiguration());
+            modelBuilder.ApplyConfiguration(new IdeaTagConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
