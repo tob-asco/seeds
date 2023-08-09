@@ -17,6 +17,7 @@ public class IdeaTagsController : ControllerBase
     }
 
     // GET: api/IdeaTags/0/NoC/tag
+    /*
     [HttpGet("{ideaId}/{catKey}/{tagName}")]
     public async Task<ActionResult<IdeaTag>> GetIdeaTag(
         int ideaId, string catKey, string tagName)
@@ -30,8 +31,10 @@ public class IdeaTagsController : ControllerBase
 
         return ideaTag;
     }
+    */
 
     // GET: api/IdeaTags/0
+
     [HttpGet("{ideaId}")]
     public async Task<ActionResult<List<IdeaTag>>> GetTagsOfIdea(int ideaId)
     {
@@ -46,7 +49,9 @@ public class IdeaTagsController : ControllerBase
 
         return await ideaTags.ToListAsync();
     }
+
     // PUT: api/IdeaTags/5
+    /*
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{ideaId}/{catKey}/{tagName}")]
     public async Task<IActionResult> PutIdeaTag(
@@ -70,6 +75,7 @@ public class IdeaTagsController : ControllerBase
 
         return NoContent();
     }
+    */
 
     // POST: api/IdeaTags
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -97,7 +103,7 @@ public class IdeaTagsController : ControllerBase
             ideaTag);
     }
 
-    // DELETE: api/IdeaTags/5
+    // DELETE: api/IdeaTags/0/NoC/tag
     [HttpDelete("{ideaId}/{catKey}/{tagName}")]
     public async Task<IActionResult> DeleteIdeaTag(
         int ideaId, string catKey, string tagName)
