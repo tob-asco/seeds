@@ -3,12 +3,11 @@ A tag becomes a `tag`, if it comes with convincing arguments for the :cool: axio
 In short:
 A Tag is :cool: if it is sufficiently interesting and polarizing, and :abacus: if it covers enough possible ideas.
 
-
 ## `FEA - Features`
 Generally for this category:
 - :cool: existing brands can scavenge improving ideas
 - :cool: existing brands get a clear overview of their users' demands
-- :cool: users gain leverage on the big brands (*why don't you realise this highly-voted idea??*)
+- :cool: users gain leverage on the big brands (*why don't you realize this highly-voted idea??*)
 - :cool: users obtain a stage to present their ideas to concrete employers
 - :cool: users might learn about existing features
 - :abacus: only if the brands are likely to listen to their customers
@@ -35,18 +34,26 @@ Generally for this category:
    - :abacus: new car designs, ways to charge, batteries, features
 2. `alternative fuels`
    - :cool: parts of the revolutionary spirit from `electro`'s :cool:
-   - :cool: elegant ideas, because the problem is rather conrete
+   - :cool: elegant ideas, because the problem is rather concrete
    - :abacus: H2, biogas, cooking oil, brand new solutions
 3. `cars`
    - :cool: *motorhead community*
    - :abacus: new cars, new features, new materials, component improvement, shows
-4. `new transportations`
-   - :cool: exciting ideas, futuristic designs, utopy-feeling
+4. `motorbikes`
+   - :cool: *motorhead community*
+   - :abacus: new bikes, new features, new materials, component improvement, shows
+5. `bicycle`
+   - :cool: individual transportation of the future
+   - :cool: stylish, luxurious
+   - :cool: competitive (triathlon, Tour de France)
+   - :abacus: new bikes, new features, new materials, component improvement
+4. `new transportation`
+   - :cool: exciting ideas, futuristic designs, utopia-feeling
    - :abacus: I hope for a lot
 5. `public transport`
    - :cool: although boring it is omnipresent in many peoples' lives
    - :abacus: new kinds, regulations, how to deal with construction, station features, vehicle features
-6. fossile
+6. fossils
 7. trains
 8. aero
 
@@ -63,7 +70,7 @@ Generally for this category:
    - :abacus: in lifestyle
    - :abacus: in devices
 4. distribution
-5. fossile
+5. fossils
 6. production
 
 
@@ -71,12 +78,12 @@ Generally for this category:
 1. `gaming`
    - :cool: huuuuuge community
    - :abacus: new games, new gear for gaming, new genre, fusion
-2. `travelling`
-   - :cool: big community, travelling is like its own life
-   - :abacus: packing hacks, new locations, new types of travelling
+2. `traveling`
+   - :cool: big community, traveling is like its own life
+   - :abacus: packing hacks, new locations, new types of traveling
 3. `beauty`
    - :cool: quite polarizing
-   - :abacus: so big, might have to be seperated even
+   - :abacus: so big, might have to be separated even
 4. `dating`
    - :cool: emotional
    - :cool: polarizing (e.g. not interesting if you're 10, or happily wed)
@@ -131,7 +138,7 @@ Generally for this category:
 ## `ENV - Environment`
 1. `CO2 reduction`
    - :cool: FFF
-   - :abacus: less polution
+   - :abacus: less pollution
    - :abacus: atmospheric cleaning
    - :abacus: law
 2. forrest protection
@@ -142,7 +149,7 @@ Generally for this category:
 4. saving water
 5. `extreme weather`
    - :cool: people are heavily affected
-   - :abacus: impatcts, adatpion vulnerability, mitigation
+   - :abacus: impacts, adaption vulnerability, mitigation
 6. `save the bees`
    - :cool: Einstein's warning
    - :cool: we like bees
@@ -193,7 +200,7 @@ Generally for this category:
 - :cool: very motivating, e.g. there exist the concept of donations
 - :cool: some people strive to help
 1. `diminishing inequality`
-   - :exclamation: possible overusage
+   - :exclamation: possible overuse
    - :exclamation: possibly too polarizing
    - :abacus: societal restructuring
    - :abacus: identification of (root) causes
@@ -235,7 +242,7 @@ Generally for this category:
    - :cool: *coffee culture*
    - :abacus: many different kinds
    - :abacus: studies on what factors matter
-   - :abacus: new gear to cook, adapted to situations (like travelling)
+   - :abacus: new gear to cook, adapted to situations (like traveling)
 2. `tea`
    - :cool: *tea culture*
    - :abacus: new flavors
@@ -263,11 +270,9 @@ Generally for this category:
    - :abacus: worker distribution
    - :abacus: law
 9. `substitutes`
-   - :cool: desperatly needed by vegetarian newcomers
+   - :cool: desperately needed by vegetarian newcomers
    - :cool: always hunting for alternatives
    - :abacus: new ways to prepare something
-   - :abacus: new interpretations as substitues of well-known ingredients
-10. `vegan recipes`
    - :cool: big market
    - :cool: challenging to come up with
    - :abacus: all vegan recipes
@@ -279,7 +284,7 @@ Generally for this category:
    - :abacus: stretching at home
    - :abacus: (minimal) movement plans
    - :abacus: movements adapted to concrete pains
-   - :abacus: fascia roll excercises
+   - :abacus: fascia roll exercises
 2. `nutrition`
    - :cool: "My body is my temple"
    - :cool: many don't want to waste much thinking time on it
@@ -296,7 +301,7 @@ Generally for this category:
    - :cool: "My body is my temple"
    - :cool: for people struggling with mental health
    - :abacus: minimal plans
-   - :abacus: techniques to deal with concrete problematics
+   - :abacus: techniques to deal with a concrete problematic
 5. `minimal workout`
    - :cool: people with time constraints
    - :abacus: stuff like 7-minute workout
@@ -306,7 +311,7 @@ Generally for this category:
    - :abacus: nutrition
    - :abacus: movement
    - :abacus: lifestyle
-   - :abacus: minimal suggestions to include in your daily life (e.g. eye excercising)
+   - :abacus: minimal suggestions to include in your daily life (e.g. eye exercising)
 7. long live *you*!
 8. `contra addiction`
    - :cool: the :cool:s from `H4H`
@@ -339,11 +344,11 @@ Generally for this category:
 15. `posture`
    - :cool: laptop work worsens the posture of many people
    - :cool: bad posture looks bad
-   - :abacus: minimal excercises to improve it
+   - :abacus: minimal exercises to improve it
    - :abacus: lifestyle suggestions
    - :abacus: ideas to remind
 16. `hygiene`
-   - :cool: people have gotten used to desinfecting their hands
+   - :cool: people have gotten used to disinfecting their hands
    - :cool: some are obsessed with hygiene
    - :abacus: new chemicals
    - :abacus: new ways to distribute it
@@ -353,6 +358,11 @@ Generally for this category:
    - :abacus: root, symptoms
    - :abacus: stuff against it
    - :abacus: findings
+18. `body region: {major regions like eyes, head, shoulder, back, stomach, hands, ..}`
+   - :cool: people that have acute problems with the region
+   - :cool: people that know that some region will experience stress
+   - :abacus: exercises
+   - :abacus: nutrition, medicine
    
 
 ## `NEER - Engineering`
@@ -376,7 +386,7 @@ Generally for this category:
 3. `reducing law`
    - :cool: towards a less regulated society with increased trust in people
    - :cool: *Anarchy!*
-   - :abacus: laws that are unneccessary
+   - :abacus: laws that are unnecessary
    - :abacus: laws that protect "bad" people
 4. `for country: {all countries}` (195 countries on Earth)
    - :cool: same reason why we watch national news
@@ -414,16 +424,16 @@ Generally for this category:
    - :cool: it is an art, right?
    - :cool: watching models
    - :abacus: you name it
-6. `jewelery`
+6. `jewelry`
    - :cool: extra luxurious
    - :cool: looking for a present, are you?
-   - :abacus: well, all the jewelery
+   - :abacus: well, all the jewelry
 7. `autarkic solutions`
    - :cool: high elegance because no power source
-   - :cool: beatiful problem solvers
+   - :cool: beautiful problem solvers
    - :cool: *shut up and take my money*
    - :abacus: *da Vinci* solutions
-   - :abacus: the interesting substitue for "stuff"
+   - :abacus: the interesting substitute for "stuff"
    - :abacus: fusion
 8. `shoes`
    - :cool: it is a separate category of shopping after all
@@ -442,7 +452,7 @@ Generally for this category:
    - :abacus: your new designs
    - :abacus: new features for watches
    - :abacus: stuff on wrist bands
-   - :abacsu: stuff on closing mechanisms
+   - :abacus: stuff on closing mechanisms
 
 
 ## `OUT - Outdoors`
@@ -461,21 +471,27 @@ Generally for this category:
 5. `camping`
    - :cool: elegant solutions (lightweight, etc.)
    - :cool: luxurious
-   - :cool: travelling feeling
+   - :cool: traveling feeling
    - :abacus: new designs or materials
    - :abacus: new kinds (tarp, hammock)
 7. `backpacking`
    - :cool: elegant solutions (lightweight, etc.)
-   - :cool: fusion (e.g. Camelback, avalanche baloons)
+   - :cool: fusion (e.g. Camelback, avalanche balloons)
    - :cool: luxurious
    - :abacus: new features
    - :abacus: new designs or materials
 8. `tents`
    - :cool: elegant solutions (lightweight, etc.)
-   - :cool: travelling feeling
+   - :cool: traveling feeling
    - :cool: luxurious
    - :abacus: new features
    - :abacus: new designs or materials
+9. `functional wear`
+   - :cool: luxurious
+   - :cool: feels like shopping
+   - :abacus: new materials
+   - :abacus: new designs
+   - :abacus: shirts, pants, shoes, socks, hats, gloves
 
 
 ## `ART - Arts`
@@ -486,7 +502,7 @@ Generally for this category:
 - :abacus: publish multiple to decide which direction to focus on
 1. `painting`
    - :abacus: new techniques, new colours
-   - :abacus: all kinds of material (oil, ..) and colours (pastell, ..)
+   - :abacus: all kinds of material (oil, ..) and colours (pastel, ..)
 2. `sculpting`
    - :abacus: new techniques
 3. `movement: {major movements like Modernism, Realism, Cubism, Avant-Garde, ...}`
@@ -583,6 +599,12 @@ Generally for this category:
    - :abacus: what sports to include / which to kick
    - :abacus: how to improve sports
    - :abacus: doping, location, ...
+3. `train for: {major sports}`
+   - :cool: motivation can be huge to improve for a certain sport
+   - :cool: fear to hurt yourself with wrong training
+   - :abacus: exercises
+   - :abacus: lifestyle
+   - :abacus: gear for training
 
 list of major sports:
-working out, climbing sports, hiking, snow sports, soccer, football, baseball, basketball, cricket, swimming, dancing, chess, MMA disciplinces, fencing sports, table tennis, tennis, golf, ice hockey, floorball, w/ horse
+working out, climbing sports, hiking, snow sports, soccer, football, baseball, basketball, cricket, swimming, dancing, chess, MMA disciplines, fencing sports, table tennis, tennis, golf, ice hockey, floorball, w/ horse
