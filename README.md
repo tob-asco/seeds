@@ -82,7 +82,7 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
      - the columns should be singular and sql_case
   3. :heavy_plus_sign: DTO Model `MyModelDto.cs` somewhere appropriate in `seeds.Dal.Dto`
   4. :heavy_plus_sign: AutoMapper mappings in `seeds.Api.Helpers.AutoMapperProfiles.cs`
-  5. :heavy_plus_sign: configuration class `seeds.Api.Data.MyModelConfiguration.cs` and call it in `seedsApiContext.cs`
+  5. :heavy_plus_sign: configuration class `seeds.Api.Data.MyModelConfiguration.cs` w/ relations and call it in `seedsApiContext.cs`
   6. Migrate to the DB using `dotnet-ef migrations add new_entity_mymodel` in the API's console
   7. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
   8. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
