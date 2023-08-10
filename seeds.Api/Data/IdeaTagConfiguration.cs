@@ -13,11 +13,11 @@ public class IdeaTagConfiguration : IEntityTypeConfiguration<IdeaTag>
         builder.HasKey(it => new { it.IdeaId, it.CategoryKey, it.TagName });
 
         // Idea : Tag = M : N
-        builder.HasOne(it => it.Idea)
+        builder.HasOne<Idea>()
             .WithMany()
             .HasForeignKey(it => it.IdeaId)
             .IsRequired(true);
-        builder.HasOne(it => it.Tag)
+        builder.HasOne<Tag>()
             .WithMany()
             .HasForeignKey(it => new { it.CategoryKey, it.TagName })
             .IsRequired(true);

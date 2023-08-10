@@ -14,8 +14,4 @@ public class IdeaTag
     [Column("tag_name")]
     public string TagName { get; set; } = null!;
 
-    #region Navigation
-    public Idea Idea { get; set; } = null!;
-    public Tag Tag { get; set; } = null!;
-    #endregion
 }
