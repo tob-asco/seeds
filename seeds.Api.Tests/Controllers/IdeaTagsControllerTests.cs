@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class IdeaTagsControllerTests : ApiBaseControllerTests
+public class IdeaTagsControllerTests : ApiControllerTestsBase
 {
     private readonly IdeaTagsController _controller;
     public List<Idea> Ideas { get; } = new();

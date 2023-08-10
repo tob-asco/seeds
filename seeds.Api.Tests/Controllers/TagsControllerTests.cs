@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class TagsControllerTests : ApiBaseControllerTests
+public class TagsControllerTests : ApiControllerTestsBase
 {
     public List<Category> Categories { get; set; } = new();
     public List<Tag> Tags { get; set; } = new();

@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UsersControllerTests : ApiBaseControllerTests
+public class UsersControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
 

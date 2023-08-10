@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class PresentationsControllerTests : ApiBaseControllerTests
+public class PresentationsControllerTests : ApiControllerTestsBase
 {
     private readonly int ideasIndexWithPresentation = 3;
     private readonly int ideasIndexWithNoPresentation = 13;

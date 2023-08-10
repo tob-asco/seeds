@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
+public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
 {
     private readonly UserIdeaInteractionsController _controller;
     public List<User> Users { get; } = new();

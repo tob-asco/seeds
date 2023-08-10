@@ -5,11 +5,11 @@ using seeds.Api.Data;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class ApiBaseControllerTests : IDisposable
+public class ApiControllerTestsBase : IDisposable
 {
     protected readonly seedsApiContext _context;
     protected readonly HttpClient _httpClient;
-    public ApiBaseControllerTests()
+    public ApiControllerTestsBase()
     {
         var options = new DbContextOptionsBuilder<seedsApiContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())

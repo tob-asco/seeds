@@ -6,7 +6,7 @@ using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CategoriesControllerTests : ApiBaseControllerTests
+public class CategoriesControllerTests : ApiControllerTestsBase
 {
     public List<Category> Categories { get; set; } = new();
 

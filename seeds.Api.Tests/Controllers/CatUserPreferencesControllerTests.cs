@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CatUserPreferencesControllerTests : ApiBaseControllerTests
+public class CatUserPreferencesControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
     public List<Category> Cats { get; set; } = new();

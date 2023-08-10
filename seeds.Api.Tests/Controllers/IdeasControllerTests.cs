@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class IdeasControllerTests : ApiBaseControllerTests
+public class IdeasControllerTests : ApiControllerTestsBase
 {
 
     public List<Idea> Ideas { get; set; } = new();
