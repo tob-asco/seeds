@@ -1,5 +1,6 @@
 ﻿using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Dal.Services;
 
@@ -27,7 +28,8 @@ public class IdeaTagService : IIdeaTagService
     }
     public async Task DeleteIdeaTagAsync(int ideaId, string catKey, string tagName)
     {
-        string url = $"api/IdeaTags/{ideaId}/{catKey}/{tagName}";
+        string url = $"api/IdeaTags/" +
+            $"{ideaId}/{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(tagName)}";
         if(!await baseService.DeleteAsync(url))
         {
             throw baseService.ThrowDeleteNotFoundException(url);

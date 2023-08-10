@@ -2,6 +2,7 @@
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
@@ -138,7 +139,8 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         int ideaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id;
         string catKey = Tags[indexForIdeasAndTagsWithIdeaTag].CategoryKey;
         string tagName = Tags[indexForIdeasAndTagsWithIdeaTag].Name;
-        string url = $"api/IdeaTags/{ideaId}/{catKey}/{tagName}";
+        string url = $"api/IdeaTags/" +
+            $"{ideaId}/{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(tagName)}";
 
         //Act
         var response = await _httpClient.DeleteAsync(url);
@@ -159,7 +161,8 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         int ideaId = Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id;
         string catKey = Tags[indexForIdeasAndTagsWithoutIdeaTag].CategoryKey;
         string tagName = Tags[indexForIdeasAndTagsWithoutIdeaTag].Name;
-        string url = $"/api/IdeaTags/{ideaId}/{catKey}/{tagName}";
+        string url = $"/api/IdeaTags/" +
+            $"{ideaId}/{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(tagName)}";
 
         // Act
         var response = await _httpClient.DeleteAsync(url);

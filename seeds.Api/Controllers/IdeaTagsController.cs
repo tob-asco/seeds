@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers;
 
@@ -87,28 +88,30 @@ public class IdeaTagsController : ControllerBase
             return Problem("Entity set 'seedsApiContext.IdeaTag'  is null.");
         }
         _context.IdeaTag.Add(ideaTag);
-        try { await _context.SaveChangesAsync(); }
-        catch (DbUpdateException)
+        try
         {
             if (IdeaTagExists(ideaTag.IdeaId, ideaTag.CategoryKey, ideaTag.TagName))
             {
                 return Conflict();
             }
-            else { throw; }
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
         }
 
-        return CreatedAtAction(
-            "GetIdeaTag",
-            new { ideaTag.IdeaId, ideaTag.CategoryKey, ideaTag.TagName },
-            ideaTag);
+        return Ok(); //No CreatedAtAction because not yet needed
     }
 
     // DELETE: api/IdeaTags/0/NoC/tag
     [HttpDelete("{ideaId}/{catKey}/{tagName}")]
-    public async Task<IActionResult> DeleteIdeaTag(
-        int ideaId, string catKey, string tagName)
+    public async Task<IActionResult> DeleteIdeaTag(int ideaId, string catKey, string tagName)
     {
         if (_context.IdeaTag == null) { return NotFound(); }
+
+        catKey = HttpUtility.UrlDecode(catKey);
+        tagName = HttpUtility.UrlDecode(tagName);
         var ideaTag = await _context.IdeaTag.FindAsync(ideaId, catKey, tagName);
         if (ideaTag == null) { return NotFound(); }
 
