@@ -2,6 +2,7 @@
 using seeds.Dal.Model;
 using seeds.Dal.Wrappers;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Dal.Services;
 
@@ -16,12 +17,12 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
     public async Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username, int ideaId)
     {
-        string url = $"api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
         return await _baseService.GetDalModelAsync<UserIdeaInteraction>(url);
     }
     public async Task<bool> PutUserIdeaInteractionAsync(string username, int ideaId, bool newUpvoted, bool newDownvoted)
     {
-        string url = $"api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
         UserIdeaInteraction newUii = new()
         {
             Username = username,
