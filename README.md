@@ -71,11 +71,6 @@
     - *Raise Property Changed Event* (PCE) - tests
     - *Navigates to* - tests (using mocked navigation services)
 
-## Exception Handling Philosophy
-Trying to streamline the throwing & try-catching procedure of exceptions throughout the solution:
-1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
-2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
-
 ## What You Should Do When...
 ### **You want to add a new EF Core model class that defines a DB entity** (join entity similar)
   1. :heavy_plus_sign: EF Core model class `seeds.Dal.Model.MyModel.cs`
@@ -93,3 +88,19 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
   10. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
   11. Register the last two points to the DI container
   12. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
+
+## Philosophies / Streamlining
+### Exception Handling
+Throwing exceptions & try-catching them throughout the solution:
+1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
+2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
+
+### URL En-/Decoding
+`HttpUtility.UrlEncode` and `UrlDecode` throughout the solution:
+1. The first method that builds the URL should encode
+  - ➕ we don't have to pass the URL fragments through the layers (service ➡️ DalBaseService ➡️ HttpWrapper)
+  - ➕ we can decide for each concrete paramater separately
+  - ➖ in later layers we cannot control the URL anymore
+  - ➖ we pass the weird, encoded URL through the layers
+2. The endpoint should always decode parameters, just to make sure
+  - although C# already decodes a little for you, e.g. spaces are not decoded without `UrlDecode`
