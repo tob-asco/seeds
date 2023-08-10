@@ -2,12 +2,13 @@
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
 public class TagsControllerTests : ApiControllerTestsBase
 {
-    public List<Category> Categories { get; set; } = new();
+    public List<Category> Cats { get; set; } = new();
     public List<Tag> Tags { get; set; } = new();
 
     public TagsControllerTests()
@@ -21,20 +22,20 @@ public class TagsControllerTests : ApiControllerTestsBase
     {
         for (int i = 0; i <= 2; i++)
         {
-            Categories.Add(
+            Cats.Add(
             new Category()
             {
-                Key = $"Cat{i}",
+                Key = $"Cat #{i}",
             });
         }
-        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
+        if(!_context.Category.Any()) { _context.Category.AddRange(Cats); }
         for (int i = 0; i <= 29; i++)
         {
             Tags.Add(
             new Tag()
             {
-                CategoryKey = $"Cat{(int)i/10}",
-                Name = $"tag{i}"
+                CategoryKey = Cats[(int)i/10].Key,
+                Name = $"tag #{i}"
             });
         }
         if(!_context.Tag.Any()) { _context.Tag.AddRange(Tags); }
@@ -73,16 +74,17 @@ public class TagsControllerTests : ApiControllerTestsBase
     public async Task TagsController_GetEndpoint_ReturnsTag()
     {
         // Arrange
-        string catKey = Categories[0].Key;
+        string catKey = Cats[0].Key;
         string name = Tags[0].Name;
-        string url = $"api/Tags/{catKey}/{name}";
+        string url = $"api/Tags/" +
+            $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(name)}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<TagDto>();
 
         // Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<TagDto>();
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(catKey);
         result?.Name.Should().Be(name);

@@ -1,5 +1,6 @@
 ﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
+using System.Web;
 
 namespace seeds.Dal.Services;
 
@@ -18,9 +19,10 @@ public class TagService : ITagService
             ?? throw new Exception($"The Get URL {url} returned null.");
         return baseResult;
     }
-    public async Task<TagDto> GetTagAsync(string categoryKey, string name)
+    public async Task<TagDto> GetTagAsync(string catKey, string name)
     {
-        string url = $"api/Tags/{categoryKey}/{name}";
+        string url = $"api/Tags/" +
+            $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(name)}";
         var baseResult = await baseService.GetDalModelAsync<TagDto>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
         return baseResult;

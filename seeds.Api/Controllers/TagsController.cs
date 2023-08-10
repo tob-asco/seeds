@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers;
 
@@ -41,6 +42,8 @@ public class TagsController : ControllerBase
     {
         if (context.Tag == null) { return NotFound(); }
 
+        catKey = HttpUtility.UrlDecode(catKey);
+        name = HttpUtility.UrlDecode(name);
         var tag = await context.Tag.FindAsync(catKey, name);
         if (tag == null) { return NotFound(); }
 
