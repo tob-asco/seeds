@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers
 {
@@ -17,15 +18,18 @@ namespace seeds.Api.Controllers
         }
 
         // GET: api/CategoryUserPreferences/NoC/tobi?tagName=tag
-        [HttpGet("{categoryKey}/{username}")]
+        [HttpGet("{catKey}/{username}")]
         public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(
-            string categoryKey, string username, string? tagName)
+            string catKey, string username, string? tagName)
         {
+            catKey = HttpUtility.UrlDecode(catKey);
+            username = HttpUtility.UrlDecode(username);
+            tagName = HttpUtility.UrlDecode(tagName);
             try
             {
                 var categoryUserPreference = await _context.CategoryUserPreference
                     .FirstOrDefaultAsync(cup =>
-                    cup.CategoryKey == categoryKey &&
+                    cup.CategoryKey == catKey &&
                     cup.Username == username &&
                     cup.TagName == tagName); // test that a null tagName does what you want
                 return categoryUserPreference != null ? categoryUserPreference : NotFound();
@@ -35,17 +39,20 @@ namespace seeds.Api.Controllers
 
         // PUT: api/CategoryUserPreferences/NoC/tobi?tagName=tag
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{categoryKey}/{username}")]
+        [HttpPut("{catKey}/{username}")]
         public async Task<IActionResult> PutCategoryUserPreference(
-            string categoryKey, string username, string? tagName,
+            string catKey, string username, string? tagName,
             CategoryUserPreference cup)
         {
-            if (categoryKey != cup.CategoryKey
+            catKey = HttpUtility.UrlDecode(catKey);
+            username = HttpUtility.UrlDecode(username);
+            tagName = HttpUtility.UrlDecode(tagName);
+            if (catKey != cup.CategoryKey
                 || username != cup.Username) { return BadRequest("Inconsistent request."); }
 
             // we use that the triple (cup.CategoryKey, cup.Username, cup.TagName) is unique!
             var oldCup = await _context.CategoryUserPreference.FirstOrDefaultAsync(e =>
-                e.CategoryKey == categoryKey &&
+                e.CategoryKey == catKey &&
                 e.Username == username &&
                 e.TagName == tagName);
 
