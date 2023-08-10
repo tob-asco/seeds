@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using seeds.Api.Data;
@@ -11,9 +12,11 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    partial class seedsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230810170625_category_key_up_to_6_chars")]
+    partial class category_key_up_to_6_chars
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,6 +115,7 @@ namespace seeds.Api.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CategoryKey")
+                        .IsRequired()
                         .HasColumnType("character varying(6)")
                         .HasColumnName("category_key");
 
@@ -304,7 +308,9 @@ namespace seeds.Api.Migrations
                 {
                     b.HasOne("seeds.Dal.Model.Category", "Category")
                         .WithMany("Ideas")
-                        .HasForeignKey("CategoryKey");
+                        .HasForeignKey("CategoryKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", "Creator")
                         .WithMany("CreatedIdeas")

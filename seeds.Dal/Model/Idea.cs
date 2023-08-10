@@ -26,7 +26,8 @@ public class Idea
     public DateTime CreationTime { get; set; } = DateTime.Now;
 
     [Column("category_key")]
-    public string CategoryKey { get; set; } = "NoC";
+    [AllowNull] // because we have Tags
+    public string? CategoryKey { get; set; }
 
     #region Navigation
     public User Creator { get; } = null!; // the idea's creator
