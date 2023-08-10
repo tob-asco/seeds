@@ -2,6 +2,7 @@
 ## TODOs
 - [ ] DTO for CUP (bc. we have a GUID PK now)
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
+- [ ] figure out which special characters can be `UrlEncode`'d and forbid the others in the View
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
@@ -85,7 +86,9 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
   5. :heavy_plus_sign: configuration class `seeds.Api.Data.MyModelConfiguration.cs` w/ relations and call it in `seedsApiContext.cs`
   6. Migrate to the DB using `dotnet-ef migrations add new_entity_mymodel` in the API's console
   7. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
-  8. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
+     1. delete useless endpoints
+     2. adapt the endpoints to take ToDb DTOs and return FromDb DTOs
+     3. `HttpUtility.UrlDecode` the parameters (if you'll likely `UrlEncode` them while calling the endpoint)
   9. :heavy_plus_sign: interface `seeds.Dal.Interfaces.IMyModelService.cs`
   10. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
   11. Register the last two points to the DI container
