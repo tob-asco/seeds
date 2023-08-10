@@ -2,6 +2,7 @@
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
@@ -23,7 +24,7 @@ public class CategoriesControllerTests : ApiBaseControllerTests
             Categories.Add(
             new Category()
             {
-                Key = $"Cat{i}",
+                Key = $"Cat #{i}?",
                 Name = $"Category{i}"
             });
         }
@@ -38,10 +39,10 @@ public class CategoriesControllerTests : ApiBaseControllerTests
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
 
         // Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
         result.Should().NotBeNull();
         result?.Should().HaveCount(Categories.Count);
     }
@@ -64,14 +65,14 @@ public class CategoriesControllerTests : ApiBaseControllerTests
     {
         // Arrange
         string key = Categories[0].Key;
-        string url = $"api/Categories/{key}";
+        string url = $"api/Categories/{HttpUtility.UrlEncode(key)}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<CategoryDto>();
 
         // Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<CategoryDto>();
         result.Should().NotBeNull();
         result?.Key.Should().Be(key);
     }
