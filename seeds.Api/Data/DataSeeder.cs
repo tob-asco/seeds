@@ -51,7 +51,7 @@ public class DataSeeder
         else { categories = _dbContext.Category.ToList(); }
         #endregion
         #region Tags
-        foreach(var cat in categories)
+        foreach (var cat in categories)
         {
             tags.Add(new Tag { CategoryKey = cat.Key, Name = "*" });
         }
@@ -236,51 +236,78 @@ public class DataSeeder
         #region Ideas
         if (!_dbContext.Idea.Any())
         {
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "w/orld method",
                 Slogan = "Apply Capitalism Against Global Warming",
                 CreatorName = "tobi",
-                CategoryKey = "ENV"
+                CategoryKey = "ENV",
+                Tags = new()
+                {
+                    new(){ CategoryKey="ENV", Name="CO2 reduction" },
+                    new(){ CategoryKey="SOC", Name="grand movement" },
+                }
             });
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "EasyWipe",
                 Slogan = "No More Wiping Pain (for men)",
                 CreatorName = "tobi",
-                CategoryKey = "GAD"
+                CategoryKey = "GAD",
+                Tags = new()
+                {
+                    new(){ CategoryKey="DSGN", Name="autarkic solutions" },
+                }
             });
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "Integrated Fridge",
                 Slogan = "Use the Fridge's Heat For Warm Water",
                 CreatorName = "theDad",
-                CategoryKey = "ITE"
+                CategoryKey = "ITE",
+                Tags = new()
+                {
+                    new(){ CategoryKey="POW", Name="reduction" },
+                }
             });
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "LookDown Mirror",
                 Slogan = "IR Sensor in Car Side Mirror Checks Ice",
                 CreatorName = "theDad",
-                CategoryKey = "ITE"
+                CategoryKey = "ITE",
+                Tags = new()
+                {
+                    new(){ CategoryKey="TRA", Name="cars" },
+                }
             });
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "Contra Soleil",
                 Slogan = "Simple Styrofoam w/ Sucker on Window to Block Sun",
                 CreatorName = "theDad",
-                CategoryKey = "GAD"
+                CategoryKey = "GAD",
+                Tags = new()
+                {
+                    new(){ CategoryKey="POW", Name="reduction" },
+                    new(){ CategoryKey="HOME", Name="living solutions" },
+                }
             });
-            _dbContext.Idea.Add(new Idea
+            _dbContext.Idea.Add(new()
             {
                 Title = "IntegratedPV",
                 Slogan = "Roof Tile that is Also a Solar Collector",
                 CreatorName = "prefa",
-                CategoryKey = "ITE"
+                CategoryKey = "ITE",
+                Tags = new()
+                {
+                    new(){ CategoryKey="POW", Name="alternatives" },
+                    new(){ CategoryKey="DSGN", Name="electronic devices" },
+                }
             });
             for (int i = 1; i <= 100; i++)
             {
-                _dbContext.Idea.Add(new Idea
+                _dbContext.Idea.Add(new()
                 {
                     Title = "DummyIdea" + i,
                     Slogan = "Some slogan.",
