@@ -9,32 +9,42 @@ public interface IDalBaseService
     /* Returns Null only if the response is NotFound.
      * Other bad responses throw.
      */
-    public Task<T?> GetDalModelAsync<T>(string url);
-    public Exception ThrowGetNullException(string url);
+    public Task<T?> GetDalModelAsync<T>(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
+    public Exception ThrowGetNullException(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
     
     /* Returns false only if the response is NotFound.
      * Other bad responses throw.
      */
-    public Task<bool> PutDalModelAsync<T>(string url, T newModel);
-    public Exception ThrowPutNotFoundException(string url);
+    public Task<bool> PutDalModelAsync<T>(T newModel,
+        string endpointUrl, params (string Key, string Value)[] queryParams);
+    public Exception ThrowPutNotFoundException(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
 
     /* Returns false only if the response is Conflict.
      * Other bad responses throw.
      */
-    public Task<bool> PostDalModelBoolReturnAsync<T>(string url, T model);
+    public Task<bool> PostDalModelBoolReturnAsync<T>(T model,
+        string endpointUrl, params (string Key, string Value)[] queryParams);
 
     /* Returns ModelFromDb if success, otherwise throws.
      */
-    public Task<FromDb> PostDalModelAsync<ToDb,FromDb>(string url, ToDb toDbModel);
-    public Exception ThrowPostConflictException(string url);
+    public Task<FromDb> PostDalModelAsync<ToDb, FromDb>(ToDb toDbModel,
+        string endpointUrl, params (string Key, string Value)[] queryParams);
+    public Exception ThrowPostConflictException(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
     
     /* Returns false only if the response is NotFound.
      * Other bad responses throw.
      */
-    public Task<bool> DeleteAsync(string url);
-    public Exception ThrowDeleteNotFoundException(string url);
+    public Task<bool> DeleteAsync(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
+    public Exception ThrowDeleteNotFoundException(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
 
     /* All bad responses throw.
      */
-    public Task<T?> GetNonDalModelAsync<T>(string url);
+    public Task<T?> GetNonDalModelAsync<T>(
+        string endpointUrl, params (string Key, string Value)[] queryParams);
 }
