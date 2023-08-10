@@ -9,9 +9,9 @@ public class IdeaTag
     public int IdeaId { get; set; }
 
     [Column("category_key")]
-    public string CategoryKey { get; set; } = null!;
+    public string CategoryKey { get; set; } = "NoC";
 
     [Column("tag_name")]
-    public string TagName { get; set; } = null!;
+    public string TagName { get; set; } = "tag";
 
 }

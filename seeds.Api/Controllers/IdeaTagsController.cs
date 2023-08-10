@@ -34,7 +34,6 @@ public class IdeaTagsController : ControllerBase
     */
 
     // GET: api/IdeaTags/0
-
     [HttpGet("{ideaId}")]
     public async Task<ActionResult<List<IdeaTag>>> GetTagsOfIdea(int ideaId)
     {
@@ -87,20 +86,20 @@ public class IdeaTagsController : ControllerBase
             return Problem("Entity set 'seedsApiContext.IdeaTag'  is null.");
         }
         _context.IdeaTag.Add(ideaTag);
-        try { await _context.SaveChangesAsync(); }
-        catch (DbUpdateException)
+        try
         {
             if (IdeaTagExists(ideaTag.IdeaId, ideaTag.CategoryKey, ideaTag.TagName))
             {
                 return Conflict();
             }
-            else { throw; }
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return Problem(ex.Message);
         }
 
-        return CreatedAtAction(
-            "GetIdeaTag",
-            new { ideaTag.IdeaId, ideaTag.CategoryKey, ideaTag.TagName },
-            ideaTag);
+        return Ok();
     }
 
     // DELETE: api/IdeaTags/0/NoC/tag
