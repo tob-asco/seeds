@@ -1,5 +1,7 @@
 ﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
+using System.Web;
+
 namespace seeds.Dal.Services;
 
 public class CategoryService : ICategoryService 
@@ -18,7 +20,7 @@ public class CategoryService : ICategoryService
     }
     public async Task<CategoryDto> GetCategoryByKeyAsync(string categoryKey)
     {
-        string url = $"api/Categories/{categoryKey}";
+        string url = $"api/Categories/{HttpUtility.UrlEncode(categoryKey)}";
         var baseResult = await baseService.GetDalModelAsync<CategoryDto>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
         return baseResult;
