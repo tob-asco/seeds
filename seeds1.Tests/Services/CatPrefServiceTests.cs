@@ -12,7 +12,7 @@ public class CatPrefServiceTests
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly ICategoryUserPreferenceService cupService;
-    private readonly CategoryPreferencesService service;
+    private readonly CatagPreferencesService service;
 
     public CatPrefServiceTests()
     {
@@ -48,7 +48,7 @@ public class CatPrefServiceTests
         #endregion
 
         // Act
-        var result = await service.GetCatPreferencesAsync();
+        var result = await service.GetCatagPreferencesAsync();
 
         // Assert
         result.Should().HaveCount(2);
@@ -63,7 +63,7 @@ public class CatPrefServiceTests
             .Returns<List<CategoryDto>>(new());
 
         // Act
-        Func<Task> act = async () => await service.GetCatPreferencesAsync();
+        Func<Task> act = async () => await service.GetCatagPreferencesAsync();
 
         // Assert
         await act.Should().ThrowAsync<Exception>();

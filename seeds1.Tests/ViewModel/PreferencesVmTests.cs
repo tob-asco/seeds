@@ -6,13 +6,13 @@ namespace seeds1.Tests.ViewModel;
 
 public class PreferencesVmTests
 {
-    private readonly ICategoryPreferencesService catPrefService;
+    private readonly ICatagPreferencesService catPrefService;
     private readonly ICategoryUserPreferenceService cupService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
-        catPrefService = A.Fake<ICategoryPreferencesService>();
+        catPrefService = A.Fake<ICatagPreferencesService>();
         cupService = A.Fake<ICategoryUserPreferenceService>();
         vm = new(A.Fake<IGlobalService>(), catPrefService, cupService);
     }
@@ -24,8 +24,8 @@ public class PreferencesVmTests
         int pref1 = 0, pref0 = -1;
         vm.CatPrefs = new()
         {
-            new() { Key = "Cat0", Value = pref0 },
-            new() { Key = "Cat1", Value = pref1 },
+            new() { CategoryKey = "Cat0", Value = pref0 },
+            new() { CategoryKey = "Cat1", Value = pref1 },
         };
         A.CallTo(() => catPrefService.StepCatPreference(A<int>.Ignored))
             .Returns(14);
@@ -35,7 +35,7 @@ public class PreferencesVmTests
         #endregion
 
         // Act
-        await vm.ChangeCategoryPreference(vm.CatPrefs[1].Key);
+        await vm.ChangeCategoryPreference(vm.CatPrefs[1].CategoryKey);
 
         // Assert
         vm.CatPrefs[0].Value.Should().Be(pref0);

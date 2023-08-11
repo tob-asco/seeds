@@ -13,7 +13,7 @@ public class FeedVMTests
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
-    private readonly ICategoryPreferencesService catPrefService;
+    private readonly ICatagPreferencesService catPrefService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly FeedViewModel _vm;
     public FeedVMTests()
@@ -22,7 +22,7 @@ public class FeedVMTests
         feedEntryVmFactory = A.Fake<IGenericFactory<FeedEntryViewModel>>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
         cupService = A.Fake<ICategoryUserPreferenceService>();
-        catPrefService = A.Fake<ICategoryPreferencesService>();
+        catPrefService = A.Fake<ICatagPreferencesService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
         _vm = new FeedViewModel(globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
     }

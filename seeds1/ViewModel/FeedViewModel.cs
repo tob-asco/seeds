@@ -15,7 +15,7 @@ public partial class FeedViewModel :MyBaseViewModel
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
     private readonly ICategoryUserPreferenceService cupService;
-    private readonly ICategoryPreferencesService catPrefService;
+    private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
@@ -24,7 +24,7 @@ public partial class FeedViewModel :MyBaseViewModel
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
         ICategoryUserPreferenceService cupService,
-        ICategoryPreferencesService catPrefService)
+        ICatagPreferencesService catPrefService)
         : base(globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
@@ -128,27 +128,27 @@ public partial class FeedViewModel :MyBaseViewModel
 
     public async Task LoadCatPreferencesFromDbAsync()
     {
-        List<CatPreference> catPrefs = new();
-        try
-        {
-            catPrefs = await catPrefService.GetCatPreferencesAsync();
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("DB Error",
-                ex.Message, "Ok");
-        }
-        Dictionary<string, int> catPrefsDict = new();
-        foreach (var catPref in catPrefs)
-        {
-            catPrefsDict.Add(catPref.Key, catPref.Value);
-        }
+        //List<CatagPreference> catagPrefs = new();
+        //try
+        //{
+        //    catagPrefs = await catPrefService.GetCatagPreferencesAsync();
+        //}
+        //catch (Exception ex)
+        //{
+        //    await Shell.Current.DisplayAlert("DB Error",
+        //        ex.Message, "Ok");
+        //}
+        //Dictionary<string, int> catagPrefsDict = new();
+        //foreach (var catagPref in catagPrefs)
+        //{
+        //    catagPrefsDict.Add(catagPref.CategoryKey, catagPref.Preference);
+        //}
 
-        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
-        {
-            FeedEntryVMCollection[i].FeedEntry
-                .CategoryPreference = catPrefsDict[FeedEntryVMCollection[i]
-                .FeedEntry.Idea.CategoryKey];
-        }
+        //for (int i = 0; i < FeedEntryVMCollection.Count; i++)
+        //{
+        //    FeedEntryVMCollection[i].FeedEntry
+        //        .CategoryPreference = catagPrefsDict[FeedEntryVMCollection[i]
+        //        .FeedEntry.Idea.CategoryKey];
+        //}
     }
 }

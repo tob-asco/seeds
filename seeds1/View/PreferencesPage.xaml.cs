@@ -21,6 +21,6 @@ public partial class PreferencesPage : ContentPage
         // Always re-create the VM.
         vm = vmFactory.Create();
         BindingContext = vm;
-        await vm.GetCatPreferencesAsync();
+        await vm.PopulateListListAsync();
     }
 }

@@ -31,7 +31,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
-        builder.Services.AddSingleton<ICategoryPreferencesService, CategoryPreferencesService>();
+        builder.Services.AddSingleton<ICatagPreferencesService, CatagPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddSingleton<AppShell>();

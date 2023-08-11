@@ -16,7 +16,7 @@ public class PreferencesViewModelFactory : IGenericFactory<PreferencesViewModel>
     {
         return new PreferencesViewModel(
             serviceProvider.GetRequiredService<IGlobalService>(),
-            serviceProvider.GetRequiredService<ICategoryPreferencesService>(),
+            serviceProvider.GetRequiredService<ICatagPreferencesService>(),
             serviceProvider.GetRequiredService<ICategoryUserPreferenceService>()
             );
     }
