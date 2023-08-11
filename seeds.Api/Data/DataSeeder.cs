@@ -234,29 +234,31 @@ public class DataSeeder
         }
         #endregion
         #region Ideas
+        // save changes to access the tag elements
+        //_dbContext.SaveChanges();
+        string tWorld = "w/orld method";
+        string tEasyW = "EasyWipe";
         if (!_dbContext.Idea.Any())
         {
             _dbContext.Idea.Add(new()
             {
-                Title = "w/orld method",
+                Title = tWorld,
                 Slogan = "Apply Capitalism Against Global Warming",
                 CreatorName = "tobi",
-                CategoryKey = "ENV",
                 Tags = new()
                 {
-                    new(){ CategoryKey="ENV", Name="CO2 reduction" },
-                    new(){ CategoryKey="SOC", Name="grand movement" },
+                    tags.First(t => t.CategoryKey=="ENV" && t.Name=="CO2 reduction"),
+                    tags.First(t => t.CategoryKey=="SOC" && t.Name=="grand movement"),
                 }
             });
             _dbContext.Idea.Add(new()
             {
-                Title = "EasyWipe",
+                Title = tEasyW,
                 Slogan = "No More Wiping Pain (for men)",
                 CreatorName = "tobi",
-                CategoryKey = "GAD",
                 Tags = new()
                 {
-                    new(){ CategoryKey="DSGN", Name="autarkic solutions" },
+                    tags.First(t => t.CategoryKey=="DSGN" && t.Name=="autarkic solutions"),
                 }
             });
             _dbContext.Idea.Add(new()
@@ -264,10 +266,9 @@ public class DataSeeder
                 Title = "Integrated Fridge",
                 Slogan = "Use the Fridge's Heat For Warm Water",
                 CreatorName = "theDad",
-                CategoryKey = "ITE",
-                Tags = new()
+                Tags = new List<Tag>
                 {
-                    new(){ CategoryKey="POW", Name="reduction" },
+                    tags.First(t => t.CategoryKey=="POW" && t.Name=="reduction"),
                 }
             });
             _dbContext.Idea.Add(new()
@@ -275,10 +276,9 @@ public class DataSeeder
                 Title = "LookDown Mirror",
                 Slogan = "IR Sensor in Car Side Mirror Checks Ice",
                 CreatorName = "theDad",
-                CategoryKey = "ITE",
                 Tags = new()
                 {
-                    new(){ CategoryKey="TRA", Name="cars" },
+                    tags.First(t => t.CategoryKey == "TRA" && t.Name == "cars"),
                 }
             });
             _dbContext.Idea.Add(new()
@@ -286,11 +286,10 @@ public class DataSeeder
                 Title = "Contra Soleil",
                 Slogan = "Simple Styrofoam w/ Sucker on Window to Block Sun",
                 CreatorName = "theDad",
-                CategoryKey = "GAD",
                 Tags = new()
                 {
-                    new(){ CategoryKey="POW", Name="reduction" },
-                    new(){ CategoryKey="HOME", Name="living solutions" },
+                    tags.First(t => t.CategoryKey=="POW" && t.Name=="reduction"),
+                    tags.First(t => t.CategoryKey=="HOME" && t.Name=="living solutions"),
                 }
             });
             _dbContext.Idea.Add(new()
@@ -298,25 +297,30 @@ public class DataSeeder
                 Title = "IntegratedPV",
                 Slogan = "Roof Tile that is Also a Solar Collector",
                 CreatorName = "prefa",
-                CategoryKey = "ITE",
                 Tags = new()
                 {
-                    new(){ CategoryKey="POW", Name="alternatives" },
-                    new(){ CategoryKey="DSGN", Name="electronic devices" },
+                    tags.First(t => t.CategoryKey == "POW" && t.Name == "alternatives"),
+                    tags.First(t => t.CategoryKey == "DSGN" && t.Name == "electronic devices"),
                 }
             });
-            for (int i = 1; i <= 100; i++)
+            for (int i = 1; i <= 50; i++)
             {
                 _dbContext.Idea.Add(new()
                 {
                     Title = "DummyIdea" + i,
                     Slogan = "Some slogan.",
                     CreatorName = "tobi",
-                    CategoryKey = "NoC"
                 });
             }
         }
         #endregion
+        #region Idea Tags
+        _dbContext.SaveChanges();
+        int idWorld = _dbContext.Idea.First(i => i.Title == tWorld).Id;
+        Tag tCo2 = tags.First(t => t.CategoryKey == "ENV" && t.Name == "CO2 reduction");
+        _dbContext.IdeaTag.Add(new() { IdeaId = idWorld, CategoryKey = tCo2.CategoryKey, TagName = tCo2.Name });
+        #endregion
+
 
         _dbContext.SaveChanges();
     }
