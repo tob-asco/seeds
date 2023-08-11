@@ -3,6 +3,7 @@
 - [ ] DTO for CUP (bc. we have a GUID PK now)
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
 - [ ] figure out which special characters can be `UrlEncode`'d and forbid the others in the View
+- [ ] GUID PK for Tag.cs and a DTO
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
