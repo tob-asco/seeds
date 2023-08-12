@@ -6,6 +6,7 @@
     xmlns:converter="clr-namespace:seeds1.Converter"
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Title="Preferences"
     x:DataType="local:PreferencesViewModel">
     <CollectionView ItemsSource="{Binding CatagPrefGroups}">
@@ -27,8 +28,15 @@
                             Margin="5,0"
                             FontSize="Subtitle"
                             HorizontalOptions="Center"
-                            Text="{Binding [0].CategoryName}"
-                            TextColor="Gray" />
+                            TextColor="Gray">
+                            <Label.Text>
+                                <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                                    <Binding Path="[0].CategoryKey" />
+                                    <Binding Source=" - " />
+                                    <Binding Path="[0].CategoryName" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
                         <BoxView
                             Grid.Column="2"
                             HeightRequest="1"
@@ -48,7 +56,8 @@
                                     HeightRequest="45">
                                     <Button.Text>
                                         <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                            <Binding Path="CategoryKey" />
+                                            <Binding Source="{x:Static sys:String.Empty}" />
+                                            <Binding Source="{x:Static sys:String.Empty}" />
                                             <Binding Path="TagName" />
                                         </MultiBinding>
                                     </Button.Text>
