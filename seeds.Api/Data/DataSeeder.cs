@@ -51,11 +51,7 @@ public class DataSeeder
         else { categories = _dbContext.Category.ToList(); }
         #endregion
         #region Tags
-        foreach (var cat in categories)
-        {
-            tags.Add(new Tag { CategoryKey = cat.Key, Name = "*" });
-        }
-        tags.Add(new Tag { CategoryKey = "NoC", Name = "no tag" });
+        tags.Add(new Tag { CategoryKey = "NoC", Name = "fusion" });
 
         tags.Add(new Tag { CategoryKey = "FEA", Name = "music app: {main music streaming apps}" });
         tags.Add(new Tag { CategoryKey = "FEA", Name = "streaming provider: {main video streaming providers}" });

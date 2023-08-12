@@ -12,7 +12,30 @@
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout>
+                    <Grid Padding="5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <BoxView
+                            Grid.Column="0"
+                            HeightRequest="1"
+                            Color="Gray" />
+                        <Label
+                            Grid.Column="1"
+                            Margin="5,0"
+                            FontSize="Subtitle"
+                            HorizontalOptions="Center"
+                            Text="{Binding [0].CategoryName}"
+                            TextColor="Gray" />
+                        <BoxView
+                            Grid.Column="2"
+                            HeightRequest="1"
+                            Color="Gray" />
+                    </Grid>
                     <FlexLayout
+                        Margin="15,5"
                         AlignContent="Start"
                         BindableLayout.ItemsSource="{Binding .}"
                         Wrap="Wrap">
@@ -36,7 +59,6 @@
                             </DataTemplate>
                         </BindableLayout.ItemTemplate>
                     </FlexLayout>
-                    <Label Text="-------------------------------" />
                 </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>

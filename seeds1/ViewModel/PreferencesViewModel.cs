@@ -58,9 +58,11 @@ public partial class PreferencesViewModel : MyBaseViewModel
             var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
             foreach (var group in groups)
             {
-                ObservableRangeCollection<CatagPreference> catagsOfGroup = new();
-                catagsOfGroup.AddRange(group.ToList());
-                CatagPrefGroups.Add(catagsOfGroup);
+                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
+                // remove the entries that are only categories
+                //var tagGroup = group.TakeWhile(cp => cp.TagName != null);
+                tagsOfGroup.AddRange(group.ToList());
+                CatagPrefGroups.Add(tagsOfGroup);
             }
         }
         catch (Exception ex)
