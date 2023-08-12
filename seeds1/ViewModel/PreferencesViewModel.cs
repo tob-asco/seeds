@@ -25,23 +25,9 @@ public partial class PreferencesViewModel : MyBaseViewModel
     }
 
     [ObservableProperty]
-    ObservableRangeCollection<CatagPreference> catPrefs = new();
-    [ObservableProperty]
     ObservableCollection<ObservableRangeCollection<CatagPreference>>
         catagPrefGroups = new();
-    [ObservableProperty]
-    bool isRefreshing = false;
 
-    [RelayCommand]
-    public async Task Refresh()
-    {
-        if (!IsRefreshing)
-        {
-            IsRefreshing = true;
-            await PopulateListListAsync();
-            IsRefreshing = false;
-        }
-    }
     [RelayCommand]
     public async Task PopulateListListAsync()
     {
@@ -49,9 +35,6 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            //CatPrefs = new();
-            //var catPrefs = await catPrefService.GetCatPreferencesAsync();
-            //CatPrefs.AddRange(catPrefs);
             List<CatagPreference> catagPrefs = 
                 await catPrefService.GetCatagPreferencesAsync();
 
@@ -60,8 +43,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
             {
                 ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
                 // remove the entries that are only categories
-                //var tagGroup = group.TakeWhile(cp => cp.TagName != null);
-                tagsOfGroup.AddRange(group.ToList());
+                var tagGroup = group.Where(cp => cp.TagName != null);
+                tagsOfGroup.AddRange(tagGroup.ToList());
                 CatagPrefGroups.Add(tagsOfGroup);
             }
         }
@@ -71,36 +54,39 @@ public partial class PreferencesViewModel : MyBaseViewModel
         }
     }
     [RelayCommand]
-    public async Task ChangeCategoryPreference(string categoryKey)
+    public async Task ChangeTagPreference(CatagPreference pref)
     {
-        // update entry
-        int index = CatPrefs.IndexOf(CatPrefs.FirstOrDefault(cp =>
-            cp.CategoryKey == categoryKey));
-        if (index == -1)
+        // find indices
+        int groupIndex = CatagPrefGroups.IndexOf(CatagPrefGroups.FirstOrDefault(cpg =>
+            cpg.Contains(pref)));
+        if (groupIndex == -1)
         {
-            await Shell.Current.DisplayAlert("Error", "Key not found.", "Ok");
+            await Shell.Current.DisplayAlert("Error", "Group not found.", "Ok");
             return;
         }
-
-        CatPrefs[index].Preference = catPrefService.StepPreference(
-            CatPrefs[index].Preference);
+        int index = CatagPrefGroups[groupIndex].IndexOf(pref);
 
         // update DB
         try
         {
-            if (await cupService.PutCatagUserPreferenceAsync(
-                categoryKey,
+            if (!await cupService.PutCatagUserPreferenceAsync(
+                pref.CategoryKey,
                 CurrentUser.Username,
-                CatPrefs[index].Preference) == false)
+                catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
+                tagName: pref.TagName))
             {
-                throw new Exception($"The user preference for category {categoryKey}" +
-                    $" was not found, so could not be Put. Although it should exist.");
+                throw new Exception($"Fatal: PUT failed.");
             }
         }
         catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Put Error",
                 ex.Message, "Ok");
+            return;
         }
+        
+        // update View
+        CatagPrefGroups[groupIndex][index].Preference = catPrefService.StepPreference(
+            CatagPrefGroups[groupIndex][index].Preference);
     }
 }

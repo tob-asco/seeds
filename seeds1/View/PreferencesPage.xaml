@@ -51,8 +51,8 @@
                             <DataTemplate x:DataType="mauiModel:CatagPreference">
                                 <Button
                                     Margin="1,2"
-                                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeCategoryPreferenceCommand}"
-                                    CommandParameter="{Binding CategoryKey}"
+                                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTagPreferenceCommand}"
+                                    CommandParameter="{Binding .}"
                                     HeightRequest="45">
                                     <Button.Text>
                                         <MultiBinding Converter="{converter:CatBtnTextConverter}">
