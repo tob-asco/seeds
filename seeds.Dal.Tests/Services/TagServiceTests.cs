@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Services;
 
@@ -19,12 +19,12 @@ public class TagServiceTests
     {
         // Arrange
         string key = "ABC", name = "ABeCe";
-        List<TagDto> tags = new()
+        List<TagFromDb> tags = new()
         {
            new() { CategoryKey = key, Name = "abceee" },
             new() { CategoryKey = "BLA", Name = name },
         };
-        A.CallTo(() => baseService.GetDalModelAsync<List<TagDto>>(A<string>.Ignored))
+        A.CallTo(() => baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
             .Returns(tags);
 
         // Act
@@ -40,8 +40,8 @@ public class TagServiceTests
     public async Task TagService_GetTagsAsync_IfBaseReturnsNullThrows()
     {
         // Arrange
-        A.CallTo(() => baseService.GetDalModelAsync<List<TagDto>>(A<string>.Ignored))
-            .Returns<List<TagDto>?>(null);
+        A.CallTo(() => baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
+            .Returns<List<TagFromDb>?>(null);
 
         // Act
         Func<Task> act = async () => await service.GetTagsAsync();
@@ -54,9 +54,9 @@ public class TagServiceTests
     {
         // Arrange
         string key = "ABC", name = "ABeCe";
-        TagDto tag = new() { CategoryKey = key, Name = name };
-        A.CallTo(() => baseService.GetDalModelAsync<TagDto>(A<string>.Ignored))
-            .Returns<TagDto?>(tag);
+        TagFromDb tag = new() { CategoryKey = key, Name = name };
+        A.CallTo(() => baseService.GetDalModelAsync<TagFromDb>(A<string>.Ignored))
+            .Returns<TagFromDb?>(tag);
 
         // Act
         var result = await service.GetTagAsync(key, name);
@@ -70,8 +70,8 @@ public class TagServiceTests
     public async Task TagService_GetTagAsync_IfBaseReturnsNullThrows()
     {
         // Arrange
-        A.CallTo(() => baseService.GetDalModelAsync<TagDto>(A<string>.Ignored))
-            .Returns<TagDto?>(null);
+        A.CallTo(() => baseService.GetDalModelAsync<TagFromDb>(A<string>.Ignored))
+            .Returns<TagFromDb?>(null);
 
         // Act
         Func<Task> act = async () => await service.GetTagAsync("", "");

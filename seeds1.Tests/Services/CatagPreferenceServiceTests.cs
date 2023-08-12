@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -48,7 +49,7 @@ public class CatagPreferenceServiceTests
             key2, A<string>.Ignored, null))
             .Returns(cup2);
         string tagName = "tag";
-        List<TagDto> tags = new()
+        List<TagFromDb> tags = new()
         {
             new(){ CategoryKey=key1, Name=tagName }
         };
@@ -93,7 +94,7 @@ public class CatagPreferenceServiceTests
     {
         // Arrange
         A.CallTo(() => tagService.GetTagsAsync())
-            .Returns<List<TagDto>>(new());
+            .Returns<List<TagFromDb>>(new());
 
         // Act
         Func<Task> act = async () => await service.GetCatagPreferencesAsync();
