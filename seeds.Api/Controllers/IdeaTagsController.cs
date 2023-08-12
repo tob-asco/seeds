@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
@@ -112,8 +113,14 @@ public class IdeaTagsController : ControllerBase
 
         catKey = HttpUtility.UrlDecode(catKey);
         tagName = HttpUtility.UrlDecode(tagName);
-        var ideaTag = await _context.IdeaTag.FindAsync(ideaId, catKey, tagName);
-        if (ideaTag == null) { return NotFound(); }
+        
+        var tag = await _context.Tag.FirstOrDefaultAsync(t =>
+            t.CategoryKey == catKey && t.Name == tagName);
+        if (tag == null) { return NotFound("Specified tag not found."); }
+        
+        var ideaTag = await _context.IdeaTag.FirstOrDefaultAsync(it =>
+            it.IdeaId == ideaId && tag.CategoryKey == catKey && tag.Name == tagName);
+        if (ideaTag == null) { return NotFound("Specified IdeaTag not found."); }
 
         _context.IdeaTag.Remove(ideaTag);
         await _context.SaveChangesAsync();
