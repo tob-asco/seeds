@@ -1,4 +1,6 @@
-﻿using seeds.Api.Controllers;
+﻿using AutoMapper;
+using seeds.Api.Controllers;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -9,6 +11,7 @@ namespace seeds.Api.Tests.Controllers;
 public class IdeaTagsControllerTests : ApiControllerTestsBase
 {
     private readonly IdeaTagsController _controller;
+    private readonly IMapper mapper;
     public List<Idea> Ideas { get; } = new();
     public List<Tag> Tags { get; } = new();
     public List<IdeaTag> IdeaTags { get; } = new();
@@ -18,7 +21,8 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
 
     public IdeaTagsControllerTests()
     {
-        _controller = new(_context);
+        mapper = A.Fake<IMapper>();
+        _controller = new(_context, mapper);
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
@@ -66,15 +70,20 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         //Arrange
         int ideaId = Ideas[indexForIdeaWith3IdeaTags].Id;
         string url = $"/api/IdeaTags/{ideaId}";
+        //List<Tag> mapperParameter = new();
+        //A.CallTo(() => mapper.Map<List<TagFromDb>>(A<List<Tag>?>._))
+        //    .Invokes((List<Tag>? source) => mapperParameter = source!)
+        //    .Returns(new() { new(),new(),new() }); // 3 TagsFromDb
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<List<IdeaTag>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
         result?.Should().HaveCount(3);
+        //mapperParameter.Should().HaveCount(3);
     }
     [Fact]
     public async Task IdeaTagsController_GetTagsOfIdeaEndpoint_IfNoTagReturnsEmptyList()
