@@ -20,5 +20,10 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             .WithMany(u => u.Tags)
             .UsingEntity<CatagUserPreference>();
         #endregion
+
+        #region Constraints
+        builder.HasIndex(t => new { t.CategoryKey, t.Name })
+            .IsUnique();
+        #endregion
     }
 }

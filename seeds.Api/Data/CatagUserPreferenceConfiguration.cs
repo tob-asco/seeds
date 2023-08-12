@@ -10,6 +10,10 @@ public class CatagUserPreferenceConfiguration : IEntityTypeConfiguration<CatagUs
 {
     public void Configure(EntityTypeBuilder<CatagUserPreference> builder)
     {
+        #region Constraints
+        builder.HasIndex(cup => new { cup.CategoryKey, cup.Username, cup.TagName })
+            .IsUnique();
+        #endregion
         builder.Property(cup => cup.Id)
             .ValueGeneratedOnAdd();
 
