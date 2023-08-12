@@ -60,7 +60,7 @@ namespace seeds.Api.Migrations
                     b.ToTable("categories");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,20 +287,20 @@ namespace seeds.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("UsersUsername");
 
                     b.HasOne("seeds.Dal.Model.Tag", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("TagsCategoryKey", "TagsName");
                 });
 
@@ -375,7 +375,7 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
                     b.Navigation("Ideas");
 
@@ -384,12 +384,12 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });

@@ -4,38 +4,38 @@ using System.Web;
 
 namespace seeds.Dal.Services;
 
-public class CategoryUserPreferenceService : ICategoryUserPreferenceService
+public class CatagUserPreferenceService : ICatagUserPreferenceService
 {
     private readonly IDalBaseService _baseService;
-    public CategoryUserPreferenceService(IDalBaseService baseService)
+    public CatagUserPreferenceService(IDalBaseService baseService)
     {
         _baseService = baseService;
     }
 
-    public async Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(
+    public async Task<CatagUserPreference> GetCatagUserPreferenceAsync(
         string catKey, string username, string? tagName = null)
     {
-        string url = $"api/CategoryUserPreferences/" +
+        string url = $"api/CatagUserPreferences/" +
             $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(username)}";
         if (tagName != null) { url += $"?tagName={HttpUtility.UrlEncode(tagName)}"; }
-        return await _baseService.GetDalModelAsync<CategoryUserPreference>(url)
+        return await _baseService.GetDalModelAsync<CatagUserPreference>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
 
-    public async Task<bool> PutCategoryUserPreferenceAsync(
+    public async Task<bool> PutCatagUserPreferenceAsync(
         string catKey, string username,
         int newPreference, string? tagName = null)
     {
-        string url = $"api/CategoryUserPreferences/" +
+        string url = $"api/CatagUserPreferences/" +
             $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(username)}";
         if (tagName != null) { url += $"?tagName={HttpUtility.UrlEncode(tagName)}"; }
-        CategoryUserPreference newCup = new()
+        CatagUserPreference newCup = new()
         {
             CategoryKey = catKey,
             Username = username,
             TagName = tagName,
             Value = newPreference
         };
-        return await _baseService.PutDalModelAsync<CategoryUserPreference>(url, newCup);
+        return await _baseService.PutDalModelAsync<CatagUserPreference>(url, newCup);
     }
 }

@@ -42,7 +42,7 @@ namespace seeds.Api.Migrations
                     b.ToTable("categories");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
                 {
                     b.Property<string>("CategoryKey")
                         .HasColumnType("character varying(3)")
@@ -147,16 +147,16 @@ namespace seeds.Api.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -183,14 +183,14 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
                     b.Navigation("Ideas");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
                     b.Navigation("Ideas");
                 });

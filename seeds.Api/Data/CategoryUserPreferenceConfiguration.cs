@@ -6,9 +6,9 @@ using System.Reflection.Emit;
 
 namespace seeds.Api.Data;
 
-public class CategoryUserPreferenceConfiguration : IEntityTypeConfiguration<CategoryUserPreference>
+public class CatagUserPreferenceConfiguration : IEntityTypeConfiguration<CatagUserPreference>
 {
-    public void Configure(EntityTypeBuilder<CategoryUserPreference> builder)
+    public void Configure(EntityTypeBuilder<CatagUserPreference> builder)
     {
         builder.Property(cup => cup.Id)
             .ValueGeneratedOnAdd();

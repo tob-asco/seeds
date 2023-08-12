@@ -11,7 +11,7 @@ namespace seeds.Dal.Model;
  */
 
 [Table("category_user")]
-public class CategoryUserPreference
+public class CatagUserPreference
 {
     [Key]
     [Column("id")]

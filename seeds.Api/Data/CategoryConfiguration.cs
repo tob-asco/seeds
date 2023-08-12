@@ -12,7 +12,7 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
         // cat : user = M : N (+some preference, hence the explicit entity)
         builder.HasMany(c => c.Users)
             .WithMany(u => u.Categories)
-            .UsingEntity<CategoryUserPreference>();
+            .UsingEntity<CatagUserPreference>();
         #endregion
 
         //fix the key to have only 6 letters

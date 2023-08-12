@@ -12,7 +12,7 @@ public class FeedVMTests
     private readonly IGlobalService globalService;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly ICatagPreferencesService catPrefService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly FeedViewModel _vm;
@@ -21,7 +21,7 @@ public class FeedVMTests
         globalService = A.Fake<IGlobalService>();
         feedEntryVmFactory = A.Fake<IGenericFactory<FeedEntryViewModel>>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
-        cupService = A.Fake<ICategoryUserPreferenceService>();
+        cupService = A.Fake<ICatagUserPreferenceService>();
         catPrefService = A.Fake<ICatagPreferencesService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
         _vm = new FeedViewModel(globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
@@ -86,7 +86,7 @@ public class FeedVMTests
         List<PropertyChangedEventArgs> eventArgs = new();
         _vm.FeedEntryVMCollection[0].FeedEntry.PropertyChanged += (s, e) => eventArgs.Add(e);
         _vm.CurrentUser = new();
-        A.CallTo(() => cupService.PutCategoryUserPreferenceAsync(
+        A.CallTo(() => cupService.PutCatagUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
             .Returns(true);
         #endregion

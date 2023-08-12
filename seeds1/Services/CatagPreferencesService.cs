@@ -8,13 +8,13 @@ public class CatagPreferencesService : ICatagPreferencesService
 {
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly ITagService tagService;
 
     public CatagPreferencesService(
         IGlobalService globalService,
         ICategoryService categoryService,
-        ICategoryUserPreferenceService cupService,
+        ICatagUserPreferenceService cupService,
         ITagService tagService)
     {
         this.globalService = globalService;
@@ -30,7 +30,7 @@ public class CatagPreferencesService : ICatagPreferencesService
         if (cats.Count == 0) { throw new Exception("No Categories returned."); }
         foreach (var cat in cats)
         {
-            var cup = await cupService.GetCategoryUserPreferenceAsync(
+            var cup = await cupService.GetCatagUserPreferenceAsync(
                 cat.Key, globalService.CurrentUser.Username);
             catagPrefs.Add(new()
             {
@@ -44,7 +44,7 @@ public class CatagPreferencesService : ICatagPreferencesService
         foreach (var tag in tags)
         {
             var tagsCat = cats.First(c => c.Key == tag.CategoryKey);
-            var cup = await cupService.GetCategoryUserPreferenceAsync(
+            var cup = await cupService.GetCatagUserPreferenceAsync(
                 tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
             catagPrefs.Add(new()
             {

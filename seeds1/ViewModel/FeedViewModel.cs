@@ -14,7 +14,7 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
@@ -23,7 +23,7 @@ public partial class FeedViewModel :MyBaseViewModel
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        ICategoryUserPreferenceService cupService,
+        ICatagUserPreferenceService cupService,
         ICatagPreferencesService catPrefService)
         : base(globalService)
     {
@@ -109,7 +109,7 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (await cupService.PutCategoryUserPreferenceAsync(
+                if (await cupService.PutCatagUserPreferenceAsync(
                     categoryKey,
                     CurrentUser.Username,
                     (int)newCatPreference) == false)

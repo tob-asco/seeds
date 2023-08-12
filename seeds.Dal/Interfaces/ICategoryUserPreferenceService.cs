@@ -2,17 +2,17 @@
 
 namespace seeds.Dal.Interfaces;
 
-public interface ICategoryUserPreferenceService
+public interface ICatagUserPreferenceService
 {
     /* If base returns null, throws.
      */
-    public Task<CategoryUserPreference> GetCategoryUserPreferenceAsync(
+    public Task<CatagUserPreference> GetCatagUserPreferenceAsync(
         string categoryKey, string username, string? tagName = null);
     /* If successful returns true,
      * if not-found returns false,
      * else: base throws.
      */
-    public Task<bool> PutCategoryUserPreferenceAsync(
+    public Task<bool> PutCatagUserPreferenceAsync(
         string categoryKey, string username, 
         int newPreference, string? tagName = null
         );

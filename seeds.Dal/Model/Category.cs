@@ -17,7 +17,7 @@ public class Category
 
     #region Navigation
     public List<Idea> Ideas { get; set; } = new List<Idea>();
-    public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
+    public List<CatagUserPreference> CatagUserPreferences { get; } = new();
     public List<User> Users { get; } = new();
     public List<Tag> Tags { get; } = new();
     #endregion

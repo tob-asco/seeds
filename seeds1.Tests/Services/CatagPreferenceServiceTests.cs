@@ -11,7 +11,7 @@ public class CatagPreferenceServiceTests
 {
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly ITagService tagService;
     private readonly CatagPreferencesService service;
 
@@ -19,7 +19,7 @@ public class CatagPreferenceServiceTests
     {
         globalService = A.Fake<IGlobalService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<ICategoryUserPreferenceService>();
+        cupService = A.Fake<ICatagUserPreferenceService>();
         tagService = A.Fake<ITagService>();
         service = new(globalService, categoryService, cupService, tagService);
     }
@@ -39,12 +39,12 @@ public class CatagPreferenceServiceTests
             .Returns(cats);
         int val1 = 1;
         int val2 = -1;
-        CategoryUserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
-        CategoryUserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
+        CatagUserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
+        CatagUserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
+        A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             key1, A<string>.Ignored, A<string?>.Ignored))
             .Returns(cup1);
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
+        A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             key2, A<string>.Ignored, A<string?>.Ignored))
             .Returns(cup2);
         #endregion

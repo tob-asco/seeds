@@ -12,7 +12,7 @@ public class FeedEntriesServiceTests
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly FeedEntriesService service;
     public FeedEntriesServiceTests()
@@ -20,7 +20,7 @@ public class FeedEntriesServiceTests
         globalService = A.Fake<IGlobalService>();
         ideasService = A.Fake<IIdeasService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<ICategoryUserPreferenceService>();
+        cupService = A.Fake<ICatagUserPreferenceService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
         service = new(globalService, ideasService, categoryService, cupService, uiiService);
     }
@@ -45,9 +45,9 @@ public class FeedEntriesServiceTests
             .Returns(cat1);
         A.CallTo(() => categoryService.GetCategoryByKeyAsync(cat2.Key))
             .Returns(cat2);
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
+        A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<string?>.Ignored))
-            .Returns<CategoryUserPreference>(new());
+            .Returns<CatagUserPreference>(new());
         #endregion
 
         // Act

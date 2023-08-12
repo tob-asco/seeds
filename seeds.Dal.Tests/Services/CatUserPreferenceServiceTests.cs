@@ -6,14 +6,14 @@ using System.Net;
 
 namespace seeds.Dal.Tests.Services;
 
-public class CatUserPreferenceServiceTests
+public class CatagUserPreferenceServiceTests
 {
     private readonly IDalBaseService _baseService;
-    private readonly CategoryUserPreferenceService _service;
-    public CatUserPreferenceServiceTests()
+    private readonly CatagUserPreferenceService _service;
+    public CatagUserPreferenceServiceTests()
     {
         _baseService = A.Fake<IDalBaseService>();
-        _service = new CategoryUserPreferenceService(_baseService);
+        _service = new CatagUserPreferenceService(_baseService);
     }
     [Fact]
     public async Task CupService_GetCupAsync_ReturnsItself()
@@ -21,19 +21,19 @@ public class CatUserPreferenceServiceTests
         #region Arrange
         string key = "ABC";
         string uname = "dude";
-        CategoryUserPreference cup = new()
+        CatagUserPreference cup = new()
         {
             CategoryKey = key,
             Username = uname,
             Value = 1
         };
-        A.CallTo(() => _baseService.GetDalModelAsync<CategoryUserPreference>(
+        A.CallTo(() => _baseService.GetDalModelAsync<CatagUserPreference>(
             A<string>.Ignored))
             .Returns(cup);
         #endregion
 
         // Act
-        var result = await _service.GetCategoryUserPreferenceAsync(key, uname, null);
+        var result = await _service.GetCatagUserPreferenceAsync(key, uname, null);
 
         // Assert
         result.Should().NotBeNull();
@@ -45,12 +45,12 @@ public class CatUserPreferenceServiceTests
     public async Task CupService_GetCupAsync_IfNotExistThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<CategoryUserPreference>(
+        A.CallTo(() => _baseService.GetDalModelAsync<CatagUserPreference>(
             A<string>.Ignored))
-            .Returns<CategoryUserPreference?>(null);
+            .Returns<CatagUserPreference?>(null);
 
         // Act
-        Func<Task> act = async () => await _service.GetCategoryUserPreferenceAsync("","","");
+        Func<Task> act = async () => await _service.GetCatagUserPreferenceAsync("","","");
 
         // Assert
         await act.Should().ThrowAsync<Exception>();
@@ -59,15 +59,15 @@ public class CatUserPreferenceServiceTests
     public async Task CupService_PutCupAsync_ReturnsTrue()
     {
         // Arrange
-        A.CallTo(() => _baseService.PutDalModelAsync<CategoryUserPreference>(
-            A<string>.Ignored, A<CategoryUserPreference>.Ignored))
+        A.CallTo(() => _baseService.PutDalModelAsync<CatagUserPreference>(
+            A<string>.Ignored, A<CatagUserPreference>.Ignored))
             .Returns(true);
         string key = "ABC";
         string uname = "dude";
         int newVal = -1;
 
         // Act
-        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal, null);
+        var result = await _service.PutCatagUserPreferenceAsync(key, uname, newVal, null);
 
         // Assert
         result.Should().Be(true);
@@ -76,15 +76,15 @@ public class CatUserPreferenceServiceTests
     public async Task CupService_PutCupAsync_IfNotSuccessReturnsFalse()
     {
         // Arrange
-        A.CallTo(() => _baseService.PutDalModelAsync<CategoryUserPreference>(
-            A<string>.Ignored, A<CategoryUserPreference>.Ignored))
+        A.CallTo(() => _baseService.PutDalModelAsync<CatagUserPreference>(
+            A<string>.Ignored, A<CatagUserPreference>.Ignored))
             .Returns(false);
         string key = "ABC";
         string uname = "dude";
         int newVal = -1;
 
         // Act
-        var result = await _service.PutCategoryUserPreferenceAsync(key, uname, newVal, null);
+        var result = await _service.PutCatagUserPreferenceAsync(key, uname, newVal, null);
 
         // Assert
         result.Should().Be(false);

@@ -11,13 +11,13 @@ public class FeedEntriesService : IFeedEntriesService
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
     public FeedEntriesService(
         IGlobalService globalService,
         IIdeasService ideasService,
         ICategoryService categoryService,
-        ICategoryUserPreferenceService cupService,
+        ICatagUserPreferenceService cupService,
         IUserIdeaInteractionService uiiService)
     {
         this.globalService = globalService;
@@ -42,7 +42,7 @@ public class FeedEntriesService : IFeedEntriesService
              */
             var upvotes = await uiiService.CountVotesAsync(idea.Id);
             var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
-            var cup = await cupService.GetCategoryUserPreferenceAsync(
+            var cup = await cupService.GetCatagUserPreferenceAsync(
                 idea.CategoryKey, globalService.CurrentUser.Username);
             var uii = await uiiService.GetUserIdeaInteractionAsync(
                 globalService.CurrentUser.Username, idea.Id)

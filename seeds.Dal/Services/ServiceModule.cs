@@ -15,7 +15,7 @@ public static class ServiceModule
         service.AddScoped<IIdeasService, IdeasService>();
         service.AddScoped<IUsersService, UsersService>();
         service.AddScoped<ICategoryService, CategoryService>();
-        service.AddScoped<ICategoryUserPreferenceService, CategoryUserPreferenceService>();
+        service.AddScoped<ICatagUserPreferenceService, CatagUserPreferenceService>();
         service.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
         service.AddScoped<IPresentationService, PresentationService>();
         service.AddScoped<ITagService, TagService>();

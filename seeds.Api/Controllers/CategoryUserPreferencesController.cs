@@ -8,18 +8,18 @@ namespace seeds.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryUserPreferencesController : ControllerBase
+    public class CatagUserPreferencesController : ControllerBase
     {
         private readonly seedsApiContext _context;
 
-        public CategoryUserPreferencesController(seedsApiContext context)
+        public CatagUserPreferencesController(seedsApiContext context)
         {
             _context = context;
         }
 
-        // GET: api/CategoryUserPreferences/NoC/tobi?tagName=tag
+        // GET: api/CatagUserPreferences/NoC/tobi?tagName=tag
         [HttpGet("{catKey}/{username}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(
+        public async Task<ActionResult<CatagUserPreference>> GetCatagUserPreference(
             string catKey, string username, string? tagName)
         {
             catKey = HttpUtility.UrlDecode(catKey);
@@ -27,22 +27,22 @@ namespace seeds.Api.Controllers
             tagName = HttpUtility.UrlDecode(tagName);
             try
             {
-                var categoryUserPreference = await _context.CategoryUserPreference
+                var CatagUserPreference = await _context.CatagUserPreference
                     .FirstOrDefaultAsync(cup =>
                     cup.CategoryKey == catKey &&
                     cup.Username == username &&
                     cup.TagName == tagName); // test that a null tagName does what you want
-                return categoryUserPreference != null ? categoryUserPreference : NotFound();
+                return CatagUserPreference != null ? CatagUserPreference : NotFound();
             }
             catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        // PUT: api/CategoryUserPreferences/NoC/tobi?tagName=tag
+        // PUT: api/CatagUserPreferences/NoC/tobi?tagName=tag
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{catKey}/{username}")]
-        public async Task<IActionResult> PutCategoryUserPreference(
+        public async Task<IActionResult> PutCatagUserPreference(
             string catKey, string username, string? tagName,
-            CategoryUserPreference cup)
+            CatagUserPreference cup)
         {
             catKey = HttpUtility.UrlDecode(catKey);
             username = HttpUtility.UrlDecode(username);
@@ -51,7 +51,7 @@ namespace seeds.Api.Controllers
                 || username != cup.Username) { return BadRequest("Inconsistent request."); }
 
             // we use that the triple (cup.CategoryKey, cup.Username, cup.TagName) is unique!
-            var oldCup = await _context.CategoryUserPreference.FirstOrDefaultAsync(e =>
+            var oldCup = await _context.CatagUserPreference.FirstOrDefaultAsync(e =>
                 e.CategoryKey == catKey &&
                 e.Username == username &&
                 e.TagName == tagName);
@@ -72,9 +72,9 @@ namespace seeds.Api.Controllers
             return NoContent();
         }
 
-        private bool CategoryUserPreferenceExists(string categoryKey, string username, string? tagName)
+        private bool CatagUserPreferenceExists(string categoryKey, string username, string? tagName)
         {
-            return (_context.CategoryUserPreference?.Any(e =>
+            return (_context.CatagUserPreference?.Any(e =>
                 e.CategoryKey == categoryKey &&
                 e.Username == username &&
                 e.TagName == tagName))

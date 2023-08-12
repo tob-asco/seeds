@@ -12,12 +12,12 @@ namespace seeds1.ViewModel;
 public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICatagPreferencesService catPrefService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagUserPreferenceService cupService;
 
     public PreferencesViewModel(
         IGlobalService globalService,
         ICatagPreferencesService catPrefService,
-        ICategoryUserPreferenceService cupService)
+        ICatagUserPreferenceService cupService)
         : base(globalService)
     {
         this.catPrefService = catPrefService;
@@ -86,7 +86,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            if (await cupService.PutCategoryUserPreferenceAsync(
+            if (await cupService.PutCatagUserPreferenceAsync(
                 categoryKey,
                 CurrentUser.Username,
                 CatPrefs[index].Preference) == false)

@@ -207,13 +207,13 @@ public class DataSeeder
         #endregion
         #region Category User Preferences
         //categories and users are ready, so we can seed their relation:
-        if (!_dbContext.CategoryUserPreference.Any())
+        if (!_dbContext.CatagUserPreference.Any())
         {
             foreach (var user in users)
             {
                 foreach (var category in categories)
                 {
-                    _dbContext.CategoryUserPreference.Add(new CategoryUserPreference
+                    _dbContext.CatagUserPreference.Add(new CatagUserPreference
                     {
                         CategoryKey = category.Key,
                         Username = user.Username,
@@ -222,7 +222,7 @@ public class DataSeeder
                 }
                 foreach (var tag in tags)
                 {
-                    _dbContext.CategoryUserPreference.Add(new CategoryUserPreference
+                    _dbContext.CatagUserPreference.Add(new CatagUserPreference
                     {
                         CategoryKey = tag.CategoryKey,
                         Username = user.Username,

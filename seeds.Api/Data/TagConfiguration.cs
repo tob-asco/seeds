@@ -18,7 +18,7 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
         // tag : user = M : N (+some preference, hence the explicit entity)
         builder.HasMany(t => t.Users)
             .WithMany(u => u.Tags)
-            .UsingEntity<CategoryUserPreference>();
+            .UsingEntity<CatagUserPreference>();
         #endregion
 
         /* Set Tag's PK to be made from the pair
