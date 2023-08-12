@@ -125,30 +125,4 @@ public partial class FeedViewModel :MyBaseViewModel
             }
         }
     }
-
-    public async Task LoadCatPreferencesFromDbAsync()
-    {
-        //List<CatagPreference> catagPrefs = new();
-        //try
-        //{
-        //    catagPrefs = await catPrefService.GetCatagPreferencesAsync();
-        //}
-        //catch (Exception ex)
-        //{
-        //    await Shell.Current.DisplayAlert("DB Error",
-        //        ex.Message, "Ok");
-        //}
-        //Dictionary<string, int> catagPrefsDict = new();
-        //foreach (var catagPref in catagPrefs)
-        //{
-        //    catagPrefsDict.Add(catagPref.CategoryKey, catagPref.Preference);
-        //}
-
-        //for (int i = 0; i < FeedEntryVMCollection.Count; i++)
-        //{
-        //    FeedEntryVMCollection[i].FeedEntry
-        //        .CategoryPreference = catagPrefsDict[FeedEntryVMCollection[i]
-        //        .FeedEntry.Idea.CategoryKey];
-        //}
-    }
 }
