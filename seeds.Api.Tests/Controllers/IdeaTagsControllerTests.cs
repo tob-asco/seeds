@@ -45,21 +45,18 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
             IdeaTags.Add(new()
             {
                 IdeaId = Ideas[indexForIdeaWith3IdeaTags].Id,
-                CategoryKey = Tags[i].CategoryKey,
-                TagName = Tags[i].Name
+                TagId = Tags[i].Id
             });
         }
         IdeaTags.Add(new()
         {
             IdeaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id,
-            CategoryKey = Tags[indexForIdeasAndTagsWithIdeaTag].CategoryKey,
-            TagName = Tags[indexForIdeasAndTagsWithIdeaTag].Name
+            TagId = Tags[indexForIdeasAndTagsWithIdeaTag].Id
         });
         if (!_context.IdeaTag.Any()) { _context.IdeaTag.AddRange(IdeaTags); }
         var ideaTag = _context.IdeaTag.Find(
             Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id,
-            Tags[indexForIdeasAndTagsWithoutIdeaTag].CategoryKey,
-            Tags[indexForIdeasAndTagsWithoutIdeaTag].Name);
+            Tags[indexForIdeasAndTagsWithoutIdeaTag].Id);
         if (ideaTag != null) { _context.IdeaTag.Remove(ideaTag); }
     }
 
@@ -102,8 +99,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         IdeaTag ideaTag = new()
         {
             IdeaId = Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id,
-            CategoryKey = Tags[indexForIdeasAndTagsWithoutIdeaTag].CategoryKey,
-            TagName = Tags[indexForIdeasAndTagsWithoutIdeaTag].Name
+            TagId = Tags[indexForIdeasAndTagsWithoutIdeaTag].Id
         };
         string url = "api/IdeaTags";
 
@@ -121,8 +117,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         IdeaTag ideaTag = new()
         {
             IdeaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id,
-            CategoryKey = Tags[indexForIdeasAndTagsWithIdeaTag].CategoryKey,
-            TagName = Tags[indexForIdeasAndTagsWithIdeaTag].Name
+            TagId = Tags[indexForIdeasAndTagsWithIdeaTag].Id
         };
         string url = "api/IdeaTags";
 
@@ -150,8 +145,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         _context.IdeaTag.Should().NotContainEquivalentOf(
             IdeaTags.FirstOrDefault(it =>
                 it.IdeaId == Ideas[indexForIdeasAndTagsWithIdeaTag].Id &&
-                it.CategoryKey == Tags[indexForIdeasAndTagsWithIdeaTag].CategoryKey &&
-                it.TagName == Tags[indexForIdeasAndTagsWithIdeaTag].Name
+                it.TagId == Tags[indexForIdeasAndTagsWithIdeaTag].Id
             )!);
     }
     [Fact]

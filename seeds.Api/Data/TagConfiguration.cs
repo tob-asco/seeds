@@ -20,10 +20,5 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
             .WithMany(u => u.Tags)
             .UsingEntity<CatagUserPreference>();
         #endregion
-
-        /* Set Tag's PK to be made from the pair
-         * ( Category's key, Tag's name)
-         */
-        builder.HasKey(t => new { t.CategoryKey, t.Name });
     }
 }

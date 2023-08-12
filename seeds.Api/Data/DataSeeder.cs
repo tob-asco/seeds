@@ -310,16 +310,6 @@ public class DataSeeder
             }
         }
         #endregion
-        #region Idea Tags
-        if (!_dbContext.IdeaTag.Any())
-        {
-            _dbContext.SaveChanges();
-            int idWorld = _dbContext.Idea.First(i => i.Title == tWorld).Id;
-            Tag tCo2 = tags.First(t => t.CategoryKey == "ENV" && t.Name == "CO2 reduction");
-            _dbContext.IdeaTag.Add(new() { IdeaId = idWorld, CategoryKey = tCo2.CategoryKey, TagName = tCo2.Name });
-        }
-        #endregion
-
 
         _dbContext.SaveChanges();
     }

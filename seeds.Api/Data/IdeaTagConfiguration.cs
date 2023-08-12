@@ -10,16 +10,6 @@ public class IdeaTagConfiguration : IEntityTypeConfiguration<IdeaTag>
     public void Configure(EntityTypeBuilder<IdeaTag> builder)
     {
         // composite PK
-        builder.HasKey(it => new { it.IdeaId, it.CategoryKey, it.TagName });
-
-        // Idea : Tag = M : N
-        builder.HasOne<Idea>()
-            .WithMany()
-            .HasForeignKey(it => it.IdeaId)
-            .IsRequired(true);
-        builder.HasOne<Tag>()
-            .WithMany()
-            .HasForeignKey(it => new { it.CategoryKey, it.TagName })
-            .IsRequired(true);
+        builder.HasKey(it => new { it.IdeaId, it.TagId });
     }
 }

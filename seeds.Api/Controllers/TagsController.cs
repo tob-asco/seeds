@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
-using seeds.Dal.Dto.ToAndFromDb;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Web;
 
@@ -25,29 +25,31 @@ public class TagsController : ControllerBase
 
     // GET: api/Tags
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TagDto>>> GetTags()
+    public async Task<ActionResult<IEnumerable<TagFromDb>>> GetTags()
     {
         if (context.Tag == null) { return NotFound(); }
 
         var tags = await context.Tag.ToListAsync();
         if (tags == null || tags?.Count == 0) { return NotFound(); }
 
-        var tagDtoList = mapper.Map<List<TagDto>>(tags);
+        var tagDtoList = mapper.Map<List<TagFromDb>>(tags);
         return tagDtoList;
     }
 
     // GET: api/Tags/Noc/tag
     [HttpGet("{catKey}/{name}")]
-    public async Task<ActionResult<TagDto>> GetTag(string catKey, string name)
+    public async Task<ActionResult<TagFromDb>> GetTag(string catKey, string name)
     {
         if (context.Tag == null) { return NotFound(); }
 
         catKey = HttpUtility.UrlDecode(catKey);
         name = HttpUtility.UrlDecode(name);
-        var tag = await context.Tag.FindAsync(catKey, name);
+
+        var tag = await context.Tag.FirstOrDefaultAsync(t =>
+            t.CategoryKey == catKey && t.Name == name);
         if (tag == null) { return NotFound(); }
 
-        var tagDto = mapper.Map<TagDto>(tag);
+        var tagDto = mapper.Map<TagFromDb>(tag);
         return tagDto;
     }
 }

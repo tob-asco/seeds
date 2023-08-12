@@ -20,10 +20,10 @@ public class IdeaTagServiceTests
         int ideaId = 20;
         List<IdeaTag> ideaTags = new() { new()
         {
-            CategoryKey = "cat0", IdeaId = ideaId, TagName = "tag0"
+            IdeaId = ideaId, TagId = Guid.NewGuid()
         }, new()
         {
-            CategoryKey = "cat1", IdeaId = ideaId, TagName = "tag1"
+            IdeaId = ideaId, TagId = Guid.NewGuid()
         }};
         A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaTag>>(A<string>.Ignored))
             .Returns(ideaTags);
@@ -60,7 +60,7 @@ public class IdeaTagServiceTests
             A<string>.Ignored))
             .Returns<List<IdeaTag>?>(null);
         A.CallTo(() => _baseService.ThrowGetNullException(A<string>.Ignored))
-            .Returns(new());
+            .Returns(new Exception());
 
         // Act
         Func<Task> act = async () => await _service.GetTagsOfIdeaAsync(1); //"1" doesn't matter
@@ -90,7 +90,7 @@ public class IdeaTagServiceTests
             A<string>.Ignored, A<IdeaTag>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.ThrowPostConflictException(A<string>.Ignored))
-            .Returns(new());
+            .Returns(new Exception());
 
         // Act
         Func<Task> act = async () => await _service.PostIdeaTagAsync(new());
@@ -118,7 +118,7 @@ public class IdeaTagServiceTests
         A.CallTo(() => _baseService.DeleteAsync(A<string>.Ignored))
             .Returns(false);
         A.CallTo(() => _baseService.ThrowDeleteNotFoundException(A<string>.Ignored))
-            .Returns(new());
+            .Returns(new Exception());
 
         // Act
         Func<Task> act = async () => await _service.DeleteIdeaTagAsync(0,"","");
