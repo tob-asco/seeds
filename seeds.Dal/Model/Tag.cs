@@ -1,10 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace seeds.Dal.Model;
 
 [Table("tags")]
 public class Tag
 {
+    [Key]
+    [Column("id")]
+    public Guid Id { get; set; }
+
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
 
