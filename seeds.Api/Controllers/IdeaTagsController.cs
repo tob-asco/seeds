@@ -90,7 +90,7 @@ public class IdeaTagsController : ControllerBase
         _context.IdeaTag.Add(ideaTag);
         try
         {
-            if (IdeaTagExists(ideaTag.IdeaId, ideaTag.CategoryKey, ideaTag.TagName))
+            if (IdeaTagExists(ideaTag.IdeaId, ideaTag.TagId))
             {
                 return Conflict();
             }
@@ -121,10 +121,10 @@ public class IdeaTagsController : ControllerBase
         return NoContent();
     }
 
-    private bool IdeaTagExists(int ideaId, string catKey, string tagName)
+    private bool IdeaTagExists(int ideaId, Guid tagId)
     {
         return (_context.IdeaTag?.Any(e =>
-            e.IdeaId == ideaId && e.CategoryKey == catKey && e.TagName == tagName
+            e.IdeaId == ideaId && e.TagId == tagId
             )).GetValueOrDefault();
     }
 }
