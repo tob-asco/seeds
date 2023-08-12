@@ -1,4 +1,4 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -49,7 +49,7 @@ public class TagsControllerTests : ApiControllerTestsBase
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<List<TagDto>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
 
         // Assert
         response.Should().BeSuccessful();
@@ -84,7 +84,7 @@ public class TagsControllerTests : ApiControllerTestsBase
 
         // Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<TagDto>();
+        var result = await response.Content.ReadFromJsonAsync<TagFromDb>();
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(catKey);
         result?.Name.Should().Be(name);

@@ -8,10 +8,7 @@ public class IdeaTag
     [Column("idea_id")]
     public int IdeaId { get; set; }
 
-    [Column("category_key")]
-    public string CategoryKey { get; set; } = null!;
-
-    [Column("tag_name")]
-    public string TagName { get; set; } = null!;
+    [Column("tag_id")]
+    public Guid TagId { get; set; }
 
 }
