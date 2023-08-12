@@ -14,6 +14,7 @@ public class CatagPreferenceServiceTests
     private readonly ICategoryService categoryService;
     private readonly ICatagUserPreferenceService cupService;
     private readonly ITagService tagService;
+    private readonly IIdeaTagService ideaTagService;
     private readonly CatagPreferencesService service;
 
     public CatagPreferenceServiceTests()
@@ -22,7 +23,9 @@ public class CatagPreferenceServiceTests
         categoryService = A.Fake<ICategoryService>();
         cupService = A.Fake<ICatagUserPreferenceService>();
         tagService = A.Fake<ITagService>();
-        service = new(globalService, categoryService, cupService, tagService);
+        ideaTagService = A.Fake<IIdeaTagService>();
+        service = new(
+            globalService, categoryService, cupService, tagService, ideaTagService);
     }
 
     [Fact]
@@ -60,7 +63,7 @@ public class CatagPreferenceServiceTests
             Value = val1
         };
         A.CallTo(() => tagService.GetTagsAsync())
-            .Returns(tags);
+            .Returns<List<TagFromDb>>(tags);
         A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             tags[0].CategoryKey, A<string>.Ignored, tags[0].Name))
             .Returns(cupTag);

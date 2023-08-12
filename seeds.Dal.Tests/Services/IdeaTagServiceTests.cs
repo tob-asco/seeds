@@ -36,12 +36,12 @@ public class IdeaTagServiceTests
         result?[1]?.Name.Should().Be(tagName1);
     }
     [Fact]
-    public async Task IdeaTagService_GetIdeaTagAsync_IfEmptyListResturnsEmptyList()
+    public async Task IdeaTagService_GetTagsOfIdeaAsync_IfEmptyListResturnsEmptyList()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaTag>>(
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(
             A<string>.Ignored))
-            .Returns<List<IdeaTag>?>(new());
+            .Returns<List<TagFromDb>?>(new());
 
         // Act
         var result = await _service.GetTagsOfIdeaAsync(1);
@@ -51,12 +51,12 @@ public class IdeaTagServiceTests
         result?.Should().HaveCount(0);
     }
     [Fact]
-    public async Task IdeaTagService_GetIdeaTagAsync_IfNullThrows()
+    public async Task IdeaTagService_GetTagsOfIdeaAsync_IfNullThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaTag>>(
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(
             A<string>.Ignored))
-            .Returns<List<IdeaTag>?>(null);
+            .Returns<List<TagFromDb>?>(null);
         A.CallTo(() => _baseService.ThrowGetNullException(A<string>.Ignored))
             .Returns(new Exception());
 

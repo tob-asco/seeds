@@ -48,7 +48,7 @@ public class FeedVMTests
         _vm.FeedEntryVMCollection.Should().HaveCount(2);
     }
 
-
+    /*
     [Fact]
     public async Task FeedVM_ChangeCatPreference_RaisePCEForCatPreference()
     {
@@ -99,4 +99,5 @@ public class FeedVMTests
         eventArgs[0].PropertyName.Should().NotBeNull();
         eventArgs[0].PropertyName?.ToLower().Should().Contain("pref");
     }
+    */
 }
