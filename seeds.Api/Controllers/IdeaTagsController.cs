@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Web;
 
@@ -12,10 +14,14 @@ namespace seeds.Api.Controllers;
 public class IdeaTagsController : ControllerBase
 {
     private readonly seedsApiContext _context;
+    private readonly IMapper mapper;
 
-    public IdeaTagsController(seedsApiContext context)
+    public IdeaTagsController(
+        seedsApiContext context,
+        IMapper mapper)
     {
         _context = context;
+        this.mapper = mapper;
     }
 
     // GET: api/IdeaTags/0/NoC/tag
@@ -38,18 +44,18 @@ public class IdeaTagsController : ControllerBase
     // GET: api/IdeaTags/0
 
     [HttpGet("{ideaId}")]
-    public async Task<ActionResult<List<IdeaTag>>> GetTagsOfIdea(int ideaId)
+    public async Task<ActionResult<List<TagFromDb>>> GetTagsOfIdea(int ideaId)
     {
         if (_context.IdeaTag == null) { return NotFound(); }
 
-        var ideaTags = _context.IdeaTag.Where(it => it.IdeaId == ideaId);
+        var idea = await _context.Idea
+            .Include(i => i.Tags) // this populates the Navigation property
+            .FirstOrDefaultAsync(i => i.Id == ideaId);
+        if (idea == null) { return NotFound(); }
 
-        if (ideaTags == null)
-        {
-            return new List<IdeaTag>();
-        }
-
-        return await ideaTags.ToListAsync();
+        var tags = idea.Tags.ToList();
+        var tagsDto = mapper.Map<List<TagFromDb>>(tags);
+        return tagsDto;
     }
 
     // PUT: api/IdeaTags/5
@@ -113,11 +119,11 @@ public class IdeaTagsController : ControllerBase
 
         catKey = HttpUtility.UrlDecode(catKey);
         tagName = HttpUtility.UrlDecode(tagName);
-        
+
         var tag = await _context.Tag.FirstOrDefaultAsync(t =>
             t.CategoryKey == catKey && t.Name == tagName);
         if (tag == null) { return NotFound("Specified tag not found."); }
-        
+
         var ideaTag = await _context.IdeaTag.FirstOrDefaultAsync(it =>
             it.IdeaId == ideaId && tag.CategoryKey == catKey && tag.Name == tagName);
         if (ideaTag == null) { return NotFound("Specified IdeaTag not found."); }
