@@ -309,15 +309,15 @@ public class DataSeeder
                     Tags.First(t => t.CategoryKey == "DSGN" && t.Name == "electronic devices"),
                 }
         });
-        for (int i = 1; i <= 50; i++)
-        {
-            Ideas.Add(new()
-            {
-                Title = "DummyIdea" + i,
-                Slogan = "Some slogan.",
-                CreatorName = "tobi",
-            });
-        }
+        //for (int i = 1; i <= 50; i++)
+        //{
+        //    Ideas.Add(new()
+        //    {
+        //        Title = "DummyIdea" + i,
+        //        Slogan = "Some slogan.",
+        //        CreatorName = "tobi",
+        //    });
+        //}
 
     }
 }
