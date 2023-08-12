@@ -24,10 +24,10 @@ public class PreferencesVmTests
         int pref1 = 0, pref0 = -1;
         vm.CatPrefs = new()
         {
-            new() { CategoryKey = "Cat0", Value = pref0 },
-            new() { CategoryKey = "Cat1", Value = pref1 },
+            new() { CategoryKey = "Cat0", Preference = pref0 },
+            new() { CategoryKey = "Cat1", Preference = pref1 },
         };
-        A.CallTo(() => catPrefService.StepCatPreference(A<int>.Ignored))
+        A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
             .Returns(14);
         A.CallTo(() => cupService.PutCategoryUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
@@ -38,8 +38,8 @@ public class PreferencesVmTests
         await vm.ChangeCategoryPreference(vm.CatPrefs[1].CategoryKey);
 
         // Assert
-        vm.CatPrefs[0].Value.Should().Be(pref0);
-        vm.CatPrefs[1].Value.Should().NotBe(pref1);
+        vm.CatPrefs[0].Preference.Should().Be(pref0);
+        vm.CatPrefs[1].Preference.Should().NotBe(pref1);
     }
 
 }

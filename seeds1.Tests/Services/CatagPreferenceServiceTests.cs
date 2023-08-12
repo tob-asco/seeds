@@ -7,23 +7,25 @@ using seeds1.Services;
 
 namespace seeds1.Tests.Services;
 
-public class CatPrefServiceTests
+public class CatagPreferenceServiceTests
 {
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly ICategoryUserPreferenceService cupService;
+    private readonly ITagService tagService;
     private readonly CatagPreferencesService service;
 
-    public CatPrefServiceTests()
+    public CatagPreferenceServiceTests()
     {
         globalService = A.Fake<IGlobalService>();
         categoryService = A.Fake<ICategoryService>();
         cupService = A.Fake<ICategoryUserPreferenceService>();
-        service = new(globalService, categoryService, cupService);
+        tagService = A.Fake<ITagService>();
+        service = new(globalService, categoryService, cupService, tagService);
     }
 
     [Fact]
-    public async Task CatPrefService_GetCatPreferencesAsync_ReturnsItselfs()
+    public async Task CatagPrefService_GetCatagPreferencesAsync_ReturnsItselfs()
     {
         #region Arrange
         string key1 = "Cat1";
@@ -52,11 +54,11 @@ public class CatPrefServiceTests
 
         // Assert
         result.Should().HaveCount(2);
-        result[0]?.Value.Should().Be(val1);
-        result[1]?.Value.Should().Be(val2);
+        result[0]?.Preference.Should().Be(val1);
+        result[1]?.Preference.Should().Be(val2);
     }
     [Fact]
-    public async Task CatPrefService_GetCatPreferencesAsync_IfNoCatsThrows()
+    public async Task CatagPrefService_GetCatagPreferencesAsync_IfNoCatsThrows()
     {
         // Arrange
         A.CallTo(() => categoryService.GetCategoriesAsync())
@@ -68,37 +70,4 @@ public class CatPrefServiceTests
         // Assert
         await act.Should().ThrowAsync<Exception>();
     }
-    /* I think this test is redundant due to new error-handling philosophy
-    [Fact]
-    public async Task CatPrefService_GetCatPreferencesAsync_IfCupMissingThrows()
-    {
-        #region Arrange
-        string key1 = "Cat1";
-        string key2 = "Cat2";
-        List<CategoryDto> cats = new()
-        {
-            new() {Key=key1},
-            new() {Key=key2},
-        };
-        A.CallTo(() => categoryService.GetCategoriesAsync())
-            .Returns(cats);
-        int val1 = 1;
-        int val2 = -1;
-        CategoryUserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
-        CategoryUserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
-            key1, A<string>.Ignored))
-            .Returns(cup1);
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
-            key2, A<string>.Ignored))
-            .Returns<CategoryUserPreference>(null);
-        #endregion
-
-        // Act
-        Func<Task> act = async () => await service.GetCatPreferencesAsync();
-
-        // Assert
-        await act.Should().ThrowAsync<Exception>();
-    }
-    */
 }

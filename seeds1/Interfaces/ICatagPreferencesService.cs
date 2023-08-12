@@ -10,5 +10,5 @@ public interface ICatagPreferencesService
     /// </summary>
     /// <returns>An unordered list of all CatagPreferences</returns>
     public Task<List<CatagPreference>> GetCatagPreferencesAsync();
-    public int StepCatPreference(int oldPreference);
+    public int StepPreference(int oldPreference);
 }

@@ -80,7 +80,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
             return;
         }
 
-        CatPrefs[index].Preference = catPrefService.StepCatPreference(
+        CatPrefs[index].Preference = catPrefService.StepPreference(
             CatPrefs[index].Preference);
 
         // update DB

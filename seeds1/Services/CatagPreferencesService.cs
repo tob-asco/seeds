@@ -56,7 +56,7 @@ public class CatagPreferencesService : ICatagPreferencesService
         }
         return catagPrefs;
     }
-    public int StepCatPreference(int oldPreference)
+    public int StepPreference(int oldPreference)
     {
         if (oldPreference == 0) { return 1; }
         else if (oldPreference == 1) { return -1; }

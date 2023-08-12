@@ -97,7 +97,7 @@ public partial class FeedViewModel :MyBaseViewModel
             if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
             {
                 FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
-                    .StepCatPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+                    .StepPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
 
                 // for the DB
                 newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
