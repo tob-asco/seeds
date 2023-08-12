@@ -9,12 +9,6 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     public void Configure(EntityTypeBuilder<Category> builder)
     {
         #region Relations
-        // idea : cat = N : 1
-        builder.HasMany(c => c.Ideas)
-            .WithOne(i => i.Category)
-            .HasForeignKey(i => i.CategoryKey)
-            .IsRequired(false); // i.e. N >= 0
-
         // cat : user = M : N (+some preference, hence the explicit entity)
         builder.HasMany(c => c.Users)
             .WithMany(u => u.Categories)

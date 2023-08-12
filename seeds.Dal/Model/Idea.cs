@@ -25,10 +25,6 @@ public class Idea
     [Column("creation_time")]
     public DateTime CreationTime { get; set; } = DateTime.Now;
 
-    [Column("category_key")]
-    [AllowNull] // because we have Tags
-    public string? CategoryKey { get; set; }
-
     #region Navigation
     public User Creator { get; } = null!; // the idea's creator
     public Category Category { get; } = null!; // the category (maybe obsolete)
