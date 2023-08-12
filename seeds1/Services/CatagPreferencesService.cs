@@ -35,11 +35,11 @@ public class CatagPreferencesService : ICatagPreferencesService
         foreach (var tag in tags)
         {
             var cup = await cupService.GetCatagUserPreferenceAsync(
-                idea.CategoryKey, globalService.CurrentUser.Username, tag.TagName);
+                idea.CategoryKey, globalService.CurrentUser.Username, tag.Name);
             catagPrefs.Add(new()
             {
                 CategoryKey = tag.CategoryKey,
-                TagName = tag.TagName,
+                TagName = tag.Name,
                 Preference = cup.Value,
             });
         }
