@@ -44,7 +44,9 @@ public class TagsController : ControllerBase
 
         catKey = HttpUtility.UrlDecode(catKey);
         name = HttpUtility.UrlDecode(name);
-        var tag = await context.Tag.FindAsync(catKey, name);
+
+        var tag = await context.Tag.FirstOrDefaultAsync(t =>
+            t.CategoryKey == catKey && t.Name == name);
         if (tag == null) { return NotFound(); }
 
         var tagDto = mapper.Map<TagFromDb>(tag);
