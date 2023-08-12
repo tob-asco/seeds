@@ -10,21 +10,19 @@ public class FeedEntriesService : IFeedEntriesService
 {
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
-    private readonly ICategoryService categoryService;
-    private readonly ICatagUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
+    private readonly ICatagPreferencesService catagPreferencesService;
+
     public FeedEntriesService(
         IGlobalService globalService,
         IIdeasService ideasService,
-        ICategoryService categoryService,
-        ICatagUserPreferenceService cupService,
-        IUserIdeaInteractionService uiiService)
+        IUserIdeaInteractionService uiiService,
+        ICatagPreferencesService catagPreferencesService)
     {
         this.globalService = globalService;
         this.ideasService = ideasService;
-        this.categoryService = categoryService;
-        this.cupService = cupService;
         this.uiiService = uiiService;
+        this.catagPreferencesService = catagPreferencesService;
     }
     public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(
         int pageIndex, int pageSize = 5,
@@ -41,17 +39,14 @@ public class FeedEntriesService : IFeedEntriesService
              * error-handling is done in the VMs
              */
             var upvotes = await uiiService.CountVotesAsync(idea.Id);
-            var category = await categoryService.GetCategoryByKeyAsync(idea.CategoryKey);
-            var cup = await cupService.GetCatagUserPreferenceAsync(
-                idea.CategoryKey, globalService.CurrentUser.Username);
+            var tagPrefs = await catagPreferencesService.GetTagPreferencesOfIdeaAsync(idea);
             var uii = await uiiService.GetUserIdeaInteractionAsync(
                 globalService.CurrentUser.Username, idea.Id)
                 ?? new UserIdeaInteraction();
             feedEntryPage.Add(new FeedEntry
             {
                 Idea = idea,
-                CategoryName = category.Name,
-                CategoryPreference = cup.Value,
+                CatagPreferences = tagPrefs,
                 Upvoted = uii.Upvoted,
                 Downvoted = uii.Downvoted,
                 Upvotes = upvotes,
