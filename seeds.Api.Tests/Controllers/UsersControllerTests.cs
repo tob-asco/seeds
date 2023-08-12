@@ -2,10 +2,11 @@
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UsersControllerTests : ApiBaseControllerTests
+public class UsersControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
 
@@ -23,8 +24,8 @@ public class UsersControllerTests : ApiBaseControllerTests
         {
             Users.Add(new()
             {
-                Username = "tobi" + i, //unique
-                Password = "tobi",
+                Username = $"t o_b!a${i}?", //unique
+                Password = $"!\"£$%^{i}&*()_+",
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
@@ -34,15 +35,15 @@ public class UsersControllerTests : ApiBaseControllerTests
     public async Task UsersController_GetUserEndpoint_ReturnsUser()
     {
         //Arrange
-        string username = "tobi5";
-        string url = $"/api/Users/{username}";
+        string username = Users[5].Username;
+        string url = $"/api/Users/{HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<UserDto>();
 
         //Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<UserDto>();
         result.Should().NotBeNull();
         result?.Username.Should().Be(username);
     }
@@ -50,8 +51,7 @@ public class UsersControllerTests : ApiBaseControllerTests
     public async Task UsersController_GetUserEndpoint_IfNotExistReturnsNotFound()
     {
         //Arrange
-        string username = "franz";
-        string url = $"/api/Users/{username}";
+        string url = $"/api/Users/{Guid.NewGuid().ToString()}";
 
         //Act
         var response = await _httpClient.GetAsync(url);

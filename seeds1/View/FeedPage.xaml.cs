@@ -35,10 +35,5 @@ public partial class FeedPage : ContentPage
             }
             navigationService.RedrawNavigationTarget = false;
         }
-        
-        if (vm != null)
-        {
-            await vm.LoadCatPreferencesFromDbAsync();
-        }
     }
 }

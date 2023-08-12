@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace seeds.Dal.Model;
 
@@ -14,16 +11,21 @@ namespace seeds.Dal.Model;
  */
 
 [Table("category_user")]
-public class CategoryUserPreference
+public class CatagUserPreference
 {
+    [Key]
+    [Column("id")]
+    public Guid Id { get; set; }
     [Column("category_key")]
     public string CategoryKey { get; set; } = "NoC";
+    [Column("tag_name")]
+    [AllowNull] // if null in DB, then this is a category preference
+    public string? TagName { get; set; }
     [Column("username")]
     public string Username { get; set; } = "tobi";
 
     #region Payload
     [Column("value")]
     public int Value { get; set; } = 0;
-
     #endregion
 }

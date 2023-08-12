@@ -14,8 +14,8 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICategoryUserPreferenceService cupService;
-    private readonly ICategoryPreferencesService catPrefService;
+    private readonly ICatagUserPreferenceService cupService;
+    private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
@@ -23,8 +23,8 @@ public partial class FeedViewModel :MyBaseViewModel
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        ICategoryUserPreferenceService cupService,
-        ICategoryPreferencesService catPrefService)
+        ICatagUserPreferenceService cupService,
+        ICatagPreferencesService catPrefService)
         : base(globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
@@ -97,7 +97,7 @@ public partial class FeedViewModel :MyBaseViewModel
             if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
             {
                 FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
-                    .StepCatPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+                    .StepPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
 
                 // for the DB
                 newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
@@ -109,7 +109,7 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (await cupService.PutCategoryUserPreferenceAsync(
+                if (await cupService.PutCatagUserPreferenceAsync(
                     categoryKey,
                     CurrentUser.Username,
                     (int)newCatPreference) == false)
@@ -123,32 +123,6 @@ public partial class FeedViewModel :MyBaseViewModel
                 await Shell.Current.DisplayAlert("DB Error",
                     ex.Message, "Ok");
             }
-        }
-    }
-
-    public async Task LoadCatPreferencesFromDbAsync()
-    {
-        List<CatPreference> catPrefs = new();
-        try
-        {
-            catPrefs = await catPrefService.GetCatPreferencesAsync();
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("DB Error",
-                ex.Message, "Ok");
-        }
-        Dictionary<string, int> catPrefsDict = new();
-        foreach (var catPref in catPrefs)
-        {
-            catPrefsDict.Add(catPref.Key, catPref.Value);
-        }
-
-        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
-        {
-            FeedEntryVMCollection[i].FeedEntry
-                .CategoryPreference = catPrefsDict[FeedEntryVMCollection[i]
-                .FeedEntry.Idea.CategoryKey];
         }
     }
 }

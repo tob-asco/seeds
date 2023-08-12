@@ -46,7 +46,7 @@ public class DalBaseServiceTests
     [InlineData(typeof(UserDto))]
     [InlineData(typeof(IdeaFromDb))]
     [InlineData(typeof(CategoryDto))]
-    [InlineData(typeof(CategoryUserPreference))]
+    [InlineData(typeof(CatagUserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
     public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(
         Type T)
@@ -286,6 +286,68 @@ public class DalBaseServiceTests
         // Assert
         await act.Should().ThrowAsync<Exception>();
     }
+    [Theory]
+    [InlineData(HttpStatusCode.BadGateway)]
+    [InlineData(HttpStatusCode.Forbidden)]
+    [InlineData(HttpStatusCode.GatewayTimeout)]
+    public async Task DalBaseService_DeleteAsync_IfNon404ErrorThrows(
+        HttpStatusCode code)
+    {
+        // Arrange
+        string url = "";
+        UserDto user = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = code,
+        };
+        A.CallTo(() => _httpClientWrapper.DeleteAsync(A<string>.Ignored))
+            .Returns(response);
+
+        // Act
+        Func<Task> act = async () => await _service.DeleteAsync(url);
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task DalBaseService_DeleteAsync_ReturnsTrue()
+    {
+        // Arrange
+        string url = "";
+        UserDto user = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.OK,
+        };
+        A.CallTo(() => _httpClientWrapper.DeleteAsync(A<string>.Ignored))
+            .Returns(response);
+
+        // Act
+        var result = await _service.DeleteAsync(url);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+    [Fact]
+    public async Task DalBaseService_DeleteAsync_IfNotFoundReturnsFalse()
+    {
+        // Arrange
+        string url = "";
+        UserDto user = new();
+        var response = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.NotFound,
+        };
+        A.CallTo(() => _httpClientWrapper.DeleteAsync(A<string>.Ignored))
+            .Returns(response);
+
+        // Act
+        var result = await _service.DeleteAsync(url);
+
+        // Assert
+        result.Should().BeFalse();
+    }
+
     [Fact]
     public async Task DalBaseService_GetNonDalModelAsync_ReturnsInt()
     {

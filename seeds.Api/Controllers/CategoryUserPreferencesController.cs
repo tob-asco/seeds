@@ -2,73 +2,82 @@
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryUserPreferencesController : ControllerBase
+    public class CatagUserPreferencesController : ControllerBase
     {
         private readonly seedsApiContext _context;
 
-        public CategoryUserPreferencesController(seedsApiContext context)
+        public CatagUserPreferencesController(seedsApiContext context)
         {
             _context = context;
         }
 
-        // GET: api/CategoryUserPreferences/NoC/tobi
-        [HttpGet("{categoryKey}/{username}")]
-        public async Task<ActionResult<CategoryUserPreference>> GetCategoryUserPreference(string categoryKey, string username)
+        // GET: api/CatagUserPreferences/NoC/tobi?tagName=tag
+        [HttpGet("{catKey}/{username}")]
+        public async Task<ActionResult<CatagUserPreference>> GetCatagUserPreference(
+            string catKey, string username, string? tagName)
         {
+            catKey = HttpUtility.UrlDecode(catKey);
+            username = HttpUtility.UrlDecode(username);
+            tagName = HttpUtility.UrlDecode(tagName);
             try
             {
-                var categoryUserPreference = await _context.CategoryUserPreference.FindAsync(categoryKey, username);
-                return categoryUserPreference != null ? categoryUserPreference : NotFound();
+                var CatagUserPreference = await _context.CatagUserPreference
+                    .FirstOrDefaultAsync(cup =>
+                    cup.CategoryKey == catKey &&
+                    cup.Username == username &&
+                    cup.TagName == tagName); // test that a null tagName does what you want
+                return CatagUserPreference != null ? CatagUserPreference : NotFound();
             }
-            catch
-            {
-                return NotFound();
-            }
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        // PUT: api/CategoryUserPreferences/NoC/tobi
+        // PUT: api/CatagUserPreferences/NoC/tobi?tagName=tag
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{categoryKey}/{username}")]
-        public async Task<IActionResult> PutCategoryUserPreference(
-            string categoryKey,
-            string username,
-            CategoryUserPreference cup)
+        [HttpPut("{catKey}/{username}")]
+        public async Task<IActionResult> PutCatagUserPreference(
+            string catKey, string username, string? tagName,
+            CatagUserPreference cup)
         {
-            if (categoryKey != cup.CategoryKey
-                || username != cup.Username)
-            {
-                return BadRequest();
-            }
+            catKey = HttpUtility.UrlDecode(catKey);
+            username = HttpUtility.UrlDecode(username);
+            tagName = HttpUtility.UrlDecode(tagName);
+            if (catKey != cup.CategoryKey
+                || username != cup.Username) { return BadRequest("Inconsistent request."); }
 
-            _context.Entry(cup).State = EntityState.Modified;
+            // we use that the triple (cup.CategoryKey, cup.Username, cup.TagName) is unique!
+            var oldCup = await _context.CatagUserPreference.FirstOrDefaultAsync(e =>
+                e.CategoryKey == catKey &&
+                e.Username == username &&
+                e.TagName == tagName);
 
-            try
+            if (oldCup != null)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CategoryUserPreferenceExists(categoryKey, username))
+                // oldCup is part of the Change Tracker so we can simply change it and
+                // this will affect the _context.
+                oldCup.Value = cup.Value;
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
-                {
-                    throw;
-                }
+                catch (Exception ex) { return Problem(ex.Message); }
             }
+            else { return NotFound(); }
+
             return NoContent();
         }
 
-        private bool CategoryUserPreferenceExists(string categoryKey, string username)
+        private bool CatagUserPreferenceExists(string categoryKey, string username, string? tagName)
         {
-            return (_context.CategoryUserPreference?.Any(e =>
-                e.CategoryKey == categoryKey && e.Username == username))
+            return (_context.CatagUserPreference?.Any(e =>
+                e.CategoryKey == categoryKey &&
+                e.Username == username &&
+                e.TagName == tagName))
                 .GetValueOrDefault();
         }
     }

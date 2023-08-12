@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers;
 
@@ -30,6 +31,7 @@ public class UsersController : ControllerBase
         {
             return NotFound();
         }
+        username = HttpUtility.UrlDecode(username);
         var user = await _context.User
             .SingleOrDefaultAsync(u => u.Username == username);
         var userDto = mapper.Map<UserDto>(user);

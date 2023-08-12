@@ -22,11 +22,74 @@ namespace seeds.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("IdeaTag", b =>
+                {
+                    b.Property<int>("IdeasId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TagsCategoryKey")
+                        .HasColumnType("character varying(6)");
+
+                    b.Property<string>("TagsName")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdeasId", "TagsCategoryKey", "TagsName");
+
+                    b.HasIndex("TagsCategoryKey", "TagsName");
+
+                    b.ToTable("IdeaTag");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("CategoryKey")
+                        .IsRequired()
+                        .HasColumnType("character varying(6)")
+                        .HasColumnName("category_key");
+
+                    b.Property<string>("TagName")
+                        .HasColumnType("text")
+                        .HasColumnName("tag_name");
+
+                    b.Property<string>("TagsCategoryKey")
+                        .HasColumnType("character varying(6)");
+
+                    b.Property<string>("TagsName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("username");
+
+                    b.Property<string>("UsersUsername")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Value")
+                        .HasColumnType("integer")
+                        .HasColumnName("value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryKey");
+
+                    b.HasIndex("UsersUsername");
+
+                    b.HasIndex("TagsCategoryKey", "TagsName");
+
+                    b.ToTable("category_user");
+                });
+
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
                     b.Property<string>("Key")
-                        .HasMaxLength(3)
-                        .HasColumnType("character varying(3)")
+                        .HasMaxLength(6)
+                        .HasColumnType("character varying(6)")
                         .HasColumnName("key");
 
                     b.Property<string>("Name")
@@ -39,27 +102,6 @@ namespace seeds.Api.Migrations
                     b.ToTable("categories");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
-                {
-                    b.Property<string>("CategoryKey")
-                        .HasColumnType("character varying(3)")
-                        .HasColumnName("category_key");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("text")
-                        .HasColumnName("username");
-
-                    b.Property<int>("Value")
-                        .HasColumnType("integer")
-                        .HasColumnName("value");
-
-                    b.HasKey("CategoryKey", "Username");
-
-                    b.HasIndex("Username");
-
-                    b.ToTable("category_user");
-                });
-
             modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
                 {
                     b.Property<int>("Id")
@@ -68,11 +110,6 @@ namespace seeds.Api.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CategoryKey")
-                        .IsRequired()
-                        .HasColumnType("character varying(3)")
-                        .HasColumnName("category_key");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp without time zone")
@@ -108,11 +145,30 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryKey");
-
                     b.HasIndex("CreatorName");
 
                     b.ToTable("ideas");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.IdeaTag", b =>
+                {
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("integer")
+                        .HasColumnName("idea_id");
+
+                    b.Property<string>("CategoryKey")
+                        .HasColumnType("character varying(6)")
+                        .HasColumnName("category_key");
+
+                    b.Property<string>("TagName")
+                        .HasColumnType("text")
+                        .HasColumnName("tag_name");
+
+                    b.HasKey("IdeaId", "CategoryKey", "TagName");
+
+                    b.HasIndex("CategoryKey", "TagName");
+
+                    b.ToTable("idea_tag");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Presentation", b =>
@@ -139,6 +195,21 @@ namespace seeds.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("presentations");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+                {
+                    b.Property<string>("CategoryKey")
+                        .HasColumnType("character varying(6)")
+                        .HasColumnName("category_key");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("CategoryKey", "Name");
+
+                    b.ToTable("tags");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -191,38 +262,62 @@ namespace seeds.Api.Migrations
                     b.ToTable("user_idea");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CategoryUserPreference", b =>
+            modelBuilder.Entity("IdeaTag", b =>
+                {
+                    b.HasOne("seeds.Dal.Model.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("seeds.Dal.Model.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsCategoryKey", "TagsName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany("CategoryUserPreferences")
+                        .WithMany("CatagUserPreferences")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CategoryUserPreferences")
-                        .HasForeignKey("Username")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("CatagUserPreferences")
+                        .HasForeignKey("UsersUsername");
+
+                    b.HasOne("seeds.Dal.Model.Tag", null)
+                        .WithMany("CatagUserPreferences")
+                        .HasForeignKey("TagsCategoryKey", "TagsName");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Idea", b =>
                 {
-                    b.HasOne("seeds.Dal.Model.Category", "Category")
-                        .WithMany("Ideas")
-                        .HasForeignKey("CategoryKey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("seeds.Dal.Model.User", "Creator")
                         .WithMany("CreatedIdeas")
                         .HasForeignKey("CreatorName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
                     b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.IdeaTag", b =>
+                {
+                    b.HasOne("seeds.Dal.Model.Idea", null)
+                        .WithMany()
+                        .HasForeignKey("IdeaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("seeds.Dal.Model.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryKey", "TagName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Presentation", b =>
@@ -232,6 +327,17 @@ namespace seeds.Api.Migrations
                         .HasForeignKey("seeds.Dal.Model.Presentation", "IdeaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+                {
+                    b.HasOne("seeds.Dal.Model.Category", "Category")
+                        .WithMany("Tags")
+                        .HasForeignKey("CategoryKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.UserIdeaInteraction", b =>
@@ -251,14 +357,19 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
-                    b.Navigation("Ideas");
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+                {
+                    b.Navigation("CatagUserPreferences");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CategoryUserPreferences");
+                    b.Navigation("CatagUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });

@@ -1,19 +1,23 @@
 ﻿using MvvmHelpers;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
+using seeds.Dal.Model;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
+using System.Collections.ObjectModel;
 
 namespace seeds1.ViewModel;
 
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly ICategoryPreferencesService catPrefService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly ICatagPreferencesService catPrefService;
+    private readonly ICatagUserPreferenceService cupService;
+
     public PreferencesViewModel(
         IGlobalService globalService,
-        ICategoryPreferencesService catPrefService,
-        ICategoryUserPreferenceService cupService)
+        ICatagPreferencesService catPrefService,
+        ICatagUserPreferenceService cupService)
         : base(globalService)
     {
         this.catPrefService = catPrefService;
@@ -21,7 +25,10 @@ public partial class PreferencesViewModel : MyBaseViewModel
     }
 
     [ObservableProperty]
-    ObservableRangeCollection<CatPreference> catPrefs = new();
+    ObservableRangeCollection<CatagPreference> catPrefs = new();
+    [ObservableProperty]
+    ObservableCollection<ObservableRangeCollection<CatagPreference>>
+        catagPrefGroups = new();
     [ObservableProperty]
     bool isRefreshing = false;
 
@@ -31,20 +38,32 @@ public partial class PreferencesViewModel : MyBaseViewModel
         if (!IsRefreshing)
         {
             IsRefreshing = true;
-            await GetCatPreferencesAsync();
+            await PopulateListListAsync();
             IsRefreshing = false;
         }
     }
     [RelayCommand]
-    public async Task GetCatPreferencesAsync()
+    public async Task PopulateListListAsync()
     {
         /* Called also in OnNavigatedTo()
          */
         try
         {
-            CatPrefs = new();
-            var catPrefs = await catPrefService.GetCatPreferencesAsync();
-            CatPrefs.AddRange(catPrefs);
+            //CatPrefs = new();
+            //var catPrefs = await catPrefService.GetCatPreferencesAsync();
+            //CatPrefs.AddRange(catPrefs);
+            List<CatagPreference> catagPrefs = 
+                await catPrefService.GetCatagPreferencesAsync();
+
+            var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
+            foreach (var group in groups)
+            {
+                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
+                // remove the entries that are only categories
+                //var tagGroup = group.TakeWhile(cp => cp.TagName != null);
+                tagsOfGroup.AddRange(group.ToList());
+                CatagPrefGroups.Add(tagsOfGroup);
+            }
         }
         catch (Exception ex)
         {
@@ -56,29 +75,29 @@ public partial class PreferencesViewModel : MyBaseViewModel
     {
         // update entry
         int index = CatPrefs.IndexOf(CatPrefs.FirstOrDefault(cp =>
-            cp.Key == categoryKey));
+            cp.CategoryKey == categoryKey));
         if (index == -1)
         {
             await Shell.Current.DisplayAlert("Error", "Key not found.", "Ok");
             return;
         }
 
-        CatPrefs[index].Value = catPrefService.StepCatPreference(
-            CatPrefs[index].Value);
+        CatPrefs[index].Preference = catPrefService.StepPreference(
+            CatPrefs[index].Preference);
 
         // update DB
         try
         {
-            if (await cupService.PutCategoryUserPreferenceAsync(
+            if (await cupService.PutCatagUserPreferenceAsync(
                 categoryKey,
                 CurrentUser.Username,
-                CatPrefs[index].Value) == false)
+                CatPrefs[index].Preference) == false)
             {
                 throw new Exception($"The user preference for category {categoryKey}" +
                     $" was not found, so could not be Put. Although it should exist.");
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Put Error",
                 ex.Message, "Ok");

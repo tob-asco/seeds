@@ -3,10 +3,11 @@ using seeds.Api.Controllers;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
+public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
 {
     private readonly UserIdeaInteractionsController _controller;
     public List<User> Users { get; } = new();
@@ -29,7 +30,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         {
             Users.Add(new()
             {
-                Username = $"tobi{i}", //unique
+                Username = $"tobi #{i}?_", //unique
                 Password = "tobi",
                 Email = "tobi" + i + "@tobi.com", //unique
             });
@@ -63,7 +64,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         //Arrange
         string username = Users[existingUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -81,7 +82,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         // Arrange
         string username = Users[noUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[noUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -102,7 +103,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             Upvoted = false,
             Downvoted = true,
         };
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url,JsonContent.Create(uii));
@@ -122,7 +123,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             Username = username,
             IdeaId = ideaId,
         };
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(uii));
