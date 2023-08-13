@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converter="clr-namespace:seeds1.Converter"
     xmlns:local="clr-namespace:seeds1.ViewModel"
+    xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
     x:DataType="local:FeedEntryViewModel">
     <Frame
         Margin="0,5,0,0"
@@ -18,34 +19,35 @@
             <!--  Use Flex instead of HorizontalStack to put one on left, one on right  -->
             <FlexLayout
                 Grid.Row="0"
-                Margin="10,0,10,0"
+                Margin="2,0"
                 Padding="0"
-                HeightRequest="45"
-                HorizontalOptions="EndAndExpand"
-                JustifyContent="SpaceBetween"
-                Wrap="NoWrap">
-                <HorizontalStackLayout>
-                    <Label Style="{StaticResource inventorStyle}" Text="{Binding FeedEntry.Idea.CreatorName, StringFormat='{}{0}  •'}" />
-                    <Label Style="{StaticResource inventorStyle}" Text="{Binding FeedEntry.Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}" />
-                </HorizontalStackLayout>
-                <Button
-                    Padding="15,1,15,2"
-                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, Path=ChangeCategoryPreferenceCommand}"
-                    CommandParameter="{Binding FeedEntry.Idea.CategoryKey}"
-                    CornerRadius="13"
-                    HeightRequest="45"
-                    HorizontalOptions="StartAndExpand"
-                    VerticalOptions="End">
-                    <Button.Text>
-                        <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                            <Binding Path="FeedEntry.Idea.CategoryKey" />
-                            <Binding Path="FeedEntry.CategoryName" />
-                        </MultiBinding>
-                    </Button.Text>
-                    <Button.Style>
-                        <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="FeedEntry.CategoryPreference" />
-                    </Button.Style>
-                </Button>
+                BindableLayout.ItemsSource="{Binding FeedEntry.CatagPreferences}"
+                HorizontalOptions="Start"
+                Wrap="Wrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="mauiModel:CatagPreference">
+                        <Button
+                            Margin="1,0"
+                            Padding="15,1,15,2"
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, Path=ChangeTagPreferenceCommand}"
+                            CommandParameter="{Binding .}"
+                            CornerRadius="13"
+                            HeightRequest="45"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="End">
+                            <Button.Text>
+                                <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                                    <Binding Path="CategoryKey" />
+                                    <Binding Source=": " />
+                                    <Binding Path="TagName" />
+                                </MultiBinding>
+                            </Button.Text>
+                            <Button.Style>
+                                <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="Preference" />
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
             </FlexLayout>
             <VerticalStackLayout Grid.Row="1" Padding="0,0,0,0">
                 <Label
@@ -66,6 +68,8 @@
                     Padding="0"
                     HeightRequest="45"
                     HorizontalOptions="EndAndExpand">
+                    <Label Style="{StaticResource inventorStyle}" Text="{Binding FeedEntry.Idea.CreatorName, StringFormat='{}{0}  •'}" />
+                    <Label Style="{StaticResource inventorStyle}" Text="{Binding FeedEntry.Idea.CreationTime, StringFormat='{}  {0: dd.MM.yy   HH:mm}'}" />
                     <Button
                         Margin="10,0,10,0"
                         Command="{Binding ChangeVoteCommand}"

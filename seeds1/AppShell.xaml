@@ -6,12 +6,10 @@
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:view="clr-namespace:seeds1.View"
     x:DataType="local:MyBaseViewModel"
-    FlyoutBackgroundColor="Black"
-    >
+    FlyoutBackgroundColor="Black">
 
-    <ShellItem Title="Login"
-               FlyoutItemIsVisible="False">
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate view:LoginPage}"/>
+    <ShellItem Title="Login" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate view:LoginPage}" Route="LoginPage" />
     </ShellItem>
 
     <FlyoutItem Title="Add">
@@ -24,8 +22,7 @@
         <ShellContent ContentTemplate="{DataTemplate view:PreferencesPage}" Route="PreferencePage" />
     </FlyoutItem>
 
-    <MenuFlyoutItem Text="Logout"
-              Clicked="LogoutButton_Click"/>
+    <MenuFlyoutItem Clicked="LogoutButton_Click" Text="Logout" />
 
     <!--<Shell.FlyoutFooter>
         <Label Text="{Binding CurrentUsername}"/>

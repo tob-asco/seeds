@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 
@@ -10,17 +11,39 @@ public class CatagPreferencesService : ICatagPreferencesService
     private readonly ICategoryService categoryService;
     private readonly ICatagUserPreferenceService cupService;
     private readonly ITagService tagService;
+    private readonly IIdeaTagService ideaTagService;
 
     public CatagPreferencesService(
         IGlobalService globalService,
         ICategoryService categoryService,
         ICatagUserPreferenceService cupService,
-        ITagService tagService)
+        ITagService tagService,
+        IIdeaTagService ideaTagService)
     {
         this.globalService = globalService;
         this.categoryService = categoryService;
         this.cupService = cupService;
         this.tagService = tagService;
+        this.ideaTagService = ideaTagService;
+    }
+
+    public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)
+    {
+        List<CatagPreference> catagPrefs = new();
+        var tags = await ideaTagService.GetTagsOfIdeaAsync(idea.Id);
+        if (tags.Count == 0) { return  catagPrefs; }
+        foreach (var tag in tags)
+        {
+            var cup = await cupService.GetCatagUserPreferenceAsync(
+                tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
+            catagPrefs.Add(new()
+            {
+                CategoryKey = tag.CategoryKey,
+                TagName = tag.Name,
+                Preference = cup.Value,
+            });
+        }
+        return catagPrefs;
     }
 
     public async Task<List<CatagPreference>> GetCatagPreferencesAsync()

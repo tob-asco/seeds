@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using System.Web;
 
@@ -12,10 +13,10 @@ public class IdeaTagService : IIdeaTagService
     {
         this.baseService = baseService;
     }
-    public async Task<List<IdeaTag>> GetTagsOfIdeaAsync(int ideaId)
+    public async Task<List<TagFromDb>> GetTagsOfIdeaAsync(int ideaId)
     {
         string url = $"api/IdeaTags/{ideaId}";
-        return await baseService.GetDalModelAsync<List<IdeaTag>>(url)
+        return await baseService.GetDalModelAsync<List<TagFromDb>>(url)
             ?? throw baseService.ThrowGetNullException(url);
     }
     public async Task PostIdeaTagAsync(IdeaTag ideaTag)

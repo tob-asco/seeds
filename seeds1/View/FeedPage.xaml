@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:seeds1.ViewModel"
-             xmlns:views="clr-namespace:seeds1.View"
-             xmlns:converter="clr-namespace:seeds1.Converter"
-             x:DataType="local:FeedViewModel"
-             x:Class="seeds1.View.FeedPage"
-             Title="{Binding CurrentUser.Username,StringFormat='{}{0}s feed'}">
+<ContentPage
+    x:Class="seeds1.View.FeedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:seeds1.Converter"
+    xmlns:local="clr-namespace:seeds1.ViewModel"
+    xmlns:views="clr-namespace:seeds1.View"
+    Title="{Binding CurrentUser.Username, StringFormat='{}{0}s feed'}"
+    x:DataType="local:FeedViewModel">
     <RefreshView
         x:DataType="local:FeedViewModel"
         Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsRefreshing}">
         <CollectionView
-        ItemsSource="{Binding FeedEntryVMCollection}"
-        RemainingItemsThreshold="2"
-        RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}"
-        >
+            ItemsSource="{Binding FeedEntryVMCollection}"
+            RemainingItemsThreshold="2"
+            RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <views:FeedEntryView BindingContext="{Binding .}"/>
+                    <views:FeedEntryView BindingContext="{Binding .}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>

@@ -88,19 +88,25 @@ public partial class FeedViewModel :MyBaseViewModel
      * Then update the DB with the new preference.
      */
     [RelayCommand]
-    public async Task ChangeCategoryPreference(string categoryKey)
+    public async Task ChangeTagPreference(CatagPreference catagPref)
     {
+        if (catagPref.TagName == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
-            if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
-            {
-                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
-                    .StepPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+            // loop over tags
+            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatagPreferences.Count; j++)
+            { 
+                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].CategoryKey == catagPref.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].TagName == catagPref.TagName)
+                {
+                    FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference = catPrefService
+                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference);
 
-                // for the DB
-                newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
+                    // for the DB
+                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference;
+                }
             }
         }
 
@@ -109,13 +115,13 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (await cupService.PutCatagUserPreferenceAsync(
-                    categoryKey,
+                if (!await cupService.PutCatagUserPreferenceAsync(
+                    catagPref.CategoryKey,
                     CurrentUser.Username,
-                    (int)newCatPreference) == false)
+                    (int)newCatPreference,
+                    tagName: catagPref.TagName))
                 {
-                    throw new Exception($"The user preference for category {categoryKey}" +
-                        $" could not be Put. Please refresh.");
+                    throw new Exception($"Fatal: Could not Put.");
                 }
             }
             catch (Exception ex)
