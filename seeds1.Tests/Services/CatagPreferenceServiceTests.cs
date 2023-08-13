@@ -29,6 +29,64 @@ public class CatagPreferenceServiceTests
     }
 
     [Fact]
+    public async Task CatagPrefService_GetTagPreferencesOfIdeaAsync_ReturnsItselfs()
+    {
+        #region Arrange
+        string key0 = "Cat1";
+        string key1 = "Cat2";
+        int val0 = 1;
+        int val1 = -1;
+        string tagName = "tag";
+        List<TagFromDb> tags = new()
+        {
+            new(){ CategoryKey=key0, Name=tagName },
+            new(){ CategoryKey=key1, Name=tagName },
+        };
+        CatagUserPreference tup0 = new()
+        {
+            CategoryKey = key0,
+            TagName = tagName,
+            Value = val0
+        };
+        CatagUserPreference tup1 = new()
+        {
+            CategoryKey = key1,
+            TagName = tagName,
+            Value = val1
+        };
+        A.CallTo(() => ideaTagService.GetTagsOfIdeaAsync(A<int>.Ignored))
+            .Returns<List<TagFromDb>>(tags);
+        A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
+            tags[0].CategoryKey, A<string>.Ignored, tags[0].Name))
+            .Returns(tup0);
+        A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
+            tags[1].CategoryKey, A<string>.Ignored, tags[1].Name))
+            .Returns(tup1);
+        #endregion
+
+        // Act
+        var result = await service.GetTagPreferencesOfIdeaAsync(new());
+
+        // Assert
+        result.Should().HaveCount(2);
+        result[0]?.Preference.Should().Be(val0);
+        result[1]?.Preference.Should().Be(val1);
+    }
+    [Fact]
+    public async Task CatagPrefService_GetTagPreferencesOfIdeaAsync_IfNoTagsReturnsEmpty()
+    {
+        // Arrange
+        A.CallTo(() => ideaTagService.GetTagsOfIdeaAsync(A<int>.Ignored))
+            .Returns<List<TagFromDb>>(new());
+
+        // Act
+        var result = await service.GetTagPreferencesOfIdeaAsync(new());
+
+        // Assert
+        result.Should().NotBeNull();
+        result?.Should().HaveCount(0);
+    }
+    [Fact]
     public async Task CatagPrefService_GetCatagPreferencesAsync_ReturnsItselfs()
     {
         #region Arrange
@@ -56,7 +114,7 @@ public class CatagPreferenceServiceTests
         {
             new(){ CategoryKey=key1, Name=tagName }
         };
-        CatagUserPreference cupTag = new()
+        CatagUserPreference tup = new()
         {
             CategoryKey = key1,
             TagName = tagName,
@@ -66,7 +124,7 @@ public class CatagPreferenceServiceTests
             .Returns<List<TagFromDb>>(tags);
         A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             tags[0].CategoryKey, A<string>.Ignored, tags[0].Name))
-            .Returns(cupTag);
+            .Returns(tup);
         #endregion
 
         // Act
