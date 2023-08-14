@@ -13,20 +13,23 @@ public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICatagPreferencesService catPrefService;
     private readonly ICatagUserPreferenceService cupService;
+    private readonly ITagFamilyService tagFamService;
 
     public PreferencesViewModel(
         IGlobalService globalService,
         ICatagPreferencesService catPrefService,
-        ICatagUserPreferenceService cupService)
+        ICatagUserPreferenceService cupService,
+        ITagFamilyService tagFamService)
         : base(globalService)
     {
         this.catPrefService = catPrefService;
         this.cupService = cupService;
+        this.tagFamService = tagFamService;
     }
 
     [ObservableProperty]
-    ObservableCollection<ObservableRangeCollection<CatagPreference>>
-        catagPrefGroups = new();
+    ObservableCollection<ObservableRangeCollection<FamilyOrPreference>>
+        famOrPrefsGroups = new();
 
     [RelayCommand]
     public async Task PopulateListListAsync()
@@ -41,11 +44,12 @@ public partial class PreferencesViewModel : MyBaseViewModel
             var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
             foreach (var group in groups)
             {
-                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
+                ObservableRangeCollection<FamilyOrPreference> famOrPrefsGroup = new();
                 // remove the entries that are only categories
                 var tagGroup = group.Where(cp => cp.TagName != null);
-                tagsOfGroup.AddRange(tagGroup.ToList());
-                CatagPrefGroups.Add(tagsOfGroup);
+                famOrPrefsGroup.AddRange(
+                    tagFamService.ConvertToFamilyOrPreferences(tagGroup.ToList()));
+                FamOrPrefsGroups.Add(famOrPrefsGroup);
             }
         }
         catch (Exception ex)
@@ -53,40 +57,47 @@ public partial class PreferencesViewModel : MyBaseViewModel
             await Shell.Current.DisplayAlert("DB Access Error", ex.Message, "Ok");
         }
     }
+
     [RelayCommand]
-    public async Task ChangeTagPreference(CatagPreference pref)
+    public async Task ChangeTagPreference(FamilyOrPreference famOrPref)
     {
         // find indices
-        int groupIndex = CatagPrefGroups.IndexOf(CatagPrefGroups.FirstOrDefault(cpg =>
-            cpg.Contains(pref)));
+        int groupIndex = FamOrPrefsGroups.IndexOf(
+            FamOrPrefsGroups.FirstOrDefault(fopg => fopg.Contains(famOrPref)));
         if (groupIndex == -1)
         {
             await Shell.Current.DisplayAlert("Error", "Group not found.", "Ok");
             return;
         }
-        int index = CatagPrefGroups[groupIndex].IndexOf(pref);
+        int index = FamOrPrefsGroups[groupIndex].IndexOf(famOrPref);
 
         // update DB
         try
         {
+            if (FamOrPrefsGroups[groupIndex][index].IsFamily)
+            {
+                throw new Exception("This is a family, not a single tag.");
+            }
             if (!await cupService.PutCatagUserPreferenceAsync(
-                pref.CategoryKey,
+                famOrPref.CatagPreference.CategoryKey,
                 CurrentUser.Username,
-                catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-                tagName: pref.TagName))
+                catPrefService.StepPreference(
+                    FamOrPrefsGroups[groupIndex][index].CatagPreference.Preference),
+                tagName: famOrPref.CatagPreference.TagName))
             {
                 throw new Exception($"Fatal: PUT failed.");
             }
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Put Error",
+            await Shell.Current.DisplayAlert("Error",
                 ex.Message, "Ok");
             return;
         }
         
         // update View
-        CatagPrefGroups[groupIndex][index].Preference = catPrefService.StepPreference(
-            CatagPrefGroups[groupIndex][index].Preference);
+        FamOrPrefsGroups[groupIndex][index].CatagPreference.Preference
+            = catPrefService.StepPreference(
+            FamOrPrefsGroups[groupIndex][index].CatagPreference.Preference);
     }
 }
