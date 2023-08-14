@@ -22,7 +22,8 @@ public class TagFamilyService : ITagFamilyService
                 catagPref.TagName.Contains('|') && // the separator symbolising a family
                 catagPref.Preference == 0)
             {
-                TagFamily fam = fams.FirstOrDefault(f => f.Name == catagPref.TagName.Split('|')[0].Trim());
+                string groupName = catagPref.TagName.Split('|')[0].Trim();
+                TagFamily fam = fams.FirstOrDefault(f => f.Name == groupName);
                 if (fam != null)
                 {
                     // update fams by updating fam
@@ -37,7 +38,7 @@ public class TagFamilyService : ITagFamilyService
                     // add new fam and this tag to it
                     fams.Add(new()
                     {
-                        Name = catagPref.TagName.Split('|')[0].Trim(),
+                        Name = groupName,
                         Tags = new() { new()
                         {
                             Name = catagPref.TagName,
