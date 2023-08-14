@@ -22,16 +22,17 @@
                         <MultiBinding Converter="{converter:CatBtnTextConverter}">
                             <Binding Source="{x:Static sys:String.Empty}" />
                             <Binding Source="{x:Static sys:String.Empty}" />
-                            <Binding Path="Preference.TagName" />
+                            <Binding Path="CatagPreference.TagName" />
                         </MultiBinding>
                     </Button.Text>
                     <Button.Style>
-                        <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="Preference.Preference" />
+                        <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="CatagPreference.Preference" />
                     </Button.Style>
                 </Button>
             </DataTemplate>
             <DataTemplate x:Key="PickerTemplate" x:DataType="mauiModel:FamilyOrPreference">
-                <Picker ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Family.Tags}" />
+                <Picker ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Family.Tags}"
+                        SelectedItem="{Binding Family.Tags[0]}"/>
             </DataTemplate>
             <cells:FamilyOrPreferenceDataTemplateSelector
                 x:Key="FamOrPrefSelector"
@@ -39,7 +40,7 @@
                 PreferenceTemplate="{StaticResource ButtonTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <CollectionView ItemsSource="{Binding CatagPrefGroups}">
+    <CollectionView ItemsSource="{Binding FamOrPrefsGroups}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <StackLayout>
@@ -61,9 +62,9 @@
                             TextColor="Gray">
                             <Label.Text>
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="[0].CategoryKey" />
+                                    <Binding Path="[0].CatagPreference.CategoryKey" />
                                     <Binding Source=" - " />
-                                    <Binding Path="[0].CategoryName" />
+                                    <Binding Path="[0].CatagPreference.CategoryName" />
                                 </MultiBinding>
                             </Label.Text>
                         </Label>
