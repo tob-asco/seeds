@@ -52,7 +52,7 @@ public class TagFamilyService : ITagFamilyService
                 fops.Add(new()
                 {
                     IsFamily = false,
-                    Preference = new()
+                    CatagPreference = new()
                     {
                         CategoryKey = catagPref.CategoryKey,
                         CategoryName = catagPref.CategoryName,

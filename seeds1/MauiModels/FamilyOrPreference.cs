@@ -7,6 +7,6 @@ public partial class FamilyOrPreference : ObservableObject
     [ObservableProperty]
     public TagFamily family = new();
     [ObservableProperty]
-    public CatagPreference preference = new();
+    public CatagPreference catagPreference = new();
 
 }
