@@ -17,26 +17,6 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/CatagUserPreferences/NoC/tobi?tagName=tag
-        [HttpGet("{catKey}/{username}")]
-        public async Task<ActionResult<UserPreference>> GetCatagUserPreference(
-            string catKey, string username, string? tagName)
-        {
-            catKey = HttpUtility.UrlDecode(catKey);
-            username = HttpUtility.UrlDecode(username);
-            tagName = HttpUtility.UrlDecode(tagName);
-            try
-            {
-                var CatagUserPreference = await _context.CatagUserPreference
-                    .FirstOrDefaultAsync(cup =>
-                    cup.CategoryKey == catKey &&
-                    cup.Username == username &&
-                    cup.TagName == tagName); // test that a null tagName does what you want
-                return CatagUserPreference != null ? CatagUserPreference : NotFound();
-            }
-            catch (Exception ex) { return Problem(ex.Message); }
-        }
-
         // PUT: api/CatagUserPreferences/NoC/tobi?tagName=tag
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{catKey}/{username}")]

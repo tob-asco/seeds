@@ -12,16 +12,6 @@ public class UserPreferenceService : IUserPreferenceService
         _baseService = baseService;
     }
 
-    public async Task<UserPreference> GetCatagUserPreferenceAsync(
-        string catKey, string username, string? tagName = null)
-    {
-        string url = $"api/CatagUserPreferences/" +
-            $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(username)}";
-        if (tagName != null) { url += $"?tagName={HttpUtility.UrlEncode(tagName)}"; }
-        return await _baseService.GetDalModelAsync<UserPreference>(url)
-            ?? throw new Exception($"The Get URL {url} returned null.");
-    }
-
     public async Task<bool> PutCatagUserPreferenceAsync(
         string catKey, string username,
         int newPreference, string? tagName = null)
