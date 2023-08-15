@@ -19,6 +19,12 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
         builder.HasMany(t => t.Users)
             .WithMany(u => u.Tags)
             .UsingEntity<CatagUserPreference>();
+
+        // Tag : Family = N : 1 (N=0 is allowed)
+        builder.HasOne(t => t.Family)
+            .WithMany(c => c.Tags)
+            .HasForeignKey(t => t.FamilyId)
+            .IsRequired(false);
         #endregion
 
         #region Constraints
