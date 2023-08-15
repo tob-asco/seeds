@@ -12,12 +12,12 @@ namespace seeds1.ViewModel;
 public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICatagPreferencesService catPrefService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
         IGlobalService globalService,
         ICatagPreferencesService catPrefService,
-        ICatagUserPreferenceService cupService)
+        IUserPreferenceService cupService)
         : base(globalService)
     {
         this.catPrefService = catPrefService;

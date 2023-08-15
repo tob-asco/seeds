@@ -10,8 +10,8 @@ namespace seeds.Dal.Model;
  * cf. https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-and-join-table-with-payload
  */
 
-[Table("category_user")]
-public class CatagUserPreference
+[Table("user_preference")]
+public class UserPreference
 {
     [Key]
     [Column("id")]

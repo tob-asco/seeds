@@ -13,7 +13,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
     public List<Category> Cats { get; set; } = new();
     static readonly int catIndexWithTag = 0;
     public Tag Tag { get; set; } = new();
-    public List<CatagUserPreference> Cups { get; set; } = new();
+    public List<UserPreference> Cups { get; set; } = new();
 
     public CatagUserPreferencesControllerTests()
     {
@@ -85,7 +85,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<CatagUserPreference>();
+        var result = await response.Content.ReadFromJsonAsync<UserPreference>();
         result.Should().NotBeNull();
         result?.Username.Should().Be(username);
         result?.CategoryKey.Should().Be(key);
@@ -106,7 +106,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<CatagUserPreference>();
+        var result = await response.Content.ReadFromJsonAsync<UserPreference>();
         result.Should().NotBeNull();
         result?.Username.Should().Be(username);
         result?.CategoryKey.Should().Be(key);
@@ -160,7 +160,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
     public async Task CupController_PutEndpoint_ForNoTagReturnsSuccessAndUpdatesDb()
     {
         //Arrange
-        CatagUserPreference cup = Cups[^1];
+        UserPreference cup = Cups[^1];
         cup.Value++;
         string url = $"/api/CatagUserPreferences/" +
             $"{HttpUtility.UrlEncode(cup.CategoryKey)}/{HttpUtility.UrlEncode(cup.Username)}";
@@ -177,7 +177,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
     public async Task CupController_PutEndpoint_ForTagReturnsSuccessAndUpdatesDb()
     {
         //Arrange
-        CatagUserPreference cup = Cups.FirstOrDefault(cup => cup.TagName != null)!;
+        UserPreference cup = Cups.FirstOrDefault(cup => cup.TagName != null)!;
         cup.Value++;
         string url = $"api/CatagUserPreferences/" +
             $"{HttpUtility.UrlEncode(cup.CategoryKey)}/{HttpUtility.UrlEncode(cup.Username)}" +
@@ -198,7 +198,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
         string key = Guid.NewGuid().ToString();
         string uname = Users[0].Username;
         string url = $"/api/CatagUserPreferences/{key}/{HttpUtility.UrlEncode(uname)}";
-        CatagUserPreference cup = new() { CategoryKey = key, Username = uname };
+        UserPreference cup = new() { CategoryKey = key, Username = uname };
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(cup));
@@ -213,7 +213,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
         string key = Cats[0].Key;
         string uname = Guid.NewGuid().ToString();
         string url = $"/api/CatagUserPreferences/{HttpUtility.UrlEncode(key)}/{uname}";
-        CatagUserPreference cup = new() { CategoryKey = key, Username = uname };
+        UserPreference cup = new() { CategoryKey = key, Username = uname };
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(cup));
@@ -230,7 +230,7 @@ public class CatagUserPreferencesControllerTests : ApiControllerTestsBase
         string tname = Guid.NewGuid().ToString();
         string url = $"/api/CatagUserPreferences/" +
             $"{HttpUtility.UrlEncode(key)}/{HttpUtility.UrlEncode(uname)}?tagName={tname}";
-        CatagUserPreference cup = new()
+        UserPreference cup = new()
         {
             CategoryKey = key,
             Username = uname,

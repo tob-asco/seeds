@@ -8,18 +8,18 @@ namespace seeds.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CatagUserPreferencesController : ControllerBase
+    public class UserPreferencesController : ControllerBase
     {
         private readonly seedsApiContext _context;
 
-        public CatagUserPreferencesController(seedsApiContext context)
+        public UserPreferencesController(seedsApiContext context)
         {
             _context = context;
         }
 
         // GET: api/CatagUserPreferences/NoC/tobi?tagName=tag
         [HttpGet("{catKey}/{username}")]
-        public async Task<ActionResult<CatagUserPreference>> GetCatagUserPreference(
+        public async Task<ActionResult<UserPreference>> GetCatagUserPreference(
             string catKey, string username, string? tagName)
         {
             catKey = HttpUtility.UrlDecode(catKey);
@@ -42,7 +42,7 @@ namespace seeds.Api.Controllers
         [HttpPut("{catKey}/{username}")]
         public async Task<IActionResult> PutCatagUserPreference(
             string catKey, string username, string? tagName,
-            CatagUserPreference cup)
+            UserPreference cup)
         {
             catKey = HttpUtility.UrlDecode(catKey);
             username = HttpUtility.UrlDecode(username);

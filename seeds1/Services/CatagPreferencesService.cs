@@ -9,14 +9,14 @@ public class CatagPreferencesService : ICatagPreferencesService
 {
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly ITagService tagService;
     private readonly IIdeaTagService ideaTagService;
 
     public CatagPreferencesService(
         IGlobalService globalService,
         ICategoryService categoryService,
-        ICatagUserPreferenceService cupService,
+        IUserPreferenceService cupService,
         ITagService tagService,
         IIdeaTagService ideaTagService)
     {

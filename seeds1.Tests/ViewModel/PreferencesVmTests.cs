@@ -7,13 +7,13 @@ namespace seeds1.Tests.ViewModel;
 public class PreferencesVmTests
 {
     private readonly ICatagPreferencesService catPrefService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
         catPrefService = A.Fake<ICatagPreferencesService>();
-        cupService = A.Fake<ICatagUserPreferenceService>();
+        cupService = A.Fake<IUserPreferenceService>();
         vm = new(A.Fake<IGlobalService>(), catPrefService, cupService);
     }
 

@@ -9,11 +9,11 @@ namespace seeds.Dal.Tests.Services;
 public class CatagUserPreferenceServiceTests
 {
     private readonly IDalBaseService _baseService;
-    private readonly CatagUserPreferenceService _service;
+    private readonly UserPreferenceService _service;
     public CatagUserPreferenceServiceTests()
     {
         _baseService = A.Fake<IDalBaseService>();
-        _service = new CatagUserPreferenceService(_baseService);
+        _service = new UserPreferenceService(_baseService);
     }
     [Fact]
     public async Task CupService_GetCupAsync_ReturnsItself()
@@ -21,13 +21,13 @@ public class CatagUserPreferenceServiceTests
         #region Arrange
         string key = "ABC";
         string uname = "dude";
-        CatagUserPreference cup = new()
+        UserPreference cup = new()
         {
             CategoryKey = key,
             Username = uname,
             Value = 1
         };
-        A.CallTo(() => _baseService.GetDalModelAsync<CatagUserPreference>(
+        A.CallTo(() => _baseService.GetDalModelAsync<UserPreference>(
             A<string>.Ignored))
             .Returns(cup);
         #endregion
@@ -45,9 +45,9 @@ public class CatagUserPreferenceServiceTests
     public async Task CupService_GetCupAsync_IfNotExistThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<CatagUserPreference>(
+        A.CallTo(() => _baseService.GetDalModelAsync<UserPreference>(
             A<string>.Ignored))
-            .Returns<CatagUserPreference?>(null);
+            .Returns<UserPreference?>(null);
 
         // Act
         Func<Task> act = async () => await _service.GetCatagUserPreferenceAsync("","","");
@@ -59,8 +59,8 @@ public class CatagUserPreferenceServiceTests
     public async Task CupService_PutCupAsync_ReturnsTrue()
     {
         // Arrange
-        A.CallTo(() => _baseService.PutDalModelAsync<CatagUserPreference>(
-            A<string>.Ignored, A<CatagUserPreference>.Ignored))
+        A.CallTo(() => _baseService.PutDalModelAsync<UserPreference>(
+            A<string>.Ignored, A<UserPreference>.Ignored))
             .Returns(true);
         string key = "ABC";
         string uname = "dude";
@@ -76,8 +76,8 @@ public class CatagUserPreferenceServiceTests
     public async Task CupService_PutCupAsync_IfNotSuccessReturnsFalse()
     {
         // Arrange
-        A.CallTo(() => _baseService.PutDalModelAsync<CatagUserPreference>(
-            A<string>.Ignored, A<CatagUserPreference>.Ignored))
+        A.CallTo(() => _baseService.PutDalModelAsync<UserPreference>(
+            A<string>.Ignored, A<UserPreference>.Ignored))
             .Returns(false);
         string key = "ABC";
         string uname = "dude";

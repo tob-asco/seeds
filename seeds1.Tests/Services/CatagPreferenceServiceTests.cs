@@ -12,7 +12,7 @@ public class CatagPreferenceServiceTests
 {
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly ITagService tagService;
     private readonly IIdeaTagService ideaTagService;
     private readonly CatagPreferencesService service;
@@ -21,7 +21,7 @@ public class CatagPreferenceServiceTests
     {
         globalService = A.Fake<IGlobalService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<ICatagUserPreferenceService>();
+        cupService = A.Fake<IUserPreferenceService>();
         tagService = A.Fake<ITagService>();
         ideaTagService = A.Fake<IIdeaTagService>();
         service = new(
@@ -42,13 +42,13 @@ public class CatagPreferenceServiceTests
             new(){ CategoryKey=key0, Name=tagName },
             new(){ CategoryKey=key1, Name=tagName },
         };
-        CatagUserPreference tup0 = new()
+        UserPreference tup0 = new()
         {
             CategoryKey = key0,
             TagName = tagName,
             Value = val0
         };
-        CatagUserPreference tup1 = new()
+        UserPreference tup1 = new()
         {
             CategoryKey = key1,
             TagName = tagName,
@@ -101,8 +101,8 @@ public class CatagPreferenceServiceTests
             .Returns(cats);
         int val1 = 1;
         int val2 = -1;
-        CatagUserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
-        CatagUserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
+        UserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
+        UserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
         A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
             key1, A<string>.Ignored, null))
             .Returns(cup1);
@@ -114,7 +114,7 @@ public class CatagPreferenceServiceTests
         {
             new(){ CategoryKey=key1, Name=tagName }
         };
-        CatagUserPreference tup = new()
+        UserPreference tup = new()
         {
             CategoryKey = key1,
             TagName = tagName,

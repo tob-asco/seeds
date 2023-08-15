@@ -8,7 +8,7 @@ public class DataSeeder
     public List<Category> Cats = new();
     public List<Tag> Tags = new();
     public List<User> Users = new();
-    public List<CatagUserPreference> Cups = new();
+    public List<UserPreference> Cups = new();
     public List<Idea> Ideas = new();
 
     public DataSeeder(seedsApiContext dbContext)

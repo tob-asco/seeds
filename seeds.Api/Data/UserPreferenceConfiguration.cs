@@ -6,9 +6,9 @@ using System.Reflection.Emit;
 
 namespace seeds.Api.Data;
 
-public class CatagUserPreferenceConfiguration : IEntityTypeConfiguration<CatagUserPreference>
+public class UserPreferenceConfiguration : IEntityTypeConfiguration<UserPreference>
 {
-    public void Configure(EntityTypeBuilder<CatagUserPreference> builder)
+    public void Configure(EntityTypeBuilder<UserPreference> builder)
     {
         #region Constraints
         builder.HasIndex(cup => new { cup.CategoryKey, cup.Username, cup.TagName })
