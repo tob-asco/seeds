@@ -27,58 +27,58 @@ public class CatagPreferencesService : ICatagPreferencesService
         this.ideaTagService = ideaTagService;
     }
 
-    public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)
-    {
-        List<CatagPreference> catagPrefs = new();
-        var tags = await ideaTagService.GetTagsOfIdeaAsync(idea.Id);
-        if (tags.Count == 0) { return  catagPrefs; }
-        foreach (var tag in tags)
-        {
-            var cup = await cupService.GetCatagUserPreferenceAsync(
-                tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
-            catagPrefs.Add(new()
-            {
-                CategoryKey = tag.CategoryKey,
-                TagName = tag.Name,
-                Preference = cup.Value,
-            });
-        }
-        return catagPrefs;
-    }
+    //public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)
+    //{
+    //    List<CatagPreference> catagPrefs = new();
+    //    var tags = await ideaTagService.GetTagsOfIdeaAsync(idea.Id);
+    //    if (tags.Count == 0) { return  catagPrefs; }
+    //    foreach (var tag in tags)
+    //    {
+    //        var cup = await cupService.GetCatagUserPreferenceAsync(
+    //            tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
+    //        catagPrefs.Add(new()
+    //        {
+    //            CategoryKey = tag.CategoryKey,
+    //            TagName = tag.Name,
+    //            Preference = cup.Value,
+    //        });
+    //    }
+    //    return catagPrefs;
+    //}
 
-    public async Task<List<CatagPreference>> GetCatagPreferencesAsync()
-    {
-        List<CatagPreference> catagPrefs = new();
-        var cats = await categoryService.GetCategoriesAsync();
-        if (cats.Count == 0) { throw new Exception("No Categories returned."); }
-        foreach (var cat in cats)
-        {
-            var cup = await cupService.GetCatagUserPreferenceAsync(
-                cat.Key, globalService.CurrentUser.Username);
-            catagPrefs.Add(new()
-            {
-                CategoryKey = cat.Key,
-                CategoryName = cat.Name,
-                Preference = cup.Value
-            });
-        }
-        var tags = await tagService.GetTagsAsync();
-        if (tags.Count == 0) { throw new Exception("No Tags returned."); }
-        foreach (var tag in tags)
-        {
-            var tagsCat = cats.First(c => c.Key == tag.CategoryKey);
-            var cup = await cupService.GetCatagUserPreferenceAsync(
-                tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
-            catagPrefs.Add(new()
-            {
-                CategoryKey = tag.CategoryKey,
-                CategoryName = tagsCat.Name,
-                TagName = tag.Name,
-                Preference = cup.Value
-            });
-        }
-        return catagPrefs;
-    }
+    //public async Task<List<CatagPreference>> GetCatagPreferencesAsync()
+    //{
+    //    List<CatagPreference> catagPrefs = new();
+    //    var cats = await categoryService.GetCategoriesAsync();
+    //    if (cats.Count == 0) { throw new Exception("No Categories returned."); }
+    //    foreach (var cat in cats)
+    //    {
+    //        var cup = await cupService.GetCatagUserPreferenceAsync(
+    //            cat.Key, globalService.CurrentUser.Username);
+    //        catagPrefs.Add(new()
+    //        {
+    //            CategoryKey = cat.Key,
+    //            CategoryName = cat.Name,
+    //            Preference = cup.Value
+    //        });
+    //    }
+    //    var tags = await tagService.GetTagsAsync();
+    //    if (tags.Count == 0) { throw new Exception("No Tags returned."); }
+    //    foreach (var tag in tags)
+    //    {
+    //        var tagsCat = cats.First(c => c.Key == tag.CategoryKey);
+    //        var cup = await cupService.GetCatagUserPreferenceAsync(
+    //            tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
+    //        catagPrefs.Add(new()
+    //        {
+    //            CategoryKey = tag.CategoryKey,
+    //            CategoryName = tagsCat.Name,
+    //            TagName = tag.Name,
+    //            Preference = cup.Value
+    //        });
+    //    }
+    //    return catagPrefs;
+    //}
     public int StepPreference(int oldPreference)
     {
         if (oldPreference == 0) { return 1; }
