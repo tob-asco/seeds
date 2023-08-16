@@ -115,14 +115,14 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (!await cupService.PutUserPreferenceAsync(
-                    catagPref.CategoryKey,
-                    CurrentUser.Username,
-                    (int)newCatPreference,
-                    tagName: catagPref.TagName))
-                {
-                    throw new Exception($"Fatal: Could not Put.");
-                }
+                //if (!await cupService.PutUserPreferenceAsync(
+                //    catagPref.CategoryKey,
+                //    CurrentUser.Username,
+                //    (int)newCatPreference,
+                //    tagName: catagPref.TagName))
+                //{
+                //    throw new Exception($"Fatal: Could not Put.");
+                //}
             }
             catch (Exception ex)
             {

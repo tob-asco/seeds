@@ -69,14 +69,14 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            if (!await cupService.PutUserPreferenceAsync(
-                pref.CategoryKey,
-                CurrentUser.Username,
-                catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-                tagName: pref.TagName))
-            {
-                throw new Exception($"Fatal: PUT failed.");
-            }
+            //if (!await cupService.PutUserPreferenceAsync(
+            //    pref.CategoryKey,
+            //    CurrentUser.Username,
+            //    catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
+            //    tagName: pref.TagName))
+            //{
+            //    throw new Exception($"Fatal: PUT failed.");
+            //}
         }
         catch (Exception ex)
         {
