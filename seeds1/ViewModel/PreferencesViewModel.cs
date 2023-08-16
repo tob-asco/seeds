@@ -35,8 +35,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            List<CatagPreference> catagPrefs = 
-                await catPrefService.GetCatagPreferencesAsync();
+            List<CatagPreference> catagPrefs = new();
+            //    await catPrefService.GetCatagPreferencesAsync();
 
             var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
             foreach (var group in groups)
