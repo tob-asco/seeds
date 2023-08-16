@@ -25,6 +25,7 @@ public static class MauiProgram
         //call the DI registration method of the DAL project
         ServiceModule.DIregistration(builder.Services);
 
+        builder.Services.AddSingleton<IStaticService, StaticService>();
         builder.Services.AddSingleton<IGlobalService, GlobalService>();
         builder.Services.AddSingleton<IGenericFactory<LoginViewModel>, LoginViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
