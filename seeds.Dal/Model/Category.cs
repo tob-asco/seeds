@@ -18,7 +18,6 @@ public class Category
     public string Name { get; set; } = "No Category";
 
     #region Navigation
-    public List<UserPreference> CatagUserPreferences { get; } = new();
     public List<User> Users { get; } = new();
     public List<Tag> Tags { get; } = new();
     public List<Family> Families { get; } = new();
