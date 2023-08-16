@@ -31,8 +31,8 @@ public class DataSeeder
         else { Users = _dbContext.User.ToList(); }
 
         PopulateCups();
-        if (!_dbContext.CatagUserPreference.Any()) { _dbContext.CatagUserPreference.AddRange(Cups); }
-        else { Cups = _dbContext.CatagUserPreference.ToList(); }
+        if (!_dbContext.UserPreference.Any()) { _dbContext.UserPreference.AddRange(Cups); }
+        else { Cups = _dbContext.UserPreference.ToList(); }
 
         PopulateIdeas();
         if (!_dbContext.Idea.Any()) { _dbContext.Idea.AddRange(Ideas); }

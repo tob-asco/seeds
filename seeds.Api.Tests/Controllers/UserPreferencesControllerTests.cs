@@ -57,9 +57,9 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
                 });
             }
         }
-        if (!_context.CatagUserPreference.Any())
+        if (!_context.UserPreference.Any())
         {
-            _context.CatagUserPreference.AddRange(Cups);
+            _context.UserPreference.AddRange(Cups);
         }
     }
 
@@ -78,7 +78,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<UserPreference>>();
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_context.CatagUserPreference.Where(
+        result.Should().BeEquivalentTo(_context.UserPreference.Where(
             cup => cup.Username == username));
     }
     [Fact]
@@ -116,7 +116,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.CatagUserPreference.Should().ContainEquivalentOf(cup);
+        _context.UserPreference.Should().ContainEquivalentOf(cup);
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPutReturnsSuccessAndUpdatesDb()
@@ -133,8 +133,8 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.CatagUserPreference.Should().ContainEquivalentOf(cup);
-        _context.CatagUserPreference.Should().NotContainEquivalentOf(Cups[index]);
+        _context.UserPreference.Should().ContainEquivalentOf(cup);
+        _context.UserPreference.Should().NotContainEquivalentOf(Cups[index]);
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_IfTagNotExistReturnsNotSuccess()

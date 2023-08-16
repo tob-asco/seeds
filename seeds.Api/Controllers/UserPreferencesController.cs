@@ -22,9 +22,9 @@ namespace seeds.Api.Controllers
         public async Task<ActionResult<List<UserPreference>>> GetPreferencesOfUser(
             string username)
         {
-            if(_context.CatagUserPreference != null)
+            if(_context.UserPreference != null)
             {
-                var usersCups = _context.CatagUserPreference.Where(
+                var usersCups = _context.UserPreference.Where(
                     cup => cup.Username == username);
                 if (! await usersCups.AnyAsync()) { return new List<UserPreference>(); }
                 return usersCups.ToList();
@@ -51,7 +51,7 @@ namespace seeds.Api.Controllers
                     //    .GetValueOrDefault())
                     //{  }
                     // POST
-                    _context.CatagUserPreference.Add(cup);
+                    _context.UserPreference.Add(cup);
                     await _context.SaveChangesAsync();
                     return Created("GetPreferencesOfUser", cup);
                 }
@@ -68,7 +68,7 @@ namespace seeds.Api.Controllers
 
         private bool CatagUserPreferenceExists(string username, Guid itemId)
         {
-            return (_context.CatagUserPreference?.Any(e =>
+            return (_context.UserPreference?.Any(e =>
                 e.Username == username &&
                 e.ItemId == itemId))
                 .GetValueOrDefault();
