@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
 
@@ -6,7 +7,15 @@ namespace seeds1.ViewModel;
 
 public partial class MyBaseViewModel : ObservableObject //partial because of source generation
 {
+    private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
+
+    public Dictionary<string, CategoryDto> CategoriesDict
+    { get => staticService.GetCategories(); }
+    public Dictionary<Guid, Family> FamiliesDict
+    { get => staticService.GetFamilies(); }
+    public Dictionary<Guid, TagFromDb> TagsDict
+    { get => staticService.GetTags(); }
     public UserDto CurrentUser
     {
         get => globalService.CurrentUser;
@@ -41,8 +50,11 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
     public bool IsNotBusy => !IsBusy;
 
 
-    public MyBaseViewModel(IGlobalService globalService)
+    public MyBaseViewModel(
+        IStaticService staticService,
+        IGlobalService globalService)
     {
+        this.staticService = staticService;
         this.globalService = globalService;
     }
 }

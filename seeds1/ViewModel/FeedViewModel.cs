@@ -20,12 +20,13 @@ public partial class FeedViewModel :MyBaseViewModel
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
     public FeedViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
         IUserPreferenceService cupService,
         ICatagPreferencesService catPrefService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;

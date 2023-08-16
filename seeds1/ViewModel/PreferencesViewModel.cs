@@ -15,10 +15,11 @@ public partial class PreferencesViewModel : MyBaseViewModel
     private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         ICatagPreferencesService catPrefService,
         IUserPreferenceService cupService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.catPrefService = catPrefService;
         this.cupService = cupService;

@@ -11,10 +11,11 @@ public partial class LoginViewModel : MyBaseViewModel
     private readonly INavigationService navigationService;
 
     public LoginViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         IUsersService usersService,
         INavigationService navigationService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.globalService = globalService;
         this.usersService = usersService;
