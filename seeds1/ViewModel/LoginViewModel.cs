@@ -6,8 +6,9 @@ namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : MyBaseViewModel
 {
-    private readonly IUsersService _usersService;
-    private readonly INavigationService _navigationService;
+    private readonly IGlobalService globalService;
+    private readonly IUsersService usersService;
+    private readonly INavigationService navigationService;
 
     public LoginViewModel(
         IGlobalService globalService,
@@ -15,8 +16,9 @@ public partial class LoginViewModel : MyBaseViewModel
         INavigationService navigationService)
         : base(globalService)
     {
-        _usersService = usersService;
-        _navigationService = navigationService;
+        this.globalService = globalService;
+        this.usersService = usersService;
+        this.navigationService = navigationService;
     }
 
     [ObservableProperty]
@@ -39,7 +41,7 @@ public partial class LoginViewModel : MyBaseViewModel
 
         try
         {
-            user = await _usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
+            user = await usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         }
         catch (Exception ex)
         {
@@ -54,7 +56,10 @@ public partial class LoginViewModel : MyBaseViewModel
             {
                 // Login
                 CurrentUser = user;
-                _navigationService.RedrawNavigationTarget = true;
+                await globalService.LoadPreferencesAsync();
+                await globalService.LoadIdeaInteractionsAsync();
+
+                navigationService.RedrawNavigationTarget = true;
 
                 //the amount of "/" to prepend depends on the shell's design
                 //r.n. I use "///" because the debugger suggested it
@@ -62,7 +67,7 @@ public partial class LoginViewModel : MyBaseViewModel
                 //That 1*/ does not work seems not to be my bad, but MAUI's
                 //according to:
                 //  https://github.com/xamarin/Xamarin.Forms/issues/6096
-                await _navigationService.NavigateToAsync($"///{nameof(FeedPage)}");
+                await navigationService.NavigateToAsync($"///{nameof(FeedPage)}");
             }
             else
             {
