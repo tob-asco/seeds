@@ -17,17 +17,18 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // GET: api/UserPreferences
+        // GET: api/UserPreferences/tobi
         [HttpGet("{username}")]
         public async Task<ActionResult<List<UserPreference>>> GetPreferencesOfUser(
             string username)
         {
             if(_context.UserPreference != null)
             {
+                username = HttpUtility.UrlDecode(username);
                 var usersCups = _context.UserPreference.Where(
                     cup => cup.Username == username);
-                if (! await usersCups.AnyAsync()) { return new List<UserPreference>(); }
-                return usersCups.ToList();
+                return usersCups != null ?
+                    await usersCups.ToListAsync() : new List<UserPreference>();
             }
             return NotFound();
         }

@@ -65,11 +65,11 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
 
 
     [Fact]
-    public async Task CupController_GetUpOfUserEndpoint_ReturnsItselfs()
+    public async Task CupController_GetPreferencesOfUserEndpoint_ReturnsItselfs()
     {
         //Arrange
         string username = Users[0].Username;
-        string url = $"api/UserPreferences/{username}";
+        string url = $"api/UserPreferences/{HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -82,7 +82,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
             cup => cup.Username == username));
     }
     [Fact]
-    public async Task CupController_GetUpOfUserEndpoint_IfUserNotExistsReturnsEmpty()
+    public async Task CupController_GetPreferencesOfUserEndpoint_IfUserNotExistsReturnsEmpty()
     {
         //Arrange
         string url = $"api/UserPreferences/notAuser";
