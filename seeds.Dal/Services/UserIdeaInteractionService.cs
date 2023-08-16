@@ -14,6 +14,12 @@ public class UserIdeaInteractionService : IUserIdeaInteractionService
         _baseService = baseService;
     }
 
+    public async Task<List<UserIdeaInteraction>> GetIdeaInteractionsOfUserAsync(string username)
+    {
+        string url = $"api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}";
+        return await _baseService.GetDalModelAsync<List<UserIdeaInteraction>>(url)
+            ?? throw _baseService.ThrowGetNullException(url);
+    }
     public async Task<UserIdeaInteraction?> GetUserIdeaInteractionAsync(
         string username, int ideaId)
     {

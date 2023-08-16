@@ -13,6 +13,36 @@ public class UserIdeaInteractionServiceTests
         _baseService = A.Fake<IDalBaseService>();
         _service = new(_baseService);
     }
+
+    [Fact]
+    public async Task UiiService_GetIdeaInteractionsOfUser_NoException()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserIdeaInteraction>>(
+            A<string>.Ignored))
+            .Returns<List<UserIdeaInteraction>?>(new());
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetIdeaInteractionsOfUserAsync("");
+
+        // Assert
+        await act.Should().NotThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task UiiService_GetIdeaInteractionsOfUser_IfNullThrows()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserIdeaInteraction>>(A<string>.Ignored))
+            .Returns<List<UserIdeaInteraction>?>(null);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetIdeaInteractionsOfUserAsync("");
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
     [Fact]
     public async Task UiiService_GetUiiAsync_ReturnsItself()
     {
