@@ -91,6 +91,15 @@
   12. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
 
 ## Philosophies / Streamlining
+### Data Retrieval from DB to MAUI
+PerfTip showed that endpoint calls have a naked computation time of `>50ms`, so loops over endpoints are :skull_and_crossbones:.
+:bulb::
+1. Data that is independent of the `CurrentUser` should be retrieved in rather big :package: upon startup.
+   1. this includes static data like `Tag`s or `Category`s
+   2. but also `Idea`s (by both `CurrentUser` and any other user)
+2. User data like `UserPreference`s or `UserIdeaInteraction`s should also be retrieved in :package:.
+   They should be indexed by Guid PKs, so C# can build `Dictionary<Guid, MyUserDataModel>`s that can quickly be accessed. 
+
 ### Exception Handling
 Throwing exceptions & try-catching them throughout the solution:
 1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
