@@ -47,9 +47,9 @@ public class FeedEntriesServiceTests
         A.CallTo(() => ideasService.GetIdeasPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(ideaPage);
-        A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
-            A<IdeaFromDb>.Ignored))
-            .Returns(catagPrefs);
+        //A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
+        //    A<IdeaFromDb>.Ignored))
+        //    .Returns(catagPrefs);
         A.CallTo(() => uiiService.CountVotesAsync(A<int>.Ignored))
             .Returns(0);
         #endregion
