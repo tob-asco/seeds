@@ -17,7 +17,22 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // POST: api/UserPreferences
+        // GET: api/UserPreferences
+        [HttpGet("{username}")]
+        public async Task<ActionResult<List<UserPreference>>> GetPreferencesOfUser(
+            string username)
+        {
+            if(_context.CatagUserPreference != null)
+            {
+                var usersCups = _context.CatagUserPreference.Where(
+                    cup => cup.Username == username);
+                if (! await usersCups.AnyAsync()) { return new List<UserPreference>(); }
+                return usersCups.ToList();
+            }
+            return NotFound();
+        }
+
+        // POST: api/UserPreferences/upsert
         /// <summary>
         /// Upsert (update + insert) endpoint.
         /// May later be used for all Items that have a Guid PK.

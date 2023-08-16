@@ -63,6 +63,39 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         }
     }
 
+
+    [Fact]
+    public async Task CupController_GetUpOfUserEndpoint_ReturnsItselfs()
+    {
+        //Arrange
+        string username = Users[0].Username;
+        string url = $"api/UserPreferences/{username}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserPreference>>();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_context.CatagUserPreference.Where(
+            cup => cup.Username == username));
+    }
+    [Fact]
+    public async Task CupController_GetUpOfUserEndpoint_IfUserNotExistsReturnsEmpty()
+    {
+        //Arrange
+        string url = $"api/UserPreferences/notAuser";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserPreference>>();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
+    }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPostReturnsSuccessAndUpdatesDb()
     {
