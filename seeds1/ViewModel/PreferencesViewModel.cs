@@ -69,7 +69,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            if (!await cupService.PutCatagUserPreferenceAsync(
+            if (!await cupService.PutUserPreferenceAsync(
                 pref.CategoryKey,
                 CurrentUser.Username,
                 catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),

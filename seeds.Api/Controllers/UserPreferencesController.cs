@@ -17,47 +17,45 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
-        // PUT: api/CatagUserPreferences/NoC/tobi?tagName=tag
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{catKey}/{username}")]
-        public async Task<IActionResult> PutCatagUserPreference(
-            string catKey, string username, string? tagName,
-            UserPreference cup)
+        // POST: api/UserPreferences
+        /// <summary>
+        /// Upsert (update + insert) endpoint.
+        /// May later be used for all Items that have a Guid PK.
+        /// For now a UserPreference is a join entity between User and Tag.
+        /// </summary>
+        /// <param name="cup">The new or updated preference.</param>
+        /// <returns></returns>
+        [HttpPost("upsert")]
+        public async Task<IActionResult> PostOrPutUserPreference(UserPreference cup)
         {
-            catKey = HttpUtility.UrlDecode(catKey);
-            username = HttpUtility.UrlDecode(username);
-            tagName = HttpUtility.UrlDecode(tagName);
-            if (catKey != cup.CategoryKey
-                || username != cup.Username) { return BadRequest("Inconsistent request."); }
-
-            // we use that the triple (cup.CategoryKey, cup.Username, cup.TagName) is unique!
-            var oldCup = await _context.CatagUserPreference.FirstOrDefaultAsync(e =>
-                e.CategoryKey == catKey &&
-                e.Username == username &&
-                e.TagName == tagName);
-
-            if (oldCup != null)
+            try
             {
-                // oldCup is part of the Change Tracker so we can simply change it and
-                // this will affect the _context.
-                oldCup.Value = cup.Value;
-                try
+                if (!CatagUserPreferenceExists(cup.Username, cup.ItemId))
                 {
+                    //if ((!_context.Tag?.Any(e => e.Id == cup.ItemId))
+                    //    .GetValueOrDefault())
+                    //{  }
+                    // POST
+                    _context.CatagUserPreference.Add(cup);
                     await _context.SaveChangesAsync();
+                    return Created("GetPreferencesOfUser", cup);
                 }
-                catch (Exception ex) { return Problem(ex.Message); }
+                else
+                {
+                    // PUT
+                    _context.Entry(cup).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                    return Ok();
+                }
             }
-            else { return NotFound(); }
-
-            return NoContent();
+            catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        private bool CatagUserPreferenceExists(string categoryKey, string username, string? tagName)
+        private bool CatagUserPreferenceExists(string username, Guid itemId)
         {
             return (_context.CatagUserPreference?.Any(e =>
-                e.CategoryKey == categoryKey &&
                 e.Username == username &&
-                e.TagName == tagName))
+                e.ItemId == itemId))
                 .GetValueOrDefault();
         }
     }

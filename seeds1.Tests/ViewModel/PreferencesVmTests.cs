@@ -29,7 +29,7 @@ public class PreferencesVmTests
         }};
         A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
             .Returns(14);
-        A.CallTo(() => cupService.PutCatagUserPreferenceAsync(
+        A.CallTo(() => cupService.PutUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
             .Returns(true);
         #endregion

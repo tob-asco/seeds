@@ -12,20 +12,20 @@ public class UserPreferenceService : IUserPreferenceService
         _baseService = baseService;
     }
 
-    public async Task<bool> PutCatagUserPreferenceAsync(
-        string catKey, string username,
-        int newPreference, string? tagName = null)
+    public async Task UpsertUserPreferenceAsync(
+        string username, Guid itemId, int newValue)
     {
-        string url = $"api/CatagUserPreferences/" +
-            $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(username)}";
-        if (tagName != null) { url += $"?tagName={HttpUtility.UrlEncode(tagName)}"; }
-        UserPreference newCup = new()
+        string url = $"api/UserPreferences/upsert";
+        UserPreference cup = new()
         {
-            CategoryKey = catKey,
+            ItemId = itemId,
             Username = username,
-            TagName = tagName,
-            Value = newPreference
+            Value = newValue
         };
-        return await _baseService.PutDalModelAsync<UserPreference>(url, newCup);
+        
+        if(!await _baseService.PostDalModelBoolReturnAsync(url, cup))
+        {
+            throw _baseService.ThrowPostConflictException(url);
+        }
     }
 }

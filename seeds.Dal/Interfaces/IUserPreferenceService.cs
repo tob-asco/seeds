@@ -4,12 +4,10 @@ namespace seeds.Dal.Interfaces;
 
 public interface IUserPreferenceService
 {
-    /* If successful returns true,
-     * if not-found returns false,
-     * else: base throws.
-     */
-    public Task<bool> PutCatagUserPreferenceAsync(
-        string categoryKey, string username, 
-        int newPreference, string? tagName = null
-        );
+    /// <summary>
+    /// Posts an upsert request.
+    /// </summary>
+    /// <returns>Throws exception or nothing.</returns>
+    public Task UpsertUserPreferenceAsync(
+        string username, Guid itemId, int newValue);
 }

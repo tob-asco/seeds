@@ -115,7 +115,7 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (!await cupService.PutCatagUserPreferenceAsync(
+                if (!await cupService.PutUserPreferenceAsync(
                     catagPref.CategoryKey,
                     CurrentUser.Username,
                     (int)newCatPreference,
