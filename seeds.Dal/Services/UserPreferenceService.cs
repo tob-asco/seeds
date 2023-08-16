@@ -12,6 +12,13 @@ public class UserPreferenceService : IUserPreferenceService
         _baseService = baseService;
     }
 
+    public async Task<List<UserPreference>> GetPreferencesOfUserAsync(string username)
+    {
+        string url = $"api/UserPreferences/{username}";
+        return await _baseService.GetDalModelAsync<List<UserPreference>>(url)
+            ?? throw _baseService.ThrowGetNullException(nameof(url));
+    }
+
     public async Task UpsertUserPreferenceAsync(
         string username, Guid itemId, int newValue)
     {

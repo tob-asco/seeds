@@ -15,6 +15,35 @@ public class UserPreferenceServiceTests
         _baseService = A.Fake<IDalBaseService>();
         _service = new UserPreferenceService(_baseService);
     }
+  
+    [Fact]
+    public async Task CupService_GetPreferencesOfUser_NoException()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserPreference>>(A<string>.Ignored))
+            .Returns<List<UserPreference>?>(new());
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetPreferencesOfUserAsync("");
+
+        // Assert
+        await act.Should().NotThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task CupService_GetPreferencesOfUser_IfNullThrows()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<UserPreference>>(A<string>.Ignored))
+            .Returns<List<UserPreference>?>(null);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetPreferencesOfUserAsync("");
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
     [Fact]
     public async Task CupService_UpsertUserPreference_NoException()
     {
