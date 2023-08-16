@@ -6,10 +6,17 @@ namespace seeds1.Interfaces;
 public interface IGlobalService
 {
     public UserDto CurrentUser { get; set; }
+    public Dictionary<Guid, UserPreference> CurrentUserPreferences { set; }
+    public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { set; }
 
     /// <summary>
-    /// Gets all UserPrefernces of the CurrentUser
+    /// Loads UserPrefernces of the CurrentUser, to be retrieved by GetPreferences().
     /// </summary>
-    /// <returns>A dictionary with the key given by the ItemId</returns>
-    public Task<Dictionary<Guid, UserPreference>> GetPreferencesAsync();
+    public Task LoadPreferencesAsync();
+    public Dictionary<Guid, UserPreference> GetPreferences();
+    /// <summary>
+    /// Loads UserIdeaInteractions of the CurrentUser, to be retrieved by GetIdeaInteractions().
+    /// </summary>
+    public Task LoadIdeaInteractionsAsync();
+    public Dictionary<int, UserIdeaInteraction> GetIdeaInteractions();
 }

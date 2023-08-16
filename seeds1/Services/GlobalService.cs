@@ -11,10 +11,10 @@ public class GlobalService : IGlobalService
     private readonly IUserIdeaInteractionService uiiService;
 
     public UserDto CurrentUser { get; set; }
-    private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
-    private bool PreferencesPopulated { get; set; } = false;
-    private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; }
-    private bool IdeaInteractionsPopulated { get; set; } = false;
+    public Dictionary<Guid, UserPreference> CurrentUserPreferences { private get; set; }
+    private bool PreferencesLoaded { get; set; } = false;
+    public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { private get; set; }
+    private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
         IUserPreferenceService userPrefService,
         IUserIdeaInteractionService uiiService)
@@ -23,35 +23,43 @@ public class GlobalService : IGlobalService
         this.uiiService = uiiService;
     }
 
-    /// <summary>
-    /// Gets all UserPrefernces of the CurrentUser
-    /// </summary>
-    /// <returns>A dictionary with the key given by the ItemId</returns>
-    public async Task<Dictionary<Guid, UserPreference>> GetPreferencesAsync()
+    public async Task LoadPreferencesAsync()
     {
-        if (!PreferencesPopulated)
+        if (!PreferencesLoaded)
         {
             var userPreferencesList = await userPrefService
                 .GetPreferencesOfUserAsync(CurrentUser.Username);
-            PreferencesPopulated = true;
-            return userPreferencesList.ToDictionary(up => up.ItemId);
+            CurrentUserPreferences = userPreferencesList
+                .ToDictionary(up => up.ItemId);
+            PreferencesLoaded = true;
         }
-        return CurrentUserPreferences;
+    }
+    public Dictionary<Guid, UserPreference> GetPreferences()
+    {
+        if (!PreferencesLoaded)
+        {
+            throw new InvalidOperationException("Preferences not yet loaded.");
+        }
+        else { return CurrentUserPreferences; }
     }
 
-    /// <summary>
-    /// Gets all UserIdeaInteractions of the CurrentUser
-    /// </summary>
-    /// <returns>A dictionary with the key given by the IdeaId</returns>
-    public async Task<Dictionary<int, UserIdeaInteraction>> GetIdeaInteractionsAsync()
+    public async Task LoadIdeaInteractionsAsync()
     {
-        if (!IdeaInteractionsPopulated)
+        if (!IdeaInteractionsLoaded)
         {
             var ideaInteractionsList = await uiiService
                 .GetIdeaInteractionsOfUserAsync(CurrentUser.Username);
-            IdeaInteractionsPopulated = true;
-            return ideaInteractionsList.ToDictionary(uii => uii.IdeaId);
+            CurrentUserIdeaInteractions = ideaInteractionsList
+                .ToDictionary(uii => uii.IdeaId);
+            IdeaInteractionsLoaded = true;
         }
-        return CurrentUserIdeaInteractions;
+    }
+    public Dictionary<int, UserIdeaInteraction> GetIdeaInteractions()
+    {
+        if (!PreferencesLoaded)
+        {
+            throw new InvalidOperationException("IdeaInteractions not yet loaded.");
+        }
+        else { return CurrentUserIdeaInteractions; }
     }
 }
