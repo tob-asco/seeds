@@ -75,11 +75,16 @@ public class DataSeeder
     {
         Tags.Add(new Tag { CategoryKey = "NoC", Name = "fusion" });
 
-        Tags.Add(new Tag { CategoryKey = "FEA", Name = "music app: {main music streaming apps}" });
-        Tags.Add(new Tag { CategoryKey = "FEA", Name = "streaming provider: {main video streaming providers}" });
-        Tags.Add(new Tag { CategoryKey = "FEA", Name = "social media: {main social platforms}" });
-        Tags.Add(new Tag { CategoryKey = "FEA", Name = "online meeting: {main meeting providers}" });
-        Tags.Add(new Tag { CategoryKey = "FEA", Name = "operating systems: {Win, Linux, OsX, Android, iOs, and smaller mobile Os}" });
+        foreach (string musicApp in new List<string>() { "Spotify", "Apple Music", "Amazon Music", "Google Play Music", "YouTube Music", "Tidal", "Deezer", "Pandora", "SoundCloud", "iHeartRadio" })
+            Tags.Add(new Tag { CategoryKey = "FEA", Name = $"music app| {musicApp}" });
+        foreach (string streamingProvider in new List<string>() { })
+            Tags.Add(new Tag { CategoryKey = "FEA", Name = $"streaming provider| {streamingProvider}" });
+        foreach (string socialMedium in new List<string>() { "Netflix", "Hulu", "Amazon Prime Video", "Disney plus", "HBO Max", "Apple TV plus", "Peacock", "YouTube TV", "Sling TV", "Vudu" })
+            Tags.Add(new Tag { CategoryKey = "FEA", Name = $"social media| {socialMedium}" });
+        foreach (string onlineMeetingApp in new List<string>() { "Zoom", "Microsoft Teams", "Google Meet", "Cisco Webex", "Skype", "GoToMeeting", "BlueJeans", "Slack", "Discord", "Zoho Meeting", "Adobe Connect" })
+            Tags.Add(new Tag { CategoryKey = "FEA", Name = $"online meeting| {onlineMeetingApp}" });
+        foreach (string os in new List<string>() { "Windows", "macOS", "Linux", "Chrome OS", "iOS", "Android", "Unix"})
+            Tags.Add(new Tag { CategoryKey = "FEA", Name = $"operating systems| {os}" });
         Tags.Add(new Tag { CategoryKey = "FEA", Name = "games" });
 
         Tags.Add(new Tag { CategoryKey = "TRA", Name = "electro" });
@@ -151,13 +156,17 @@ public class DataSeeder
         Tags.Add(new Tag { CategoryKey = "HEAL", Name = "posture" });
         Tags.Add(new Tag { CategoryKey = "HEAL", Name = "hygiene" });
         Tags.Add(new Tag { CategoryKey = "HEAL", Name = "allergies" });
-        Tags.Add(new Tag { CategoryKey = "HEAL", Name = "body region: {major regions like eyes, head, shoulder, back, stomach, hands, ..}" });
+        foreach (string region in new List<string>() { "eyes", "head", "shoulder", "back", "stomach", "hands" })
+        { Tags.Add(new Tag { CategoryKey = "HEAL", Name = $"region| {region}" }); }
 
         Tags.Add(new Tag { CategoryKey = "GOV", Name = "new law" });
         Tags.Add(new Tag { CategoryKey = "GOV", Name = "adapting law" });
         Tags.Add(new Tag { CategoryKey = "GOV", Name = "reducing law" });
-        Tags.Add(new Tag { CategoryKey = "GOV", Name = "for country: {all countries}" }); //(195 countries on Earth)
-        Tags.Add(new Tag { CategoryKey = "GOV", Name = "for city: {all cities}" }); //(approx. 10 000 cities on Earth)
+        List<string> countries = new List<string>() { "Argentina", "Australia", "Austria", "Belgium", "Brazil", "Canada", "Chile", "China", "Colombia", "Egypt", "France", "Germany", "Greece", "India", "Indonesia", "Ireland", "Israel", "Italy", "Japan", "Malaysia", "Mexico", "Netherlands", "New Zealand", "Nigeria", "Pakistan", "Peru", "Philippines", "Poland", "Portugal", "Russia", "Saudi Arabia", "Singapore", "South Africa", "South Korea", "Spain", "Sweden", "Switzerland", "Thailand", "Turkey", "Ukraine", "United Arab Emirates", "UK", "USA", "Vietnam" };
+        foreach (string country in countries)
+        { Tags.Add(new Tag { CategoryKey = "GOV", Name = $"for country| {country}" }); } //(195 countries on Earth)
+        foreach (string city in new List<string>() { "Hamburg", "Munich", "Salzburg", "Paris" })
+        { Tags.Add(new Tag { CategoryKey = "GOV", Name = $"for city| {city}" }); } //(approx. 10 000 cities on Earth)
 
         Tags.Add(new Tag { CategoryKey = "DSGN", Name = "furniture" });
         Tags.Add(new Tag { CategoryKey = "DSGN", Name = "architectural" });
@@ -179,19 +188,25 @@ public class DataSeeder
 
         Tags.Add(new Tag { CategoryKey = "ART", Name = "painting" });
         Tags.Add(new Tag { CategoryKey = "ART", Name = "sculpting" });
-        Tags.Add(new Tag { CategoryKey = "ART", Name = "movement: {major movements like Modernism, Realism, Cubism, Avant-Garde, ...}" });
+        foreach (string movement in new List<string>() { "Modernism", "Realism", "Cubism", "Avant-Garde" })
+        { Tags.Add(new Tag { CategoryKey = "ART", Name = $"movement| {movement}" }); }
 
-        Tags.Add(new Tag { CategoryKey = "MUS", Name = "mood: {electro, party, dancing, heroic, classic, deep, tense, ...}" });
-        Tags.Add(new Tag { CategoryKey = "MUS", Name = "local: {all countries}" });
+        foreach (string mood in new List<string>() { "electro", "party", "dancing", "heroic", "classic", "deep", "tense" })
+        { Tags.Add(new Tag { CategoryKey = "MUS", Name = $"mood| {mood}" }); }
+        foreach (string country in countries)
+        { Tags.Add(new Tag { CategoryKey = "MUS", Name = $"local| {country}" }); }
 
-        Tags.Add(new Tag { CategoryKey = "LIT", Name = "poetry: {all languages, maybe also dialects}" });
-        Tags.Add(new Tag { CategoryKey = "LIT", Name = "short: {all languages, maybe also dialects}" });
         Tags.Add(new Tag { CategoryKey = "LIT", Name = "novel topics" });
         Tags.Add(new Tag { CategoryKey = "LIT", Name = "sciFi topics" });
         Tags.Add(new Tag { CategoryKey = "LIT", Name = "sayings" });
         Tags.Add(new Tag { CategoryKey = "LIT", Name = "one-liners" });
         Tags.Add(new Tag { CategoryKey = "LIT", Name = "showerthoughts" });
-        Tags.Add(new Tag { CategoryKey = "LIT", Name = "for language: {all languages and dialects}" });
+        foreach (string lang in new List<string>() { "Arabic", "Chinese", "English", "French", "German", "Hindi", "Italian", "Japanese", "Korean", "Portuguese", "Russian", "Spanish", "Turkish", "Urdu" })
+        {
+            Tags.Add(new Tag { CategoryKey = "LIT", Name = $"poetry| {lang}" });
+            Tags.Add(new Tag { CategoryKey = "LIT", Name = $"short| {lang}" });
+            Tags.Add(new Tag { CategoryKey = "LIT", Name = $"for language| {lang}" });
+        }
 
         Tags.Add(new Tag { CategoryKey = "SOC", Name = "grand movement" });
         Tags.Add(new Tag { CategoryKey = "SOC", Name = "global crisis" });
@@ -201,10 +216,12 @@ public class DataSeeder
         Tags.Add(new Tag { CategoryKey = "GAD", Name = "diy" });
         Tags.Add(new Tag { CategoryKey = "GAD", Name = "3d prints" });
 
-        Tags.Add(new Tag { CategoryKey = "SPO", Name = "sports gear: {major sports}" });
-        Tags.Add(new Tag { CategoryKey = "SPO", Name = "new moves: {major sports}" });
-        Tags.Add(new Tag { CategoryKey = "SPO", Name = "olympiad" });
-        Tags.Add(new Tag { CategoryKey = "SPO", Name = "train for: {major sports}" });
+        foreach (string majorSport in new List<string>() { "working out", "climbing sports", "hiking", "snow sports", "soccer", "football", "baseball", "basketball", "cricket", "swimming", "dancing", "chess", "MMA disciplines", "fencing sports", "table tennis", "tennis", "golf", "ice hockey", "floorball", "w/ horse" })
+        {
+            Tags.Add(new Tag { CategoryKey = "SPO", Name = $"gear| {majorSport}" });
+            Tags.Add(new Tag { CategoryKey = "SPO", Name = $"moves| {majorSport}" });
+        }
+        Tags.Add(new Tag { CategoryKey = "SPO", Name = $"olympiad" });
     }
     public void PopulateUsers()
     {
