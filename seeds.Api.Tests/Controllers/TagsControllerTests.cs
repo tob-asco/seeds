@@ -12,6 +12,7 @@ public class TagsControllerTests : ApiControllerTestsBase
     public List<Tag> Tags { get; set; } = new();
 
     public TagsControllerTests()
+        :base(baseUri: "api/Tags/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -45,7 +46,7 @@ public class TagsControllerTests : ApiControllerTestsBase
     public async Task TagsController_GetAllEndpoint_ReturnsListOfCorrectLength()
     {
         // Arrange
-        string url = $"api/Tags";
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -62,7 +63,7 @@ public class TagsControllerTests : ApiControllerTestsBase
         // Arrange
         _context.Tag.RemoveRange(Tags);
         _context.SaveChanges();
-        string url = $"api/Tags";
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -76,7 +77,7 @@ public class TagsControllerTests : ApiControllerTestsBase
         // Arrange
         string catKey = Cats[0].Key;
         string name = Tags[0].Name;
-        string url = $"api/Tags/" +
+        string url = baseUri +
             $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(name)}";
 
         // Act
@@ -93,7 +94,7 @@ public class TagsControllerTests : ApiControllerTestsBase
     public async Task TagsController_GetEndpoint_IfNotExistReturnsNotFound()
     {
         // Arrange
-        string url = $"api/Tags/ThisShouldBeNoValidKey/ok";
+        string url = baseUri + $"ThisShouldBeNoValidKey/ok";
 
         // Act
         var response = await _httpClient.GetAsync(url);

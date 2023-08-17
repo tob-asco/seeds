@@ -17,6 +17,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     private readonly int noUiiUsernameAndIdeaId = 4;
 
     public UserIdeaInteractionControllerTests()
+        :base(baseUri: "api/UserIdeaInteractions/")
     {
         _controller = new(_context);
         PopulatePropertiesAndAddToDb();
@@ -63,7 +64,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     {
         //Arrange
         string username = Users[existingUiiUsernameAndIdeaId].Username;
-        string url = $"api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -79,7 +80,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     public async Task UiiController_GetIdeaInteractionsOfUserEndpoint_IfUserNotExistsReturnsEmpty()
     {
         //Arrange
-        string url = $"api/UserIdeaInteractions/notAuser";
+        string url = baseUri + $"notAuser";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -96,7 +97,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
         //Arrange
         string username = Users[existingUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -114,7 +115,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
         // Arrange
         string username = Users[noUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[noUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -135,7 +136,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
             Upvoted = false,
             Downvoted = true,
         };
-        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url,JsonContent.Create(uii));
@@ -155,7 +156,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
             Username = username,
             IdeaId = ideaId,
         };
-        string url = $"/api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(uii));
@@ -205,7 +206,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+        string url = baseUri + $"{ideaId}/upvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -220,7 +221,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = -1;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+        string url = baseUri + $"{ideaId}/upvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -233,7 +234,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+        string url = baseUri + $"{ideaId}/downvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -248,7 +249,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = -1;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+        string url = baseUri + $"{ideaId}/downvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);

@@ -9,7 +9,8 @@ public class ApiControllerTestsBase : IDisposable
 {
     protected readonly seedsApiContext _context;
     protected readonly HttpClient _httpClient;
-    public ApiControllerTestsBase()
+    protected readonly string baseUri = "";
+    public ApiControllerTestsBase(string baseUri)
     {
         var options = new DbContextOptionsBuilder<seedsApiContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
@@ -27,6 +28,7 @@ public class ApiControllerTestsBase : IDisposable
                 });
             });
         _httpClient = factory.CreateClient();
+        this.baseUri = baseUri;
     }
 
     // Disposing the context is important to avoid "already tracked" errors

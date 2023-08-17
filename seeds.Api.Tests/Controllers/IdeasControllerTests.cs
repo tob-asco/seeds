@@ -14,6 +14,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     public List<Idea> Ideas { get; set; } = new();
 
     public IdeasControllerTests()
+        :base(baseUri: "api/Ideas/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -43,7 +44,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         int pageIndex, int pageSize)
     {
         //Arrange
-        string url = $"api/Ideas/page/{pageIndex}?pageSize={pageSize}";
+        string url = baseUri + $"page/{pageIndex}?pageSize={pageSize}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -72,7 +73,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         _context.Idea.Add(new() { CreationTime = DateTime.MinValue });
         _context.Idea.Add(new() { CreationTime = DateTime.MaxValue });
         _context.SaveChanges();
-        string url = $"api/Ideas/page/1?pageSize={Ideas.Count + 10}";
+        string url = baseUri + $"page/1?pageSize={Ideas.Count + 10}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -89,7 +90,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int id = Ideas[0].Id;
-        string url = $"/api/Ideas/{id}";
+        string url = baseUri + $"{id}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -106,7 +107,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int id = -900;
-        string url = $"/api/Ideas/{id}";
+        string url = baseUri + $"{id}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -124,7 +125,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
             Id = id,
             Title = "new title"
         };
-        string url = $"/api/Ideas/{id}";
+        string url = baseUri + $"{id}";
         var content = JsonContent.Create(idea);
 
         //Act
@@ -146,7 +147,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
             CreationTime = time,
             Title = Guid.NewGuid().ToString(),
         };
-        string url = $"/api/Ideas/{id}";
+        string url = baseUri + $"{id}";
         var content = JsonContent.Create(idea);
 
         //Act
@@ -162,7 +163,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int id = -900;
-        string url = $"/api/Ideas/{id}";
+        string url = baseUri + $"{id}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -178,7 +179,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         {
             Title = "new title",
         };
-        string url = $"/api/Ideas";
+        string url = baseUri;
         var content = JsonContent.Create(idea);
 
         //Act
@@ -196,7 +197,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         {
             Title = title,
         };
-        string url = $"/api/Ideas";
+        string url = baseUri;
         var content = JsonContent.Create(idea);
 
         //Act

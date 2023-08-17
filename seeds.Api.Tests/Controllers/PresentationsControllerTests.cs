@@ -11,6 +11,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
     public List<Idea> Ideas { get; set; } = new();
     public List<Presentation> Presentations { get; set; } = new();
     public PresentationsControllerTests()
+        :base(baseUri: "api/Presentations/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -43,7 +44,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = Ideas[ideasIndexWithPresentation].Id;
-        string url = $"/api/Presentations/{ideaId}";
+        string url = baseUri + $"{ideaId}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -59,7 +60,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
     {
         // Arrange
         int ideaId = Ideas[ideasIndexWithNoPresentation].Id;
-        string url = $"/api/Presentations/{ideaId}";
+        string url = baseUri + $"{ideaId}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -79,7 +80,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
             IdeaId = ideaId,
             Description = "new description",
         };
-        string url = $"/api/Presentations/{ideaId}";
+        string url = baseUri + $"{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(presi));
@@ -99,7 +100,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
             Id = presiId,
             IdeaId = ideaId,
         };
-        string url = $"/api/Presentations/{ideaId}";
+        string url = baseUri + $"{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(uii));
@@ -116,7 +117,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
             IdeaId = Ideas[ideasIndexWithNoPresentation].Id,
             Description = "new description"
         };
-        string url = "api/Presentations";
+        string url = baseUri;
 
         //Act
         var response = await _httpClient.PostAsync(url, JsonContent.Create(presi));
@@ -131,7 +132,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
     {
         //Arrange
         Presentation presi = Presentations[0];
-        string url = "api/Presentations";
+        string url = baseUri;
 
         //Act
         var response = await _httpClient.PostAsync(url, JsonContent.Create(presi));

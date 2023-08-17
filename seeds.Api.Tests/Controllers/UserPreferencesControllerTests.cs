@@ -16,6 +16,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     readonly int tagsIndexWithoutCup = 10;
 
     public UserPreferencesControllerTests()
+        :base(baseUri: "api/UserPreferences/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -69,7 +70,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     {
         //Arrange
         string username = Users[0].Username;
-        string url = $"api/UserPreferences/{HttpUtility.UrlEncode(username)}";
+        string url = baseUri + HttpUtility.UrlEncode(username);
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -85,7 +86,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     public async Task CupController_GetPreferencesOfUserEndpoint_IfUserNotExistsReturnsEmpty()
     {
         //Arrange
-        string url = $"api/UserPreferences/notAuser";
+        string url = baseUri + "notAuser";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -108,7 +109,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
             Username = Users[0].Username,
             Value = 1
         };
-        string url = $"api/UserPreferences/upsert";
+        string url = baseUri + $"upsert";
         var content = JsonContent.Create(cup);
 
         //Act
@@ -125,7 +126,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         int index = 0;
         UserPreference cup = Cups[index];
         cup.Value++;
-        string url = $"api/UserPreferences/upsert";
+        string url = baseUri + $"upsert";
         var content = JsonContent.Create(cup);
 
         //Act
@@ -140,7 +141,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     public async Task CupController_PostOrPutEndpoint_IfTagNotExistReturnsNotSuccess()
     {
         //Arrange
-        string url = $"/api/UserPreferences/upsert";
+        string url = baseUri + $"upsert";
         UserPreference cup = new()
         {
             ItemId = Guid.NewGuid(),

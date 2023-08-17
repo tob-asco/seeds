@@ -11,6 +11,7 @@ public class UsersControllerTests : ApiControllerTestsBase
     public List<User> Users { get; set; } = new();
 
     public UsersControllerTests()
+        :base(baseUri: "api/Users/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -36,7 +37,7 @@ public class UsersControllerTests : ApiControllerTestsBase
     {
         //Arrange
         string username = Users[5].Username;
-        string url = $"/api/Users/{HttpUtility.UrlEncode(username)}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -51,7 +52,7 @@ public class UsersControllerTests : ApiControllerTestsBase
     public async Task UsersController_GetUserEndpoint_IfNotExistReturnsNotFound()
     {
         //Arrange
-        string url = $"/api/Users/{Guid.NewGuid().ToString()}";
+        string url = baseUri + $"{Guid.NewGuid().ToString()}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -70,7 +71,7 @@ public class UsersControllerTests : ApiControllerTestsBase
             Password = "",
             Email = ""
         };
-        string url = "/api/Users";
+        string url = baseUri;
         HttpContent content = JsonContent.Create(user);
 
         //Act
@@ -93,7 +94,7 @@ public class UsersControllerTests : ApiControllerTestsBase
             Password = "",
             Email = ""
         };
-        string url = "/api/Users";
+        string url = baseUri;
         HttpContent content = JsonContent.Create(user);
 
         //Act

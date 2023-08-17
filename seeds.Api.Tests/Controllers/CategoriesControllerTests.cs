@@ -11,6 +11,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
     public List<Category> Categories { get; set; } = new();
 
     public CategoriesControllerTests()
+        :base(baseUri: "api/Categories/")
     {
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
@@ -35,7 +36,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
     public async Task CatsController_GetAllEndpoint_ReturnsListOfCorrectLength()
     {
         // Arrange
-        string url = $"api/Categories";
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -52,7 +53,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
         // Arrange
         _context.Category.RemoveRange(Categories);
         _context.SaveChanges();
-        string url = $"api/Categories";
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -65,7 +66,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
     {
         // Arrange
         string key = Categories[0].Key;
-        string url = $"api/Categories/{HttpUtility.UrlEncode(key)}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(key)}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -80,7 +81,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
     public async Task CatsController_GetEndpoint_IfNotExistReturnsNotFound()
     {
         // Arrange
-        string url = $"api/Categories/ThisShouldBeNoValidKey";
+        string url = baseUri + $"ThisShouldBeNoValidKey";
 
         // Act
         var response = await _httpClient.GetAsync(url);

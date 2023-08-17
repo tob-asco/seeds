@@ -20,6 +20,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
     private readonly int indexForIdeasAndTagsWithoutIdeaTag = 4;
 
     public IdeaTagsControllerTests()
+        :base(baseUri: "api/IdeaTags/")
     {
         mapper = A.Fake<IMapper>();
         _controller = new(_context, mapper);
@@ -69,7 +70,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int ideaId = Ideas[indexForIdeaWith3IdeaTags].Id;
-        string url = $"/api/IdeaTags/{ideaId}";
+        string url = baseUri + $"{ideaId}";
         //List<Tag> mapperParameter = new();
         //A.CallTo(() => mapper.Map<List<TagFromDb>>(A<List<Tag>?>._))
         //    .Invokes((List<Tag>? source) => mapperParameter = source!)
@@ -90,7 +91,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
     {
         // Arrange
         int ideaId = Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id;
-        string url = $"/api/IdeaTags/{ideaId}";
+        string url = baseUri + $"{ideaId}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -110,7 +111,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
             IdeaId = Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id,
             TagId = Tags[indexForIdeasAndTagsWithoutIdeaTag].Id
         };
-        string url = "api/IdeaTags";
+        string url = baseUri;
 
         //Act
         var response = await _httpClient.PostAsync(url, JsonContent.Create(ideaTag));
@@ -128,7 +129,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
             IdeaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id,
             TagId = Tags[indexForIdeasAndTagsWithIdeaTag].Id
         };
-        string url = "api/IdeaTags";
+        string url = baseUri;
 
         //Act
         var response = await _httpClient.PostAsync(url, JsonContent.Create(ideaTag));
@@ -143,7 +144,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         int ideaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id;
         string catKey = Tags[indexForIdeasAndTagsWithIdeaTag].CategoryKey;
         string tagName = Tags[indexForIdeasAndTagsWithIdeaTag].Name;
-        string url = $"api/IdeaTags/" +
+        string url = baseUri +
             $"{ideaId}/{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(tagName)}";
 
         //Act
@@ -164,7 +165,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         int ideaId = Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id;
         string catKey = Tags[indexForIdeasAndTagsWithoutIdeaTag].CategoryKey;
         string tagName = Tags[indexForIdeasAndTagsWithoutIdeaTag].Name;
-        string url = $"/api/IdeaTags/" +
+        string url = baseUri +
             $"{ideaId}/{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(tagName)}";
 
         // Act
