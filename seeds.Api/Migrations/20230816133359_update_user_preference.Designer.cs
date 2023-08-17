@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using seeds.Api.Data;
@@ -11,9 +12,11 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    partial class seedsApiContextModelSnapshot : ModelSnapshot
+    [Migration("20230816133359_update_user_preference")]
+    partial class update_user_preference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace seeds.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryUser", b =>
-                {
-                    b.Property<string>("CategoriesKey")
-                        .HasColumnType("character varying(6)");
-
-                    b.Property<string>("UsersUsername")
-                        .HasColumnType("text");
-
-                    b.HasKey("CategoriesKey", "UsersUsername");
-
-                    b.HasIndex("UsersUsername");
-
-                    b.ToTable("CategoryUser");
-                });
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
@@ -260,6 +248,10 @@ namespace seeds.Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("username");
 
+                    b.Property<string>("CategoriesKey")
+                        .IsRequired()
+                        .HasColumnType("character varying(6)");
+
                     b.Property<Guid?>("TagsId")
                         .HasColumnType("uuid");
 
@@ -269,26 +261,13 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("ItemId", "Username");
 
+                    b.HasIndex("CategoriesKey");
+
                     b.HasIndex("TagsId");
 
                     b.HasIndex("Username");
 
                     b.ToTable("user_preference");
-                });
-
-            modelBuilder.Entity("CategoryUser", b =>
-                {
-                    b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesKey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersUsername")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Family", b =>
@@ -369,6 +348,12 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.UserPreference", b =>
                 {
+                    b.HasOne("seeds.Dal.Model.Category", null)
+                        .WithMany("CatagUserPreferences")
+                        .HasForeignKey("CategoriesKey")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("seeds.Dal.Model.Tag", null)
                         .WithMany("CatagUserPreferences")
                         .HasForeignKey("TagsId");
@@ -382,6 +367,8 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
+                    b.Navigation("CatagUserPreferences");
+
                     b.Navigation("Families");
 
                     b.Navigation("Tags");

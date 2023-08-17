@@ -13,7 +13,7 @@ public class FeedEntriesServiceTests
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly ICatagPreferencesService catagPrefService;
     private readonly FeedEntriesService service;
@@ -22,7 +22,7 @@ public class FeedEntriesServiceTests
         globalService = A.Fake<IGlobalService>();
         ideasService = A.Fake<IIdeasService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<ICatagUserPreferenceService>();
+        cupService = A.Fake<IUserPreferenceService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
         catagPrefService = A.Fake<ICatagPreferencesService>();
         service = new(globalService, ideasService, uiiService, catagPrefService);
@@ -47,9 +47,9 @@ public class FeedEntriesServiceTests
         A.CallTo(() => ideasService.GetIdeasPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(ideaPage);
-        A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
-            A<IdeaFromDb>.Ignored))
-            .Returns(catagPrefs);
+        //A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
+        //    A<IdeaFromDb>.Ignored))
+        //    .Returns(catagPrefs);
         A.CallTo(() => uiiService.CountVotesAsync(A<int>.Ignored))
             .Returns(0);
         #endregion

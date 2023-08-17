@@ -46,7 +46,7 @@ public class DalBaseServiceTests
     [InlineData(typeof(UserDto))]
     [InlineData(typeof(IdeaFromDb))]
     [InlineData(typeof(CategoryDto))]
-    [InlineData(typeof(CatagUserPreference))]
+    [InlineData(typeof(UserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
     public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(
         Type T)

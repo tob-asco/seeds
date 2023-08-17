@@ -39,14 +39,14 @@ public class FeedEntriesService : IFeedEntriesService
              * error-handling is done in the VMs
              */
             var upvotes = await uiiService.CountVotesAsync(idea.Id);
-            var tagPrefs = await catagPreferencesService.GetTagPreferencesOfIdeaAsync(idea);
+            //var tagPrefs = await catagPreferencesService.GetTagPreferencesOfIdeaAsync(idea);
             var uii = await uiiService.GetUserIdeaInteractionAsync(
                 globalService.CurrentUser.Username, idea.Id)
                 ?? new UserIdeaInteraction();
             feedEntryPage.Add(new FeedEntry
             {
                 Idea = idea,
-                CatagPreferences = tagPrefs,
+                //CatagPreferences = tagPrefs,
                 Upvoted = uii.Upvoted,
                 Downvoted = uii.Downvoted,
                 Upvotes = upvotes,

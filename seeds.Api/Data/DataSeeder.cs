@@ -8,7 +8,7 @@ public class DataSeeder
     public List<Category> Cats = new();
     public List<Tag> Tags = new();
     public List<User> Users = new();
-    public List<CatagUserPreference> Cups = new();
+    public List<UserPreference> Cups = new();
     public List<Idea> Ideas = new();
 
     public DataSeeder(seedsApiContext dbContext)
@@ -29,10 +29,6 @@ public class DataSeeder
         PopulateUsers();
         if (!_dbContext.User.Any()) { _dbContext.User.AddRange(Users); }
         else { Users = _dbContext.User.ToList(); }
-
-        PopulateCups();
-        if (!_dbContext.CatagUserPreference.Any()) { _dbContext.CatagUserPreference.AddRange(Cups); }
-        else { Cups = _dbContext.CatagUserPreference.ToList(); }
 
         PopulateIdeas();
         if (!_dbContext.Idea.Any()) { _dbContext.Idea.AddRange(Ideas); }
@@ -233,31 +229,6 @@ public class DataSeeder
         Users.Add(new User { Username = "theCriticalOne" });
         Users.Add(new User { Username = "theInspiredOne" });
         Users.Add(new User { Username = "prefa" });
-    }
-    public void PopulateCups()
-    {
-        foreach (var user in Users)
-        {
-            foreach (var category in Cats)
-            {
-                Cups.Add(new()
-                {
-                    CategoryKey = category.Key,
-                    Username = user.Username,
-                    Value = 0
-                });
-            }
-            foreach (var tag in Tags)
-            {
-                Cups.Add(new()
-                {
-                    CategoryKey = tag.CategoryKey,
-                    Username = user.Username,
-                    TagName = tag.Name,
-                    Value = 0
-                });
-            }
-        }
     }
     public void PopulateIdeas()
     {

@@ -30,7 +30,7 @@ public class User
     public string Email { get; set; }
 
     #region Navigation
-    public List<CatagUserPreference> CatagUserPreferences { get; } = new();
+    public List<UserPreference> CatagUserPreferences { get; } = new();
     public List<Category> Categories { get; } = new();
     public List<Tag> Tags { get; } = new();
     public List<Idea> CreatedIdeas { get; set; } = new();

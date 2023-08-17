@@ -59,6 +59,38 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     }
 
     [Fact]
+    public async Task UiiController_GetIdeaInteractionsOfUserEndpoint_ReturnsItselfs()
+    {
+        //Arrange
+        string username = Users[existingUiiUsernameAndIdeaId].Username;
+        string url = $"api/UserIdeaInteractions/{HttpUtility.UrlEncode(username)}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserIdeaInteraction>>();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_context.UserIdeaInteraction.Where(
+            uii => uii.Username == username));
+    }
+    [Fact]
+    public async Task UiiController_GetIdeaInteractionsOfUserEndpoint_IfUserNotExistsReturnsEmpty()
+    {
+        //Arrange
+        string url = $"api/UserIdeaInteractions/notAuser";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserIdeaInteraction>>();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
+    }
+    [Fact]
     public async Task UiiController_GetEndpoint_ReturnsItself()
     {
         //Arrange

@@ -17,6 +17,21 @@ namespace seeds.Api.Controllers
             _context = context;
         }
 
+        // GET: api/UserIdeaInteractions/tobi
+        [HttpGet("{username}")]
+        public async Task<ActionResult<List<UserIdeaInteraction>>> GetIdeaInteractionsOfUser(
+            string username)
+        {
+            if (_context.UserIdeaInteraction != null)
+            {
+                username = HttpUtility.UrlDecode(username);
+                var uiis = _context.UserIdeaInteraction.Where(
+                    uii => uii.Username == username);
+                return uiis != null ?
+                    await uiis.ToListAsync() : new List<UserIdeaInteraction>();
+            }
+            return NotFound();
+        }
         // GET: api/UserIdeaInteractions/tobi/0
         [HttpGet("{username}/{ideaId}")]
         public async Task<ActionResult<UserIdeaInteraction>> GetUserIdeaInteraction(

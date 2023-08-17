@@ -12,13 +12,14 @@ namespace seeds1.ViewModel;
 public partial class PreferencesViewModel : MyBaseViewModel
 {
     private readonly ICatagPreferencesService catPrefService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         ICatagPreferencesService catPrefService,
-        ICatagUserPreferenceService cupService)
-        : base(globalService)
+        IUserPreferenceService cupService)
+        : base(staticService, globalService)
     {
         this.catPrefService = catPrefService;
         this.cupService = cupService;
@@ -35,8 +36,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            List<CatagPreference> catagPrefs = 
-                await catPrefService.GetCatagPreferencesAsync();
+            List<CatagPreference> catagPrefs = new();
+            //    await catPrefService.GetCatagPreferencesAsync();
 
             var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
             foreach (var group in groups)
@@ -69,14 +70,14 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            if (!await cupService.PutCatagUserPreferenceAsync(
-                pref.CategoryKey,
-                CurrentUser.Username,
-                catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-                tagName: pref.TagName))
-            {
-                throw new Exception($"Fatal: PUT failed.");
-            }
+            //if (!await cupService.PutUserPreferenceAsync(
+            //    pref.CategoryKey,
+            //    CurrentUser.Username,
+            //    catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
+            //    tagName: pref.TagName))
+            //{
+            //    throw new Exception($"Fatal: PUT failed.");
+            //}
         }
         catch (Exception ex)
         {

@@ -10,17 +10,16 @@ namespace seeds.Dal.Model;
  * cf. https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-and-join-table-with-payload
  */
 
-[Table("category_user")]
-public class CatagUserPreference
+/// <summary>
+/// Join Entity that may be used for a tuple of (User, {entity with Guid Id}).
+/// It comes with an int Payload "Value".
+/// </summary>
+[Table("user_preference")]
+public class UserPreference
 {
-    [Key]
-    [Column("id")]
-    public Guid Id { get; set; }
-    [Column("category_key")]
-    public string CategoryKey { get; set; } = "NoC";
-    [Column("tag_name")]
-    [AllowNull] // if null in DB, then this is a category preference
-    public string? TagName { get; set; }
+    [Column("item_id")]
+    public Guid ItemId { get; set; } = new();
+
     [Column("username")]
     public string Username { get; set; } = "tobi";
 

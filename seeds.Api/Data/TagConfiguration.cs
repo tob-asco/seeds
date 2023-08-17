@@ -18,7 +18,7 @@ public class TagConfiguration : IEntityTypeConfiguration<Tag>
         // tag : user = M : N (+some preference, hence the explicit entity)
         builder.HasMany(t => t.Users)
             .WithMany(u => u.Tags)
-            .UsingEntity<CatagUserPreference>();
+            .UsingEntity<UserPreference>();
 
         // Tag : Family = N : 1 (N=0 is allowed)
         builder.HasOne(t => t.Family)

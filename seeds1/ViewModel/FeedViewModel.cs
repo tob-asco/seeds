@@ -14,18 +14,19 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICatagUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
     public FeedViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        ICatagUserPreferenceService cupService,
+        IUserPreferenceService cupService,
         ICatagPreferencesService catPrefService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
@@ -115,14 +116,14 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (!await cupService.PutCatagUserPreferenceAsync(
-                    catagPref.CategoryKey,
-                    CurrentUser.Username,
-                    (int)newCatPreference,
-                    tagName: catagPref.TagName))
-                {
-                    throw new Exception($"Fatal: Could not Put.");
-                }
+                //if (!await cupService.PutUserPreferenceAsync(
+                //    catagPref.CategoryKey,
+                //    CurrentUser.Username,
+                //    (int)newCatPreference,
+                //    tagName: catagPref.TagName))
+                //{
+                //    throw new Exception($"Fatal: Could not Put.");
+                //}
             }
             catch (Exception ex)
             {
