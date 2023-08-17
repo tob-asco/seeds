@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using seeds.Api.Controllers;
+using seeds.Api.Helpers;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
@@ -10,14 +13,19 @@ namespace seeds.Api.Tests.Controllers;
 public class UserPreferencesControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
+    public Family Fam { get; set; } = new();
+    readonly int tagsIndexWithFamilyAndCup = 4;
     public List<Tag> Tags { get; set; } = new();
     public Category Category { get; set; } = new();
     public List<UserPreference> Cups { get; set; } = new();
-    readonly int tagsIndexWithoutCup = 10;
+    readonly int tagsIndexWithFamilyButNoCup = 10;
+    private readonly IMapper mapper;
 
     public UserPreferencesControllerTests()
         :base(baseUri: "api/UserPreferences/")
     {
+        var config = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>());
+        mapper = config.CreateMapper();
         PopulatePropertiesAndAddToDb();
         _context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
@@ -25,13 +33,16 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
+        if (!_context.Family.Any()) { _context.Family.Add(Fam); }
         if (!_context.Category.Any()) { _context.Category.Add(Category); }
-        for (int i = 0; i <= tagsIndexWithoutCup; i++)
+        for (int i = 0; i <= tagsIndexWithFamilyButNoCup; i++)
         {
             Tags.Add(new()
             {
                 CategoryKey = Category.Key,
-                Name = $"tag !{i}"
+                Name = $"tag !{i}",
+                FamilyId = (i == tagsIndexWithFamilyAndCup ||
+                    i == tagsIndexWithFamilyButNoCup) ? Fam.Id : null
             });
             Users.Add(new()
             {
@@ -98,14 +109,84 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         result.Should().HaveCount(0);
     }
     [Fact]
+    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagsWithoutFamily()
+    {
+        //Arrange
+        string username = Users[0].Username;
+        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        result.Should().NotBeNull();
+        foreach(var tag in mapper.Map<List<TagFromDb>>(_context.Tag
+            .Where(t => t.FamilyId == null))!)
+        {
+            result.Should().ContainEquivalentOf(tag);
+        }
+    }
+    [Fact]
+    public async Task CupController_GetButtonedTagsEndpoint_ReturnsNoTagWithFamilyAndNoCup()
+    {
+        //Arrange
+        string username = Users[0].Username;
+        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        result.Should().NotBeNull();
+        result.Should().NotContainEquivalentOf(
+            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyButNoCup]));
+    }
+    [Fact]
+    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagWithFamilyAndCup()
+    {
+        //Arrange
+        string username = Users[0].Username;
+        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        result.Should().NotBeNull();
+        result.Should().ContainEquivalentOf(
+            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+    }
+    [Fact]
+    public async Task CupController_GetButtonedTagsEndpoint_IfNoUserReturnsNoTagWithFamilyAndCup()
+    {
+        //Arrange
+        string url = baseUri + $"buttonedTags?username=NotAuser";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        result.Should().NotBeNull();
+        result.Should().NotContainEquivalentOf(
+            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+    }
+    [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPostReturnsSuccessAndUpdatesDb()
     {
         //Arrange
         UserPreference cup = new()
         {
             ItemId = _context.Tag.First(t =>
-                t.CategoryKey == Tags[tagsIndexWithoutCup].CategoryKey &&
-                t.Name == Tags[tagsIndexWithoutCup].Name).Id,
+                t.CategoryKey == Tags[tagsIndexWithFamilyButNoCup].CategoryKey &&
+                t.Name == Tags[tagsIndexWithFamilyButNoCup].Name).Id,
             Username = Users[0].Username,
             Value = 1
         };
