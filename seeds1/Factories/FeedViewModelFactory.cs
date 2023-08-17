@@ -15,6 +15,7 @@ public class FeedViewModelFactory : IGenericFactory<FeedViewModel>
     public FeedViewModel Create()
     {
         return new FeedViewModel(
+            serviceProvider.GetRequiredService<IStaticService>(),
             serviceProvider.GetRequiredService<IGlobalService>(),
             serviceProvider.GetRequiredService<IGenericFactory<FeedEntryViewModel>>(),
             serviceProvider.GetRequiredService<IFeedEntriesService>(),

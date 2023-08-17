@@ -6,15 +6,17 @@ namespace seeds1.Tests.ViewModel;
 
 public class PreferencesVmTests
 {
+    private readonly IStaticService staticService;
     private readonly ICatagPreferencesService catPrefService;
     private readonly IUserPreferenceService cupService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
+        staticService = A.Fake<IStaticService>();
         catPrefService = A.Fake<ICatagPreferencesService>();
         cupService = A.Fake<IUserPreferenceService>();
-        vm = new(A.Fake<IGlobalService>(), catPrefService, cupService);
+        vm = new(staticService, A.Fake<IGlobalService>(), catPrefService, cupService);
     }
 
     [Fact]

@@ -12,9 +12,10 @@ public partial class DetailViewModel : MyBaseViewModel
 
     public FeedEntry FeedEntry { get; set; }
     public DetailViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         IPresentationService presentationService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.presentationService = presentationService;
     }

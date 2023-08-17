@@ -9,6 +9,7 @@ namespace seeds1.Tests.ViewModel;
 
 public class FeedVMTests
 {
+    private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
@@ -18,13 +19,14 @@ public class FeedVMTests
     private readonly FeedViewModel _vm;
     public FeedVMTests()
     {
+        staticService = A.Fake<IStaticService>();
         globalService = A.Fake<IGlobalService>();
         feedEntryVmFactory = A.Fake<IGenericFactory<FeedEntryViewModel>>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
         cupService = A.Fake<IUserPreferenceService>();
         catPrefService = A.Fake<ICatagPreferencesService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        _vm = new FeedViewModel(globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
+        _vm = new FeedViewModel(staticService, globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
     }
 
     [Fact]
