@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 using System.Web;
 
@@ -11,10 +13,14 @@ namespace seeds.Api.Controllers
     public class UserPreferencesController : ControllerBase
     {
         private readonly seedsApiContext _context;
+        private readonly IMapper mapper;
 
-        public UserPreferencesController(seedsApiContext context)
+        public UserPreferencesController(
+            seedsApiContext context,
+            IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/UserPreferences/tobi
@@ -22,7 +28,7 @@ namespace seeds.Api.Controllers
         public async Task<ActionResult<List<UserPreference>>> GetPreferencesOfUser(
             string username)
         {
-            if(_context.UserPreference != null)
+            if (_context.UserPreference != null)
             {
                 username = HttpUtility.UrlDecode(username);
                 var usersCups = _context.UserPreference.Where(
@@ -31,6 +37,47 @@ namespace seeds.Api.Controllers
                     await usersCups.ToListAsync() : new List<UserPreference>();
             }
             return NotFound();
+        }
+
+        // GET: api/UserPreferences/orphans?username=tobi
+        /// <summary>
+        /// Usage: When constructing the PreferencesPage, exactly
+        /// these tags will get their own button.
+        /// </summary>
+        /// <param name="username">CurrentUser.Username</param>
+        /// <returns>A (by CategoryKey ordered) list of all tags that either have no family
+        /// or that have a family and a CurrentUser's preference (!= 0)</returns>
+        [HttpGet("buttonedTags")]
+        public async Task<ActionResult<List<TagFromDb>>> GetButtonedTags(
+            string username = "")
+        {
+            username = HttpUtility.UrlDecode(username);
+            var orphans = _context.Tag
+                .Where(t => t.FamilyId == null)
+                .OrderBy(t => t.CategoryKey);
+            if (orphans == null || !await orphans.AnyAsync())
+            { return NotFound("The tags with no family."); }
+
+            var orphansDto = mapper.Map<List<TagFromDb>>(
+                await orphans.ToListAsync());
+
+            if (username == "") { return orphansDto; }
+
+            // get tags that have family and preference (also orphans)
+            var tagsWithFamilyAndUserPreference = await _context.Tag
+                .Where(tag => tag.FamilyId != null)
+                .Where(tag => _context.UserPreference.Any(
+                    up => up.ItemId == tag.Id
+                       && up.Value != 0
+                       && up.Username == username))
+                .OrderBy(tag => tag.CategoryKey)
+                .ToListAsync();
+            if(tagsWithFamilyAndUserPreference == null)
+            { return NotFound("The tags in a family with non-trivial preference."); }
+
+            return orphansDto.Concat(
+                mapper.Map<List<TagFromDb>>(tagsWithFamilyAndUserPreference))
+                .ToList();
         }
 
         // POST: api/UserPreferences/upsert
