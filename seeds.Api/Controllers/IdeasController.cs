@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Api.Pages;
+using seeds.Dal.Dto.ForMaui;
 using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
@@ -57,6 +59,66 @@ public class IdeasController : ControllerBase
             var ideas = mapper.Map<List<IdeaFromDb>>(await query.ToListAsync());
 
             return Ok(ideas);
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions appropriately
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    // GET: api/Ideas/feedentryPage/5?isDescending=false&pageSize=20
+    [HttpGet("feedentryPage/{pageIndex}")]
+    public async Task<ActionResult<List<Feedentry>>> GetFeedentriesPaginated(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
+    {
+        try
+        {
+            var validColumns = new[] {
+                nameof(IdeaFromDb.Id).ToLower(),
+                nameof(IdeaFromDb.CreationTime).ToLower()
+            };
+            if (!validColumns.Contains(orderByColumn.ToLower()))
+            {
+                return BadRequest("Invalid column name for sorting.");
+            }
+
+            IQueryable<Idea> query = context.Idea
+                .Include(i => i.Tags); // this populates the Navigation property
+
+            // Apply dynamic sorting
+            var orderDirection = isDescending ? "descending" : "ascending";
+            query = query.OrderBy($"{orderByColumn} {orderDirection}");
+
+            // Apply pagination. Take(pageSize) should take #(<= pageSize) ideas
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            if (!await query.AnyAsync()) { return new List<Feedentry>(); }
+            // using Linq.Dynamic.Core's query will only lazily access the DB,
+            // once the query is enumerated, which happens now:
+            var ideas = await query.ToListAsync();
+
+            List<Feedentry> fes = new();
+            foreach (var idea in ideas)
+            {
+                fes.Add(new()
+                {
+                    Idea = idea,
+                    Tags = mapper.Map<List<TagFromDb>>(idea.Tags),
+                    Upvotes = context.UserIdeaInteraction
+                        .GroupBy(uii => uii.IdeaId)
+                        .Select(group => new
+                        {
+                            IdeaId = group.Key,
+                            UpvoteCount = group.Sum(
+                                idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
+                        })
+                        .First(uii => uii.IdeaId == idea.Id).UpvoteCount
+                });
+            }
+
+            return fes;
         }
         catch (Exception ex)
         {

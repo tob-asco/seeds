@@ -1,4 +1,5 @@
 ﻿using seeds.Api.Pages;
+using seeds.Dal.Dto.ForMaui;
 using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
@@ -12,9 +13,12 @@ public class IdeasControllerTests : ApiControllerTestsBase
 {
 
     public List<Idea> Ideas { get; set; } = new();
+    public Tag Tag { get; set; } = new();
+    public User User { get; set; } = new();
+    readonly int ideasIndexWithUpvote = 0;
 
     public IdeasControllerTests()
-        :base(baseUri: "api/Ideas/")
+        : base(baseUri: "api/Ideas/")
     {
         PopulatePropertiesAndAddToDb();
         context.SaveChanges();
@@ -23,6 +27,9 @@ public class IdeasControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
+        if (!context.Tag.Any()) { context.Tag.Add(Tag); }
+        if (!context.User.Any()) { context.User.Add(User); }
+
         Random random = new();
         for (int i = 0; i <= 22; i++)
         {
@@ -30,10 +37,21 @@ public class IdeasControllerTests : ApiControllerTestsBase
             new Idea()
             {
                 Title = "Idea #" + i,
-                CreationTime = new(2023, 07, random.Next(1, 31))
+                CreationTime = new(2023, 07, random.Next(1, 31)),
+                Tags = { Tag }
             });
         }
         if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
+
+        if (!context.UserIdeaInteraction.Any())
+        {
+            context.UserIdeaInteraction.Add(new()
+            {
+                IdeaId = Ideas[ideasIndexWithUpvote].Id,
+                Username = User.Username,
+                Upvoted = true,
+            });
+        }
     }
 
     [Theory]
@@ -84,6 +102,23 @@ public class IdeasControllerTests : ApiControllerTestsBase
         result.Should().NotBeNull();
         var ordered = result?.OrderByDescending(x => x.CreationTime).ToList();
         ordered?.Should().BeEquivalentTo(result);
+    }
+    [Fact]
+    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsItself()
+    {
+        //Arrange
+        string url = baseUri + $"feedentryPage/1?" +
+            $"pageSize={ideasIndexWithUpvote + 1}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<Feedentry>>();
+        result.Should().NotBeNull();
+        result.Should().HaveCountGreaterThan(0);
+        result?[0].Upvotes.Should().BeGreaterThan(0);
     }
     [Fact]
     public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()
@@ -207,6 +242,6 @@ public class IdeasControllerTests : ApiControllerTestsBase
         var result = await response.Content.ReadFromJsonAsync<Idea>();
         result.Should().NotBeNull();
         result?.Id.Should().Be(
-            context.Idea.FirstOrDefault(i=>i.Title == title)!.Id);
+            context.Idea.FirstOrDefault(i => i.Title == title)!.Id);
     }
 }
