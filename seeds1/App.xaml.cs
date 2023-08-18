@@ -23,7 +23,7 @@ public partial class App : Application
 
         // load static resources into RAM
         await staticService.LoadCategoriesAsync();
-        //await staticService.LoadFamiliesAsync();
+        await staticService.LoadFamiliesAsync();
         await staticService.LoadTagsAsync();
     }
 
