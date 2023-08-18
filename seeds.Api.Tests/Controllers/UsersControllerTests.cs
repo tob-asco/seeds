@@ -14,9 +14,9 @@ public class UsersControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/Users/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
 
     private void PopulatePropertiesAndAddToDb()
@@ -30,7 +30,7 @@ public class UsersControllerTests : ApiControllerTestsBase
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
+        if (!context.User.Any()) { context.User.AddRange(Users); }
     }
     [Fact]
     public async Task UsersController_GetUserEndpoint_ReturnsUser()
@@ -79,7 +79,7 @@ public class UsersControllerTests : ApiControllerTestsBase
 
         //Assert
         postResponse.Should().BeSuccessful();
-        _context.User.Should().Contain(u => u.Username == username);
+        context.User.Should().Contain(u => u.Username == username);
     }
     /* post the same user twice (id auto-generated) and
      * assert returned Conflict due to (various) uniqueness constraints

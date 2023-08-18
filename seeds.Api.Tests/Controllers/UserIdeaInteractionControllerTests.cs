@@ -19,11 +19,11 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
     public UserIdeaInteractionControllerTests()
         :base(baseUri: "api/UserIdeaInteractions/")
     {
-        _controller = new(_context);
+        _controller = new(context);
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -40,8 +40,8 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
                 Title = "Idea #" + i
             });
         }
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
-        if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
+        if (!context.User.Any()) { context.User.AddRange(Users); }
+        if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
         Uiis.Add(new UserIdeaInteraction()
         {
             Username = Users[existingUiiUsernameAndIdeaId].Username,
@@ -49,14 +49,14 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
             Upvoted = true,
             Downvoted = true,
         });
-        if (!_context.UserIdeaInteraction.Any())
+        if (!context.UserIdeaInteraction.Any())
         {
-            _context.UserIdeaInteraction.AddRange(Uiis);
+            context.UserIdeaInteraction.AddRange(Uiis);
         }
-        var uii = _context.UserIdeaInteraction.Find(
+        var uii = context.UserIdeaInteraction.Find(
             Users[noUiiUsernameAndIdeaId].Username,
             Ideas[noUiiUsernameAndIdeaId].Id);
-        if (uii != null) { _context.UserIdeaInteraction.Remove(uii); }
+        if (uii != null) { context.UserIdeaInteraction.Remove(uii); }
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<UserIdeaInteraction>>();
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_context.UserIdeaInteraction.Where(
+        result.Should().BeEquivalentTo(context.UserIdeaInteraction.Where(
             uii => uii.Username == username));
     }
     [Fact]
@@ -143,7 +143,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
+        context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
     public async Task UiiController_PutEndpoint_IfNotExistReturnsNotFound()
@@ -181,7 +181,7 @@ public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
+        context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
     public async Task UiiController_PostEndpoint_IfExistReturnsConflict()

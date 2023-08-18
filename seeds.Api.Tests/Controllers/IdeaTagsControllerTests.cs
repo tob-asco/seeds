@@ -23,11 +23,11 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/IdeaTags/")
     {
         mapper = A.Fake<IMapper>();
-        _controller = new(_context, mapper);
+        _controller = new(context, mapper);
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -43,8 +43,8 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
                 Name = "tag #" + i
             });
         }
-        if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
-        if (!_context.Tag.Any()) { _context.Tag.AddRange(Tags); }
+        if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
+        if (!context.Tag.Any()) { context.Tag.AddRange(Tags); }
         for (int i = 0; i <= 2; i++)
         {
             IdeaTags.Add(new()
@@ -58,11 +58,11 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
             IdeaId = Ideas[indexForIdeasAndTagsWithIdeaTag].Id,
             TagId = Tags[indexForIdeasAndTagsWithIdeaTag].Id
         });
-        if (!_context.IdeaTag.Any()) { _context.IdeaTag.AddRange(IdeaTags); }
-        var ideaTag = _context.IdeaTag.Find(
+        if (!context.IdeaTag.Any()) { context.IdeaTag.AddRange(IdeaTags); }
+        var ideaTag = context.IdeaTag.Find(
             Ideas[indexForIdeasAndTagsWithoutIdeaTag].Id,
             Tags[indexForIdeasAndTagsWithoutIdeaTag].Id);
-        if (ideaTag != null) { _context.IdeaTag.Remove(ideaTag); }
+        if (ideaTag != null) { context.IdeaTag.Remove(ideaTag); }
     }
 
     [Fact]
@@ -118,7 +118,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.IdeaTag.Should().ContainEquivalentOf(ideaTag);
+        context.IdeaTag.Should().ContainEquivalentOf(ideaTag);
     }
     [Fact]
     public async Task IdeaTagsController_PostEndpoint_IfExistReturnsConflict()
@@ -152,7 +152,7 @@ public class IdeaTagsControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.IdeaTag.Should().NotContainEquivalentOf(
+        context.IdeaTag.Should().NotContainEquivalentOf(
             IdeaTags.FirstOrDefault(it =>
                 it.IdeaId == Ideas[indexForIdeasAndTagsWithIdeaTag].Id &&
                 it.TagId == Tags[indexForIdeasAndTagsWithIdeaTag].Id

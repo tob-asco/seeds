@@ -15,9 +15,9 @@ public class TagsControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/Tags/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -29,7 +29,7 @@ public class TagsControllerTests : ApiControllerTestsBase
                 Key = $"Cat #{i}",
             });
         }
-        if(!_context.Category.Any()) { _context.Category.AddRange(Cats); }
+        if(!context.Category.Any()) { context.Category.AddRange(Cats); }
         for (int i = 0; i <= 29; i++)
         {
             Tags.Add(
@@ -39,7 +39,7 @@ public class TagsControllerTests : ApiControllerTestsBase
                 Name = $"tag #{i}"
             });
         }
-        if(!_context.Tag.Any()) { _context.Tag.AddRange(Tags); }
+        if(!context.Tag.Any()) { context.Tag.AddRange(Tags); }
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public class TagsControllerTests : ApiControllerTestsBase
     public async Task TagsController_GetAllEndpoint_IfEmptyReturnsNotFound()
     {
         // Arrange
-        _context.Tag.RemoveRange(Tags);
-        _context.SaveChanges();
+        context.Tag.RemoveRange(Tags);
+        context.SaveChanges();
         string url = baseUri;
 
         // Act

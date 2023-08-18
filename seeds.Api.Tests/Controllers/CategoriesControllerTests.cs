@@ -14,9 +14,9 @@ public class CategoriesControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/Categories/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -29,7 +29,7 @@ public class CategoriesControllerTests : ApiControllerTestsBase
                 Name = $"Category{i}"
             });
         }
-        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
+        if(!context.Category.Any()) { context.Category.AddRange(Categories); }
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class CategoriesControllerTests : ApiControllerTestsBase
     public async Task CatsController_GetAllEndpoint_IfEmptyReturnsNotFound()
     {
         // Arrange
-        _context.Category.RemoveRange(Categories);
-        _context.SaveChanges();
+        context.Category.RemoveRange(Categories);
+        context.SaveChanges();
         string url = baseUri;
 
         // Act

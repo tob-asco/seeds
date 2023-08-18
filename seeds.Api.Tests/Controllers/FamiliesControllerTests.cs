@@ -11,9 +11,9 @@ public class FamiliesControllerTests : ApiControllerTestsBase
         : base("api/Families/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -26,7 +26,7 @@ public class FamiliesControllerTests : ApiControllerTestsBase
                 Name = $"Category{i}"
             });
         }
-        if(!_context.Family.Any()) { _context.Family.AddRange(Families); }
+        if(!context.Family.Any()) { context.Family.AddRange(Families); }
     }
     
     [Fact]
@@ -48,8 +48,8 @@ public class FamiliesControllerTests : ApiControllerTestsBase
     public async Task FamsController_GetAllEndpoint_IfEmptyReturnsNotFound()
     {
         // Arrange
-        _context.Family.RemoveRange(Families);
-        _context.SaveChanges();
+        context.Family.RemoveRange(Families);
+        context.SaveChanges();
         string url = baseUri;
 
         // Act

@@ -7,7 +7,7 @@ namespace seeds.Api.Tests.Controllers;
 
 public class ApiControllerTestsBase : IDisposable
 {
-    protected readonly seedsApiContext _context;
+    protected readonly seedsApiContext context;
     protected readonly HttpClient _httpClient;
     protected readonly string baseUri = "";
     public ApiControllerTestsBase(string baseUri)
@@ -15,8 +15,8 @@ public class ApiControllerTestsBase : IDisposable
         var options = new DbContextOptionsBuilder<seedsApiContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
-        _context = new seedsApiContext(options);
-        _context.Database.EnsureCreated();
+        context = new seedsApiContext(options);
+        context.Database.EnsureCreated();
 
         // Create the HttpClient using the in-memory server
         var factory = new WebApplicationFactory<ProgramTest>()
@@ -24,7 +24,7 @@ public class ApiControllerTestsBase : IDisposable
             {
                 builder.ConfigureServices(services =>
                 {
-                    services.AddSingleton(_context);
+                    services.AddSingleton(context);
                 });
             });
         _httpClient = factory.CreateClient();
@@ -34,8 +34,8 @@ public class ApiControllerTestsBase : IDisposable
     // Disposing the context is important to avoid "already tracked" errors
     public void Dispose()
     {
-        _context.Database.EnsureDeleted();
-        _context.Dispose();
+        context.Database.EnsureDeleted();
+        context.Dispose();
         _httpClient.Dispose();
     }
 }

@@ -17,9 +17,9 @@ public class IdeasControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/Ideas/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -33,7 +33,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
                 CreationTime = new(2023, 07, random.Next(1, 31))
             });
         }
-        if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
+        if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
     }
 
     [Theory]
@@ -70,9 +70,9 @@ public class IdeasControllerTests : ApiControllerTestsBase
     public async Task IdeasController_GetPaginatedEndpoint_OrdersByCreationTime()
     {
         //Arrange
-        _context.Idea.Add(new() { CreationTime = DateTime.MinValue });
-        _context.Idea.Add(new() { CreationTime = DateTime.MaxValue });
-        _context.SaveChanges();
+        context.Idea.Add(new() { CreationTime = DateTime.MinValue });
+        context.Idea.Add(new() { CreationTime = DateTime.MaxValue });
+        context.SaveChanges();
         string url = baseUri + $"page/1?pageSize={Ideas.Count + 10}";
 
         //Act
@@ -154,9 +154,9 @@ public class IdeasControllerTests : ApiControllerTestsBase
         await _httpClient.PutAsync(url, content);
 
         //Assert
-        _context.Idea.Find(id).Should().NotBeNull();
-        _context.Idea.Find(id)?.CreationTime.Should().Be(time);
-        _context.Idea.Find(id)?.Title.Should().NotBe(Ideas[index].Title);
+        context.Idea.Find(id).Should().NotBeNull();
+        context.Idea.Find(id)?.CreationTime.Should().Be(time);
+        context.Idea.Find(id)?.Title.Should().NotBe(Ideas[index].Title);
     }
     [Fact]
     public async Task IdeasController_PutIdeaEndpoint_IfNotExistReturnsNotFound()
@@ -207,6 +207,6 @@ public class IdeasControllerTests : ApiControllerTestsBase
         var result = await response.Content.ReadFromJsonAsync<Idea>();
         result.Should().NotBeNull();
         result?.Id.Should().Be(
-            _context.Idea.FirstOrDefault(i=>i.Title == title)!.Id);
+            context.Idea.FirstOrDefault(i=>i.Title == title)!.Id);
     }
 }

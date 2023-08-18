@@ -27,14 +27,14 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         var config = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>());
         mapper = config.CreateMapper();
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
-        if (!_context.Family.Any()) { _context.Family.Add(Fam); }
-        if (!_context.Category.Any()) { _context.Category.Add(Category); }
+        if (!context.Family.Any()) { context.Family.Add(Fam); }
+        if (!context.Category.Any()) { context.Category.Add(Category); }
         for (int i = 0; i <= tagsIndexWithFamilyButNoCup; i++)
         {
             Tags.Add(new()
@@ -51,9 +51,9 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
-        if (!_context.Tag.Any()) { _context.Tag.AddRange(Tags); }
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
-        _context.SaveChanges();
+        if (!context.Tag.Any()) { context.Tag.AddRange(Tags); }
+        if (!context.User.Any()) { context.User.AddRange(Users); }
+        context.SaveChanges();
         foreach (var user in Users)
         {
             // last tag has no CUP
@@ -61,7 +61,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
             {
                 Cups.Add(new()
                 {
-                    ItemId = _context.Tag.FirstOrDefault(t =>
+                    ItemId = context.Tag.FirstOrDefault(t =>
                         t.CategoryKey == tag.CategoryKey &&
                         t.Name == tag.Name)!.Id,
                     Username = user.Username,
@@ -69,9 +69,9 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
                 });
             }
         }
-        if (!_context.UserPreference.Any())
+        if (!context.UserPreference.Any())
         {
-            _context.UserPreference.AddRange(Cups);
+            context.UserPreference.AddRange(Cups);
         }
     }
 
@@ -90,7 +90,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<UserPreference>>();
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(_context.UserPreference.Where(
+        result.Should().BeEquivalentTo(context.UserPreference.Where(
             cup => cup.Username == username));
     }
     [Fact]
@@ -122,7 +122,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
-        foreach(var tag in mapper.Map<List<TagFromDb>>(_context.Tag
+        foreach(var tag in mapper.Map<List<TagFromDb>>(context.Tag
             .Where(t => t.FamilyId == null))!)
         {
             result.Should().ContainEquivalentOf(tag);
@@ -184,7 +184,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         //Arrange
         UserPreference cup = new()
         {
-            ItemId = _context.Tag.First(t =>
+            ItemId = context.Tag.First(t =>
                 t.CategoryKey == Tags[tagsIndexWithFamilyButNoCup].CategoryKey &&
                 t.Name == Tags[tagsIndexWithFamilyButNoCup].Name).Id,
             Username = Users[0].Username,
@@ -198,17 +198,17 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserPreference.Should().ContainEquivalentOf(cup);
+        context.UserPreference.Should().ContainEquivalentOf(cup);
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPutReturnsSuccessAndUpdatesDb()
     {
         //Arrange
         int index = 0;
-        UserPreference oldCup = _context.UserPreference
+        UserPreference oldCup = context.UserPreference
             .First(cup => cup.ItemId == Cups[index].ItemId
                        && cup.Username == Cups[index].Username);
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
         oldCup.Value++;
         string url = baseUri + $"upsert";
         var content = JsonContent.Create(oldCup);
@@ -218,8 +218,8 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserPreference.Should().ContainEquivalentOf(oldCup);
-        _context.UserPreference.Should().NotContainEquivalentOf(Cups[index]);
+        context.UserPreference.Should().ContainEquivalentOf(oldCup);
+        context.UserPreference.Should().NotContainEquivalentOf(Cups[index]);
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_IfTagNotExistReturnsNotSuccess()

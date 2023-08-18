@@ -14,9 +14,9 @@ public class PresentationsControllerTests : ApiControllerTestsBase
         :base(baseUri: "api/Presentations/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -27,7 +27,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
                 Title = "Idea #" + i
             });
         }
-        _context.Idea.AddRange(Ideas);
+        context.Idea.AddRange(Ideas);
         for (int i = 0; i < 10; i++)
         {
             Presentations.Add(new()
@@ -36,7 +36,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
                 Description = "Description of idea with Id " + Ideas[i].Id,
             });
         }
-        _context.Presentation.AddRange(Presentations);
+        context.Presentation.AddRange(Presentations);
     }
 
     [Fact]
@@ -87,7 +87,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.Presentation.Should().ContainEquivalentOf(presi);
+        context.Presentation.Should().ContainEquivalentOf(presi);
     }
     [Fact]
     public async Task PresentationsController_PutByIdeaIdEndpoint_IfNotExistReturnsNotFound()
@@ -124,7 +124,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().BeSuccessful();
-        _context.Presentation.Should().ContainSingle(
+        context.Presentation.Should().ContainSingle(
             p => p.IdeaId == Ideas[ideasIndexWithNoPresentation].Id);
     }
     [Fact]
