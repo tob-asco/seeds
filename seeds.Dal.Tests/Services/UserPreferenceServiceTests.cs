@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds.Dal.Wrappers;
@@ -40,6 +41,34 @@ public class UserPreferenceServiceTests
         // Act
         Func<Task> act = async () =>
             await _service.GetPreferencesOfUserAsync("");
+
+        // Assert
+        await act.Should().ThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task CupService_GetButtonedTagsOfUser_NoException()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
+            .Returns<List<TagFromDb>?>(new());
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetButtonedTagsOfUserAsync("");
+
+        // Assert
+        await act.Should().NotThrowAsync<Exception>();
+    }
+    [Fact]
+    public async Task CupService_GetButtonedTagsOfUser_IfNullThrows()
+    {
+        // Arrange
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
+            .Returns<List<TagFromDb>?>(null);
+
+        // Act
+        Func<Task> act = async () =>
+            await _service.GetButtonedTagsOfUserAsync("");
 
         // Assert
         await act.Should().ThrowAsync<Exception>();

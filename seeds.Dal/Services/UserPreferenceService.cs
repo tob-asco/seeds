@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using System.Web;
 
@@ -6,23 +7,32 @@ namespace seeds.Dal.Services;
 
 public class UserPreferenceService : IUserPreferenceService
 {
-    private readonly IDalBaseService _baseService;
+    private readonly IDalBaseService baseService;
+    private readonly string baseUri = "api/UserPreferences/";
     public UserPreferenceService(IDalBaseService baseService)
     {
-        _baseService = baseService;
+        this.baseService = baseService;
     }
 
     public async Task<List<UserPreference>> GetPreferencesOfUserAsync(string username)
     {
-        string url = $"api/UserPreferences/{username}";
-        return await _baseService.GetDalModelAsync<List<UserPreference>>(url)
-            ?? throw _baseService.ThrowGetNullException(nameof(url));
+        string url = baseUri + $"{username}";
+        return await baseService.GetDalModelAsync<List<UserPreference>>(url)
+            ?? throw baseService.ThrowGetNullException(url);
+    }
+
+    public async Task<List<TagFromDb>> GetButtonedTagsOfUserAsync(string username = "")
+    {
+        string url = baseUri + $"buttonedTags";
+        if (username != "") { url += $"?username={username}"; }
+        return await baseService.GetDalModelAsync<List<TagFromDb>>(url)
+            ?? throw baseService.ThrowGetNullException(url);
     }
 
     public async Task UpsertUserPreferenceAsync(
         string username, Guid itemId, int newValue)
     {
-        string url = $"api/UserPreferences/upsert";
+        string url = baseUri + $"upsert";
         UserPreference cup = new()
         {
             ItemId = itemId,
@@ -30,9 +40,9 @@ public class UserPreferenceService : IUserPreferenceService
             Value = newValue
         };
         
-        if(!await _baseService.PostDalModelBoolReturnAsync(url, cup))
+        if(!await baseService.PostDalModelBoolReturnAsync(url, cup))
         {
-            throw _baseService.ThrowPostConflictException(url);
+            throw baseService.ThrowPostConflictException(url);
         }
     }
 }
