@@ -205,17 +205,20 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     {
         //Arrange
         int index = 0;
-        UserPreference cup = Cups[index];
-        cup.Value++;
+        UserPreference oldCup = _context.UserPreference
+            .First(cup => cup.ItemId == Cups[index].ItemId
+                       && cup.Username == Cups[index].Username);
+        _context.ChangeTracker.Clear();
+        oldCup.Value++;
         string url = baseUri + $"upsert";
-        var content = JsonContent.Create(cup);
+        var content = JsonContent.Create(oldCup);
 
         //Act
         var response = await _httpClient.PostAsync(url, content);
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserPreference.Should().ContainEquivalentOf(cup);
+        _context.UserPreference.Should().ContainEquivalentOf(oldCup);
         _context.UserPreference.Should().NotContainEquivalentOf(Cups[index]);
     }
     [Fact]
