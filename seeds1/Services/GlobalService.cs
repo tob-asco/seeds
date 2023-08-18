@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -13,6 +14,8 @@ public class GlobalService : IGlobalService
     public UserDto CurrentUser { get; set; }
     public Dictionary<Guid, UserPreference> CurrentUserPreferences { private get; set; }
     private bool PreferencesLoaded { get; set; } = false;
+    public Dictionary<Guid, TagFromDb> CurrentUserButtonedTags { private get; set; }
+    private bool ButtonedTagsLoaded { get; set; } = false;
     public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { private get; set; }
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
@@ -41,6 +44,26 @@ public class GlobalService : IGlobalService
             throw new InvalidOperationException("Preferences not yet loaded.");
         }
         else { return CurrentUserPreferences; }
+    }
+
+    public async Task LoadButtonedTagsAsync()
+    {
+        if (!ButtonedTagsLoaded)
+        {
+            var userButtonedTagsList = await userPrefService
+                .GetButtonedTagsOfUserAsync(CurrentUser.Username);
+            CurrentUserButtonedTags = userButtonedTagsList
+                .ToDictionary(t => t.Id);
+            ButtonedTagsLoaded = true;
+        }
+    }
+    public Dictionary<Guid, TagFromDb> GetButtonedTags()
+    {
+        if (!ButtonedTagsLoaded)
+        {
+            throw new InvalidOperationException("ButtonedTags not yet loaded.");
+        }
+        else { return CurrentUserButtonedTags; }
     }
 
     public async Task LoadIdeaInteractionsAsync()
