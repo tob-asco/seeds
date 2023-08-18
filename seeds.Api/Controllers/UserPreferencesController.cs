@@ -93,11 +93,9 @@ namespace seeds.Api.Controllers
         {
             try
             {
-                if (!CatagUserPreferenceExists(cup.Username, cup.ItemId))
+                if (!UserPreferenceExists(cup.Username, cup.ItemId))
                 {
-                    //if ((!_context.Tag?.Any(e => e.Id == cup.ItemId))
-                    //    .GetValueOrDefault())
-                    //{  }
+                    // (maybe check if the tag even exists)
                     // POST
                     _context.UserPreference.Add(cup);
                     await _context.SaveChangesAsync();
@@ -114,7 +112,7 @@ namespace seeds.Api.Controllers
             catch (Exception ex) { return Problem(ex.Message); }
         }
 
-        private bool CatagUserPreferenceExists(string username, Guid itemId)
+        private bool UserPreferenceExists(string username, Guid itemId)
         {
             return (_context.UserPreference?.Any(e =>
                 e.Username == username &&
