@@ -45,14 +45,16 @@ namespace seeds.Api.Controllers
         /// these tags will get their own button.
         /// </summary>
         /// <param name="username">CurrentUser.Username</param>
-        /// <returns>A list of all tags that either have no family
+        /// <returns>A (by CategoryKey ordered) list of all tags that either have no family
         /// or that have a family and a CurrentUser's preference (!= 0)</returns>
         [HttpGet("buttonedTags")]
         public async Task<ActionResult<List<TagFromDb>>> GetButtonedTags(
             string username = "")
         {
             username = HttpUtility.UrlDecode(username);
-            var orphans = _context.Tag.Where(t => t.FamilyId == null);
+            var orphans = _context.Tag
+                .Where(t => t.FamilyId == null)
+                .OrderBy(t => t.CategoryKey);
             if (orphans == null || !await orphans.AnyAsync())
             { return NotFound("The tags with no family."); }
 
@@ -68,6 +70,7 @@ namespace seeds.Api.Controllers
                     up => up.ItemId == tag.Id
                        && up.Value != 0
                        && up.Username == username))
+                .OrderBy(tag => tag.CategoryKey)
                 .ToListAsync();
             if(tagsWithFamilyAndUserPreference == null)
             { return NotFound("The tags in a family with non-trivial preference."); }

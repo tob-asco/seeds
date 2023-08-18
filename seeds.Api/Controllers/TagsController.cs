@@ -29,7 +29,9 @@ public class TagsController : ControllerBase
     {
         if (context.Tag == null) { return NotFound(); }
 
-        var tags = await context.Tag.ToListAsync();
+        var tags = await context.Tag
+            .OrderBy(t => t.CategoryKey)
+            .ToListAsync();
         if (tags == null || tags?.Count == 0) { return NotFound(); }
 
         var tagDtoList = mapper.Map<List<TagFromDb>>(tags);
