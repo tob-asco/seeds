@@ -58,7 +58,7 @@ public partial class FeedViewModel :MyBaseViewModel
 
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _feedEntryPageSize);
 
-        List<FeedEntry> feedEntries = new();
+        List<UserFeedentry> feedEntries = new();
         try
         {
             feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(

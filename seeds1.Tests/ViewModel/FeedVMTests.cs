@@ -34,10 +34,10 @@ public class FeedVMTests
     {
         // Arrange
         _vm.FeedEntryVMCollection = new(); //done in code-behind
-        List<FeedEntry> feedEntries = new()
+        List<UserFeedentry> feedEntries = new()
         {
-            new FeedEntry {},
-            new FeedEntry {}
+            new UserFeedentry {},
+            new UserFeedentry {}
         };
         A.CallTo(() => feedEntriesService.GetFeedEntriesPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))

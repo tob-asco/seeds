@@ -3,7 +3,7 @@ using seeds.Dal.Model;
 
 namespace seeds1.MauiModels;
 
-public partial class FeedEntry : ObservableObject
+public partial class UserFeedentry : ObservableObject
 {
     public IdeaFromDb Idea { get; set; } = new();
     public List<CatagPreference> CatagPreferences { get; set; } = new();

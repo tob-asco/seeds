@@ -24,11 +24,11 @@ public class FeedEntriesService : IFeedEntriesService
         this.uiiService = uiiService;
         this.catagPreferencesService = catagPreferencesService;
     }
-    public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(
+    public async Task<List<UserFeedentry>> GetFeedEntriesPaginatedAsync(
         int pageIndex, int pageSize = 5,
         string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
-        List<FeedEntry> feedEntryPage = new();
+        List<UserFeedentry> feedEntryPage = new();
         var ideaPage = await ideasService.GetIdeasPaginatedAsync(
             pageIndex, pageSize, orderByColumn, isDescending);
         if (ideaPage == null) { return new(); } // we get null if there are no more ideas
@@ -40,10 +40,9 @@ public class FeedEntriesService : IFeedEntriesService
              */
             var upvotes = await uiiService.CountVotesAsync(idea.Id);
             //var tagPrefs = await catagPreferencesService.GetTagPreferencesOfIdeaAsync(idea);
-            var uii = await uiiService.GetUserIdeaInteractionAsync(
-                globalService.CurrentUser.Username, idea.Id)
+            var uii = globalService.GetIdeaInteractions()[idea.Id]
                 ?? new UserIdeaInteraction();
-            feedEntryPage.Add(new FeedEntry
+            feedEntryPage.Add(new UserFeedentry
             {
                 Idea = idea,
                 //CatagPreferences = tagPrefs,

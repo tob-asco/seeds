@@ -10,7 +10,7 @@ public partial class DetailViewModel : MyBaseViewModel
 {
     private readonly IPresentationService presentationService;
 
-    public FeedEntry FeedEntry { get; set; }
+    public UserFeedentry FeedEntry { get; set; }
     public DetailViewModel(
         IStaticService staticService,
         IGlobalService globalService,
