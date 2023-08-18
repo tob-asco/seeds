@@ -59,6 +59,7 @@ public partial class LoginViewModel : MyBaseViewModel
                 CurrentUser = user;
                 await globalService.LoadPreferencesAsync();
                 await globalService.LoadIdeaInteractionsAsync();
+                await globalService.LoadButtonedTagsAsync();
 
                 navigationService.RedrawNavigationTarget = true;
 
