@@ -10,6 +10,7 @@ namespace seeds1.Services;
 public class StaticService : IStaticService
 {
     private readonly ICategoryService categoryService;
+    private readonly IFamilyService familyService;
     private readonly ITagService tagService;
 
     private Dictionary<string, CategoryDto> Categories { get; set; }
@@ -20,9 +21,11 @@ public class StaticService : IStaticService
     private bool TagsLoaded { get; set; } = false;
     public StaticService(
         ICategoryService categoryService,
+        IFamilyService familyService,
         ITagService tagService)
     {
         this.categoryService = categoryService;
+        this.familyService = familyService;
         this.tagService = tagService;
     }
 
@@ -63,19 +66,22 @@ public class StaticService : IStaticService
             CatsLoaded = true;
         }
     }
-
     public async Task LoadFamiliesAsync()
     {
         if (!FamsLoaded)
         {
-            var list = await tagService.GetTagsAsync();
-            Tags = list.ToDictionary(t => t.Id);
+            var list = await familyService.GetFamiliesAsync();
+            Families = list.ToDictionary(f => f.Id);
             FamsLoaded = true;
         }
     }
-
     public async Task LoadTagsAsync()
     {
-        throw new NotImplementedException();
+        if (!TagsLoaded)
+        {
+            var list = await tagService.GetTagsAsync();
+            Tags = list.ToDictionary(t => t.Id);
+            TagsLoaded = true;
+        }
     }
 }
