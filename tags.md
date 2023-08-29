@@ -84,6 +84,14 @@ Generally for this category:
 1. `gaming`
    - :cool: huuuuuge community
    - :abacus: new games, new gear for gaming, new genre, fusion
+2. table games
+   - :cool: try new games w/ diy materials
+   - :abacus: new game ideas
+   - :abacus: new types
+3. drinking games
+   - :cool: big group desperate for occupation
+   - :cool: try-out game directly with complete instructions
+   - :abacus: new drinking games
 2. `traveling`
    - :cool: big community, traveling is like its own life
    - :abacus: packing hacks, new locations, new types of traveling
@@ -118,7 +126,10 @@ Generally for this category:
    - :cool: if you have children, you can impress
    - :cool: nice pictures of finished tinkerings
    - :abacus: instructions
-
+10. `photography`
+   - :cool: big community (both: geeky & artsy)
+   - :cool: see results (i.e. nice pictures)
+   - :abacus: new techniques
 
 ## `WORK - Working`
 1. `productivity`
@@ -135,7 +146,7 @@ Generally for this category:
    - :abacus: how to really *feel* a given job in order to facilitate deciding pro/con it
    - :abacus: how to spark up passion for a given branch in youngsters
 
-## `HOME - Living`
+## `HOME - Housing`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
    - :abacus: furniture, kitchen, IKEA stuff
@@ -154,22 +165,27 @@ Generally for this category:
    - :cool: annoying but big part of life
    - :abacus: vacuum, kitchen, dust, garbage
    - :abacus: bad smell
-
+6. `toiletty`
+   - :cool: we use them everyday
+   - :cool: actually they can look shiny and pretty
+   - :cool: sensitive topic
+   - :abacus: many ideas might not have been talked about, bc. it's an embarrassing topic
+   - :abacus: gender/toilet situation asks for solutions
 
 ## `ENV - Environment`
+Generally for this category:
+- :cool: FFF, we all want to reduce our impact on climate change
 1. `CO2 reduction`
-   - :cool: FFF
    - :abacus: less pollution
    - :abacus: atmospheric cleaning
    - :abacus: law
 2. forrest protection
 3. `climate change`
-   - :cool: FFF, IPCC
    - :abacus: impacts, adaption, vulnerability, mitigation
    - :abacus: reasons
 4. saving water
 5. `extreme weather`
-   - :cool: people are heavily affected
+   - :cool: people are (or already were) heavily affected
    - :abacus: impacts, adaption vulnerability, mitigation
 6. `save the bees`
    - :cool: Einstein's warning
@@ -182,6 +198,10 @@ Generally for this category:
    - :abacus: new recycling techniques
    - :abacus: reduction solutions
    - :abacus: collecting solutions
+8. `greenify cities`
+   - :cool: elegant solutions, beautiful pictures
+   - :abacus: plant greenery on buildings
+   - :abacus: large-scale new concepts
 
 
 ## `CPU - Software`
@@ -532,7 +552,7 @@ Generally for this category:
    - :abacus: any kind of art
 
 
-## `MUS - Music`
+## `MP3 - Music`
 Generally for this category:
 - :cool: you can listen to new music
 - :cool::question: feature: while browsing through the app you could listen to this music as if it were playing in a separate music player 
