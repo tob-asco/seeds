@@ -53,6 +53,12 @@ Generally for this category:
 5. `public transport`
    - :cool: although boring it is omnipresent in many peoples' lives
    - :abacus: new kinds, regulations, how to deal with construction, station features, vehicle features
+6. `boats`
+   - :cool: boating enthusiasts
+   - :cool: luxury
+   - :cool: sportive
+   - :abacus: new types (global warming increases sea level)
+   - :abacus: features, new materials
 6. fossils
 7. trains
 8. aero
@@ -113,6 +119,21 @@ Generally for this category:
    - :cool: nice pictures of finished tinkerings
    - :abacus: instructions
 
+
+## `WORK - Working`
+1. `productivity`
+   - :cool: magical solutions to work less but accomplish more
+   - :cool: stuff to suggest to your boss
+   - :abacus: time management, motivation, office social dynamics
+   - :abacus: gadgets to make work cooler/healthier/comfortable
+2. `for branch: {main job industries where :abacus: is met}`
+   - :cool: how to improve your job efficiency
+   - :cool: discuss with fellow experts
+3. `finding passion`
+   - :cool: young people are desperate to decide what to do
+   - :cool: passionate for passion
+   - :abacus: how to really *feel* a given job in order to facilitate deciding pro/con it
+   - :abacus: how to spark up passion for a given branch in youngsters
 
 ## `HOME - Living`
 1. interior design :arrow_right: `DSGN`?
@@ -459,6 +480,7 @@ Generally for this category:
 1. `surviving`
    - :cool: we might want to survive one day
    - :cool: trying to remember all the strategies
+   - :cool: zombie attacks
    - :abacus: principles
    - :abacus: what to eat / drink
    - :abacus: hunting
