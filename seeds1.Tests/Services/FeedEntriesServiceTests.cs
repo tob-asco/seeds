@@ -3,6 +3,7 @@ using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
+using seeds1.MauiModels;
 using seeds1.Services;
 
 namespace seeds1.Tests.Services;
@@ -12,17 +13,19 @@ public class FeedEntriesServiceTests
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly IUserPreferenceService cupService;
     private readonly IUserIdeaInteractionService uiiService;
+    private readonly ICatagPreferencesService catagPrefService;
     private readonly FeedEntriesService service;
     public FeedEntriesServiceTests()
     {
         globalService = A.Fake<IGlobalService>();
         ideasService = A.Fake<IIdeasService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<ICategoryUserPreferenceService>();
+        cupService = A.Fake<IUserPreferenceService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        service = new(globalService, ideasService, categoryService, cupService, uiiService);
+        catagPrefService = A.Fake<ICatagPreferencesService>();
+        service = new(globalService, ideasService, uiiService, catagPrefService);
     }
 
     [Fact]
@@ -36,18 +39,19 @@ public class FeedEntriesServiceTests
             new(){ CategoryKey = cat1.Key},
             new(){ CategoryKey = cat2.Key},
         };
+        List<CatagPreference> catagPrefs = new()
+        {
+            new CatagPreference { CategoryKey = cat1.Key },
+            new CatagPreference { CategoryKey = cat2.Key },
+        };
         A.CallTo(() => ideasService.GetIdeasPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(ideaPage);
+        //A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
+        //    A<IdeaFromDb>.Ignored))
+        //    .Returns(catagPrefs);
         A.CallTo(() => uiiService.CountVotesAsync(A<int>.Ignored))
             .Returns(0);
-        A.CallTo(() => categoryService.GetCategoryByKeyAsync(cat1.Key))
-            .Returns(cat1);
-        A.CallTo(() => categoryService.GetCategoryByKeyAsync(cat2.Key))
-            .Returns(cat2);
-        A.CallTo(() => cupService.GetCategoryUserPreferenceAsync(
-            A<string>.Ignored, A<string>.Ignored))
-            .Returns<CategoryUserPreference>(new());
         #endregion
 
         // Act
@@ -56,6 +60,7 @@ public class FeedEntriesServiceTests
         // Assert
         result.Should().HaveCount(ideaPage.Count);
         result[0]?.Idea.CategoryKey.Should().Be(ideaPage[0].CategoryKey);
+        result[0]?.CatagPreferences.Should().BeEquivalentTo(catagPrefs);
         result[1]?.Idea.CategoryKey.Should().Be(ideaPage[1].CategoryKey);
     }
     [Fact]

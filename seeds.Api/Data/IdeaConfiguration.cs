@@ -9,8 +9,11 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
     public void Configure(EntityTypeBuilder<Idea> builder)
     {
         #region Relations
-        // Idea : Cat = N : 1
-        // setup in CategoryConfiguration
+        // Idea : Presentation = 1 : 1
+        builder.HasOne<Presentation>()
+            .WithOne()
+            .HasForeignKey<Presentation>(p => p.IdeaId)
+            .IsRequired(true);
 
         // User : Idea = 1 : N (maybe make N:M for idea collaborations)
         builder.HasOne(i => i.Creator)
@@ -18,14 +21,14 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
             .HasForeignKey(i => i.CreatorName)
             .IsRequired(true);
 
-        // User : Idea = M : N (UserIdeaInteraction)
-        // setup in UserConfiguration
+        // Idea : Tag = M : N
+        builder.HasMany(i => i.Tags)
+            .WithMany(t => t.Ideas)
+            .UsingEntity<IdeaTag>();
 
-        // Idea : Presentation = 1 : 1
-        builder.HasOne<Presentation>()
-            .WithOne()
-            .HasForeignKey<Presentation>(p => p.IdeaId)
-            .IsRequired(true);
+        /* User : Idea = M : N (UserIdeaInteraction)
+         * setup in UserConfiguration
+         */
         #endregion
 
         //auto-generate the id

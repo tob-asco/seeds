@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace seeds.Dal.Wrappers;
+﻿namespace seeds.Dal.Wrappers;
 
 public interface IHttpClientWrapper
 {
@@ -12,4 +6,5 @@ public interface IHttpClientWrapper
     public Task<HttpResponseMessage> GetAsync(string url);
     public Task<HttpResponseMessage> PutAsync(string url, HttpContent httpContent);
     public Task<HttpResponseMessage> PostAsync(string url, HttpContent httpContent);
+    public Task<HttpResponseMessage> DeleteAsync(string url);
 }

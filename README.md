@@ -2,6 +2,8 @@
 ## TODOs
 - [ ] DTO for CUP (bc. we have a GUID PK now)
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
+- [ ] figure out which special characters can be `UrlEncode`'d and forbid the others in the View
+- [ ] GUID PK for Tag.cs and a DTO
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
@@ -70,11 +72,6 @@
     - *Raise Property Changed Event* (PCE) - tests
     - *Navigates to* - tests (using mocked navigation services)
 
-## Exception Handling Philosophy
-Trying to streamline the throwing & try-catching procedure of exceptions throughout the solution:
-1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
-2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
-
 ## What You Should Do When...
 ### **You want to add a new EF Core model class that defines a DB entity** (join entity similar)
   1. :heavy_plus_sign: EF Core model class `seeds.Dal.Model.MyModel.cs`
@@ -85,8 +82,35 @@ Trying to streamline the throwing & try-catching procedure of exceptions through
   5. :heavy_plus_sign: configuration class `seeds.Api.Data.MyModelConfiguration.cs` w/ relations and call it in `seedsApiContext.cs`
   6. Migrate to the DB using `dotnet-ef migrations add new_entity_mymodel` in the API's console
   7. Scaffold out a controller by right-clicking `seeds.Api.Controllers` :arrow_right: Add API Controller with actions, using EF :arrow_right: choose `MyModel` as model and the existing context class and hence create `seeds.Api.Controllers.MyModelsController.cs`
-  8. Adapt the `MyModelsController` class to return not the EF model, but the DTO model; delete useless endpoints
+     1. delete useless endpoints
+     2. adapt the endpoints to take ToDb DTOs and return FromDb DTOs
+     3. `HttpUtility.UrlDecode` the parameters (if you'll likely `UrlEncode` them while calling the endpoint)
   9. :heavy_plus_sign: interface `seeds.Dal.Interfaces.IMyModelService.cs`
   10. Implement it in a service class `seeds.Dal.Services.MyModelService.cs` that accesses the endpoints
   11. Register the last two points to the DI container
   12. Use the model in the VMs *a little bit* (to see whether it actually suits your needs) and then write tests `seeds.Api.Tests.Controllers.MyModelsControllerTests.cs` and `seeds.Dal.Tests.Services.MyModelServiceTests.cs`
+
+## Philosophies / Streamlining
+### Data Retrieval from DB to MAUI
+PerfTip showed that endpoint calls have a naked computation time of `>50ms`, so loops over endpoints are :skull_and_crossbones:.
+:bulb::
+1. Data that is independent of the `CurrentUser` should be retrieved in rather big :package: upon startup.
+   1. this includes static data like `Tag`s or `Category`s
+   2. but also `Idea`s (by both `CurrentUser` and any other user)
+2. User data like `UserPreference`s or `UserIdeaInteraction`s should also be retrieved in :package:.
+   They should be indexed by Guid PKs, so C# can build `Dictionary<Guid, MyUserDataModel>`s that can quickly be accessed. 
+
+### Exception Handling
+Throwing exceptions & try-catching them throughout the solution:
+1. The first method that is sure that a certain response indicates an error, is the one that needs to `throw new Exception("A message providing all the info");`.
+2. The method closest to the view (e.g. directly called by a command in a VM) needs to `try`-`catch (Exception ex)` and `await Shell.Current.DisplayAlert(...);`
+
+### URL En-/Decoding
+`HttpUtility.UrlEncode` and `UrlDecode` throughout the solution:
+1. The first method that builds the URL should encode
+  - ➕ we don't have to pass the URL fragments through the layers (service ➡️ DalBaseService ➡️ HttpWrapper)
+  - ➕ we can decide for each concrete paramater separately
+  - ➖ in later layers we cannot control the URL anymore
+  - ➖ we pass the weird, encoded URL through the layers
+2. The endpoint should always decode parameters, just to make sure
+  - although C# already decodes a little for you, e.g. spaces are not decoded without `UrlDecode`

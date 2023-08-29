@@ -8,6 +8,7 @@ namespace seeds1.Tests.ViewModel;
 
 public class LoginVmTests
 {
+    private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
     private readonly IUsersService userService;
     private readonly INavigationService navService;
@@ -15,10 +16,11 @@ public class LoginVmTests
 
     public LoginVmTests()
     {
+        staticService = A.Fake<IStaticService>();
         globalService = A.Fake<IGlobalService>();
         userService = A.Fake<IUsersService>();
         navService = (INavigationService)new MockNavigationService();
-        vm = new(globalService, userService, navService);
+        vm = new(staticService, globalService, userService, navService);
     }
 
     #region Positive Tests

@@ -6,9 +6,7 @@ namespace seeds1.MauiModels;
 public partial class FeedEntry : ObservableObject
 {
     public IdeaFromDb Idea { get; set; } = new();
-    public string CategoryName { get; set; } = "No Category";
-    [ObservableProperty]
-    int categoryPreference = 0;
+    public List<CatagPreference> CatagPreferences { get; set; } = new();
     [ObservableProperty]
     bool upvoted = false;
     [ObservableProperty]

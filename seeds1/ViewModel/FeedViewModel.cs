@@ -14,18 +14,19 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICategoryUserPreferenceService cupService;
-    private readonly ICategoryPreferencesService catPrefService;
+    private readonly IUserPreferenceService cupService;
+    private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
     public FeedViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        ICategoryUserPreferenceService cupService,
-        ICategoryPreferencesService catPrefService)
-        : base(globalService)
+        IUserPreferenceService cupService,
+        ICatagPreferencesService catPrefService)
+        : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
@@ -88,19 +89,25 @@ public partial class FeedViewModel :MyBaseViewModel
      * Then update the DB with the new preference.
      */
     [RelayCommand]
-    public async Task ChangeCategoryPreference(string categoryKey)
+    public async Task ChangeTagPreference(CatagPreference catagPref)
     {
+        if (catagPref.TagName == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
-            if (FeedEntryVMCollection[i].FeedEntry.Idea.CategoryKey == categoryKey)
-            {
-                FeedEntryVMCollection[i].FeedEntry.CategoryPreference = catPrefService
-                    .StepCatPreference(FeedEntryVMCollection[i].FeedEntry.CategoryPreference);
+            // loop over tags
+            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatagPreferences.Count; j++)
+            { 
+                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].CategoryKey == catagPref.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].TagName == catagPref.TagName)
+                {
+                    FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference = catPrefService
+                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference);
 
-                // for the DB
-                newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CategoryPreference;
+                    // for the DB
+                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference;
+                }
             }
         }
 
@@ -109,46 +116,20 @@ public partial class FeedViewModel :MyBaseViewModel
         {
             try
             {
-                if (await cupService.PutCategoryUserPreferenceAsync(
-                    categoryKey,
-                    CurrentUser.Username,
-                    (int)newCatPreference) == false)
-                {
-                    throw new Exception($"The user preference for category {categoryKey}" +
-                        $" could not be Put. Please refresh.");
-                }
+                //if (!await cupService.PutUserPreferenceAsync(
+                //    catagPref.CategoryKey,
+                //    CurrentUser.Username,
+                //    (int)newCatPreference,
+                //    tagName: catagPref.TagName))
+                //{
+                //    throw new Exception($"Fatal: Could not Put.");
+                //}
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlert("DB Error",
                     ex.Message, "Ok");
             }
-        }
-    }
-
-    public async Task LoadCatPreferencesFromDbAsync()
-    {
-        List<CatPreference> catPrefs = new();
-        try
-        {
-            catPrefs = await catPrefService.GetCatPreferencesAsync();
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("DB Error",
-                ex.Message, "Ok");
-        }
-        Dictionary<string, int> catPrefsDict = new();
-        foreach (var catPref in catPrefs)
-        {
-            catPrefsDict.Add(catPref.Key, catPref.Value);
-        }
-
-        for (int i = 0; i < FeedEntryVMCollection.Count; i++)
-        {
-            FeedEntryVMCollection[i].FeedEntry
-                .CategoryPreference = catPrefsDict[FeedEntryVMCollection[i]
-                .FeedEntry.Idea.CategoryKey];
         }
     }
 }

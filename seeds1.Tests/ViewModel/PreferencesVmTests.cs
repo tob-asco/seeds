@@ -6,40 +6,42 @@ namespace seeds1.Tests.ViewModel;
 
 public class PreferencesVmTests
 {
-    private readonly ICategoryPreferencesService catPrefService;
-    private readonly ICategoryUserPreferenceService cupService;
+    private readonly IStaticService staticService;
+    private readonly ICatagPreferencesService catPrefService;
+    private readonly IUserPreferenceService cupService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
-        catPrefService = A.Fake<ICategoryPreferencesService>();
-        cupService = A.Fake<ICategoryUserPreferenceService>();
-        vm = new(A.Fake<IGlobalService>(), catPrefService, cupService);
+        staticService = A.Fake<IStaticService>();
+        catPrefService = A.Fake<ICatagPreferencesService>();
+        cupService = A.Fake<IUserPreferenceService>();
+        vm = new(staticService, A.Fake<IGlobalService>(), catPrefService, cupService);
     }
 
     [Fact]
-    public async Task PreferencesVm_ChangeCategoryPreference_ChangesOnlyKeyedPreference()
+    public async Task PreferencesVm_ChangeTagPreference_ChangesOnlyKeyedPreference()
     {
         #region Arrange
         int pref1 = 0, pref0 = -1;
-        vm.CatPrefs = new()
+        vm.CatagPrefGroups = new() { new() // both in first group
         {
-            new() { Key = "Cat0", Value = pref0 },
-            new() { Key = "Cat1", Value = pref1 },
-        };
-        A.CallTo(() => catPrefService.StepCatPreference(A<int>.Ignored))
+            new() { CategoryKey = "Cat0", Preference = pref0 },
+            new() { CategoryKey = "Cat1", Preference = pref1 },
+        }};
+        A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
             .Returns(14);
-        A.CallTo(() => cupService.PutCategoryUserPreferenceAsync(
-            A<string>.Ignored, A<string>.Ignored, A<int>.Ignored))
-            .Returns(true);
+        //A.CallTo(() => cupService.PutUserPreferenceAsync(
+        //    A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
+        //    .Returns(true);
         #endregion
 
         // Act
-        await vm.ChangeCategoryPreference(vm.CatPrefs[1].Key);
+        await vm.ChangeTagPreference(vm.CatagPrefGroups[0][1]);
 
         // Assert
-        vm.CatPrefs[0].Value.Should().Be(pref0);
-        vm.CatPrefs[1].Value.Should().NotBe(pref1);
+        vm.CatagPrefGroups[0][0].Preference.Should().Be(pref0);
+        vm.CatagPrefGroups[0][1].Preference.Should().NotBe(pref1);
     }
 
 }

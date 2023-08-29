@@ -15,11 +15,12 @@ public class FeedViewModelFactory : IGenericFactory<FeedViewModel>
     public FeedViewModel Create()
     {
         return new FeedViewModel(
+            serviceProvider.GetRequiredService<IStaticService>(),
             serviceProvider.GetRequiredService<IGlobalService>(),
             serviceProvider.GetRequiredService<IGenericFactory<FeedEntryViewModel>>(),
             serviceProvider.GetRequiredService<IFeedEntriesService>(),
-            serviceProvider.GetRequiredService<ICategoryUserPreferenceService>(),
-            serviceProvider.GetRequiredService<ICategoryPreferencesService>()
+            serviceProvider.GetRequiredService<IUserPreferenceService>(),
+            serviceProvider.GetRequiredService<ICatagPreferencesService>()
             );
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace seeds.Dal.Model;
 
@@ -13,17 +10,21 @@ namespace seeds.Dal.Model;
  * cf. https://learn.microsoft.com/en-us/ef/core/modeling/relationships/many-to-many#many-to-many-and-join-table-with-payload
  */
 
-[Table("category_user")]
-public class CategoryUserPreference
+/// <summary>
+/// Join Entity that may be used for a tuple of (User, {entity with Guid Id}).
+/// It comes with an int Payload "Value".
+/// </summary>
+[Table("user_preference")]
+public class UserPreference
 {
-    [Column("category_key")]
-    public string CategoryKey { get; set; } = "NoC";
+    [Column("item_id")]
+    public Guid ItemId { get; set; } = new();
+
     [Column("username")]
     public string Username { get; set; } = "tobi";
 
     #region Payload
     [Column("value")]
     public int Value { get; set; } = 0;
-
     #endregion
 }

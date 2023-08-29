@@ -1,5 +1,6 @@
 ﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
+using System.Web;
 
 namespace seeds.Dal.Services;
 
@@ -18,7 +19,7 @@ public class UsersService : IUsersService
     }
     public async Task<UserDto?> GetUserByUsernameAsync(string username)
     {
-        string url = $"api/Users/{username}";
+        string url = $"api/Users/{HttpUtility.UrlEncode(username)}";
         return await _baseService.GetDalModelAsync<UserDto>(url);
     }
 }

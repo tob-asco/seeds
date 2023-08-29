@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
+using System.Web;
 
 namespace seeds.Api.Controllers
 {
@@ -44,6 +45,7 @@ namespace seeds.Api.Controllers
             {
                 return NotFound();
             }
+            categoryKey = HttpUtility.UrlDecode(categoryKey);
             var category = await _context.Category.FindAsync(categoryKey);
             if (category == null)
             {

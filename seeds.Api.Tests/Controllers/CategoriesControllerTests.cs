@@ -2,19 +2,21 @@
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class CategoriesControllerTests : ApiBaseControllerTests
+public class CategoriesControllerTests : ApiControllerTestsBase
 {
     public List<Category> Categories { get; set; } = new();
 
     public CategoriesControllerTests()
+        :base(baseUri: "api/Categories/")
     {
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -23,25 +25,25 @@ public class CategoriesControllerTests : ApiBaseControllerTests
             Categories.Add(
             new Category()
             {
-                Key = $"Cat{i}",
+                Key = $"Cat #{i}?",
                 Name = $"Category{i}"
             });
         }
-        if(!_context.Category.Any()) { _context.Category.AddRange(Categories); }
+        if(!context.Category.Any()) { context.Category.AddRange(Categories); }
     }
 
     [Fact]
     public async Task CatsController_GetAllEndpoint_ReturnsListOfCorrectLength()
     {
         // Arrange
-        string url = $"api/Categories";
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
 
         // Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
         result.Should().NotBeNull();
         result?.Should().HaveCount(Categories.Count);
     }
@@ -49,9 +51,9 @@ public class CategoriesControllerTests : ApiBaseControllerTests
     public async Task CatsController_GetAllEndpoint_IfEmptyReturnsNotFound()
     {
         // Arrange
-        _context.Category.RemoveRange(Categories);
-        _context.SaveChanges();
-        string url = $"api/Categories";
+        context.Category.RemoveRange(Categories);
+        context.SaveChanges();
+        string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -64,14 +66,14 @@ public class CategoriesControllerTests : ApiBaseControllerTests
     {
         // Arrange
         string key = Categories[0].Key;
-        string url = $"api/Categories/{key}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(key)}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<CategoryDto>();
 
         // Assert
         response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<CategoryDto>();
         result.Should().NotBeNull();
         result?.Key.Should().Be(key);
     }
@@ -79,7 +81,7 @@ public class CategoriesControllerTests : ApiBaseControllerTests
     public async Task CatsController_GetEndpoint_IfNotExistReturnsNotFound()
     {
         // Arrange
-        string url = $"api/Categories/ThisShouldBeNoValidKey";
+        string url = baseUri + $"ThisShouldBeNoValidKey";
 
         // Act
         var response = await _httpClient.GetAsync(url);

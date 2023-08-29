@@ -25,12 +25,9 @@ public class Idea
     [Column("creation_time")]
     public DateTime CreationTime { get; set; } = DateTime.Now;
 
-    [Column("category_key")]
-    public string CategoryKey { get; set; } = "NoC";
-
     #region Navigation
-    public User Creator { get; } = null!;
-    public Category Category { get; } = null!;
+    public User Creator { get; } = null!; // the idea's creator
+    public List<Tag> Tags { get; set; } = new(); // the idea's tags
     public List<User> InteractedUsers { get; set; } = new();
     #endregion
 

@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace seeds.Dal.Model;
 
+/// <summary>
+/// Entity to group Tags into quite general classes.
+/// Ideas are not assigned a Category, only Tags.
+/// </summary>
 [Table("categories")]
 public class Category
 {
@@ -16,8 +18,8 @@ public class Category
     public string Name { get; set; } = "No Category";
 
     #region Navigation
-    public List<Idea> Ideas { get; set; } = new List<Idea>();
-    public List<CategoryUserPreference> CategoryUserPreferences { get; } = new();
     public List<User> Users { get; } = new();
+    public List<Tag> Tags { get; } = new();
+    public List<Family> Families { get; } = new();
     #endregion
 }

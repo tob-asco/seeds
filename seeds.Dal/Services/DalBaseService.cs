@@ -31,6 +31,9 @@ public class DalBaseService : IDalBaseService
         }
         return await response.Content.ReadFromJsonAsync<T>();
     }
+    public Exception ThrowGetNullException(string url)
+    { return new Exception($"The Get URL {url} returned null."); }
+
     public async Task<bool> PutDalModelAsync<T>(string url, T newModel)
     {
         var httpContent = JsonContent.Create(newModel);
@@ -46,6 +49,9 @@ public class DalBaseService : IDalBaseService
         }
         return true;
     }
+    public Exception ThrowPutNotFoundException(string url)
+    { return new Exception($"The Put URL {url} returned NotFound."); }
+
     public async Task<bool> PostDalModelBoolReturnAsync<T>(string url, T model)
     {
         var httpContent = JsonContent.Create(model);
@@ -62,6 +68,9 @@ public class DalBaseService : IDalBaseService
         }
         return true;
     }
+    public Exception ThrowPostConflictException(string url)
+    { return new Exception($"The Post URL {url} conflicted."); }
+
     public async Task<FromDb> PostDalModelAsync<ToDb, FromDb>(string url, ToDb toDbModel)
     {
         var httpContent = JsonContent.Create(toDbModel);
@@ -74,6 +83,24 @@ public class DalBaseService : IDalBaseService
         return await response.Content.ReadFromJsonAsync<FromDb>()
             ?? throw new Exception($"The Post URL {url} returned null.");
     }
+
+    public async Task<bool> DeleteAsync(string url)
+    {
+        var response = await HttpClientWrapper.DeleteAsync(url);
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            return false;
+        }
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"The Delete URL {url} returned non-successful " +
+                $"HttpStatusCode {response.StatusCode}");
+        }
+        return true;
+    }
+    public Exception ThrowDeleteNotFoundException(string url)
+    { return new Exception($"The Delete URL {url} returned NotFound."); }
+
     public async Task<T?> GetNonDalModelAsync<T>(string url)
     {
         var response = await HttpClientWrapper.GetAsync(url);

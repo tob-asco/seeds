@@ -14,11 +14,12 @@ public partial class AddViewModel : MyBaseViewModel
     private readonly IPresentationService presentationService;
 
     public AddViewModel(
+        IStaticService staticService,
         IGlobalService globalService,
         ICategoryService categoryService,
         IIdeasService ideasService,
         IPresentationService presentationService)
-        : base(globalService)
+        : base(staticService, globalService)
     {
         this.categoryService = categoryService;
         this.ideasService = ideasService;

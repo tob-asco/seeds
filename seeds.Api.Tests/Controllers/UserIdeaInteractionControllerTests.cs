@@ -3,10 +3,11 @@ using seeds.Api.Controllers;
 using seeds.Dal.Model;
 using System.Net;
 using System.Net.Http.Json;
+using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
+public class UserIdeaInteractionControllerTests : ApiControllerTestsBase
 {
     private readonly UserIdeaInteractionsController _controller;
     public List<User> Users { get; } = new();
@@ -16,12 +17,13 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     private readonly int noUiiUsernameAndIdeaId = 4;
 
     public UserIdeaInteractionControllerTests()
+        :base(baseUri: "api/UserIdeaInteractions/")
     {
-        _controller = new(_context);
+        _controller = new(context);
         PopulatePropertiesAndAddToDb();
-        _context.SaveChanges();
+        context.SaveChanges();
         // Clear the change tracker, so each test has a fresh _context
-        _context.ChangeTracker.Clear();
+        context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
     {
@@ -29,7 +31,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         {
             Users.Add(new()
             {
-                Username = $"tobi{i}", //unique
+                Username = $"tobi #{i}?_", //unique
                 Password = "tobi",
                 Email = "tobi" + i + "@tobi.com", //unique
             });
@@ -38,8 +40,8 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
                 Title = "Idea #" + i
             });
         }
-        if (!_context.User.Any()) { _context.User.AddRange(Users); }
-        if (!_context.Idea.Any()) { _context.Idea.AddRange(Ideas); }
+        if (!context.User.Any()) { context.User.AddRange(Users); }
+        if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
         Uiis.Add(new UserIdeaInteraction()
         {
             Username = Users[existingUiiUsernameAndIdeaId].Username,
@@ -47,23 +49,55 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             Upvoted = true,
             Downvoted = true,
         });
-        if (!_context.UserIdeaInteraction.Any())
+        if (!context.UserIdeaInteraction.Any())
         {
-            _context.UserIdeaInteraction.AddRange(Uiis);
+            context.UserIdeaInteraction.AddRange(Uiis);
         }
-        var uii = _context.UserIdeaInteraction.Find(
+        var uii = context.UserIdeaInteraction.Find(
             Users[noUiiUsernameAndIdeaId].Username,
             Ideas[noUiiUsernameAndIdeaId].Id);
-        if (uii != null) { _context.UserIdeaInteraction.Remove(uii); }
+        if (uii != null) { context.UserIdeaInteraction.Remove(uii); }
     }
 
+    [Fact]
+    public async Task UiiController_GetIdeaInteractionsOfUserEndpoint_ReturnsItselfs()
+    {
+        //Arrange
+        string username = Users[existingUiiUsernameAndIdeaId].Username;
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserIdeaInteraction>>();
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(context.UserIdeaInteraction.Where(
+            uii => uii.Username == username));
+    }
+    [Fact]
+    public async Task UiiController_GetIdeaInteractionsOfUserEndpoint_IfUserNotExistsReturnsEmpty()
+    {
+        //Arrange
+        string url = baseUri + $"notAuser";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<UserIdeaInteraction>>();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
+    }
     [Fact]
     public async Task UiiController_GetEndpoint_ReturnsItself()
     {
         //Arrange
         string username = Users[existingUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -81,7 +115,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
         // Arrange
         string username = Users[noUiiUsernameAndIdeaId].Username;
         int ideaId = Ideas[noUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         // Act
         var response = await _httpClient.GetAsync(url);
@@ -102,14 +136,14 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             Upvoted = false,
             Downvoted = true,
         };
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url,JsonContent.Create(uii));
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
+        context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
     public async Task UiiController_PutEndpoint_IfNotExistReturnsNotFound()
@@ -122,7 +156,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
             Username = username,
             IdeaId = ideaId,
         };
-        string url = $"/api/UserIdeaInteractions/{username}/{ideaId}";
+        string url = baseUri + $"{HttpUtility.UrlEncode(username)}/{ideaId}";
 
         //Act
         var response = await _httpClient.PutAsync(url, JsonContent.Create(uii));
@@ -147,7 +181,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
 
         //Assert
         response.Should().BeSuccessful();
-        _context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
+        context.UserIdeaInteraction.Should().ContainEquivalentOf(uii);
     }
     [Fact]
     public async Task UiiController_PostEndpoint_IfExistReturnsConflict()
@@ -172,7 +206,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+        string url = baseUri + $"{ideaId}/upvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -187,7 +221,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int ideaId = -1;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/upvotes";
+        string url = baseUri + $"{ideaId}/upvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -200,7 +234,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int ideaId = Ideas[existingUiiUsernameAndIdeaId].Id;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+        string url = baseUri + $"{ideaId}/downvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -215,7 +249,7 @@ public class UserIdeaInteractionControllerTests : ApiBaseControllerTests
     {
         //Arrange
         int ideaId = -1;
-        string url = $"/api/UserIdeaInteractions/{ideaId}/downvotes";
+        string url = baseUri + $"{ideaId}/downvotes";
 
         //Act
         var response = await _httpClient.GetAsync(url);
