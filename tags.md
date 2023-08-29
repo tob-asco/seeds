@@ -137,9 +137,15 @@ Generally for this category:
    - :cool: stuff to suggest to your boss
    - :abacus: time management, motivation, office social dynamics
    - :abacus: gadgets to make work cooler/healthier/comfortable
-2. `for branch: {main job industries where :abacus: is met}`
-   - :cool: how to improve your job efficiency
-   - :cool: discuss with fellow experts
+2. `for branch: {applicable job industries}`
+   - applicable job industries are those meeting both :cool: and :abacus:
+      - :cool: how to improve your job efficiency
+      - :cool: discuss with fellow experts
+   - farmer, construction worker, designer, hair dresser, garbage person, barkeeper,
+   - cook, barista, programmer, doctor, electronic engineer, electric engineer,
+   - scientist, journalist, film producer, influencer, legal worker, social worker,
+   - merchant, tourism worker, trucker, pilot, carpenter, electrician, plumber, welder,
+   - politician, ...
 3. `finding passion`
    - :cool: young people are desperate to decide what to do
    - :cool: passionate for passion
@@ -192,7 +198,7 @@ Generally for this category:
    - :cool: we like bees
    - :abacus: new housings
    - :abacus: strengthening them
-7. `reduce plastic`
+7. `reducle plastic` (= recycle + reduce)
    - :cool: we strongly dislike plastic
    - :cool: discovery channels pictures of dying fish
    - :abacus: new recycling techniques
@@ -233,7 +239,12 @@ Generally for this category:
    - :cool: very interesting for developers to learn what they are facing
    - :abacus: tiny scripts that have big impact
    - :abacus: new ideas on improving/streamlining security development 
-
+10. `AI`
+   - :cool: super hyped right now
+   - :cool: people are partly scared partly curious for new developments
+   - :abacus: new types, features
+   - :abacus: applications
+   - :abacus: rules, law
 
 ## `H4H - Human for Human`
 Generally for this category:
@@ -254,7 +265,9 @@ Generally for this category:
    - :cool: political relevance
    - :abacus: new strategies to integrate (so far) lost cases
    - :abacus: new jobs that can be done by (so far) unemployed
-
+6. `contra homelessness`
+   - :abacus: large-scale solutions
+   - :abacus: political suggestions
 
 ## `EDU - Education`
 2. `teaching style`
@@ -272,7 +285,7 @@ Generally for this category:
 6. `early development`
    - :cool: such a critical phase of life
    - :cool: new parents nowadays are extremely cautious and informed, i.e. interested
-   - :abacus: babies, Kitas, Kindergardens, primary schools
+   - :abacus: babies, Kitas, kKndergardens, primary schools
 7. elderlies
    - :abacus: systems adapted to old people
    - :abacus: people live longer, what to do after 65?
@@ -438,7 +451,11 @@ Generally for this category:
    - :cool: space for you and your "neighbours" to discuss on an international platform
    - :cool: interesting to see the local problems, you might literally be able to walk there
    - :abacus: soooo much (e.g. U5 station names) 
-
+6. `city design`
+   - :cool: grand futuristic concepts
+   - :cool: solutions to pressuring problems in concrete cities
+   - :abacus: adaptions for concrete cities
+   - :abacus: e.g. traffic lights
 
 ## `DSGN - Design`
 Generally for this category:
