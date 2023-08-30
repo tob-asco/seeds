@@ -130,6 +130,15 @@ Generally for this category:
    - :cool: big community (both: geeky & artsy)
    - :cool: see results (i.e. nice pictures)
    - :abacus: new techniques
+11. `social media`
+   - :cool: gaining more and more thrust
+   - :abacus: new kinds of social media
+   - :abacus: regulations
+12. `for pet: {main pet kinds}`
+   - :cool: we love our pets, and wanna treat them right
+   - :cool: sort of a community for each type
+   - :abacus: accessories, gadgets
+   - :abacus: taking care, housing
 
 ## `WORK - Working`
 1. `productivity`
@@ -216,7 +225,10 @@ Generally for this category:
    - :abacus: new concrete games
    - :abacus: new types of games
 2. visualization / rendering / 3d
-3. programming packages
+3. `for language: {main programming languages}`
+   - :cool: programmers are much tied to their languages
+   - :cool: you can scavenge for great improvements and push them
+   - :abacus: pacakages, features
 4. `mobile apps`
    - :cool: developers are hungry for good app ideas
    - :cool: non-developers are hungry to see their ideas realized
@@ -230,7 +242,7 @@ Generally for this category:
 6. `server`
    - :cool: geeks, server admins
    - :abacus: I don't know, but probably enough
-7. `new languages`
+7. `new language`
    - :cool: funky, exciting
    - :abacus: problem-adapted language
 8. code snippets / scripts
@@ -245,6 +257,11 @@ Generally for this category:
    - :abacus: new types, features
    - :abacus: applications
    - :abacus: rules, law
+11. `quantum computing`
+   - :cool: "quantum"
+   - :cool: high hopes for this new technology
+   - :abacus: new use-cases
+   - :abacus: how to make it more accessible to everybody
 
 ## `H4H - Human for Human`
 Generally for this category:
@@ -626,7 +643,9 @@ Generally for this category:
 3. `communities`
    - :cool: wanting to be part of something
    - :abacus: new communities
-
+4. `new political systems`
+   - :cool: hot topic for discussions
+   - :abacus: new political systems
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
