@@ -139,6 +139,20 @@ Generally for this category:
    - :cool: sort of a community for each type
    - :abacus: accessories, gadgets
    - :abacus: taking care, housing
+13. `shopping`
+   - :cool: it can be an addiction after all
+   - :abacus: new kinds of shopping/selling
+14. guns
+   - :cool: they go *boom*
+   - :cool: dangerous
+   - :cool: a lot of involved feelings
+   - :abacus: new regulations
+   - :abacus: new types of weapons (this is morally not so easy)
+15. `childish fun`
+   - :cool: some stupid new ways to have fun
+   - :cool: searching for inspiration
+   - :abacus: new gear for games
+   - :abacus: some self-made games, DIYs
 
 ## `WORK - Working`
 1. `productivity`
@@ -217,14 +231,21 @@ Generally for this category:
    - :cool: elegant solutions, beautiful pictures
    - :abacus: plant greenery on buildings
    - :abacus: large-scale new concepts
-
+9. `sustainability`
+   - :cool: slightly outdated, but still important
+   - :cool: we all hate to throw away stuff
+   - :abacus: new materials or cycles
 
 ## `CPU - Software`
 1. `games`
    - :cool: gamer community
    - :abacus: new concrete games
    - :abacus: new types of games
-2. visualization / rendering / 3d
+2. `augmented reality` /visualization / rendering / 3d
+   - :cool: literally living our dreams
+   - :cool: +18 branches
+   - :abacus: applications
+   - :abacus: new kinds
 3. `for language: {main programming languages}`
    - :cool: programmers are much tied to their languages
    - :cool: you can scavenge for great improvements and push them
@@ -334,19 +355,18 @@ Generally for this category:
 7. liquour
    - :cool: alcoholophiles
    - :abacus: all the different kinds
-8. `hospitality industry` (= Gastronomie)
-   - :cool: huge working branch
-   - :cool: much money involved
-   - :abacus: new technologies
-   - :abacus: worker distribution
-   - :abacus: law
+8. `new restaurants`
+   - :cool: big money at stakes
+   - :cool: see what other people's tastes are like
+   - :abacus: fusion, more-focused
 9. `substitutes`
    - :cool: desperately needed by vegetarian newcomers
    - :cool: always hunting for alternatives
-   - :abacus: new ways to prepare something
    - :cool: big market
    - :cool: challenging to come up with
+   - :abacus: new ways to prepare something
    - :abacus: all vegan recipes
+
 
 
 ## `HEAL - Health`
@@ -442,6 +462,11 @@ Generally for this category:
    - :cool: elegant solutions
 3. tools
    - :abacus: new / adapted tool designs
+4. `space exploration`
+   - :cool: aliens
+   - :cool: astronauts
+   - :abacus: completely new approaches
+   - :abacus: relevance, law
 
 
 ## `GOV - Governmental`
@@ -646,6 +671,20 @@ Generally for this category:
 4. `new political systems`
    - :cool: hot topic for discussions
    - :abacus: new political systems
+5. `consumerism`
+   - :cool: wage but hot topic bc. of money
+   - :cool: we are all a victim of it
+   - :abacus: grand-scale suggestions
+   - :abacus: how to reduce, how to raise awareness
+   - :abacus: how to use
+6. `privacy`
+   - :cool: absolutely polarizing topic
+   - :abacus: new algorithms
+   - :abacus: laws, ground rules
+7. `genders`
+   - :cool: polarizing as hell
+   - :abacus: regulations, suggestions
+   - :abacus: findings
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
