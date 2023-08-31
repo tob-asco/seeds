@@ -397,6 +397,10 @@ Generally for this category:
    - :cool: people with time constraints
    - :abacus: stuff like 7-minute workout
    - :abacus: lesser-known sports
+6. `addictive workout`
+   - :cool: addiction is the source of motivation
+   - :abacus: improvement for given workouts
+   - :abacus: intertwine workout with social life
 6. `prophylactic lifestyle`
    - :cool: spice up your lifestyle with healthy suggestions
    - :abacus: nutrition
