@@ -3,7 +3,7 @@
 - Title: w/orld method
 - Slogan: Use Capitalism To Reduce CO2
 - CreationTime: 2021-03-30
-- Tags: CO2 reduction; grand movement
+- Tags: CO2 reduction; grand movement; consumerism
 ## EasyWipe
 - Title: EasyWipe
 - Slogan: No More Wiping Pain (for men)
@@ -74,3 +74,52 @@
 - Slogan: Create Your Custom Smoothie While Shopping
 - CreationTime: 2013-09-26
 - Tags: cocktails
+
+# Friends' Ideas
+## NachTisch
+- Title: Sweetonaut
+- Slogan: Only Sweet Delicious Food On Our Menu
+- CreationTime: 2022-03-01
+- Tags: new restaurants
+## Halb Milch Halb Hafer
+- Title: fifty fifty
+- Slogan: Half Cow- Half Substitute-Milk
+- CreationTime: 2022-10-01
+- Tags: substitutes
+
+# Strangers' Ideas
+What are the guidelines for the ideas? 
+- well-known & realized ideas might be confusing if portrayed
+- fake ideas might not be convincing, they're place-holders at best
+- good ideas that died because of a missing platform would be great
+- how about recently realized ideas that are lesser known?
+## headspace.com
+- Title: Headspace
+- Slogan: Be Kind To Your Mind
+- CreationTime: 2010-05-01
+- Tags: mobile apps; mental health
+## myeasyfarm.com
+- Title: MyEasyFarm
+- Slogan: Digitally Streamline Work of Small Farmers
+- CreationTime: 2017-01-01
+- Tags: for branch: farmer; mobile app
+## onepeloton.com
+- Title: Peloton
+- Slogan: Online Workout Classes With Fully Connected Equipment
+- CreationTime: 2012-01-03
+- Tags: addictive workout
+## allbirds.eu
+- Title: Allbirds Woolrunner
+- Slogan: A Shoe Made From Merino Wool
+- CreationTime: 2016-01-01
+- Tags: haut couture; functional wear
+## 
+- Title: 
+- Slogan: 
+- CreationTime: 
+- Tags: 
+## PostIt
+- Title: PostIt
+- Slogan: Stick Words Everywhere
+- CreationTime: 2000-01-01
+- Tags: shopping; autarkic solutions
