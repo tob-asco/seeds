@@ -12,3 +12,6 @@ It is much less important to completely classify ideas by them.
 - `tag`
 - `community`
 - `foi` (= field of interest)
+- `domain`
+- `topic`
+- `genre`
