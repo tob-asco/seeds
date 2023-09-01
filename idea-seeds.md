@@ -93,16 +93,16 @@ What are the guidelines for the ideas?
 - fake ideas might not be convincing, they're place-holders at best
 - good ideas that died because of a missing platform would be great
 - how about recently realized ideas that are lesser known?
-## headspace.com
-- Title: Headspace
-- Slogan: Be Kind To Your Mind
+## headspace.com, calm.com
+- Title: Guide To Sleep
+- Slogan: App To Help With Falling Asleep Problems
 - CreationTime: 2010-05-01
 - Tags: mobile apps; mental health
 ## myeasyfarm.com
 - Title: MyEasyFarm
 - Slogan: Digitally Streamline Work of Small Farmers
 - CreationTime: 2017-01-01
-- Tags: for branch: farmer; mobile app
+- Tags: for branch: farmer; mobile apps
 ## onepeloton.com
 - Title: Peloton
 - Slogan: Online Workout Classes With Fully Connected Equipment
@@ -113,13 +113,33 @@ What are the guidelines for the ideas?
 - Slogan: A Shoe Made From Merino Wool
 - CreationTime: 2016-01-01
 - Tags: haut couture; functional wear
-## 
-- Title: 
-- Slogan: 
-- CreationTime: 
-- Tags: 
-## PostIt
-- Title: PostIt
-- Slogan: Stick Words Everywhere
-- CreationTime: 2000-01-01
-- Tags: shopping; autarkic solutions
+## robinhood.com
+- Title: Robinhood Markets
+- Slogan: Stock Trading For Everyone, Not Just the Wealthy
+- CreationTime: 2013-04-18
+- Tags: mobile apps; cryptocurrency; trading
+## awaytravel.com
+- Title: Away Suitcase
+- Slogan: The Little Black Dress Of Luggage
+- CreationTime: 2015-11-09
+- Tags: traveling; luggage
+## freitag.ch
+- Title: R.I.P. truck backpack
+- Slogan: Backpack From Truck Tarp and Seatbelt Straps 
+- CreationTime: 01-01-1993
+- Tags: reducle plastic; luggage
+## revolut.com
+- Title: Revolut Banking
+- Slogan: One App, All Things Money
+- CreationTime: 2015-07-01
+- Tags: banks; mobile apps
+## renttherunway.com
+- Title: Rent The Runway
+- Slogan: Rent 2nd Hand Clothes From the Runway
+- CreationTime: 2009-01-01
+- Tags: haut couture; sustainability
+## squarerootsgrow.com
+- Title: Square Root
+- Slogan: Urban Vertical Indoor Farming Containers For Crops
+- CreationTime: 2016-09-21
+- Tags: greenify cities; for branch: farmer; food/water supply

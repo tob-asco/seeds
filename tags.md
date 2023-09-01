@@ -175,6 +175,22 @@ Generally for this category:
    - :abacus: how to really *feel* a given job in order to facilitate deciding pro/con it
    - :abacus: how to spark up passion for a given branch in youngsters
 
+## `$$$ - Money`
+In general for this category:
+- :cool: money has an enchanting power on people
+- :cool: get rich without working much
+1. `cryptocurrency`
+   - :cool: everyone knows the bitcoin stories
+   - :abacus: new currencies
+   - :abacus: new ways to deal it
+2. `trading`
+   - :cool: little like poker, the rush
+   - :abacus: new platforms, making it more accessible
+   - :abacus: trading not w/ shares only
+3. `banks`
+   - :cool: robberies, series, tresor, etc.
+   - :abacus: 
+
 ## `HOME - Housing`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
@@ -545,11 +561,11 @@ Generally for this category:
    - :abacus: limited editions
    - :abacus: new trends (e.g. barefoot)
    - :abacus: new damping, new laces, ...
-9. `survival`
-   - :cool: same reason I go into every outdoor store
-   - :cool: feel like being outside
+9. `luggage`
+   - :cool: the smooth running of the wheels
+   - :cool: travel pain killer 
    - :cool: elegant solutions
-   - :abacus: spork/foon, tent, ...
+   - :abacus: suitcase, backpack
 10. `watches`
    - :cool: watches are just cool and their design is crucial
    - :cool: some people scroll through watch websites regularly
@@ -689,6 +705,8 @@ Generally for this category:
    - :cool: polarizing as hell
    - :abacus: regulations, suggestions
    - :abacus: findings
+8. `distribute expertise`
+   - :cool: 
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
