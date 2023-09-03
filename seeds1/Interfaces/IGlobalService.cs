@@ -7,15 +7,17 @@ namespace seeds1.Interfaces;
 public interface IGlobalService
 {
     public UserDto CurrentUser { get; set; }
-    public Dictionary<Guid, UserPreference> CurrentUserPreferences { set; }
-    public Dictionary<Guid, TagFromDb> CurrentUserButtonedTags { set; }
-    public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { set; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().
     /// </summary>
     public Task LoadPreferencesAsync();
     public Dictionary<Guid, UserPreference> GetPreferences();
+    /// <summary>
+    /// Change the preference in the globalService member and the DB.
+    /// This Method catches any earlier exception.
+    /// </summary>
+    public Task GlobChangePreference(Guid itemId, int newValue);
 
     /// <summary>
     /// Loads ButtonedTags of the CurrentUser, to be retrieved by GetButtonedTags().

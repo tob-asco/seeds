@@ -11,6 +11,7 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
+    private readonly IGlobalService globalService;
     private readonly ICatagPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
 
@@ -21,6 +22,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         IUserPreferenceService cupService)
         : base(staticService, globalService)
     {
+        this.globalService = globalService;
         this.prefService = catPrefService;
         this.cupService = cupService;
     }
@@ -69,8 +71,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            await cupService.UpsertUserPreferenceAsync(
-                CurrentUser.Username, pref.Tag.Id,
+            await globalService.GlobChangePreference(
+                pref.Tag.Id,
                 prefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference));
         }
         catch (Exception ex)

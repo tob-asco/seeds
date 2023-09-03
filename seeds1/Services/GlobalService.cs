@@ -12,11 +12,11 @@ public class GlobalService : IGlobalService
     private readonly IUserIdeaInteractionService uiiService;
 
     public UserDto CurrentUser { get; set; }
-    public Dictionary<Guid, UserPreference> CurrentUserPreferences { private get; set; }
-    private bool PreferencesLoaded { get; set; } = false;
+    private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
     public Dictionary<Guid, TagFromDb> CurrentUserButtonedTags { private get; set; }
-    private bool ButtonedTagsLoaded { get; set; } = false;
     public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { private get; set; }
+    private bool PreferencesLoaded { get; set; } = false;
+    private bool ButtonedTagsLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
         IUserPreferenceService userPrefService,
@@ -45,7 +45,30 @@ public class GlobalService : IGlobalService
         }
         else { return CurrentUserPreferences; }
     }
-
+    public async Task GlobChangePreference(Guid itemId, int newValue)
+    {
+        try
+        {
+            await userPrefService.UpsertUserPreferenceAsync(CurrentUser.Username, itemId, newValue);
+            if (CurrentUserPreferences.ContainsKey(itemId))
+            {
+                CurrentUserPreferences[itemId].Value = newValue;
+            }
+            else
+            {
+                CurrentUserPreferences.Add(itemId, new()
+                {
+                    Username = CurrentUser.Username,
+                    ItemId = itemId,
+                    Value = newValue,
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Upsert Error", ex.Message, "Ok");
+        }
+    }
     public async Task LoadButtonedTagsAsync()
     {
         if (!ButtonedTagsLoaded)
@@ -85,4 +108,5 @@ public class GlobalService : IGlobalService
         }
         else { return CurrentUserIdeaInteractions; }
     }
+
 }
