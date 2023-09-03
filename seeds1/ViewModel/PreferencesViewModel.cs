@@ -11,7 +11,7 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly ICatagPreferencesService catPrefService;
+    private readonly ICatagPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
@@ -21,7 +21,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         IUserPreferenceService cupService)
         : base(staticService, globalService)
     {
-        this.catPrefService = catPrefService;
+        this.prefService = catPrefService;
         this.cupService = cupService;
     }
 
@@ -36,8 +36,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            List<CatagPreference> catagPrefs = new();
-            //    await catPrefService.GetCatagPreferencesAsync();
+            List<CatagPreference> catagPrefs = prefService.AssembleButtonedUserPreferences();
 
             var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
             foreach (var group in groups)
@@ -87,7 +86,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         }
         
         // update View
-        CatagPrefGroups[groupIndex][index].Preference = catPrefService.StepPreference(
+        CatagPrefGroups[groupIndex][index].Preference = prefService.StepPreference(
             CatagPrefGroups[groupIndex][index].Preference);
     }
 }

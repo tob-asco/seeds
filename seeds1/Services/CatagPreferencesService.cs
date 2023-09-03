@@ -7,6 +7,7 @@ namespace seeds1.Services;
 
 public class CatagPreferencesService : ICatagPreferencesService
 {
+    private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly IUserPreferenceService cupService;
@@ -14,17 +15,35 @@ public class CatagPreferencesService : ICatagPreferencesService
     private readonly IIdeaTagService ideaTagService;
 
     public CatagPreferencesService(
+        IStaticService staticService,
         IGlobalService globalService,
         ICategoryService categoryService,
         IUserPreferenceService cupService,
         ITagService tagService,
         IIdeaTagService ideaTagService)
     {
+        this.staticService = staticService;
         this.globalService = globalService;
         this.categoryService = categoryService;
         this.cupService = cupService;
         this.tagService = tagService;
         this.ideaTagService = ideaTagService;
+    }
+
+    public List<CatagPreference> AssembleButtonedUserPreferences()
+    {
+        List<CatagPreference> prefs = new();
+        foreach(var tag in globalService.GetButtonedTags())
+        {
+            prefs.Add(new()
+            {
+                CategoryKey = tag.Value.CategoryKey,
+                TagName = tag.Value.Name,
+                Preference = globalService.GetPreferences().ContainsKey(tag.Key) ?
+                    globalService.GetPreferences()[tag.Key].Value : 0,
+            });
+        }
+        return prefs;
     }
 
     //public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)

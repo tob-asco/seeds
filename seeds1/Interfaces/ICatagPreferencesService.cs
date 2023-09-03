@@ -5,6 +5,12 @@ namespace seeds1.Interfaces;
 
 public interface ICatagPreferencesService
 {
+    /// <summary>
+    /// Uses globalService's buttoned tags and their preferences
+    /// to build a List of tags that get a button.
+    /// </summary>
+    /// <returns>List of Tag Preferences</returns>
+    public List<CatagPreference> AssembleButtonedUserPreferences();
     ///// <summary>
     ///// Prepares CUP data from CurrentUser of the tags of a specified idea.
     ///// </summary>
