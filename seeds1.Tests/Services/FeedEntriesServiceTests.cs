@@ -31,13 +31,13 @@ public class FeedEntriesServiceTests
         int ideaId = 9;
         List<Feedentry> ufes = new() {
             new(){ Idea = new() { Id = ideaId } },
-            new(){ Idea = new() { Id = ideaId } },
+            new(){ Idea = new() { Id = ideaId + 1 } },
         };
         A.CallTo(() => ideasService.GetFeedentriesPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(ufes);
         A.CallTo(() => globalService.GetIdeaInteractions())
-            .Returns(new Dictionary<int, UserIdeaInteraction>() {{ ideaId, new() }});
+            .Returns(new Dictionary<int, UserIdeaInteraction>() {{ ideaId, new() { Upvoted = true } }});
         #endregion
 
         // Act
@@ -45,8 +45,8 @@ public class FeedEntriesServiceTests
 
         // Assert
         result.Should().HaveCount(ufes.Count);
-        result[0]?.Idea.Id.Should().Be(ideaId);
-        result[1]?.Idea.Id.Should().Be(ideaId);
+        result[0]?.Upvoted.Should().BeTrue();
+        result[1]?.Idea.Id.Should().Be(ideaId + 1);
     }
     [Fact]
     public async Task FeedEntriesService_GetFeedEntriesPaginatedAsync_IfNoFesReturnsEmptyList()

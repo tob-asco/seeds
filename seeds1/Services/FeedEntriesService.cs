@@ -40,15 +40,18 @@ public class FeedEntriesService : IFeedEntriesService
                     CategoryKey = tag.CategoryKey,
                     // TODO: CategoryName
                     TagName = tag.Name,
-                    Preference = globalService.GetPreferences()[tag.Id].Value
+                    Preference = globalService.GetPreferences().ContainsKey(tag.Id) ?
+                        globalService.GetPreferences()[tag.Id].Value : 0
                 });
             }
             userFePage.Add(new UserFeedentry
             {
                 Idea = fe.Idea,
                 CatagPreferences = tagPrefs,
-                Upvoted = globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted,
-                Downvoted = globalService.GetIdeaInteractions()[fe.Idea.Id].Downvoted,
+                Upvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
+                    globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
+                Downvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
+                    globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
                 Upvotes = fe.Upvotes,
             });
         }
