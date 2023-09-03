@@ -9,29 +9,47 @@ namespace seeds.Api.Controllers
     [ApiController]
     public class FamiliesController : ControllerBase
     {
-        private readonly seedsApiContext _context;
+        private readonly seedsApiContext context;
 
         public FamiliesController(seedsApiContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         // GET: api/Families
+        /// <summary>
+        /// Get endpoint for all families, which are part of the DB.
+        /// We include the Tags by projection.
+        /// Further Columns in Family.cs need to be added here.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Family>>> GetFamilies()
         {
-            if (_context.Family == null)
-            {
-                return NotFound();
-            }
-            var fams = await _context.Family.ToListAsync();
+            if (context.Family == null) { return NotFound(); }
+
+            var fams = await context.Family
+                .Include(f => f.Tags)
+                .Select(f => new Family()
+                {
+                    /* manually include all columns,
+                     * to project only to first layer of navigation properties
+                     */
+                    Id = f.Id,
+                    Name = f.Name,
+                    CategoryKey = f.CategoryKey,
+                    Tags = f.Tags,
+                })
+                .ToListAsync();
+
             if(fams == null || fams.Count == 0) { return NotFound(); }
+
             return fams;
         }
 
         private bool FamilyExists(Guid id)
         {
-            return (_context.Family?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (context.Family?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -18,7 +18,7 @@ public class Family
     public string CategoryKey { get; set; } = "Noc";
 
     #region Navigation
-    public List<Tag> Tags { get; } = new();
+    public List<Tag> Tags { get; set; } = new();
     public Category Category { get; } = null!;
     #endregion
 }
