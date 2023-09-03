@@ -14,7 +14,6 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly IUserPreferenceService cupService;
     private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
@@ -24,13 +23,11 @@ public partial class FeedViewModel :MyBaseViewModel
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        IUserPreferenceService cupService,
         ICatagPreferencesService catPrefService)
         : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
-        this.cupService = cupService;
         this.catPrefService = catPrefService;
     }
 
@@ -61,7 +58,7 @@ public partial class FeedViewModel :MyBaseViewModel
         List<UserFeedentry> feedEntries = new();
         try
         {
-            feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
+            feedEntries = await feedEntriesService.GetUserFeedentriesPaginatedAsync(
                 currentPages + 1, _feedEntryPageSize);
         }
         catch (Exception ex)

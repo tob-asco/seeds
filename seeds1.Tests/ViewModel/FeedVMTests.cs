@@ -26,7 +26,7 @@ public class FeedVMTests
         cupService = A.Fake<IUserPreferenceService>();
         catPrefService = A.Fake<ICatagPreferencesService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        _vm = new FeedViewModel(staticService, globalService, feedEntryVmFactory, feedEntriesService, cupService, catPrefService);
+        _vm = new FeedViewModel(staticService, globalService, feedEntryVmFactory, feedEntriesService, catPrefService);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class FeedVMTests
             new UserFeedentry {},
             new UserFeedentry {}
         };
-        A.CallTo(() => feedEntriesService.GetFeedEntriesPaginatedAsync(
+        A.CallTo(() => feedEntriesService.GetUserFeedentriesPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
             .Returns(feedEntries);
 
