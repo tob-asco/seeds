@@ -52,13 +52,13 @@ public class IdeasServiceTests
         #region Arrange
         int page = 2;
         int id1 = 1; int id2 = 2;
-        List<IdeaFromDb> users = new()
+        List<IdeaFromDb> returned = new()
         {
             new IdeaFromDb{ Id = id1, Title = "1st Idea" },
             new IdeaFromDb{ Id = id2, Title = "2nd Idea" },
         };
         A.CallTo(() => _baseService.GetDalModelAsync<List<IdeaFromDb>>(A<string>.Ignored))
-            .Returns(users);
+            .Returns(returned);
         #endregion
 
         // Act
