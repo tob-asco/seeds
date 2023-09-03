@@ -11,7 +11,6 @@ namespace seeds.Api.Tests.Controllers;
 
 public class IdeasControllerTests : ApiControllerTestsBase
 {
-
     public List<Idea> Ideas { get; set; } = new();
     public Tag Tag { get; set; } = new();
     public User User { get; set; } = new();
@@ -104,7 +103,26 @@ public class IdeasControllerTests : ApiControllerTestsBase
         ordered?.Should().BeEquivalentTo(result);
     }
     [Fact]
-    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsCorrectCount()
+    public async Task IdeasController_GetFeedentryPageEndpoint_OrdersByCreationTime()
+    {
+        //Arrange
+        context.Idea.Add(new() { CreationTime = DateTime.MinValue });
+        context.Idea.Add(new() { CreationTime = DateTime.MaxValue });
+        context.SaveChanges();
+        string url = baseUri + $"feedentryPage/1?pageSize={Ideas.Count + 10}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<IdeaFromDb>>();
+        result.Should().NotBeNull();
+        var ordered = result?.OrderByDescending(x => x.CreationTime).ToList();
+        ordered?.Should().BeEquivalentTo(result);
+    }
+    [Fact]
+    public async Task IdeasController_GetFeedentryPageEndpoint_ReturnsCorrectCount()
     {
         //Arrange
         int pageSize = Ideas.Count;
@@ -121,7 +139,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         result.Should().HaveCount(Ideas.Count);
     }
     [Fact]
-    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsAlsoTagsAndUpvotes()
+    public async Task IdeasController_GetFeedentryPageEndpoint_ReturnsTagsAndUpvotes()
     {
         //Arrange
         string url = baseUri + $"feedentryPage/1?" +
