@@ -84,8 +84,26 @@ public class IdeasController : ControllerBase
                 return BadRequest("Invalid column name for sorting.");
             }
 
+            /* The following looks cumbersome, why not simply use "i => i"?
+             * Problem is that we want to directly include i.Tags, which the following does.
+             * However, we can't simply ".Include(i => i.Tags)" (ad infinitum inclusion).
+             * So here, we project to the first layer of Nav. Props. (GPT recommended)
+             * Pro: We won't include stuff that we don't need.
+             */
             IQueryable<Idea> query = context.Idea
-                .Include(i => i.Tags); // this populates the Navigation property
+                .Select(i => new Idea
+                {
+                    Id = i.Id,
+                    Title = i.Title,
+                    Slogan = i.Slogan,
+                    CreatorName = i.CreatorName,
+                    CreationTime = i.CreationTime,
+                    Slide1 = i.Slide1,
+                    Slide2 = i.Slide2,
+                    Slide3 = i.Slide3,
+                    // Include other properties you need from Idea
+                    Tags = i.Tags // This will load the associated tags for each idea
+                });
 
             // Apply dynamic sorting
             var orderDirection = isDescending ? "descending" : "ascending";
@@ -102,27 +120,26 @@ public class IdeasController : ControllerBase
             List<Feedentry> fes = new();
             foreach (var idea in ideas)
             {
+                var upvoteCountForIdea = context.UserIdeaInteraction
+                    .GroupBy(uii => uii.IdeaId)
+                    .Select(group => new
+                    {
+                        IdeaId = group.Key,
+                        UpvoteCount = group.Sum(
+                            idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
+                    })
+                    .FirstOrDefault(uii => uii.IdeaId == idea.Id);
                 fes.Add(new()
                 {
-                    Idea = idea,
+                    Idea = mapper.Map<IdeaFromDb>(idea),
                     Tags = mapper.Map<List<TagFromDb>>(idea.Tags),
-                    Upvotes = context.UserIdeaInteraction
-                        .GroupBy(uii => uii.IdeaId)
-                        .Select(group => new
-                        {
-                            IdeaId = group.Key,
-                            UpvoteCount = group.Sum(
-                                idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
-                        })
-                        .First(uii => uii.IdeaId == idea.Id).UpvoteCount
+                    Upvotes = upvoteCountForIdea != null ? upvoteCountForIdea.UpvoteCount : 0
                 });
             }
-
             return fes;
         }
         catch (Exception ex)
         {
-            // Handle exceptions appropriately
             return StatusCode(500, ex.Message);
         }
     }

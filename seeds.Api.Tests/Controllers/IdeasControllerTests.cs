@@ -22,7 +22,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     {
         PopulatePropertiesAndAddToDb();
         context.SaveChanges();
-        // Clear the change tracker, so each test has a fresh _context
+        // Clear the change tracker, so each test has a fresh context
         context.ChangeTracker.Clear();
     }
     private void PopulatePropertiesAndAddToDb()
@@ -33,12 +33,12 @@ public class IdeasControllerTests : ApiControllerTestsBase
         Random random = new();
         for (int i = 0; i <= 22; i++)
         {
-            Ideas.Add(
-            new Idea()
+            Ideas.Add(new Idea()
             {
+                CreatorName = User.Username,
                 Title = "Idea #" + i,
                 CreationTime = new(2023, 07, random.Next(1, 31)),
-                Tags = { Tag }
+                Tags = new List<Tag> {Tag}
             });
         }
         if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
@@ -104,11 +104,12 @@ public class IdeasControllerTests : ApiControllerTestsBase
         ordered?.Should().BeEquivalentTo(result);
     }
     [Fact]
-    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsItself()
+    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsCorrectCount()
     {
         //Arrange
+        int pageSize = Ideas.Count;
         string url = baseUri + $"feedentryPage/1?" +
-            $"pageSize={ideasIndexWithUpvote + 1}";
+            $"pageSize={pageSize}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
@@ -117,8 +118,25 @@ public class IdeasControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<Feedentry>>();
         result.Should().NotBeNull();
-        result.Should().HaveCountGreaterThan(0);
-        result?[0].Upvotes.Should().BeGreaterThan(0);
+        result.Should().HaveCount(Ideas.Count);
+    }
+    [Fact]
+    public async Task IdeasController_GetFeedentriesPaginatedEndpoint_ReturnsAlsoTagsAndUpvotes()
+    {
+        //Arrange
+        string url = baseUri + $"feedentryPage/1?" +
+            $"pageSize={Ideas.Count}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<Feedentry>>();
+        result.Should().NotBeNull();
+        result.Should().Contain(fe => fe.Tags.Count > 0 &&
+            fe.Idea.Id == Ideas[ideasIndexWithUpvote].Id);
+        result.Should().Contain(fe => fe.Upvotes > 0);
     }
     [Fact]
     public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()
