@@ -38,12 +38,12 @@ public partial class PreferencesViewModel : MyBaseViewModel
         {
             List<CatagPreference> catagPrefs = prefService.AssembleButtonedUserPreferences();
 
-            var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
+            var groups = catagPrefs.GroupBy(cp => cp.Tag.CategoryKey);
             foreach (var group in groups)
             {
                 ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
                 // remove the entries that are only categories
-                var tagGroup = group.Where(cp => cp.TagName != null);
+                var tagGroup = group.Where(cp => cp.Tag.Name != null);
                 tagsOfGroup.AddRange(tagGroup.ToList());
                 CatagPrefGroups.Add(tagsOfGroup);
             }
