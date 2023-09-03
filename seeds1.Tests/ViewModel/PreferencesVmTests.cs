@@ -26,8 +26,8 @@ public class PreferencesVmTests
         int pref1 = 0, pref0 = -1;
         vm.CatagPrefGroups = new() { new() // both in first group
         {
-            new() { CategoryKey = "Cat0", Preference = pref0 },
-            new() { CategoryKey = "Cat1", Preference = pref1 },
+            new() { Tag = new(){CategoryKey = "Cat0" }, Preference = pref0 },
+            new() { Tag = new(){CategoryKey = "Cat1" }, Preference = pref1 },
         }};
         A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
             .Returns(14);

@@ -37,9 +37,7 @@ public class FeedEntriesService : IFeedEntriesService
             {
                 tagPrefs.Add(new()
                 {
-                    CategoryKey = tag.CategoryKey,
-                    // TODO: CategoryName
-                    TagName = tag.Name,
+                    Tag = tag,
                     Preference = globalService.GetPreferences().ContainsKey(tag.Id) ?
                         globalService.GetPreferences()[tag.Id].Value : 0
                 });

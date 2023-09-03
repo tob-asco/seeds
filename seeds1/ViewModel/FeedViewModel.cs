@@ -88,7 +88,7 @@ public partial class FeedViewModel :MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference catagPref)
     {
-        if (catagPref.TagName == null) return;
+        if (catagPref.Tag.Name == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
@@ -96,8 +96,8 @@ public partial class FeedViewModel :MyBaseViewModel
             // loop over tags
             for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatagPreferences.Count; j++)
             { 
-                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].CategoryKey == catagPref.CategoryKey
-                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].TagName == catagPref.TagName)
+                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.CategoryKey == catagPref.Tag.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.Name == catagPref.Tag.Name)
                 {
                     FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference = catPrefService
                         .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference);

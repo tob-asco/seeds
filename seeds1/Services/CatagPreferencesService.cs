@@ -33,14 +33,13 @@ public class CatagPreferencesService : ICatagPreferencesService
     public List<CatagPreference> AssembleButtonedUserPreferences()
     {
         List<CatagPreference> prefs = new();
-        foreach(var tag in globalService.GetButtonedTags())
+        foreach(var tagKVP in globalService.GetButtonedTags())
         {
             prefs.Add(new()
             {
-                CategoryKey = tag.Value.CategoryKey,
-                TagName = tag.Value.Name,
-                Preference = globalService.GetPreferences().ContainsKey(tag.Key) ?
-                    globalService.GetPreferences()[tag.Key].Value : 0,
+                Tag = tagKVP.Value,
+                Preference = globalService.GetPreferences().ContainsKey(tagKVP.Key) ?
+                    globalService.GetPreferences()[tagKVP.Key].Value : 0,
             });
         }
         return prefs;

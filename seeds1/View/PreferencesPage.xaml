@@ -31,7 +31,7 @@
                             TextColor="Gray">
                             <Label.Text>
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="[0].CategoryKey" />
+                                    <Binding Path="[0].Tag.CategoryKey" />
                                     <Binding Source=" - " />
                                     <Binding Path="[0].CategoryName" />
                                 </MultiBinding>
@@ -58,7 +58,7 @@
                                         <MultiBinding Converter="{converter:CatBtnTextConverter}">
                                             <Binding Source="{x:Static sys:String.Empty}" />
                                             <Binding Source="{x:Static sys:String.Empty}" />
-                                            <Binding Path="TagName" />
+                                            <Binding Path="Tag.Name" />
                                         </MultiBinding>
                                     </Button.Text>
                                     <Button.Style>
