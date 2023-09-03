@@ -53,6 +53,12 @@ Generally for this category:
 5. `public transport`
    - :cool: although boring it is omnipresent in many peoples' lives
    - :abacus: new kinds, regulations, how to deal with construction, station features, vehicle features
+6. `boats`
+   - :cool: boating enthusiasts
+   - :cool: luxury
+   - :cool: sportive
+   - :abacus: new types (global warming increases sea level)
+   - :abacus: features, new materials
 6. fossils
 7. trains
 8. aero
@@ -78,6 +84,14 @@ Generally for this category:
 1. `gaming`
    - :cool: huuuuuge community
    - :abacus: new games, new gear for gaming, new genre, fusion
+2. table games
+   - :cool: try new games w/ diy materials
+   - :abacus: new game ideas
+   - :abacus: new types
+3. drinking games
+   - :cool: big group desperate for occupation
+   - :cool: try-out game directly with complete instructions
+   - :abacus: new drinking games
 2. `traveling`
    - :cool: big community, traveling is like its own life
    - :abacus: packing hacks, new locations, new types of traveling
@@ -112,9 +126,72 @@ Generally for this category:
    - :cool: if you have children, you can impress
    - :cool: nice pictures of finished tinkerings
    - :abacus: instructions
+10. `photography`
+   - :cool: big community (both: geeky & artsy)
+   - :cool: see results (i.e. nice pictures)
+   - :abacus: new techniques
+11. `social media`
+   - :cool: gaining more and more thrust
+   - :abacus: new kinds of social media
+   - :abacus: regulations
+12. `for pet: {main pet kinds}`
+   - :cool: we love our pets, and wanna treat them right
+   - :cool: sort of a community for each type
+   - :abacus: accessories, gadgets
+   - :abacus: taking care, housing
+13. `shopping`
+   - :cool: it can be an addiction after all
+   - :abacus: new kinds of shopping/selling
+14. guns
+   - :cool: they go *boom*
+   - :cool: dangerous
+   - :cool: a lot of involved feelings
+   - :abacus: new regulations
+   - :abacus: new types of weapons (this is morally not so easy)
+15. `childish fun`
+   - :cool: some stupid new ways to have fun
+   - :cool: searching for inspiration
+   - :abacus: new gear for games
+   - :abacus: some self-made games, DIYs
 
+## `WORK - Working`
+1. `productivity`
+   - :cool: magical solutions to work less but accomplish more
+   - :cool: stuff to suggest to your boss
+   - :abacus: time management, motivation, office social dynamics
+   - :abacus: gadgets to make work cooler/healthier/comfortable
+2. `for branch: {applicable job industries}`
+   - applicable job industries are those meeting both :cool: and :abacus:
+      - :cool: how to improve your job efficiency
+      - :cool: discuss with fellow experts
+   - farmer, construction worker, designer, hair dresser, garbage person, barkeeper,
+   - cook, barista, programmer, doctor, electronic engineer, electric engineer,
+   - scientist, journalist, film producer, influencer, legal worker, social worker,
+   - merchant, tourism worker, trucker, pilot, carpenter, electrician, plumber, welder,
+   - politician, ...
+3. `finding passion`
+   - :cool: young people are desperate to decide what to do
+   - :cool: passionate for passion
+   - :abacus: how to really *feel* a given job in order to facilitate deciding pro/con it
+   - :abacus: how to spark up passion for a given branch in youngsters
 
-## `HOME - Living`
+## `$$$ - Money`
+In general for this category:
+- :cool: money has an enchanting power on people
+- :cool: get rich without working much
+1. `cryptocurrency`
+   - :cool: everyone knows the bitcoin stories
+   - :abacus: new currencies
+   - :abacus: new ways to deal it
+2. `trading`
+   - :cool: little like poker, the rush
+   - :abacus: new platforms, making it more accessible
+   - :abacus: trading not w/ shares only
+3. `banks`
+   - :cool: robberies, series, tresor, etc.
+   - :abacus: 
+
+## `HOME - Housing`
 1. interior design :arrow_right: `DSGN`?
    - :cool: fancy designs, feeling of shopping
    - :abacus: furniture, kitchen, IKEA stuff
@@ -133,43 +210,62 @@ Generally for this category:
    - :cool: annoying but big part of life
    - :abacus: vacuum, kitchen, dust, garbage
    - :abacus: bad smell
-
+6. `toiletty`
+   - :cool: we use them everyday
+   - :cool: actually they can look shiny and pretty
+   - :cool: sensitive topic
+   - :abacus: many ideas might not have been talked about, bc. it's an embarrassing topic
+   - :abacus: gender/toilet situation asks for solutions
 
 ## `ENV - Environment`
+Generally for this category:
+- :cool: FFF, we all want to reduce our impact on climate change
 1. `CO2 reduction`
-   - :cool: FFF
    - :abacus: less pollution
    - :abacus: atmospheric cleaning
    - :abacus: law
 2. forrest protection
 3. `climate change`
-   - :cool: FFF, IPCC
    - :abacus: impacts, adaption, vulnerability, mitigation
    - :abacus: reasons
 4. saving water
 5. `extreme weather`
-   - :cool: people are heavily affected
+   - :cool: people are (or already were) heavily affected
    - :abacus: impacts, adaption vulnerability, mitigation
 6. `save the bees`
    - :cool: Einstein's warning
    - :cool: we like bees
    - :abacus: new housings
    - :abacus: strengthening them
-7. `reduce plastic`
+7. `reducle plastic` (= recycle + reduce)
    - :cool: we strongly dislike plastic
    - :cool: discovery channels pictures of dying fish
    - :abacus: new recycling techniques
    - :abacus: reduction solutions
    - :abacus: collecting solutions
-
+8. `greenify cities`
+   - :cool: elegant solutions, beautiful pictures
+   - :abacus: plant greenery on buildings
+   - :abacus: large-scale new concepts
+9. `sustainability`
+   - :cool: slightly outdated, but still important
+   - :cool: we all hate to throw away stuff
+   - :abacus: new materials or cycles
 
 ## `CPU - Software`
 1. `games`
    - :cool: gamer community
    - :abacus: new concrete games
    - :abacus: new types of games
-2. visualization / rendering / 3d
-3. programming packages
+2. `augmented reality` /visualization / rendering / 3d
+   - :cool: literally living our dreams
+   - :cool: +18 branches
+   - :abacus: applications
+   - :abacus: new kinds
+3. `for language: {main programming languages}`
+   - :cool: programmers are much tied to their languages
+   - :cool: you can scavenge for great improvements and push them
+   - :abacus: pacakages, features
 4. `mobile apps`
    - :cool: developers are hungry for good app ideas
    - :cool: non-developers are hungry to see their ideas realized
@@ -183,7 +279,7 @@ Generally for this category:
 6. `server`
    - :cool: geeks, server admins
    - :abacus: I don't know, but probably enough
-7. `new languages`
+7. `new language`
    - :cool: funky, exciting
    - :abacus: problem-adapted language
 8. code snippets / scripts
@@ -192,7 +288,17 @@ Generally for this category:
    - :cool: very interesting for developers to learn what they are facing
    - :abacus: tiny scripts that have big impact
    - :abacus: new ideas on improving/streamlining security development 
-
+10. `AI`
+   - :cool: super hyped right now
+   - :cool: people are partly scared partly curious for new developments
+   - :abacus: new types, features
+   - :abacus: applications
+   - :abacus: rules, law
+11. `quantum computing`
+   - :cool: "quantum"
+   - :cool: high hopes for this new technology
+   - :abacus: new use-cases
+   - :abacus: how to make it more accessible to everybody
 
 ## `H4H - Human for Human`
 Generally for this category:
@@ -213,7 +319,9 @@ Generally for this category:
    - :cool: political relevance
    - :abacus: new strategies to integrate (so far) lost cases
    - :abacus: new jobs that can be done by (so far) unemployed
-
+6. `contra homelessness`
+   - :abacus: large-scale solutions
+   - :abacus: political suggestions
 
 ## `EDU - Education`
 2. `teaching style`
@@ -231,7 +339,7 @@ Generally for this category:
 6. `early development`
    - :cool: such a critical phase of life
    - :cool: new parents nowadays are extremely cautious and informed, i.e. interested
-   - :abacus: babies, Kitas, Kindergardens, primary schools
+   - :abacus: babies, Kitas, kKndergardens, primary schools
 7. elderlies
    - :abacus: systems adapted to old people
    - :abacus: people live longer, what to do after 65?
@@ -263,19 +371,18 @@ Generally for this category:
 7. liquour
    - :cool: alcoholophiles
    - :abacus: all the different kinds
-8. `hospitality industry` (= Gastronomie)
-   - :cool: huge working branch
-   - :cool: much money involved
-   - :abacus: new technologies
-   - :abacus: worker distribution
-   - :abacus: law
+8. `new restaurants`
+   - :cool: big money at stakes
+   - :cool: see what other people's tastes are like
+   - :abacus: fusion, more-focused
 9. `substitutes`
    - :cool: desperately needed by vegetarian newcomers
    - :cool: always hunting for alternatives
-   - :abacus: new ways to prepare something
    - :cool: big market
    - :cool: challenging to come up with
+   - :abacus: new ways to prepare something
    - :abacus: all vegan recipes
+
 
 
 ## `HEAL - Health`
@@ -306,6 +413,10 @@ Generally for this category:
    - :cool: people with time constraints
    - :abacus: stuff like 7-minute workout
    - :abacus: lesser-known sports
+6. `addictive workout`
+   - :cool: addiction is the source of motivation
+   - :abacus: improvement for given workouts
+   - :abacus: intertwine workout with social life
 6. `prophylactic lifestyle`
    - :cool: spice up your lifestyle with healthy suggestions
    - :abacus: nutrition
@@ -371,6 +482,11 @@ Generally for this category:
    - :cool: elegant solutions
 3. tools
    - :abacus: new / adapted tool designs
+4. `space exploration`
+   - :cool: aliens
+   - :cool: astronauts
+   - :abacus: completely new approaches
+   - :abacus: relevance, law
 
 
 ## `GOV - Governmental`
@@ -397,7 +513,11 @@ Generally for this category:
    - :cool: space for you and your "neighbours" to discuss on an international platform
    - :cool: interesting to see the local problems, you might literally be able to walk there
    - :abacus: soooo much (e.g. U5 station names) 
-
+6. `city design`
+   - :cool: grand futuristic concepts
+   - :cool: solutions to pressuring problems in concrete cities
+   - :abacus: adaptions for concrete cities
+   - :abacus: e.g. traffic lights
 
 ## `DSGN - Design`
 Generally for this category:
@@ -441,11 +561,11 @@ Generally for this category:
    - :abacus: limited editions
    - :abacus: new trends (e.g. barefoot)
    - :abacus: new damping, new laces, ...
-9. `survival`
-   - :cool: same reason I go into every outdoor store
-   - :cool: feel like being outside
+9. `luggage`
+   - :cool: the smooth running of the wheels
+   - :cool: travel pain killer 
    - :cool: elegant solutions
-   - :abacus: spork/foon, tent, ...
+   - :abacus: suitcase, backpack
 10. `watches`
    - :cool: watches are just cool and their design is crucial
    - :cool: some people scroll through watch websites regularly
@@ -459,6 +579,7 @@ Generally for this category:
 1. `surviving`
    - :cool: we might want to survive one day
    - :cool: trying to remember all the strategies
+   - :cool: zombie attacks
    - :abacus: principles
    - :abacus: what to eat / drink
    - :abacus: hunting
@@ -510,7 +631,7 @@ Generally for this category:
    - :abacus: any kind of art
 
 
-## `MUS - Music`
+## `MP3 - Music`
 Generally for this category:
 - :cool: you can listen to new music
 - :cool::question: feature: while browsing through the app you could listen to this music as if it were playing in a separate music player 
@@ -567,7 +688,25 @@ Generally for this category:
 3. `communities`
    - :cool: wanting to be part of something
    - :abacus: new communities
-
+4. `new political systems`
+   - :cool: hot topic for discussions
+   - :abacus: new political systems
+5. `consumerism`
+   - :cool: wage but hot topic bc. of money
+   - :cool: we are all a victim of it
+   - :abacus: grand-scale suggestions
+   - :abacus: how to reduce, how to raise awareness
+   - :abacus: how to use
+6. `privacy`
+   - :cool: absolutely polarizing topic
+   - :abacus: new algorithms
+   - :abacus: laws, ground rules
+7. `genders`
+   - :cool: polarizing as hell
+   - :abacus: regulations, suggestions
+   - :abacus: findings
+8. `distribute expertise`
+   - :cool: 
 
 ## `GAD - Gadgets` or `UOT - Things`
 1. `w/o electro`
