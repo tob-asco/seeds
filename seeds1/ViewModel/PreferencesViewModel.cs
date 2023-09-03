@@ -69,14 +69,9 @@ public partial class PreferencesViewModel : MyBaseViewModel
         // update DB
         try
         {
-            //if (!await cupService.PutUserPreferenceAsync(
-            //    pref.CategoryKey,
-            //    CurrentUser.Username,
-            //    catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-            //    tagName: pref.TagName))
-            //{
-            //    throw new Exception($"Fatal: PUT failed.");
-            //}
+            await cupService.UpsertUserPreferenceAsync(
+                CurrentUser.Username, pref.Tag.Id,
+                prefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference));
         }
         catch (Exception ex)
         {
@@ -84,7 +79,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
                 ex.Message, "Ok");
             return;
         }
-        
+
         // update View
         CatagPrefGroups[groupIndex][index].Preference = prefService.StepPreference(
             CatagPrefGroups[groupIndex][index].Preference);
