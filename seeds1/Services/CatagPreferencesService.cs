@@ -30,21 +30,6 @@ public class CatagPreferencesService : ICatagPreferencesService
         this.ideaTagService = ideaTagService;
     }
 
-    public List<CatagPreference> AssembleButtonedUserPreferences()
-    {
-        List<CatagPreference> prefs = new();
-        foreach(var tagKVP in globalService.GetButtonedTags())
-        {
-            prefs.Add(new()
-            {
-                Tag = tagKVP.Value,
-                Preference = globalService.GetPreferences().ContainsKey(tagKVP.Key) ?
-                    globalService.GetPreferences()[tagKVP.Key].Value : 0,
-            });
-        }
-        return prefs;
-    }
-
     //public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)
     //{
     //    List<CatagPreference> catagPrefs = new();
