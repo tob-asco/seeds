@@ -4,6 +4,37 @@
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
 - [ ] figure out which special characters can be `UrlEncode`'d and forbid the others in the View
 - [ ] GUID PK for Tag.cs and a DTO
+## How To Build The Solution
+1. I use *Visual Studio 22 (17.7) Community*.
+2. Clone this repository into VS22 and load all (currently 6) projects of the solution. Of course it will also build if you don't load the (currently 3) xUnit test projects.
+3. Make sure you download all the `NuGet packages` (e.g. by right-clicking the solution -> `Restore NuGet Packages`).
+4. 2 of the 3 non-test projects need to be run independently:
+   1. `seeds.Api` (the ASP.NET Web API project - i.e. the server)
+   2. `seeds1` (the .NET MAUI project - i.e. the mobile app)
+5. In order for `seeds1` to talk to the server endpoints of `seeds.Api.Controllers`, `seeds1` & `seeds.Api` need to agree on `seeds.Api`'s server URL. There are two options:
+   1. Use `localhost`, which only works if you launch `seeds1` on the platform *Windows* (i.e. not on an Android emulator, Android local device, iOS device, ...):
+      1. To figure out your `BaseAddress` for that, launch `seeds.Api` and copy the URL you see in your web browser into the correct place in the constructor of `seeds.Dal.Wrapper.HttpClientWrapper.cs` (if you don't know what part exactly to copy, have a look at the current constructor to see what I used for `BaseAddress`).
+      2. Make sure no `DevTunnel` is active (if you don't know what this is, probably non is active).
+   2. Use a `DevTunnel`, which works for *any platform*, but is slightly more work:
+      1. Create a `DevTunnel`, e.g. by following https://learn.microsoft.com/en-us/aspnet/core/test/dev-tunnels?view=aspnetcore-7.0#create-a-tunnel
+         1. Go to `View` -> `Other Windows` -> `Dev Tunnels`,
+         2. in the added window click :heavy_plus_sign:,
+         3. add a new public one and make it aktive.
+      2. Proceed by doing the first step of the `localhost` guide above.
+6. There are multiple ways to run two projects independently with VS22, non of which are too convenient:
+   1. Simply open VS22 *twice* and then proceed as you would expect, or
+   2. launch both within one VS22 instance, e.g. by following https://learn.microsoft.com/en-us/visualstudio/ide/how-to-set-multiple-startup-projects?view=vs-2022#to-set-multiple-startup-projects
+      1. right-click the solution -> `Configure Startup Projects...`,
+      2. choose `Multiple startup projects` and start both `seeds.Api` and `seeds1` (order is not very relevant).
+7. Of course you need a database (DB), for which I use `postgreSQL`. The DB's structure is encoded in `C#` (using `EF Core`), so you only need to tell VS22 to create it:
+   1. In VS22, open a `Terminal` (i.e. `Developer PowerShell`) by going to `View` -> `Terminal`; or hitting `Ctrl + '`,
+   2. in this terminal navigate to the server project, i.e. type `cd seeds.Api` (depending on where your current path is, but probably this works),
+   3. now make the DB by typing `dotnet-ef database update` or `ef database update` or `dotnet ef database update` or similar. This should run a lot of lines where you should mainly see some good-looking :green_circle: output, no bad :red_circle: output.
+      1. This step might cause some issues, most likely due to missing `NuGet packages`.
+      2. If you find some error of the kind *This is not a command :skull_and_crossbones:*, then the command might look slightly different.
+      3. Another problem could be that you need to download `postgreSQL` first, but I hope and think you don't have to (but I didn't check yet).
+8. The DB will be filled upon the first launch of `seeds.Api`, dictated by `seeds.Api.Data.DataSeeder.cs`, where you can also find the usernames that you'll need for Login (try username `tobi` and empty password).
+9. If you manage to login and see some ideas, you have been successful, and I am really proud of you! :1st_place_medal:
 ## Solution Structure
 **seeds** (solution)
 - **seeds.Api** (the web API project)
