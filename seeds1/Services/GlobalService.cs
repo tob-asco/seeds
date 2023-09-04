@@ -14,7 +14,7 @@ public class GlobalService : IGlobalService
     public UserDto CurrentUser { get; set; }
     private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
     public Dictionary<Guid, TagFromDb> CurrentUserButtonedTags { private get; set; }
-    public Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { private get; set; }
+    private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; }
     private bool PreferencesLoaded { get; set; } = false;
     private bool ButtonedTagsLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
@@ -107,6 +107,22 @@ public class GlobalService : IGlobalService
             throw new InvalidOperationException("IdeaInteractions not yet loaded.");
         }
         else { return CurrentUserIdeaInteractions; }
+    }
+    public async Task GlobChangeIdeaInteraction(UserIdeaInteraction newUii)
+    {
+        try
+        {
+            await uiiService.PostOrPutUserIdeaInteractionAsync(newUii);
+            if (CurrentUserIdeaInteractions.ContainsKey(newUii.IdeaId))
+            {
+                CurrentUserIdeaInteractions[newUii.IdeaId] = newUii;
+            }
+            else { CurrentUserIdeaInteractions.Add(newUii.IdeaId, newUii); }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Upsert Error", ex.Message, "Ok");
+        }
     }
 
 }

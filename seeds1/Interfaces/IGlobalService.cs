@@ -30,4 +30,9 @@ public interface IGlobalService
     /// </summary>
     public Task LoadIdeaInteractionsAsync();
     public Dictionary<int, UserIdeaInteraction> GetIdeaInteractions();
+    /// <summary>
+    /// Change the interaction in the globalService member and the DB.
+    /// This Method catches any earlier exception.
+    /// </summary>
+    public Task GlobChangeIdeaInteraction(UserIdeaInteraction newUii);
 }
