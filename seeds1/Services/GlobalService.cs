@@ -8,6 +8,7 @@ namespace seeds1.Services;
 
 public class GlobalService : IGlobalService
 {
+    private readonly IStaticService stat;
     private readonly IUserPreferenceService userPrefService;
     private readonly IUserIdeaInteractionService uiiService;
 
@@ -19,9 +20,11 @@ public class GlobalService : IGlobalService
     private bool ButtonedTagsLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
+        IStaticService stat,
         IUserPreferenceService userPrefService,
         IUserIdeaInteractionService uiiService)
     {
+        this.stat = stat;
         this.userPrefService = userPrefService;
         this.uiiService = uiiService;
     }
@@ -49,11 +52,18 @@ public class GlobalService : IGlobalService
     {
         try
         {
+            // update DB
             await userPrefService.UpsertUserPreferenceAsync(CurrentUser.Username, itemId, newValue);
+
+            // possibly update the ButtonedTags (useful only when Tag is in a Family)
+            if (stat.GetTags().ContainsKey(itemId) &&
+                stat.GetTags()[itemId].FamilyId != null &&
+                !CurrentUserButtonedTags.ContainsKey(itemId))
+            { CurrentUserButtonedTags.Add(itemId, stat.GetTags()[itemId]); }
+
+            // update the member
             if (CurrentUserPreferences.ContainsKey(itemId))
-            {
-                CurrentUserPreferences[itemId].Value = newValue;
-            }
+            { CurrentUserPreferences[itemId].Value = newValue; }
             else
             {
                 CurrentUserPreferences.Add(itemId, new()
@@ -66,7 +76,7 @@ public class GlobalService : IGlobalService
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Upsert Error", ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
         }
     }
     public async Task LoadButtonedTagsAsync()
