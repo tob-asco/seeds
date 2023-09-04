@@ -20,7 +20,8 @@
       1. Create a `DevTunnel`, e.g. by following https://learn.microsoft.com/en-us/aspnet/core/test/dev-tunnels?view=aspnetcore-7.0#create-a-tunnel
          1. Go to `View` -> `Other Windows` -> `Dev Tunnels`,
          2. in the added window click :heavy_plus_sign:,
-         3. add a new public one and make it aktive.
+         3. add a new public one,
+         4. make it the active tunnel in the VS22 instance that has `seeds.Api` open
       2. Proceed by doing the first step of the `localhost` guide above.
 6. I know of two ways to run 2 projects independently with VS22 (non of which are too convenient):
    1. Simply open VS22 *twice* and then proceed as you would expect, or
