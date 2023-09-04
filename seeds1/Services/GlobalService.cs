@@ -3,6 +3,7 @@ using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
+using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
@@ -14,10 +15,9 @@ public class GlobalService : IGlobalService
 
     public UserDto CurrentUser { get; set; }
     private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
-    public Dictionary<Guid, TagFromDb> CurrentUserButtonedTags { private get; set; }
     private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; }
+    public List<FamilyOrPreference> FamilyOrPreferences { get; set; }
     private bool PreferencesLoaded { get; set; } = false;
-    private bool ButtonedTagsLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
         IStaticService stat,
@@ -33,11 +33,37 @@ public class GlobalService : IGlobalService
     {
         if (!PreferencesLoaded)
         {
+            // retrieve
             var userPreferencesList = await userPrefService
                 .GetPreferencesOfUserAsync(CurrentUser.Username);
+            var userButtonedTagsList = await userPrefService
+                .GetButtonedTagsOfUserAsync(CurrentUser.Username);
+
+            // convert and inform
             CurrentUserPreferences = userPreferencesList
                 .ToDictionary(up => up.ItemId);
             PreferencesLoaded = true;
+
+            // add Families and Preferences to FamilyOrPreferences
+            FamilyOrPreferences.AddRange(
+                stat.GetFamilies().Values.Select(f => new FamilyOrPreference()
+                {
+                    CategoryKey = f.CategoryKey,
+                    IsFamily = true,
+                    Family = f,
+                }));
+            FamilyOrPreferences.AddRange(
+                userButtonedTagsList.Select(t => new FamilyOrPreference()
+                {
+                    CategoryKey = t.CategoryKey,
+                    IsFamily = false,
+                    Preference = new()
+                    {
+                        Tag = t,
+                        Preference = CurrentUserPreferences.ContainsKey(t.Id) ?
+                            CurrentUserPreferences[t.Id].Value : 0,
+                    },
+                }));
         }
     }
     public Dictionary<Guid, UserPreference> GetPreferences()
@@ -55,11 +81,24 @@ public class GlobalService : IGlobalService
             // update DB
             await userPrefService.UpsertUserPreferenceAsync(CurrentUser.Username, itemId, newValue);
 
-            // possibly update the ButtonedTags (useful only when Tag is in a Family)
+            // possibly update the FamilyOrPreferences (useful only when Tag is in a Family)
             if (stat.GetTags().ContainsKey(itemId) &&
                 stat.GetTags()[itemId].FamilyId != null &&
-                !CurrentUserButtonedTags.ContainsKey(itemId))
-            { CurrentUserButtonedTags.Add(itemId, stat.GetTags()[itemId]); }
+                FamilyOrPreferences.Find(fop =>
+                    fop.IsFamily == false && fop.Preference.Tag.Id == itemId) == null)
+            {
+                FamilyOrPreferences.Add(new()
+                {
+                    CategoryKey = stat.GetTags()[itemId].CategoryKey,
+                    IsFamily = false,
+                    Preference = new CatagPreference()
+                    {
+                        Tag = stat.GetTags()[itemId],
+                        Preference = newValue,
+                    },
+                }
+                );
+            }
 
             // update the member
             if (CurrentUserPreferences.ContainsKey(itemId))
@@ -75,28 +114,7 @@ public class GlobalService : IGlobalService
             }
         }
         catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
-        }
-    }
-    public async Task LoadButtonedTagsAsync()
-    {
-        if (!ButtonedTagsLoaded)
-        {
-            var userButtonedTagsList = await userPrefService
-                .GetButtonedTagsOfUserAsync(CurrentUser.Username);
-            CurrentUserButtonedTags = userButtonedTagsList
-                .ToDictionary(t => t.Id);
-            ButtonedTagsLoaded = true;
-        }
-    }
-    public Dictionary<Guid, TagFromDb> GetButtonedTags()
-    {
-        if (!ButtonedTagsLoaded)
-        {
-            throw new InvalidOperationException("ButtonedTags not yet loaded.");
-        }
-        else { return CurrentUserButtonedTags; }
+        { await Shell.Current.DisplayAlert("Error", ex.Message, "Ok"); }
     }
 
     public async Task LoadIdeaInteractionsAsync()

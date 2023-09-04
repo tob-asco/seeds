@@ -1,12 +1,17 @@
 ﻿using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
+using seeds1.MauiModels;
 
 namespace seeds1.Interfaces;
 
 public interface IGlobalService
 {
     public UserDto CurrentUser { get; set; }
+    /// <summary>
+    /// A convenient list of all FamilyOrPreferences for when to display all tags.
+    /// </summary>
+    public List<FamilyOrPreference> FamilyOrPreferences { get; set; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().
@@ -18,12 +23,6 @@ public interface IGlobalService
     /// This Method catches any earlier exception.
     /// </summary>
     public Task GlobChangePreferenceAsync(Guid itemId, int newValue);
-
-    /// <summary>
-    /// Loads ButtonedTags of the CurrentUser, to be retrieved by GetButtonedTags().
-    /// </summary>
-    public Task LoadButtonedTagsAsync();
-    public Dictionary<Guid, TagFromDb> GetButtonedTags();
 
     /// <summary>
     /// Loads UserIdeaInteractions of the CurrentUser, to be retrieved by GetIdeaInteractions().
