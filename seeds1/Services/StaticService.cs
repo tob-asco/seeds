@@ -4,6 +4,7 @@ using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Interfaces;
+using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
@@ -14,10 +15,10 @@ public class StaticService : IStaticService
     private readonly ITagService tagService;
 
     private Dictionary<string, CategoryDto> Categories { get; set; }
+    private Dictionary<Guid, Family> Families { get; set; }
+    private Dictionary<Guid, TagFromDb> Tags { get; set; }
     private bool CatsLoaded { get; set; } = false;
-    public Dictionary<Guid, Family> Families { get; set; }
     private bool FamsLoaded { get; set; } = false;
-    public Dictionary<Guid, TagFromDb> Tags { get; set; }
     private bool TagsLoaded { get; set; } = false;
     public StaticService(
         ICategoryService categoryService,
@@ -32,27 +33,21 @@ public class StaticService : IStaticService
     public Dictionary<string, CategoryDto> GetCategories()
     {
         if (!CatsLoaded)
-        {
-            throw new InvalidOperationException("Categories not yet loaded.");
-        }
+        { throw new InvalidOperationException("Categories not yet loaded."); }
         else { return Categories; }
     }
 
     public Dictionary<Guid, Family> GetFamilies()
     {
         if (!FamsLoaded)
-        {
-            throw new InvalidOperationException("Families not yet loaded.");
-        }
+        { throw new InvalidOperationException("Families not yet loaded."); }
         else { return Families; }
     }
 
     public Dictionary<Guid, TagFromDb> GetTags()
     {
         if (!TagsLoaded)
-        {
-            throw new InvalidOperationException("Tags not yet loaded.");
-        }
+        { throw new InvalidOperationException("Tags not yet loaded."); }
         else { return Tags; }
     }
 
@@ -70,8 +65,13 @@ public class StaticService : IStaticService
     {
         if (!FamsLoaded)
         {
+            // retrieve
             var list = await familyService.GetFamiliesAsync();
+
+            // convert
             Families = list.ToDictionary(f => f.Id);
+
+            // update bool
             FamsLoaded = true;
         }
     }
@@ -79,7 +79,10 @@ public class StaticService : IStaticService
     {
         if (!TagsLoaded)
         {
+            // retrieve
             var list = await tagService.GetTagsAsync();
+
+            // convert and inform
             Tags = list.ToDictionary(t => t.Id);
             TagsLoaded = true;
         }
