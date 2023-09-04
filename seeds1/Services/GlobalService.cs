@@ -45,7 +45,7 @@ public class GlobalService : IGlobalService
         }
         else { return CurrentUserPreferences; }
     }
-    public async Task GlobChangePreference(Guid itemId, int newValue)
+    public async Task GlobChangePreferenceAsync(Guid itemId, int newValue)
     {
         try
         {
@@ -108,7 +108,7 @@ public class GlobalService : IGlobalService
         }
         else { return CurrentUserIdeaInteractions; }
     }
-    public async Task GlobChangeIdeaInteraction(UserIdeaInteraction newUii)
+    public async Task GlobChangeIdeaInteractionAsync(UserIdeaInteraction newUii)
     {
         try
         {

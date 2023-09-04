@@ -17,7 +17,7 @@ public interface IGlobalService
     /// Change the preference in the globalService member and the DB.
     /// This Method catches any earlier exception.
     /// </summary>
-    public Task GlobChangePreference(Guid itemId, int newValue);
+    public Task GlobChangePreferenceAsync(Guid itemId, int newValue);
 
     /// <summary>
     /// Loads ButtonedTags of the CurrentUser, to be retrieved by GetButtonedTags().
@@ -34,5 +34,5 @@ public interface IGlobalService
     /// Change the interaction in the globalService member and the DB.
     /// This Method catches any earlier exception.
     /// </summary>
-    public Task GlobChangeIdeaInteraction(UserIdeaInteraction newUii);
+    public Task GlobChangeIdeaInteractionAsync(UserIdeaInteraction newUii);
 }

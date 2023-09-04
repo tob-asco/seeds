@@ -58,32 +58,12 @@ public partial class PreferencesViewModel : MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference pref)
     {
-        // find indices
-        int groupIndex = CatagPrefGroups.IndexOf(CatagPrefGroups.FirstOrDefault(cpg =>
-            cpg.Contains(pref)));
-        if (groupIndex == -1)
-        {
-            await Shell.Current.DisplayAlert("Error", "Group not found.", "Ok");
-            return;
-        }
-        int index = CatagPrefGroups[groupIndex].IndexOf(pref);
-
         // update DB
-        try
-        {
-            await globalService.GlobChangePreference(
-                pref.Tag.Id,
-                prefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference));
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Put Error",
-                ex.Message, "Ok");
-            return;
-        }
+        await globalService.GlobChangePreferenceAsync(
+            pref.Tag.Id, prefService.StepPreference(pref.Preference));
 
         // update View
-        CatagPrefGroups[groupIndex][index].Preference = prefService.StepPreference(
-            CatagPrefGroups[groupIndex][index].Preference);
+        pref.Preference = prefService.StepPreference(
+            pref.Preference);
     }
 }
