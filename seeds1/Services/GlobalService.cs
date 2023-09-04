@@ -16,7 +16,7 @@ public class GlobalService : IGlobalService
     public UserDto CurrentUser { get; set; }
     private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
     private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; }
-    public List<FamilyOrPreference> FamilyOrPreferences { get; set; }
+    public List<FamilyOrPreference> FamilyOrPreferences { get; set; } = new();
     private bool PreferencesLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(

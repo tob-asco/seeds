@@ -11,25 +11,25 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly IGlobalService globalService;
+    private readonly IGlobalService glob;
     private readonly ICatagPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
+        IStaticService stat,
+        IGlobalService glob,
         ICatagPreferencesService catPrefService,
         IUserPreferenceService cupService)
-        : base(staticService, globalService)
+        : base(stat, glob)
     {
-        this.globalService = globalService;
+        this.glob = glob;
         this.prefService = catPrefService;
         this.cupService = cupService;
     }
 
     [ObservableProperty]
-    ObservableCollection<ObservableRangeCollection<CatagPreference>>
-        catagPrefGroups = new();
+    ObservableRangeCollection<ObservableRangeCollection<FamilyOrPreference>>
+        fopGroups = new();
 
     [RelayCommand]
     public async Task PopulateListListAsync()
@@ -38,28 +38,20 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            List<CatagPreference> catagPrefs = prefService.AssembleButtonedUserPreferences();
-
-            var groups = catagPrefs.GroupBy(cp => cp.Tag.CategoryKey);
-            foreach (var group in groups)
-            {
-                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
-                // remove the entries that are only categories
-                var tagGroup = group.Where(cp => cp.Tag.Name != null);
-                tagsOfGroup.AddRange(tagGroup.ToList());
-                CatagPrefGroups.Add(tagsOfGroup);
-            }
+            var groups = glob.FamilyOrPreferences.GroupBy(fop => fop.CategoryKey);
+            FopGroups.AddRange(groups
+                .Select(group => new ObservableRangeCollection<FamilyOrPreference>(group)));
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("DB Access Error", ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
         }
     }
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference pref)
     {
         // update DB
-        await globalService.GlobChangePreferenceAsync(
+        await glob.GlobChangePreferenceAsync(
             pref.Tag.Id, prefService.StepPreference(pref.Preference));
 
         // update View
