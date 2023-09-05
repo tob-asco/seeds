@@ -5,7 +5,7 @@ using seeds1.MauiModels;
 
 namespace seeds1.Interfaces;
 
-public interface IGlobalService
+public interface IGlobalService : IDisposable
 {
     public UserDto CurrentUser { get; set; }
     /// <summary>

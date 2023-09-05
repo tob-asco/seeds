@@ -14,8 +14,8 @@ public class GlobalService : IGlobalService
     private readonly IUserIdeaInteractionService uiiService;
 
     public UserDto CurrentUser { get; set; }
-    private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; }
-    private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; }
+    private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; } = new();
+    private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; } = new();
     public List<FamilyOrPreference> FamilyOrPreferences { get; set; } = new();
     private bool PreferencesLoaded { get; set; } = false;
     private bool IdeaInteractionsLoaded { get; set; } = false;
@@ -153,4 +153,16 @@ public class GlobalService : IGlobalService
         }
     }
 
+    public void Dispose()
+    {
+        CurrentUser = null!;
+
+        CurrentUserPreferences = new();
+        PreferencesLoaded = false;
+        
+        CurrentUserIdeaInteractions = new();
+        IdeaInteractionsLoaded = false;
+        
+        FamilyOrPreferences = new();
+    }
 }
