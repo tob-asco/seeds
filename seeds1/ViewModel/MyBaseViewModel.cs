@@ -25,24 +25,6 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
             OnPropertyChanged(nameof(CurrentUser));
         }
     }
-    public Dictionary<Guid, UserPreference> PreferencesDict
-    {
-        get => globalService.GetPreferences();
-        set
-        {
-            globalService.CurrentUserPreferences = value;
-            OnPropertyChanged(nameof(PreferencesDict));
-        }
-    }
-    public Dictionary<int, UserIdeaInteraction> IdeaInteractionsDict
-    {
-        get => globalService.GetIdeaInteractions();
-        set
-        {
-            globalService.CurrentUserIdeaInteractions = value;
-            OnPropertyChanged(nameof(IdeaInteractionsDict));
-        }
-    }
     [ObservableProperty] //Source generator
     [NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
     bool isBusy;

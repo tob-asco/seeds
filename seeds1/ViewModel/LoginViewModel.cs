@@ -6,18 +6,20 @@ namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : MyBaseViewModel
 {
-    private readonly IGlobalService globalService;
+    private readonly IStaticService stat;
+    private readonly IGlobalService glob;
     private readonly IUsersService usersService;
     private readonly INavigationService navigationService;
 
     public LoginViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
+        IStaticService stat,
+        IGlobalService glob,
         IUsersService usersService,
         INavigationService navigationService)
-        : base(staticService, globalService)
+        : base(stat, glob)
     {
-        this.globalService = globalService;
+        this.stat = stat;
+        this.glob = glob;
         this.usersService = usersService;
         this.navigationService = navigationService;
     }
@@ -46,8 +48,7 @@ public partial class LoginViewModel : MyBaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("DB Error",
-                ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("DB Error", ex.Message, "Ok");
         }
         
         if (user != null) 
@@ -56,10 +57,16 @@ public partial class LoginViewModel : MyBaseViewModel
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
                 // Login
-                CurrentUser = user;
-                await globalService.LoadPreferencesAsync();
-                await globalService.LoadIdeaInteractionsAsync();
 
+                // load statics (needed if OnStart's loading failed)
+                await stat.LoadStaticsAsync();
+                
+                // set and load globals
+                CurrentUser = user;
+                await glob.LoadPreferencesAsync();
+                await glob.LoadIdeaInteractionsAsync();
+
+                // global switch to inform NavigatedTo page
                 navigationService.RedrawNavigationTarget = true;
 
                 //the amount of "/" to prepend depends on the shell's design

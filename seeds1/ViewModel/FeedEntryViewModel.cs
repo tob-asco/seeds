@@ -10,7 +10,7 @@ public partial class FeedEntryViewModel : ObservableObject
     private readonly IGlobalService globalService;
     private readonly IUserIdeaInteractionService uiiService;
 
-    public FeedEntry FeedEntry { get; set; }
+    public UserFeedentry FeedEntry { get; set; }
 
     public FeedEntryViewModel(
         IGlobalService globalService,
@@ -62,7 +62,7 @@ public partial class FeedEntryViewModel : ObservableObject
         }
     }
     [RelayCommand]
-    public async Task GoToDetails(FeedEntry fe)
+    public async Task GoToDetails(UserFeedentry fe)
     {
         if (fe == null) { return; }
 

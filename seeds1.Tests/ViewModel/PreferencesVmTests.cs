@@ -24,10 +24,10 @@ public class PreferencesVmTests
     {
         #region Arrange
         int pref1 = 0, pref0 = -1;
-        vm.CatagPrefGroups = new() { new() // both in first group
+        vm.FopGroups = new() { new() // both in first group
         {
-            new() { CategoryKey = "Cat0", Preference = pref0 },
-            new() { CategoryKey = "Cat1", Preference = pref1 },
+            new() { Preference = new() { Tag = new(){CategoryKey = "Cat0" }, Preference = pref0 } },
+            new() { Preference = new() { Tag = new(){CategoryKey = "Cat1" }, Preference = pref1 } },
         }};
         A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
             .Returns(14);
@@ -37,11 +37,11 @@ public class PreferencesVmTests
         #endregion
 
         // Act
-        await vm.ChangeTagPreference(vm.CatagPrefGroups[0][1]);
+        await vm.ChangeTagPreference(vm.FopGroups[0][1].Preference);
 
         // Assert
-        vm.CatagPrefGroups[0][0].Preference.Should().Be(pref0);
-        vm.CatagPrefGroups[0][1].Preference.Should().NotBe(pref1);
+        vm.FopGroups[0][0].Preference.Preference.Should().Be(pref0);
+        vm.FopGroups[0][1].Preference.Preference.Should().NotBe(pref1);
     }
 
 }

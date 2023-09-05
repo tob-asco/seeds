@@ -20,5 +20,6 @@ public static class ServiceModule
         service.AddScoped<IPresentationService, PresentationService>();
         service.AddScoped<ITagService, TagService>();
         service.AddScoped<IIdeaTagService, IdeaTagService>();
+        service.AddScoped<IFamilyService, FamilyService>();
     }                               
 }

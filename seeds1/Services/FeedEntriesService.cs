@@ -10,48 +10,49 @@ public class FeedEntriesService : IFeedEntriesService
 {
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
-    private readonly IUserIdeaInteractionService uiiService;
-    private readonly ICatagPreferencesService catagPreferencesService;
 
     public FeedEntriesService(
         IGlobalService globalService,
-        IIdeasService ideasService,
-        IUserIdeaInteractionService uiiService,
-        ICatagPreferencesService catagPreferencesService)
+        IIdeasService ideasService)
     {
         this.globalService = globalService;
         this.ideasService = ideasService;
-        this.uiiService = uiiService;
-        this.catagPreferencesService = catagPreferencesService;
     }
-    public async Task<List<FeedEntry>> GetFeedEntriesPaginatedAsync(
+    public async Task<List<UserFeedentry>> GetUserFeedentriesPaginatedAsync(
         int pageIndex, int pageSize = 5,
         string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
-        List<FeedEntry> feedEntryPage = new();
-        var ideaPage = await ideasService.GetIdeasPaginatedAsync(
+        List<UserFeedentry> userFePage = new();
+        var feedentryPage = await ideasService.GetFeedentriesPaginatedAsync(
             pageIndex, pageSize, orderByColumn, isDescending);
-        if (ideaPage == null) { return new(); } // we get null if there are no more ideas
-        foreach (var idea in ideaPage)
+        if (feedentryPage == null) { return new(); } // we get null if there are no more ideas
+        foreach (var fe in feedentryPage)
         {
             /* According to the general philo, no error- / badNull- handling here.
              * badNull-handling is done in the DAL services,
              * error-handling is done in the VMs
              */
-            var upvotes = await uiiService.CountVotesAsync(idea.Id);
-            //var tagPrefs = await catagPreferencesService.GetTagPreferencesOfIdeaAsync(idea);
-            var uii = await uiiService.GetUserIdeaInteractionAsync(
-                globalService.CurrentUser.Username, idea.Id)
-                ?? new UserIdeaInteraction();
-            feedEntryPage.Add(new FeedEntry
+            List<CatagPreference> tagPrefs = new();
+            foreach(var tag in fe.Tags)
             {
-                Idea = idea,
-                //CatagPreferences = tagPrefs,
-                Upvoted = uii.Upvoted,
-                Downvoted = uii.Downvoted,
-                Upvotes = upvotes,
+                tagPrefs.Add(new()
+                {
+                    Tag = tag,
+                    Preference = globalService.GetPreferences().ContainsKey(tag.Id) ?
+                        globalService.GetPreferences()[tag.Id].Value : 0
+                });
+            }
+            userFePage.Add(new UserFeedentry
+            {
+                Idea = fe.Idea,
+                CatagPreferences = tagPrefs,
+                Upvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
+                    globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
+                Downvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
+                    globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
+                Upvotes = fe.Upvotes,
             });
         }
-        return feedEntryPage;
+        return userFePage;
     }
 }

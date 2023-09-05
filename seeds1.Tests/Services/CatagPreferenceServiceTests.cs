@@ -11,6 +11,7 @@ namespace seeds1.Tests.Services;
 public class CatagPreferenceServiceTests
 {
     private readonly IGlobalService globalService;
+    private readonly IStaticService staticService;
     private readonly ICategoryService categoryService;
     private readonly IUserPreferenceService cupService;
     private readonly ITagService tagService;
@@ -19,13 +20,14 @@ public class CatagPreferenceServiceTests
 
     public CatagPreferenceServiceTests()
     {
+        staticService = A.Fake<IStaticService>();
         globalService = A.Fake<IGlobalService>();
         categoryService = A.Fake<ICategoryService>();
         cupService = A.Fake<IUserPreferenceService>();
         tagService = A.Fake<ITagService>();
         ideaTagService = A.Fake<IIdeaTagService>();
         service = new(
-            globalService, categoryService, cupService, tagService, ideaTagService);
+            staticService, globalService, categoryService, cupService, tagService, ideaTagService);
     }
 
     //[Fact]

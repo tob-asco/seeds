@@ -14,7 +14,6 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly IUserPreferenceService cupService;
     private readonly ICatagPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
@@ -24,13 +23,11 @@ public partial class FeedViewModel :MyBaseViewModel
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        IUserPreferenceService cupService,
         ICatagPreferencesService catPrefService)
         : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.feedEntriesService = feedEntriesService;
-        this.cupService = cupService;
         this.catPrefService = catPrefService;
     }
 
@@ -58,10 +55,10 @@ public partial class FeedViewModel :MyBaseViewModel
 
         int currentPages = (int)Math.Ceiling((decimal)currentCount / _feedEntryPageSize);
 
-        List<FeedEntry> feedEntries = new();
+        List<UserFeedentry> feedEntries = new();
         try
         {
-            feedEntries = await feedEntriesService.GetFeedEntriesPaginatedAsync(
+            feedEntries = await feedEntriesService.GetUserFeedentriesPaginatedAsync(
                 currentPages + 1, _feedEntryPageSize);
         }
         catch (Exception ex)
@@ -91,7 +88,7 @@ public partial class FeedViewModel :MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference catagPref)
     {
-        if (catagPref.TagName == null) return;
+        if (catagPref.Tag.Name == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
@@ -99,8 +96,8 @@ public partial class FeedViewModel :MyBaseViewModel
             // loop over tags
             for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatagPreferences.Count; j++)
             { 
-                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].CategoryKey == catagPref.CategoryKey
-                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].TagName == catagPref.TagName)
+                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.CategoryKey == catagPref.Tag.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.Name == catagPref.Tag.Name)
                 {
                     FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference = catPrefService
                         .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference);

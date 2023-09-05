@@ -37,9 +37,9 @@
                             VerticalOptions="End">
                             <Button.Text>
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="CategoryKey" />
+                                    <Binding Path="Tag.CategoryKey" />
                                     <Binding Source=": " />
-                                    <Binding Path="TagName" />
+                                    <Binding Path="Tag.Name" />
                                 </MultiBinding>
                             </Button.Text>
                             <Button.Style>

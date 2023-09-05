@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ForMaui;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
@@ -13,67 +14,51 @@ public class FeedEntriesServiceTests
     private readonly IGlobalService globalService;
     private readonly IIdeasService ideasService;
     private readonly ICategoryService categoryService;
-    private readonly IUserPreferenceService cupService;
-    private readonly IUserIdeaInteractionService uiiService;
-    private readonly ICatagPreferencesService catagPrefService;
     private readonly FeedEntriesService service;
     public FeedEntriesServiceTests()
     {
         globalService = A.Fake<IGlobalService>();
         ideasService = A.Fake<IIdeasService>();
         categoryService = A.Fake<ICategoryService>();
-        cupService = A.Fake<IUserPreferenceService>();
-        uiiService = A.Fake<IUserIdeaInteractionService>();
-        catagPrefService = A.Fake<ICatagPreferencesService>();
-        service = new(globalService, ideasService, uiiService, catagPrefService);
+        service = new(globalService, ideasService);
     }
 
     [Fact]
-    public async Task FeedEntriesService_GetFeedEntriesPaginatedAsync_ReturnsItselfs()
+    public async Task FeedEntriesService_GetUserFeedentriesPaginatedAsync_ReturnsItselfs()
     {
         #region Arrange
         int pageIndex = 1; int pageSize = 2;
-        CategoryDto cat1 = new() { Key = "Cat1" };
-        CategoryDto cat2 = new() { Key = "Cat2" };
-        List<IdeaFromDb> ideaPage = new() {
-            new(){ CategoryKey = cat1.Key},
-            new(){ CategoryKey = cat2.Key},
+        int ideaId = 9;
+        List<Feedentry> ufes = new() {
+            new(){ Idea = new() { Id = ideaId } },
+            new(){ Idea = new() { Id = ideaId + 1 } },
         };
-        List<CatagPreference> catagPrefs = new()
-        {
-            new CatagPreference { CategoryKey = cat1.Key },
-            new CatagPreference { CategoryKey = cat2.Key },
-        };
-        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(
+        A.CallTo(() => ideasService.GetFeedentriesPaginatedAsync(
             A<int>.Ignored, A<int>.Ignored, A<string>.Ignored, A<bool>.Ignored))
-            .Returns(ideaPage);
-        //A.CallTo(() => catagPrefService.GetTagPreferencesOfIdeaAsync(
-        //    A<IdeaFromDb>.Ignored))
-        //    .Returns(catagPrefs);
-        A.CallTo(() => uiiService.CountVotesAsync(A<int>.Ignored))
-            .Returns(0);
+            .Returns(ufes);
+        A.CallTo(() => globalService.GetIdeaInteractions())
+            .Returns(new Dictionary<int, UserIdeaInteraction>() {{ ideaId, new() { Upvoted = true } }});
         #endregion
 
         // Act
-        var result = await service.GetFeedEntriesPaginatedAsync(pageIndex, pageSize);
+        var result = await service.GetUserFeedentriesPaginatedAsync(pageIndex, pageSize);
 
         // Assert
-        result.Should().HaveCount(ideaPage.Count);
-        result[0]?.Idea.CategoryKey.Should().Be(ideaPage[0].CategoryKey);
-        result[0]?.CatagPreferences.Should().BeEquivalentTo(catagPrefs);
-        result[1]?.Idea.CategoryKey.Should().Be(ideaPage[1].CategoryKey);
+        result.Should().HaveCount(ufes.Count);
+        result[0]?.Upvoted.Should().BeTrue();
+        result[1]?.Idea.Id.Should().Be(ideaId + 1);
     }
     [Fact]
-    public async Task FeedEntriesService_GetFeedEntriesPaginatedAsync_IfNoIdeasReturnsEmptyList()
+    public async Task FeedEntriesService_GetFeedEntriesPaginatedAsync_IfNoFesReturnsEmptyList()
     {
         #region Arrange
         int page = 1; int pageSize = 2;
-        A.CallTo(() => ideasService.GetIdeasPaginatedAsync(page, 5, "CreationTime", true))
-            .Returns<List<IdeaFromDb>>(new());
+        A.CallTo(() => ideasService.GetFeedentriesPaginatedAsync(page, 5, "CreationTime", true))
+            .Returns<List<Feedentry>>(new());
         #endregion
 
         // Act
-        var result = await service.GetFeedEntriesPaginatedAsync(page, pageSize);
+        var result = await service.GetUserFeedentriesPaginatedAsync(page, pageSize);
 
         // Assert
         result.Should().NotBeNull();

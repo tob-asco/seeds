@@ -11,23 +11,25 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly ICatagPreferencesService catPrefService;
+    private readonly IGlobalService glob;
+    private readonly ICatagPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
+        IStaticService stat,
+        IGlobalService glob,
         ICatagPreferencesService catPrefService,
         IUserPreferenceService cupService)
-        : base(staticService, globalService)
+        : base(stat, glob)
     {
-        this.catPrefService = catPrefService;
+        this.glob = glob;
+        this.prefService = catPrefService;
         this.cupService = cupService;
     }
 
     [ObservableProperty]
-    ObservableCollection<ObservableRangeCollection<CatagPreference>>
-        catagPrefGroups = new();
+    ObservableRangeCollection<ObservableRangeCollection<FamilyOrPreference>>
+        fopGroups = new();
 
     [RelayCommand]
     public async Task PopulateListListAsync()
@@ -36,58 +38,24 @@ public partial class PreferencesViewModel : MyBaseViewModel
          */
         try
         {
-            List<CatagPreference> catagPrefs = new();
-            //    await catPrefService.GetCatagPreferencesAsync();
-
-            var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
-            foreach (var group in groups)
-            {
-                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
-                // remove the entries that are only categories
-                var tagGroup = group.Where(cp => cp.TagName != null);
-                tagsOfGroup.AddRange(tagGroup.ToList());
-                CatagPrefGroups.Add(tagsOfGroup);
-            }
+            var groups = glob.FamilyOrPreferences.GroupBy(fop => fop.CategoryKey);
+            FopGroups.AddRange(groups
+                .Select(group => new ObservableRangeCollection<FamilyOrPreference>(group)));
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("DB Access Error", ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
         }
     }
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference pref)
     {
-        // find indices
-        int groupIndex = CatagPrefGroups.IndexOf(CatagPrefGroups.FirstOrDefault(cpg =>
-            cpg.Contains(pref)));
-        if (groupIndex == -1)
-        {
-            await Shell.Current.DisplayAlert("Error", "Group not found.", "Ok");
-            return;
-        }
-        int index = CatagPrefGroups[groupIndex].IndexOf(pref);
-
         // update DB
-        try
-        {
-            //if (!await cupService.PutUserPreferenceAsync(
-            //    pref.CategoryKey,
-            //    CurrentUser.Username,
-            //    catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-            //    tagName: pref.TagName))
-            //{
-            //    throw new Exception($"Fatal: PUT failed.");
-            //}
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Put Error",
-                ex.Message, "Ok");
-            return;
-        }
-        
+        await glob.GlobChangePreferenceAsync(
+            pref.Tag.Id, prefService.StepPreference(pref.Preference));
+
         // update View
-        CatagPrefGroups[groupIndex][index].Preference = catPrefService.StepPreference(
-            CatagPrefGroups[groupIndex][index].Preference);
+        pref.Preference = prefService.StepPreference(
+            pref.Preference);
     }
 }

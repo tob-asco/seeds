@@ -8,4 +8,5 @@ public class TagFromDb
 
     public string CategoryKey { get; set; } = "NoC";
 
+    public Guid? FamilyId { get; set; }
 }

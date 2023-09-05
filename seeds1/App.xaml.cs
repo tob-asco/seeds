@@ -6,25 +6,30 @@ namespace seeds1;
 
 public partial class App : Application
 {
-    private readonly IStaticService staticService;
+    private readonly IStaticService stat;
 
     public App(
-        IStaticService staticService,
+        IStaticService stat,
         AppShell shell)
 	{
 		InitializeComponent();
 		MainPage = shell;
-        this.staticService = staticService;
+        this.stat = stat;
     }
 
     protected async override void OnStart()
     {
         base.OnStart();
 
-        // load static resources into RAM
-        await staticService.LoadCategoriesAsync();
-        await staticService.LoadFamiliesAsync();
-        await staticService.LoadTagsAsync();
+        try
+        {
+            // load static resources into RAM
+            await stat.LoadStaticsAsync();
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Loading Static Data Error", ex.Message, "Ok");
+        }
     }
 
 #if WINDOWS

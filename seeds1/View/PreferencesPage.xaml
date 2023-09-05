@@ -3,72 +3,86 @@
     x:Class="seeds1.View.PreferencesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cells="clr-namespace:seeds1.Cells"
     xmlns:converter="clr-namespace:seeds1.Converter"
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Title="Preferences"
     x:DataType="local:PreferencesViewModel">
-    <CollectionView ItemsSource="{Binding CatagPrefGroups}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="ButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
+                <Button
+                    Margin="1,2"
+                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTagPreferenceCommand}"
+                    CommandParameter="{Binding Preference}"
+                    HeightRequest="45">
+                    <Button.Text>
+                        <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                            <Binding Source="{x:Static sys:String.Empty}" />
+                            <Binding Source="{x:Static sys:String.Empty}" />
+                            <Binding Path="Preference.Tag.Name" />
+                        </MultiBinding>
+                    </Button.Text>
+                    <Button.Style>
+                        <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="Preference.Preference" />
+                    </Button.Style>
+                </Button>
+            </DataTemplate>
+            <DataTemplate x:Key="PickerTemplate" x:DataType="mauiModel:FamilyOrPreference">
+                <Picker
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Family.Tags}"
+                    SelectedIndex="0" />
+            </DataTemplate>
+            <cells:TagsDataTemplateSelector
+                x:Key="Selector"
+                FamilyTemplate="{StaticResource PickerTemplate}"
+                PreferenceTemplate="{StaticResource ButtonTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <CollectionView ItemsSource="{Binding FopGroups}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout>
-                    <Grid Padding="5,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <BoxView
-                            Grid.Column="0"
-                            HeightRequest="1"
-                            Color="Gray" />
-                        <Label
-                            Grid.Column="1"
+                    <StackLayout Margin="0,10">
+                        <Grid Padding="40,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <BoxView
+                                Grid.Column="0"
+                                HeightRequest="1"
+                                Color="Gray" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="5,0"
+                                FontSize="Subtitle"
+                                HorizontalOptions="Center"
+                                TextColor="Gray">
+                                <Label.Text>
+                                    <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                                        <Binding Path="[0].CategoryKey" />
+                                        <Binding Source=" - " />
+                                        <Binding Source="CategoryName" />
+                                        <!--<Binding Path="[0].CategoryName" />-->
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <BoxView
+                                Grid.Column="2"
+                                HeightRequest="1"
+                                Color="Gray" />
+                        </Grid>
+                        <FlexLayout
                             Margin="5,0"
-                            FontSize="Subtitle"
-                            HorizontalOptions="Center"
-                            TextColor="Gray">
-                            <Label.Text>
-                                <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="[0].CategoryKey" />
-                                    <Binding Source=" - " />
-                                    <Binding Path="[0].CategoryName" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <BoxView
-                            Grid.Column="2"
-                            HeightRequest="1"
-                            Color="Gray" />
-                    </Grid>
-                    <FlexLayout
-                        Margin="15,5"
-                        AlignContent="Start"
-                        BindableLayout.ItemsSource="{Binding .}"
-                        Wrap="Wrap">
-                        <BindableLayout.ItemTemplate>
-                            <DataTemplate x:DataType="mauiModel:CatagPreference">
-                                <Button
-                                    Margin="1,2"
-                                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTagPreferenceCommand}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="45">
-                                    <Button.Text>
-                                        <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                            <Binding Source="{x:Static sys:String.Empty}" />
-                                            <Binding Source="{x:Static sys:String.Empty}" />
-                                            <Binding Path="TagName" />
-                                        </MultiBinding>
-                                    </Button.Text>
-                                    <Button.Style>
-                                        <Binding Converter="{converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}" Path="Preference" />
-                                    </Button.Style>
-                                </Button>
-                            </DataTemplate>
-                        </BindableLayout.ItemTemplate>
-                    </FlexLayout>
-                </StackLayout>
+                            AlignContent="Start"
+                            BindableLayout.ItemTemplateSelector="{StaticResource Selector}"
+                            BindableLayout.ItemsSource="{Binding .}"
+                            Wrap="Wrap" />
+                    </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

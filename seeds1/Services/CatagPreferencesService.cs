@@ -7,6 +7,7 @@ namespace seeds1.Services;
 
 public class CatagPreferencesService : ICatagPreferencesService
 {
+    private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly IUserPreferenceService cupService;
@@ -14,12 +15,14 @@ public class CatagPreferencesService : ICatagPreferencesService
     private readonly IIdeaTagService ideaTagService;
 
     public CatagPreferencesService(
+        IStaticService staticService,
         IGlobalService globalService,
         ICategoryService categoryService,
         IUserPreferenceService cupService,
         ITagService tagService,
         IIdeaTagService ideaTagService)
     {
+        this.staticService = staticService;
         this.globalService = globalService;
         this.categoryService = categoryService;
         this.cupService = cupService;
