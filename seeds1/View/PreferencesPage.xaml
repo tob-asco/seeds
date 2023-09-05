@@ -31,7 +31,10 @@
                 </Button>
             </DataTemplate>
             <DataTemplate x:Key="PickerTemplate" x:DataType="mauiModel:FamilyOrPreference">
-                <Picker ItemsSource="{Binding Family}" />
+                <Picker
+                    ItemDisplayBinding="{Binding Name}"
+                    ItemsSource="{Binding Family.Tags}"
+                    SelectedIndex="0" />
             </DataTemplate>
             <cells:TagsDataTemplateSelector
                 x:Key="Selector"
@@ -42,44 +45,44 @@
     <CollectionView ItemsSource="{Binding FopGroups}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <StackLayout>
-                    <Grid Padding="5,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <BoxView
-                            Grid.Column="0"
-                            HeightRequest="1"
-                            Color="Gray" />
-                        <Label
-                            Grid.Column="1"
+                    <StackLayout Margin="0,10">
+                        <Grid Padding="40,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <BoxView
+                                Grid.Column="0"
+                                HeightRequest="1"
+                                Color="Gray" />
+                            <Label
+                                Grid.Column="1"
+                                Margin="5,0"
+                                FontSize="Subtitle"
+                                HorizontalOptions="Center"
+                                TextColor="Gray">
+                                <Label.Text>
+                                    <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                                        <Binding Path="[0].CategoryKey" />
+                                        <Binding Source=" - " />
+                                        <Binding Source="CategoryName" />
+                                        <!--<Binding Path="[0].CategoryName" />-->
+                                    </MultiBinding>
+                                </Label.Text>
+                            </Label>
+                            <BoxView
+                                Grid.Column="2"
+                                HeightRequest="1"
+                                Color="Gray" />
+                        </Grid>
+                        <FlexLayout
                             Margin="5,0"
-                            FontSize="Subtitle"
-                            HorizontalOptions="Center"
-                            TextColor="Gray">
-                            <Label.Text>
-                                <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="[0].CategoryKey" />
-                                    <Binding Source=" - " />
-                                    <Binding Source="CategoryName" />
-                                    <!--<Binding Path="[0].CategoryName" />-->
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
-                        <BoxView
-                            Grid.Column="2"
-                            HeightRequest="1"
-                            Color="Gray" />
-                    </Grid>
-                    <FlexLayout
-                        Margin="15,5"
-                        AlignContent="Start"
-                        BindableLayout.ItemTemplateSelector="{StaticResource Selector}"
-                        BindableLayout.ItemsSource="{Binding .}"
-                        Wrap="Wrap" />
-                </StackLayout>
+                            AlignContent="Start"
+                            BindableLayout.ItemTemplateSelector="{StaticResource Selector}"
+                            BindableLayout.ItemsSource="{Binding .}"
+                            Wrap="Wrap" />
+                    </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
