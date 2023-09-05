@@ -74,17 +74,17 @@ public class DataSeeder
     }
     public void PopulateFams()
     {
-        Fams.Add(new() { CategoryKey = "FEA", Name = "moves" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "gear" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "language" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "short" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "poetry" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "local" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "mood" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "movement" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "for city" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "for country" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "region" });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "moves" });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "gear" });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "language" });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "short" });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "poetry" });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "local" });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "mood" });
+        Fams.Add(new() { CategoryKey = "ART", Name = "movement" });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for city" });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for country" });
+        Fams.Add(new() { CategoryKey = "HEAL", Name = "region" });
         Fams.Add(new() { CategoryKey = "FEA", Name = "operating system" });
         Fams.Add(new() { CategoryKey = "FEA", Name = "online meeting" });
         Fams.Add(new() { CategoryKey = "FEA", Name = "social medium" });
