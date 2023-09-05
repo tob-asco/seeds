@@ -30,16 +30,18 @@ public partial class LoginViewModel : MyBaseViewModel
     string enteredPassword;
     [ObservableProperty]
     string displayedLoginResponse;
+    [ObservableProperty]
+    Color colorLoginResponse = Color.Parse("red");
 
     [RelayCommand]
     public async Task Login()
     {
         if ((EnteredUsername ?? "") == "")
         {
-            FailResponse("We need a username here.");
+            LoginResponse("We need a username here.");
             return;
         }
-        FailResponse("Checking..."); //shouldnt be a "fail" response..
+        LoginResponse("Checking...", isFail: false, isSuccess: false);
         UserDto user = null!;
 
         try
@@ -48,7 +50,8 @@ public partial class LoginViewModel : MyBaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("DB Error", ex.Message, "Ok");
+            LoginResponse("DB access error. Please try again.");
+            return;
         }
         
         if (user != null) 
@@ -56,7 +59,7 @@ public partial class LoginViewModel : MyBaseViewModel
             // str ?? "" //returns "" if str is null and returns str othw.
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
-                // Login
+                LoginResponse("Loging in...", isFail: false, isSuccess: true);
 
                 // load statics (needed if OnStart's loading failed)
                 await stat.LoadStaticsAsync();
@@ -80,17 +83,20 @@ public partial class LoginViewModel : MyBaseViewModel
             else
             {
                 // wrong password
-                FailResponse("Invalid Credentials.");
+                LoginResponse("Invalid Credentials.");
             }
         }
         else
         {
             // username not existing
-            FailResponse("Invalid Credentials.");
+            LoginResponse("Invalid Credentials.");
         }
     }
-    public void FailResponse(string text)
+    public void LoginResponse(string text, bool isFail = true, bool isSuccess = false)
     {
         DisplayedLoginResponse = text;
+        if (isFail && !isSuccess) { ColorLoginResponse = Color.Parse("red"); }
+        else if(!isFail && !isSuccess) { ColorLoginResponse = Color.Parse("lightgray"); }
+        else { ColorLoginResponse = Color.Parse("green"); }
     }
 }
