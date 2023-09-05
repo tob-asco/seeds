@@ -7,6 +7,10 @@ namespace seeds1.Interfaces;
 public interface IStaticService
 {
     /// <summary>
+    /// Calls all other Load methods of StaticService.
+    /// </summary>
+    public Task LoadStaticsAsync();
+    /// <summary>
     /// Loads Categories, to be retrieved by GetCategories().
     /// </summary>
     public Task LoadCategoriesAsync();

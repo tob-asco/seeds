@@ -55,8 +55,10 @@ public class StaticService : IStaticService
     {
         if (!CatsLoaded)
         {
-            var list = await categoryService
-                .GetCategoriesAsync();
+            // retrieve
+            var list = await categoryService.GetCategoriesAsync();
+
+            // convert and inform
             Categories = list.ToDictionary(c => c.Key);
             CatsLoaded = true;
         }
@@ -68,10 +70,8 @@ public class StaticService : IStaticService
             // retrieve
             var list = await familyService.GetFamiliesAsync();
 
-            // convert
+            // convert and inform
             Families = list.ToDictionary(f => f.Id);
-
-            // update bool
             FamsLoaded = true;
         }
     }
@@ -86,5 +86,12 @@ public class StaticService : IStaticService
             Tags = list.ToDictionary(t => t.Id);
             TagsLoaded = true;
         }
+    }
+
+    public async Task LoadStaticsAsync()
+    {
+        await LoadCategoriesAsync();
+        await LoadFamiliesAsync();
+        await LoadTagsAsync();
     }
 }
