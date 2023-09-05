@@ -20,10 +20,17 @@ public class DalBaseService : IDalBaseService
     public async Task<T?> GetDalModelAsync<T>(string url)
     {
         var response = await HttpClientWrapper.GetAsync(url);
-        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+
+        // check if the DB has produced a NotFound
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound
+            && response.Headers.TryGetValues("X-Error-Type", out var vals))
         {
-            return default; // gives null for Dal model classes (cf. tests)
+            if (vals != null && vals.FirstOrDefault(s => s == "DbRecordNotFound") != null)
+            {
+                return default; // gives null for Dal model classes (cf. tests)
+            }
         }
+        // throw for any non-successful response, not caputerd by the above
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception($"The Get URL {url} returned non-successful " +
