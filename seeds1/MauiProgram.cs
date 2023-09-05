@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
@@ -62,6 +63,8 @@ public static class MauiProgram
         /******************* auto-generated ********************/
         builder
 			.UseMauiApp<App>()
+			// Initialize the .NET MAUI Community Toolkit by adding the below line of code
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
