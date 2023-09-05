@@ -50,7 +50,7 @@ public partial class LoginViewModel : MyBaseViewModel
         }
         catch (Exception ex)
         {
-            LoginResponse("DB access error. Please try again.");
+            LoginResponse("Server error. Please try again.");
             return;
         }
         
