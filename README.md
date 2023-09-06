@@ -3,7 +3,7 @@
 - [ ] DTO for CUP (bc. we have a GUID PK now)
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
 - [ ] figure out which special characters can be `UrlEncode`'d and forbid the others in the View
-- [ ] GUID PK for Tag.cs and a DTO
+- [ ] add platform specific styles by using the code `<Setter Property="x" Value="{OnPlatform Android=x, WinUI=x, iOS=x, MacCatalyst=x, Tizen=x}" />` from e.g. `CommunityToolkit.Maui.Sample\Views\Popups\ToggleSizePopup.xaml`
 ## How To Get It To Work
 (In case of troubles, maybe you find a fix in the file `error-resolution.md`)
 1. I use `Visual Studio 22 (17.7) Community` on Windows 11.
