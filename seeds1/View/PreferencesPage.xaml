@@ -12,7 +12,7 @@
     x:DataType="local:PreferencesViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="ButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
+            <DataTemplate x:Key="TagButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
                 <Button
                     Margin="1,2"
                     Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTagPreferenceCommand}"
@@ -30,59 +30,62 @@
                     </Button.Style>
                 </Button>
             </DataTemplate>
-            <DataTemplate x:Key="PickerTemplate" x:DataType="mauiModel:FamilyOrPreference">
-                <Picker
-                    ItemDisplayBinding="{Binding Name}"
-                    ItemsSource="{Binding Family.Tags}"
-                    SelectedIndex="0" />
+            <DataTemplate x:Key="FamilyButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
+                <Button
+                    Margin="1,2"
+                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=PopupFamilyCommand}"
+                    CommandParameter="{Binding Family}"
+                    HeightRequest="45"
+                    Style="{StaticResource buttonMediumStyle}"
+                    Text="{Binding Family.Name}" />
             </DataTemplate>
             <cells:TagsDataTemplateSelector
                 x:Key="Selector"
-                FamilyTemplate="{StaticResource PickerTemplate}"
-                PreferenceTemplate="{StaticResource ButtonTemplate}" />
+                FamilyTemplate="{StaticResource FamilyButtonTemplate}"
+                PreferenceTemplate="{StaticResource TagButtonTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <CollectionView ItemsSource="{Binding FopGroups}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                    <StackLayout Margin="0,10">
-                        <Grid Padding="40,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <BoxView
-                                Grid.Column="0"
-                                HeightRequest="1"
-                                Color="Gray" />
-                            <Label
-                                Grid.Column="1"
-                                Margin="5,0"
-                                FontSize="Subtitle"
-                                HorizontalOptions="Center"
-                                TextColor="Gray">
-                                <Label.Text>
-                                    <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                        <Binding Path="[0].CategoryKey" />
-                                        <Binding Source=" - " />
-                                        <Binding Source="CategoryName" />
-                                        <!--<Binding Path="[0].CategoryName" />-->
-                                    </MultiBinding>
-                                </Label.Text>
-                            </Label>
-                            <BoxView
-                                Grid.Column="2"
-                                HeightRequest="1"
-                                Color="Gray" />
-                        </Grid>
-                        <FlexLayout
+                <StackLayout Margin="0,10">
+                    <Grid Padding="40,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <BoxView
+                            Grid.Column="0"
+                            HeightRequest="1"
+                            Color="Gray" />
+                        <Label
+                            Grid.Column="1"
                             Margin="5,0"
-                            AlignContent="Start"
-                            BindableLayout.ItemTemplateSelector="{StaticResource Selector}"
-                            BindableLayout.ItemsSource="{Binding .}"
-                            Wrap="Wrap" />
-                    </StackLayout>
+                            FontSize="Subtitle"
+                            HorizontalOptions="Center"
+                            TextColor="Gray">
+                            <Label.Text>
+                                <MultiBinding Converter="{converter:CatBtnTextConverter}">
+                                    <Binding Path="[0].CategoryKey" />
+                                    <Binding Source=" - " />
+                                    <Binding Source="CategoryName" />
+                                    <!--<Binding Path="[0].CategoryName" />-->
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <BoxView
+                            Grid.Column="2"
+                            HeightRequest="1"
+                            Color="Gray" />
+                    </Grid>
+                    <FlexLayout
+                        Margin="5,0"
+                        AlignContent="Start"
+                        BindableLayout.ItemTemplateSelector="{StaticResource Selector}"
+                        BindableLayout.ItemsSource="{Binding .}"
+                        Wrap="Wrap" />
+                </StackLayout>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

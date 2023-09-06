@@ -4,6 +4,7 @@ using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Factories;
+using seeds1.Helpers;
 using seeds1.Interfaces;
 using seeds1.Services;
 
@@ -60,10 +61,12 @@ public static class MauiProgram
         builder.Services.AddTransient<DetailPage>();
         builder.Services.AddTransient<AddPage>();
 
+        builder.Services.AddSingleton<IDeviceDisplay>(DeviceDisplay.Current);
+        builder.Services.AddSingleton<PopupSizeConstants>();
 
         /******************* auto-generated ********************/
         builder
-			.UseMauiApp<App>()
+            .UseMauiApp<App>()
 			// Initialize the .NET MAUI Community Toolkit by adding the below line of code
 			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>

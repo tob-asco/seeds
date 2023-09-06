@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Views;
 using seeds1.Factories;
 using seeds1.Interfaces;
 
@@ -23,4 +24,10 @@ public partial class PreferencesPage : ContentPage
         BindingContext = vm;
         await vm.PopulateListListAsync();
     }
+    //private async void FamilyPopUp_Click(object sender, EventArgs e)
+    //{
+    //    var popup = new FamilyPopup();
+
+    //    await this.ShowPopupAsync(popup);
+    //}
 }
