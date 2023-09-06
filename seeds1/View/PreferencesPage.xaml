@@ -37,6 +37,7 @@
                     CommandParameter="{Binding Family}"
                     HeightRequest="45"
                     Style="{StaticResource buttonMediumStyle}"
+                    BorderColor="Purple" BorderWidth="2"
                     Text="{Binding Family.Name}" />
             </DataTemplate>
             <cells:TagsDataTemplateSelector
