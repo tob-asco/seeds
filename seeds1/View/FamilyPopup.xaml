@@ -3,6 +3,7 @@
     x:Class="seeds1.View.FamilyPopup"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:seeds1.Converter"
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
     xmlns:modelFromDb="clr-namespace:seeds.Dal.Dto.FromDb;assembly=seeds.Dal"
@@ -11,27 +12,32 @@
     x:DataType="local:FamilyPopupViewModel"
     Color="#111">
 
-    <!--<VerticalStackLayout Padding="5">
-        <Label Text="{Binding Family.Name}"/>
-        <Entry Placeholder="Search" />-->
-    <CollectionView ItemsSource="{Binding Family.Tags}" VerticalScrollBarVisibility="Always">
-        <CollectionView.Header>
-            <HorizontalStackLayout>
-                <Label Text="{Binding Family.Name}" />
-                <Entry Placeholder="Search" />
-            </HorizontalStackLayout>
-        </CollectionView.Header>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="modelFromDb:TagFromDb">
-                <Button
-                    Margin="1,2"
-                    HeightRequest="45"
-                    Style="{StaticResource buttonMediumStyle}"
-                    Text="{Binding Name}" />
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
-    <!--</VerticalStackLayout>-->
-
+    <Grid RowDefinitions="Auto,*">
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Padding="5"
+            HorizontalOptions="Center">
+            <!--<Label Text="{Binding Family.Name, StringFormat='{}{0}: '}" />-->
+            <Entry WidthRequest="300" Placeholder="{Binding Family.Name, StringFormat='Search for a {}{0}'}" />
+        </HorizontalStackLayout>
+        <ScrollView Grid.Row="1">
+            <FlexLayout
+                Margin="5,0"
+                AlignContent="Start"
+                BindableLayout.ItemsSource="{Binding Family.Tags}"
+                Wrap="Wrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="modelFromDb:TagFromDb">
+                        <Button
+                            Margin="1,2"
+                            HeightRequest="45"
+                            Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}"
+                            Style="{StaticResource buttonMediumStyle}">
+                        </Button>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+    </Grid>
 </toolkit:Popup>
 
