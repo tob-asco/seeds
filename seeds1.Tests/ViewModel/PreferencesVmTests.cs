@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Interfaces;
+using seeds1.Factories;
 using seeds1.Interfaces;
 using seeds1.ViewModel;
 
@@ -16,7 +17,8 @@ public class PreferencesVmTests
         staticService = A.Fake<IStaticService>();
         catPrefService = A.Fake<ICatagPreferencesService>();
         cupService = A.Fake<IUserPreferenceService>();
-        vm = new(staticService, A.Fake<IGlobalService>(), catPrefService, cupService);
+        vm = new(staticService, A.Fake<IGlobalService>(),
+            A.Fake<IGenericFactory<FamilyPopupViewModel>>(), catPrefService, cupService);
     }
 
     [Fact]
