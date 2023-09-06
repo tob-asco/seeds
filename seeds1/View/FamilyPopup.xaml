@@ -17,8 +17,7 @@
             Grid.Row="0"
             Padding="5"
             HorizontalOptions="Center">
-            <!--<Label Text="{Binding Family.Name, StringFormat='{}{0}: '}" />-->
-            <Entry WidthRequest="300" Placeholder="{Binding Family.Name, StringFormat='Search for a {}{0}'}" />
+            <Entry Placeholder="{Binding Family.Name, StringFormat='Search for a {}{0}'}" WidthRequest="300" />
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
             <FlexLayout
@@ -31,9 +30,8 @@
                         <Button
                             Margin="1,2"
                             HeightRequest="45"
-                            Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}"
-                            Style="{StaticResource buttonMediumStyle}">
-                        </Button>
+                            Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=Family.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
+                            Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
