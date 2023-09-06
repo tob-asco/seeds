@@ -76,22 +76,22 @@ public class DataSeeder
     }
     public void PopulateFams()
     {
-        Fams.Add(new() { CategoryKey = "SPO", Name = "moves" });
-        Fams.Add(new() { CategoryKey = "SPO", Name = "gear" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "language" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "short" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "poetry" });
-        Fams.Add(new() { CategoryKey = "MUS", Name = "local" });
-        Fams.Add(new() { CategoryKey = "MUS", Name = "mood" });
-        Fams.Add(new() { CategoryKey = "ART", Name = "movement" });
-        Fams.Add(new() { CategoryKey = "GOV", Name = "for city" });
-        Fams.Add(new() { CategoryKey = "GOV", Name = "for country" });
-        Fams.Add(new() { CategoryKey = "HEAL", Name = "region" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "operating system" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "online meeting" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "social medium" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "streaming provider" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "music app" });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "moves", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "gear", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "language", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "short", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "poetry", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "local", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "mood", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "ART", Name = "movement", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for city", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for country", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "HEAL", Name = "region", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "operating system", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "online meeting", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "social medium", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "streaming provider", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "music app", ProbablePreference = -1 });
     }
     public void PopulateTags()
     {

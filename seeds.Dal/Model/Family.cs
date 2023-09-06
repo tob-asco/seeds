@@ -16,6 +16,8 @@ public class Family
     public string Name { get; set; } = "family";
     [Column("category_key")]
     public string CategoryKey { get; set; } = "Noc";
+    [Column("probable_preference")]
+    public int ProbablePreference { get; set; }
 
     #region Navigation
     public List<Tag> Tags { get; set; } = new();

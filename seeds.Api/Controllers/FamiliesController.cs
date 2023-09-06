@@ -39,6 +39,7 @@ namespace seeds.Api.Controllers
                     Name = f.Name,
                     CategoryKey = f.CategoryKey,
                     Tags = f.Tags,
+                    ProbablePreference = f.ProbablePreference,
                 })
                 .ToListAsync();
 
