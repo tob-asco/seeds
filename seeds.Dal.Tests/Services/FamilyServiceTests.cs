@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 
@@ -19,12 +20,12 @@ public class FamilyServiceTests
     {
         // Arrange
         string key = "ABC", name = "ABeCe";
-        List<Family> fams = new()
+        List<FamilyFromDb> fams = new()
         {
            new() { CategoryKey = key, Name = "abceee" },
             new() { CategoryKey = "BLA", Name = name },
         };
-        A.CallTo(() => baseService.GetDalModelAsync<List<Family>>(A<string>.Ignored))
+        A.CallTo(() => baseService.GetDalModelAsync<List<FamilyFromDb>>(A<string>.Ignored))
             .Returns(fams);
 
         // Act
@@ -40,8 +41,8 @@ public class FamilyServiceTests
     public async Task FamilyService_GetFamiliesAsync_IfBaseReturnsNullThrows()
     {
         // Arrange
-        A.CallTo(() => baseService.GetDalModelAsync<List<Family>>(A<string>.Ignored))
-            .Returns<List<Family>?>(null);
+        A.CallTo(() => baseService.GetDalModelAsync<List<FamilyFromDb>>(A<string>.Ignored))
+            .Returns<List<FamilyFromDb>?>(null);
 
         // Act
         Func<Task> act = async () => await service.GetFamiliesAsync();

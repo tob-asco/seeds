@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers
@@ -10,10 +12,14 @@ namespace seeds.Api.Controllers
     public class FamiliesController : ControllerBase
     {
         private readonly seedsApiContext context;
+        private readonly IMapper mapper;
 
-        public FamiliesController(seedsApiContext context)
+        public FamiliesController(
+            seedsApiContext context,
+            IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Families
@@ -24,7 +30,7 @@ namespace seeds.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Family>>> GetFamilies()
+        public async Task<ActionResult<IEnumerable<FamilyFromDb>>> GetFamilies()
         {
             if (context.Family == null) { return NotFound(); }
 
@@ -45,7 +51,8 @@ namespace seeds.Api.Controllers
 
             if(fams == null || fams.Count == 0) { return NotFound(); }
 
-            return fams;
+            var famsDto = mapper.Map<List<FamilyFromDb>>(fams);
+            return famsDto;
         }
 
         private bool FamilyExists(Guid id)
