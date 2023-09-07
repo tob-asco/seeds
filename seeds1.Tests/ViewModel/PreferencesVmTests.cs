@@ -8,19 +8,20 @@ namespace seeds1.Tests.ViewModel;
 
 public class PreferencesVmTests
 {
-    private readonly IStaticService staticService;
-    private readonly ICatagPreferencesService catPrefService;
+    private readonly IStaticService stat;
+    private readonly IGlobalService glob;
+    private readonly ICatagPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
-        staticService = A.Fake<IStaticService>();
-        catPrefService = A.Fake<ICatagPreferencesService>();
+        stat = A.Fake<IStaticService>();
+        glob = A.Fake<IGlobalService>();
+        prefService = A.Fake<ICatagPreferencesService>();
         cupService = A.Fake<IUserPreferenceService>();
-        vm = new(staticService, A.Fake<IGlobalService>(),
-            A.Fake<IGenericFactory<FamilyPopupViewModel>>(), A.Fake<PopupSizeConstants>(),
-            catPrefService, cupService);
+        vm = new(stat, glob, A.Fake<IGenericFactory<FamilyPopupViewModel>>(),
+            new PopupSizeConstants(A.Fake<IDeviceDisplay>()), prefService, cupService);
     }
 
     [Fact]
@@ -33,11 +34,8 @@ public class PreferencesVmTests
             new() { Preference = new() { Tag = new(){CategoryKey = "Cat0" }, Preference = pref0 } },
             new() { Preference = new() { Tag = new(){CategoryKey = "Cat1" }, Preference = pref1 } },
         }};
-        A.CallTo(() => catPrefService.StepPreference(A<int>.Ignored))
+        A.CallTo(() => prefService.StepPreference(A<int>.Ignored))
             .Returns(14);
-        //A.CallTo(() => cupService.PutUserPreferenceAsync(
-        //    A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
-        //    .Returns(true);
         #endregion
 
         // Act
