@@ -2,6 +2,7 @@
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
+using System.Collections.ObjectModel;
 
 namespace seeds1.Interfaces;
 
@@ -11,7 +12,7 @@ public interface IGlobalService : IDisposable
     /// <summary>
     /// A convenient list of all FamilyOrPreferences for when to display all tags.
     /// </summary>
-    public List<FamilyOrPreference> FamilyOrPreferences { get; set; }
+    public List<ObservableCollection<FamilyOrPreference>> FopListList { get; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().

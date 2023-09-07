@@ -63,10 +63,10 @@ public class GlobalServiceTests
         await service.LoadPreferencesAsync();
 
         // Assert
-        service.FamilyOrPreferences.Should().HaveCount(tags.Count);
+        service.FopList.Should().HaveCount(tags.Count);
         foreach (var tag in tags)
         {
-            service.FamilyOrPreferences.Should().Contain(t =>
+            service.FopList.Should().Contain(t =>
                 t.Preference.Tag.Id == tag.Id);
         }
     }
@@ -90,10 +90,10 @@ public class GlobalServiceTests
         await service.LoadPreferencesAsync();
 
         // Assert
-        service.FamilyOrPreferences.Should().HaveCount(fams.Count);
+        service.FopList.Should().HaveCount(fams.Count);
         foreach (var fam in fams)
         {
-            service.FamilyOrPreferences.Should().Contain(t =>
+            service.FopList.Should().Contain(t =>
                 t.Family.Id == fam.Value.Id);
         }
     }
@@ -119,7 +119,7 @@ public class GlobalServiceTests
 
         // Assert
         service.GetPreferences().Values.Should().NotContain(up => up.Username == s);
-        service.FamilyOrPreferences.Should().NotContain(fop =>
+        service.FopList.Should().NotContain(fop =>
             fop.Preference.Tag.Name == s);
     }
 }
