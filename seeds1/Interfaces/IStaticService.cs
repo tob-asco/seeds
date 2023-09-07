@@ -19,7 +19,7 @@ public interface IStaticService
     /// Loads Families, to be retrieved by GetFamilies().
     /// </summary>
     public Task LoadFamiliesAsync();
-    public Dictionary<Guid, Family> GetFamilies();
+    public Dictionary<Guid, FamilyFromDb> GetFamilies();
     /// <summary>
     /// Loads Tags, to be retrieved by GetTags().
     /// </summary>

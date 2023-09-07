@@ -74,7 +74,7 @@ public class GlobalServiceTests
     public async Task GlobalService_LoadPreferencesAsync_PopulatesFOPsWithFams()
     {
         // Arrange
-        Dictionary<Guid, Family> fams = new()
+        Dictionary<Guid, FamilyFromDb> fams = new()
         {
             {Guid.NewGuid(), new() { Name = "wir" } },
             {Guid.NewGuid(), new() { Name = "ihr" } },
