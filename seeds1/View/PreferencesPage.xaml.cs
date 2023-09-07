@@ -16,18 +16,11 @@ public partial class PreferencesPage : ContentPage
         this.vmFactory = vmFactory;
     }
 
-    protected async override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
-        // Always re-create the VM.
+        // Always re-create the VM. Why?
         vm = vmFactory.Create();
         BindingContext = vm;
-        await vm.PopulateListListAsync();
     }
-    //private async void FamilyPopUp_Click(object sender, EventArgs e)
-    //{
-    //    var popup = new FamilyPopup();
-
-    //    await this.ShowPopupAsync(popup);
-    //}
 }

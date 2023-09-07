@@ -8,13 +8,16 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Views;
 using seeds1.Factories;
 using seeds1.Helpers;
+using seeds.Dal.Dto.FromDb;
+using CommunityToolkit.Maui.Alerts;
+using System.ComponentModel;
 
 namespace seeds1.ViewModel;
 
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly IGlobalService glob;
+    public readonly IGlobalService glob;
     private readonly IGenericFactory<FamilyPopupViewModel> popupVmFactory;
     private readonly PopupSizeConstants popupSize;
     private readonly ICatagPreferencesService prefService;
@@ -34,28 +37,24 @@ public partial class PreferencesViewModel : MyBaseViewModel
         this.popupSize = popupSize;
         this.prefService = catPrefService;
         this.cupService = cupService;
+
+        fopListList = glob.FopListList;
     }
 
-    [ObservableProperty]
-    ObservableRangeCollection<ObservableRangeCollection<FamilyOrPreference>>
-        fopGroups = new();
-
-    [RelayCommand]
-    public async Task PopulateListListAsync()
+    private List<ObservableCollection<FamilyOrPreference>> fopListList = new();
+    public List<ObservableCollection<FamilyOrPreference>> FopListList
     {
-        /* Called also in OnNavigatedTo()
-         */
-        try
+        get { return glob.FopListList; }
+        set
         {
-            var groups = glob.FamilyOrPreferences.GroupBy(fop => fop.CategoryKey);
-            FopGroups.AddRange(groups
-                .Select(group => new ObservableRangeCollection<FamilyOrPreference>(group)));
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+            if (fopListList != value)
+            {
+                fopListList = value;
+                OnPropertyChanged(nameof(FopListList));
+            }
         }
     }
+
     [RelayCommand]
     public async Task ChangeTagPreference(CatagPreference pref)
     {
@@ -64,23 +63,29 @@ public partial class PreferencesViewModel : MyBaseViewModel
             pref.Tag.Id, prefService.StepPreference(pref.Preference));
 
         // update View
-        pref.Preference = prefService.StepPreference(
-            pref.Preference);
+        //pref.Preference = prefService.StepPreference(
+        //    pref.Preference);
     }
     [RelayCommand]
-    public async Task PopupFamily(Family fam)
+    public async Task PopupFamily(FamilyFromDb fam)
     {
         // find the page to display the popup on
-        Page page = Application.Current?.MainPage ?? throw new NullReferenceException();
+        Page page = Microsoft.Maui.Controls.Application.Current?.MainPage
+            ?? throw new NullReferenceException();
 
         // create a ViewModel for the popup
         FamilyPopupViewModel popupVm = popupVmFactory.Create();
         popupVm.Family = fam;
 
         // display and read result
-        await page.ShowPopupAsync(new FamilyPopup(popupVm)
+        TagFromDb chosenTag = await page.ShowPopupAsync(new FamilyPopup(popupVm)
+        { Size = popupSize.Large }) as TagFromDb;
+
+        // 
+        if (chosenTag != null && chosenTag.CategoryKey == fam.CategoryKey)
         {
-            Size = popupSize.Large
-        });
+            // update DB and FopListList
+            await glob.GlobChangePreferenceAsync(chosenTag.Id, 1);
+        }
     }
 }

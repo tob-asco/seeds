@@ -6,6 +6,7 @@
     xmlns:converter="clr-namespace:seeds1.Converter"
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
+    xmlns:model="clr-namespace:seeds.Dal.Model;assembly=seeds.Dal"
     xmlns:modelFromDb="clr-namespace:seeds.Dal.Dto.FromDb;assembly=seeds.Dal"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="root"
@@ -30,6 +31,9 @@
                         <Button
                             Margin="1,2"
                             HeightRequest="45"
+                            Clicked="Tag_Clicked"
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTagCommand}"
+                            CommandParameter="{Binding .}"
                             Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=Family.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
                             Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}" />
                     </DataTemplate>

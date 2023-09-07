@@ -14,4 +14,9 @@ public partial class FamilyPopup : Popup
         BindingContext = vm;
         this.vm = vm;
     }
+
+    private async void Tag_Clicked(object sender, EventArgs e)
+    {
+        await this.CloseAsync(vm.ChosenTag);
+    }
 }
