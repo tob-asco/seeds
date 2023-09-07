@@ -23,7 +23,8 @@ public interface IGlobalService : IDisposable
     /// Change the preference in the globalService member and the DB.
     /// This Method catches any earlier exception.
     /// </summary>
-    public Task GlobChangePreferenceAsync(Guid itemId, int newValue);
+    /// <returns>true if the itemId belongs to a Tag that has already been buttoned</returns>
+    public Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue);
 
     /// <summary>
     /// Loads UserIdeaInteractions of the CurrentUser, to be retrieved by GetIdeaInteractions().

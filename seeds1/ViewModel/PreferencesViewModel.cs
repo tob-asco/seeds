@@ -11,6 +11,7 @@ using seeds1.Helpers;
 using seeds.Dal.Dto.FromDb;
 using CommunityToolkit.Maui.Alerts;
 using System.ComponentModel;
+using CommunityToolkit.Maui.Core;
 
 namespace seeds1.ViewModel;
 
@@ -85,7 +86,10 @@ public partial class PreferencesViewModel : MyBaseViewModel
         if (chosenTag != null && chosenTag.CategoryKey == fam.CategoryKey)
         {
             // update DB and FopListList
-            await glob.GlobChangePreferenceAsync(chosenTag.Id, 1);
+            if (await glob.GlobChangePreferenceAsync(chosenTag.Id, 1))
+            {
+                Toast.Make("It's already in your list.");
+            }
         }
     }
 }

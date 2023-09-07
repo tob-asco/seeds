@@ -85,8 +85,9 @@ public class GlobalService : IGlobalService{
         }
         else { return CurrentUserPreferences; }
     }
-    public async Task GlobChangePreferenceAsync(Guid itemId, int newValue)
+    public async Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue)
     {
+        bool tagAlreadyButtoned = false;
         try
         {
             // update DB
@@ -101,6 +102,7 @@ public class GlobalService : IGlobalService{
                     fop.IsFamily == false &&
                     fop.Preference.Tag.Id == itemId) == null) // .. and not yet in FOPs
                 {
+                    tagAlreadyButtoned = false;
                     FamilyOrPreference newFop = new()
                     {
                         CategoryKey = stat.GetTags()[itemId].CategoryKey,
@@ -112,6 +114,7 @@ public class GlobalService : IGlobalService{
                 }
                 else // Tag's already buttoned
                 {
+                    tagAlreadyButtoned = true;
                     FopListDict[stat.GetTags()[itemId].CategoryKey].First(fop =>
                         !fop.IsFamily && fop.Preference.Tag.Id == itemId).Preference.Preference = newValue;
                 }
@@ -130,9 +133,10 @@ public class GlobalService : IGlobalService{
                     Value = newValue,
                 });
             }
+            return tagAlreadyButtoned;
         }
         catch (Exception ex)
-        { await Shell.Current.DisplayAlert("Error", ex.Message, "Ok"); }
+        { await Shell.Current.DisplayAlert("Error", ex.Message, "Ok"); return false; }
     }
 
     public async Task LoadIdeaInteractionsAsync()

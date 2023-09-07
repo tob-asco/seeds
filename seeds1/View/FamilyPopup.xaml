@@ -30,10 +30,10 @@
                     <DataTemplate x:DataType="modelFromDb:TagFromDb">
                         <Button
                             Margin="1,2"
-                            HeightRequest="45"
                             Clicked="Tag_Clicked"
                             Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTagCommand}"
                             CommandParameter="{Binding .}"
+                            HeightRequest="45"
                             Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=Family.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
                             Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}" />
                     </DataTemplate>
