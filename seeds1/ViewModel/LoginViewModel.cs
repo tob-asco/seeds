@@ -48,7 +48,7 @@ public partial class LoginViewModel : MyBaseViewModel
         {
             user = await usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         }
-        catch (Exception ex)
+        catch
         {
             LoginResponse("Server error. Please try again.");
             return;
