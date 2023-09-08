@@ -71,25 +71,27 @@ public class DataSeeder
         Cats.Add(new Category { Key = "SCI", Name = "Science" });
         Cats.Add(new Category { Key = "???", Name = "Idea Needed" });
         Cats.Add(new Category { Key = "SEEDS", Name = "Internal" });
+
+        Cats = Cats.OrderBy(c => c.Name).ToList();
     }
     public void PopulateFams()
     {
-        Fams.Add(new() { CategoryKey = "SPO", Name = "moves" });
-        Fams.Add(new() { CategoryKey = "SPO", Name = "gear" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "language" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "short" });
-        Fams.Add(new() { CategoryKey = "LIT", Name = "poetry" });
-        Fams.Add(new() { CategoryKey = "MUS", Name = "local" });
-        Fams.Add(new() { CategoryKey = "MUS", Name = "mood" });
-        Fams.Add(new() { CategoryKey = "ART", Name = "movement" });
-        Fams.Add(new() { CategoryKey = "GOV", Name = "for city" });
-        Fams.Add(new() { CategoryKey = "GOV", Name = "for country" });
-        Fams.Add(new() { CategoryKey = "HEAL", Name = "region" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "operating system" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "online meeting" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "social medium" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "streaming provider" });
-        Fams.Add(new() { CategoryKey = "FEA", Name = "music app" });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "moves", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "SPO", Name = "gear", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "language", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "short", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "LIT", Name = "poetry", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "local", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "MUS", Name = "mood", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "ART", Name = "movement", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for city", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "GOV", Name = "for country", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "HEAL", Name = "region", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "operating system", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "online meeting", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "social medium", ProbablePreference = 0 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "streaming provider", ProbablePreference = -1 });
+        Fams.Add(new() { CategoryKey = "FEA", Name = "music app", ProbablePreference = -1 });
     }
     public void PopulateTags()
     {
@@ -99,14 +101,14 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "FEA",
-                Name = $"music app| {musicApp}",
+                Name = $"music app: {musicApp}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("music app")).Id
             });
         foreach (string streamingProvider in new List<string>() { })
             Tags.Add(new Tag
             {
                 CategoryKey = "FEA",
-                Name = $"streaming provider| {streamingProvider}",
+                Name = $"streaming provider: {streamingProvider}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("streaming provider")).Id
 
             });
@@ -114,7 +116,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "FEA",
-                Name = $"social media| {socialMedium}",
+                Name = $"social media: {socialMedium}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("social medium")).Id
 
             });
@@ -122,14 +124,14 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "FEA",
-                Name = $"online meeting| {onlineMeetingApp}",
+                Name = $"online meeting: {onlineMeetingApp}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("online meeting")).Id
             });
         foreach (string os in new List<string>() { "Windows", "macOS", "Linux", "Chrome OS", "iOS", "Android", "Unix" })
             Tags.Add(new Tag
             {
                 CategoryKey = "FEA",
-                Name = $"operating system| {os}",
+                Name = $"operating system: {os}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("operating system")).Id
             });
         Tags.Add(new Tag { CategoryKey = "FEA", Name = "games" });
@@ -208,7 +210,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "HEAL",
-                Name = $"region| {region}",
+                Name = $"region: {region}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("region")).Id
             });
         }
@@ -222,7 +224,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "GOV",
-                Name = $"for country| {country}",
+                Name = $"for country: {country}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("for country")).Id
             });
         } //(195 countries on Earth)
@@ -231,7 +233,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "GOV",
-                Name = $"for city| {city}",
+                Name = $"for city: {city}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("for city")).Id
             });
         } //(approx. 10 000 cities on Earth)
@@ -261,7 +263,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "ART",
-                Name = $"movement| {movement}",
+                Name = $"movement: {movement}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("movement")).Id
             });
         }
@@ -271,7 +273,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "MUS",
-                Name = $"mood| {mood}",
+                Name = $"mood: {mood}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("mood")).Id
             });
         }
@@ -280,7 +282,7 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "MUS",
-                Name = $"local| {country}",
+                Name = $"local: {country}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("local")).Id
             });
         }
@@ -295,19 +297,19 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "LIT",
-                Name = $"poetry| {lang}",
+                Name = $"poetry: {lang}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("poetry")).Id
             });
             Tags.Add(new Tag
             {
                 CategoryKey = "LIT",
-                Name = $"short| {lang}",
+                Name = $"short: {lang}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("short")).Id
             });
             Tags.Add(new Tag
             {
                 CategoryKey = "LIT",
-                Name = $"language| {lang}",
+                Name = $"language: {lang}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("language")).Id
             });
         }
@@ -325,13 +327,13 @@ public class DataSeeder
             Tags.Add(new Tag
             {
                 CategoryKey = "SPO",
-                Name = $"gear| {majorSport}",
+                Name = $"gear: {majorSport}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("gear")).Id
             });
             Tags.Add(new Tag
             {
                 CategoryKey = "SPO",
-                Name = $"moves| {majorSport}",
+                Name = $"moves: {majorSport}",
                 FamilyId = context.Family.Local.First(f => f.Name.StartsWith("moves")).Id
             });
         }

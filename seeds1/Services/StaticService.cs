@@ -15,7 +15,7 @@ public class StaticService : IStaticService
     private readonly ITagService tagService;
 
     private Dictionary<string, CategoryDto> Categories { get; set; }
-    private Dictionary<Guid, Family> Families { get; set; }
+    private Dictionary<Guid, FamilyFromDb> Families { get; set; }
     private Dictionary<Guid, TagFromDb> Tags { get; set; }
     private bool CatsLoaded { get; set; } = false;
     private bool FamsLoaded { get; set; } = false;
@@ -37,7 +37,7 @@ public class StaticService : IStaticService
         else { return Categories; }
     }
 
-    public Dictionary<Guid, Family> GetFamilies()
+    public Dictionary<Guid, FamilyFromDb> GetFamilies()
     {
         if (!FamsLoaded)
         { throw new InvalidOperationException("Families not yet loaded."); }

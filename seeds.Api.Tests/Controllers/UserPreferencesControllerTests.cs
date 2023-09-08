@@ -13,16 +13,16 @@ namespace seeds.Api.Tests.Controllers;
 public class UserPreferencesControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
-    public Family Fam { get; set; } = new();
-    readonly int tagsIndexWithFamilyAndCup = 4;
+    public Family FamProbPrefMinus1 { get; set; } = new() { ProbablePreference = -1 };
+    readonly int tagsIndexWithFamAndNonProbableCup = 4;
     public List<Tag> Tags { get; set; } = new();
     public Category Category { get; set; } = new();
     public List<UserPreference> Cups { get; set; } = new();
-    readonly int tagsIndexWithFamilyButNoCup = 10;
+    readonly int tagsIndexWithFamilyButProbableCup = 10;
     private readonly IMapper mapper;
 
     public UserPreferencesControllerTests()
-        :base(baseUri: "api/UserPreferences/")
+        : base(baseUri: "api/UserPreferences/")
     {
         var config = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>());
         mapper = config.CreateMapper();
@@ -33,16 +33,16 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
-        if (!context.Family.Any()) { context.Family.Add(Fam); }
+        if (!context.Family.Any()) { context.Family.Add(FamProbPrefMinus1); }
         if (!context.Category.Any()) { context.Category.Add(Category); }
-        for (int i = 0; i <= tagsIndexWithFamilyButNoCup; i++)
+        for (int i = 0; i <= tagsIndexWithFamilyButProbableCup; i++)
         {
             Tags.Add(new()
             {
                 CategoryKey = Category.Key,
                 Name = $"tag !{i}",
-                FamilyId = (i == tagsIndexWithFamilyAndCup ||
-                    i == tagsIndexWithFamilyButNoCup) ? Fam.Id : null
+                FamilyId = (i == tagsIndexWithFamAndNonProbableCup ||
+                    i == tagsIndexWithFamilyButProbableCup) ? FamProbPrefMinus1.Id : null
             });
             Users.Add(new()
             {
@@ -56,6 +56,16 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         context.SaveChanges();
         foreach (var user in Users)
         {
+            // last tag gets probable CUP
+            var probTag = Tags[tagsIndexWithFamilyButProbableCup];
+            Cups.Add(new()
+            {
+                ItemId = context.Tag.FirstOrDefault(t =>
+                    t.CategoryKey == probTag.CategoryKey &&
+                    t.Name == probTag.Name)!.Id,
+                Username = user.Username,
+                Value = FamProbPrefMinus1.ProbablePreference,
+            });
             // last tag has no CUP
             foreach (var tag in Tags.Take(Tags.Count - 1))
             {
@@ -65,7 +75,8 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
                         t.CategoryKey == tag.CategoryKey &&
                         t.Name == tag.Name)!.Id,
                     Username = user.Username,
-                    Value = 1,
+                    Value = FamProbPrefMinus1.ProbablePreference == -1 ?
+                        1 : -1
                 });
             }
         }
@@ -122,14 +133,14 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
-        foreach(var tag in mapper.Map<List<TagFromDb>>(context.Tag
+        foreach (var tag in mapper.Map<List<TagFromDb>>(context.Tag
             .Where(t => t.FamilyId == null))!)
         {
             result.Should().ContainEquivalentOf(tag);
         }
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_ReturnsNoTagWithFamilyAndNoCup()
+    public async Task CupController_GetButtonedTagsEndpoint_ReturnsNoTagWithFamilyButProbableCup()
     {
         //Arrange
         string username = Users[0].Username;
@@ -142,11 +153,12 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
+        result.Should().NotContain(t => t.Id == Tags[tagsIndexWithFamilyButProbableCup].Id);
         result.Should().NotContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyButNoCup]));
+            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyButProbableCup]));
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagWithFamilyAndCup()
+    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagWithFamilyAndUnprobableCup()
     {
         //Arrange
         string username = Users[0].Username;
@@ -159,8 +171,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
-        result.Should().ContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+        result.Should().Contain(t => t.Id == Tags[tagsIndexWithFamAndNonProbableCup].Id);
     }
     [Fact]
     public async Task CupController_GetButtonedTagsEndpoint_IfNoUserReturnsNoTagWithFamilyAndCup()
@@ -176,7 +187,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
         result.Should().NotBeNull();
         result.Should().NotContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamAndNonProbableCup]));
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPostReturnsSuccessAndUpdatesDb()
@@ -185,8 +196,8 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         UserPreference cup = new()
         {
             ItemId = context.Tag.First(t =>
-                t.CategoryKey == Tags[tagsIndexWithFamilyButNoCup].CategoryKey &&
-                t.Name == Tags[tagsIndexWithFamilyButNoCup].Name).Id,
+                t.CategoryKey == Tags[tagsIndexWithFamilyButProbableCup].CategoryKey &&
+                t.Name == Tags[tagsIndexWithFamilyButProbableCup].Name).Id,
             Username = Users[0].Username,
             Value = 1
         };

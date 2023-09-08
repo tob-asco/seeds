@@ -2,16 +2,17 @@
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
+using System.Collections.ObjectModel;
 
 namespace seeds1.Interfaces;
 
-public interface IGlobalService
+public interface IGlobalService : IDisposable
 {
     public UserDto CurrentUser { get; set; }
     /// <summary>
     /// A convenient list of all FamilyOrPreferences for when to display all tags.
     /// </summary>
-    public List<FamilyOrPreference> FamilyOrPreferences { get; set; }
+    public List<ObservableCollection<FamilyOrPreference>> FopListList { get; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().
@@ -22,7 +23,8 @@ public interface IGlobalService
     /// Change the preference in the globalService member and the DB.
     /// This Method catches any earlier exception.
     /// </summary>
-    public Task GlobChangePreferenceAsync(Guid itemId, int newValue);
+    /// <returns>true if the itemId belongs to a Tag that has already been buttoned</returns>
+    public Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue);
 
     /// <summary>
     /// Loads UserIdeaInteractions of the CurrentUser, to be retrieved by GetIdeaInteractions().

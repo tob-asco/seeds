@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Interfaces;
+﻿using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 
 namespace seeds.Dal.Services;
@@ -14,10 +15,10 @@ public class FamilyService : IFamilyService
         baseUri = "api/Families/";
         this.baseService = baseService;
     }
-    public async Task<List<Family>> GetFamiliesAsync()
+    public async Task<List<FamilyFromDb>> GetFamiliesAsync()
     {
         string url = baseUri;
-        return await baseService.GetDalModelAsync<List<Family>?>(url)
+        return await baseService.GetDalModelAsync<List<FamilyFromDb>?>(url)
             ?? throw baseService.ThrowGetNullException(url);
     }
 }

@@ -4,19 +4,19 @@ namespace seeds1;
 
 public partial class AppShell : Shell
 {
-    private readonly IGlobalService globalService;
+    private readonly IGlobalService glob;
 
-    public AppShell(IGlobalService globalService)
+    public AppShell(IGlobalService glob)
 	{
 		InitializeComponent();
 
         // Here we register routes that aren't visible in the flyout
         Routing.RegisterRoute(nameof(DetailPage), typeof(DetailPage));
-        this.globalService = globalService;
+        this.glob = glob;
     }
     private async void LogoutButton_Click(object sender, EventArgs e)
     {
-        globalService.CurrentUser = null!;
+        glob.Dispose();
         await Shell.Current.GoToAsync("///LoginPage", false);
     }
 }

@@ -10,12 +10,6 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
     private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
 
-    public Dictionary<string, CategoryDto> CategoriesDict
-    { get => staticService.GetCategories(); }
-    public Dictionary<Guid, Family> FamiliesDict
-    { get => staticService.GetFamilies(); }
-    public Dictionary<Guid, TagFromDb> TagsDict
-    { get => staticService.GetTags(); }
     public UserDto CurrentUser
     {
         get => globalService.CurrentUser;

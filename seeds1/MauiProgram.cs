@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Factories;
+using seeds1.Helpers;
 using seeds1.Interfaces;
 using seeds1.Services;
 
@@ -31,6 +33,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();
+        builder.Services.AddSingleton<IGenericFactory<FamilyPopupViewModel>, FamilyPopupViewModelFactory>();
         builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<ICatagPreferencesService, CatagPreferencesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
@@ -58,10 +61,14 @@ public static class MauiProgram
         builder.Services.AddTransient<DetailPage>();
         builder.Services.AddTransient<AddPage>();
 
+        builder.Services.AddSingleton<IDeviceDisplay>(DeviceDisplay.Current);
+        builder.Services.AddSingleton<PopupSizeConstants>();
 
         /******************* auto-generated ********************/
         builder
-			.UseMauiApp<App>()
+            .UseMauiApp<App>()
+			// Initialize the .NET MAUI Community Toolkit by adding the below line of code
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
