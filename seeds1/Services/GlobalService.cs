@@ -44,6 +44,9 @@ public class GlobalService : IGlobalService{
             var userButtonedTagsList = await userPrefService
                 .GetButtonedTagsOfUserAsync(CurrentUser.Username);
 
+            // convert
+            CurrentUserPreferences = userPreferencesList.ToDictionary(up => up.ItemId);
+
             #region populate FOPs
             // first the families
             List<FamilyOrPreference> fopList = stat.GetFamilies().Values.Select(f =>
@@ -74,8 +77,7 @@ public class GlobalService : IGlobalService{
                     group => new ObservableCollection<FamilyOrPreference>(group));
             #endregion
 
-            // convert and inform
-            CurrentUserPreferences = userPreferencesList.ToDictionary(up => up.ItemId);
+            // inform
             PreferencesLoaded = true;
         }
     }

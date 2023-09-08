@@ -72,6 +72,31 @@ public class GlobalServiceTests
         }
     }
     [Fact]
+    public async Task GlobalService_LoadPreferencesAsync_PopulatedTagsHaveCorrectPreference()
+    {
+        // Arrange
+        Guid tagId = Guid.NewGuid();
+        int val = 1;
+        List<TagFromDb> tags = new() { new(){Id = tagId, Name = "du"}, };
+        List<UserPreference> ups = new() { new() { ItemId = tagId, Value = val } };
+        A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
+            .Returns<List<UserPreference>>(ups);
+        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TagFromDb>>(tags);
+
+        // Act
+        await service.LoadPreferencesAsync();
+
+        // Assert
+        var fopList = service.FopListList.SelectMany(l => l).ToList();
+        fopList.Should().HaveCount(tags.Count);
+        foreach (var tag in tags)
+        {
+            fopList.Should().Contain(t =>
+                t.Preference.Tag.Id == tagId && t.Preference.Preference == val);
+        }
+    }
+    [Fact]
     public async Task GlobalService_LoadPreferencesAsync_PopulatesFOPsWithFams()
     {
         // Arrange
