@@ -45,31 +45,33 @@ namespace seeds.Api.Controllers
         /// these tags will get their own button.
         /// </summary>
         /// <param name="username">CurrentUser.Username</param>
-        /// <returns>A (by CategoryKey ordered) list of all tags that either have no family
-        /// or that have a family and a CurrentUser's preference (!= 0)</returns>
+        /// <returns>A (by CategoryKey ordered) list of tags w/o family and
+        /// w/ both family and non-probable CurrentUser's preference</returns>
         [HttpGet("buttonedTags")]
         public async Task<ActionResult<List<TagFromDb>>> GetButtonedTags(
             string username = "")
         {
             username = HttpUtility.UrlDecode(username);
+
+            // get tags w/o family, i.e. orphans
             var orphans = _context.Tag
                 .Where(t => t.FamilyId == null)
                 .OrderBy(t => t.CategoryKey);
             if (orphans == null || !await orphans.AnyAsync())
             { return NotFound("The tags with no family."); }
-
             var orphansDto = mapper.Map<List<TagFromDb>>(
                 await orphans.ToListAsync());
 
             if (username == "") { return orphansDto; }
 
-            // get tags that have family and preference (also orphans)
+            // get tags w/ family && non-probable preference
             var tagsWithFamilyAndUserPreference = await _context.Tag
-                .Where(tag => tag.FamilyId != null)
-                .Where(tag => _context.UserPreference.Any(
-                    up => up.ItemId == tag.Id
-                       && up.Value != 0
-                       && up.Username == username))
+                .Where(tag =>
+                    tag.FamilyId != null &&
+                    _context.UserPreference.Any(
+                        up => up.ItemId == tag.Id
+                           && up.Value != tag.Family!.ProbablePreference // seems to work w/o explicit loading acc. to tests, I don't really know why
+                           && up.Username == username))
                 .OrderBy(tag => tag.CategoryKey)
                 .ToListAsync();
             if(tagsWithFamilyAndUserPreference == null)
