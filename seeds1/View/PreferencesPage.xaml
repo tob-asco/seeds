@@ -71,8 +71,7 @@
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}">
                                     <Binding Path="[0].CategoryKey" />
                                     <Binding Source=" - " />
-                                    <Binding Source="CategoryName" />
-                                    <!--<Binding Path="[0].CategoryName" />-->
+                                    <Binding Path="[0].CategoryName" />
                                 </MultiBinding>
                             </Label.Text>
                         </Label>

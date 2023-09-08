@@ -53,6 +53,7 @@ public class GlobalService : IGlobalService{
                 new FamilyOrPreference()
                 {
                     CategoryKey = f.CategoryKey,
+                    CategoryName = stat.GetCategories()[f.CategoryKey].Name,
                     IsFamily = true,
                     Family = f,
                 }).ToList();
@@ -61,6 +62,7 @@ public class GlobalService : IGlobalService{
                 userButtonedTagsList.Select(t => new FamilyOrPreference()
                 {
                     CategoryKey = t.CategoryKey,
+                    CategoryName = stat.GetCategories()[t.CategoryKey].Name,
                     IsFamily = false,
                     Preference = new()
                     {

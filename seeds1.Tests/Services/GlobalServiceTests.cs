@@ -1,5 +1,6 @@
 ﻿using Microsoft.Maui.Platform;
 using seeds.Dal.Dto.FromDb;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
@@ -59,6 +60,8 @@ public class GlobalServiceTests
             .Returns<List<UserPreference>>(new());
         A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
             .Returns<List<TagFromDb>>(tags);
+        A.CallTo(() => stat.GetCategories())
+            .Returns(new Dictionary<string, CategoryDto> { { "NoC", new() } });
 
         // Act
         await service.LoadPreferencesAsync();
@@ -77,12 +80,14 @@ public class GlobalServiceTests
         // Arrange
         Guid tagId = Guid.NewGuid();
         int val = 1;
-        List<TagFromDb> tags = new() { new(){Id = tagId, Name = "du"}, };
+        List<TagFromDb> tags = new() { new() { Id = tagId, Name = "du" }, };
         List<UserPreference> ups = new() { new() { ItemId = tagId, Value = val } };
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(ups);
         A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
             .Returns<List<TagFromDb>>(tags);
+        A.CallTo(() => stat.GetCategories())
+            .Returns(new Dictionary<string, CategoryDto> { { "NoC", new() } });
 
         // Act
         await service.LoadPreferencesAsync();
@@ -111,6 +116,8 @@ public class GlobalServiceTests
             .Returns<List<TagFromDb>>(new());
         A.CallTo(() => stat.GetFamilies())
             .Returns(fams);
+        A.CallTo(() => stat.GetCategories())
+            .Returns(new Dictionary<string, CategoryDto> { { "NoC", new() } });
 
         // Act
         await service.LoadPreferencesAsync();
@@ -228,12 +235,14 @@ public class GlobalServiceTests
             }}
         });
         // add a preference for this tag
-        service.FopListDict[key].Add(new() {
+        service.FopListDict[key].Add(new()
+        {
             CategoryKey = key,
             IsFamily = false,
-            Preference = new CatagPreference(){
-                Tag=tags[tagId],
-                Preference=pref
+            Preference = new CatagPreference()
+            {
+                Tag = tags[tagId],
+                Preference = pref
             }
         });
         A.CallTo(() => stat.GetTags()).Returns(tags);

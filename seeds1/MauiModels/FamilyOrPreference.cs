@@ -13,6 +13,11 @@ public class FamilyOrPreference
     /// </summary>
     public string CategoryKey { get; set; } = "NoC";
     /// <summary>
+    /// Included because the View needs it.
+    /// This should always be set using stat.GetCategories()[this.CategoryKey] for consistency.
+    /// </summary>
+    public string CategoryName { get; set; } = "No Category";
+    /// <summary>
     /// IsFamily is telling the DataTemplateSelector whether to display for a Family or a Preference.
     /// </summary>
     public bool IsFamily { get; set; } = false;
