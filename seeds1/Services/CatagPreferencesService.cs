@@ -5,82 +5,82 @@ using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
-public class CatagPreferencesService : ICatagPreferencesService
+public class CatopicPreferencesService : ICatopicPreferencesService
 {
     private readonly IStaticService staticService;
     private readonly IGlobalService globalService;
     private readonly ICategoryService categoryService;
     private readonly IUserPreferenceService cupService;
-    private readonly ITagService tagService;
-    private readonly IIdeaTagService ideaTagService;
+    private readonly ITopicService topicService;
+    private readonly IIdeaTopicService ideaTopicService;
 
-    public CatagPreferencesService(
+    public CatopicPreferencesService(
         IStaticService staticService,
         IGlobalService globalService,
         ICategoryService categoryService,
         IUserPreferenceService cupService,
-        ITagService tagService,
-        IIdeaTagService ideaTagService)
+        ITopicService topicService,
+        IIdeaTopicService ideaTopicService)
     {
         this.staticService = staticService;
         this.globalService = globalService;
         this.categoryService = categoryService;
         this.cupService = cupService;
-        this.tagService = tagService;
-        this.ideaTagService = ideaTagService;
+        this.topicService = topicService;
+        this.ideaTopicService = ideaTopicService;
     }
 
-    //public async Task<List<CatagPreference>> GetTagPreferencesOfIdeaAsync(IdeaFromDb idea)
+    //public async Task<List<CatopicPreference>> GetTopicPreferencesOfIdeaAsync(IdeaFromDb idea)
     //{
-    //    List<CatagPreference> catagPrefs = new();
-    //    var tags = await ideaTagService.GetTagsOfIdeaAsync(idea.Id);
-    //    if (tags.Count == 0) { return  catagPrefs; }
-    //    foreach (var tag in tags)
+    //    List<CatopicPreference> catopicPrefs = new();
+    //    var topics = await ideaTopicService.GetTopicsOfIdeaAsync(idea.Id);
+    //    if (topics.Count == 0) { return  catopicPrefs; }
+    //    foreach (var topic in topics)
     //    {
-    //        var cup = await cupService.GetCatagUserPreferenceAsync(
-    //            tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
-    //        catagPrefs.Add(new()
+    //        var cup = await cupService.GetCatopicUserPreferenceAsync(
+    //            topic.CategoryKey, globalService.CurrentUser.Username, topic.Name);
+    //        catopicPrefs.Add(new()
     //        {
-    //            CategoryKey = tag.CategoryKey,
-    //            TagName = tag.Name,
+    //            CategoryKey = topic.CategoryKey,
+    //            TopicName = topic.Name,
     //            Preference = cup.Value,
     //        });
     //    }
-    //    return catagPrefs;
+    //    return catopicPrefs;
     //}
 
-    //public async Task<List<CatagPreference>> GetCatagPreferencesAsync()
+    //public async Task<List<CatopicPreference>> GetCatopicPreferencesAsync()
     //{
-    //    List<CatagPreference> catagPrefs = new();
+    //    List<CatopicPreference> catopicPrefs = new();
     //    var cats = await categoryService.GetCategoriesAsync();
     //    if (cats.Count == 0) { throw new Exception("No Categories returned."); }
     //    foreach (var cat in cats)
     //    {
-    //        var cup = await cupService.GetCatagUserPreferenceAsync(
+    //        var cup = await cupService.GetCatopicUserPreferenceAsync(
     //            cat.Key, globalService.CurrentUser.Username);
-    //        catagPrefs.Add(new()
+    //        catopicPrefs.Add(new()
     //        {
     //            CategoryKey = cat.Key,
     //            CategoryName = cat.Name,
     //            Preference = cup.Value
     //        });
     //    }
-    //    var tags = await tagService.GetTagsAsync();
-    //    if (tags.Count == 0) { throw new Exception("No Tags returned."); }
-    //    foreach (var tag in tags)
+    //    var topics = await topicService.GetTopicsAsync();
+    //    if (topics.Count == 0) { throw new Exception("No Topics returned."); }
+    //    foreach (var topic in topics)
     //    {
-    //        var tagsCat = cats.First(c => c.Key == tag.CategoryKey);
-    //        var cup = await cupService.GetCatagUserPreferenceAsync(
-    //            tag.CategoryKey, globalService.CurrentUser.Username, tag.Name);
-    //        catagPrefs.Add(new()
+    //        var topicsCat = cats.First(c => c.Key == topic.CategoryKey);
+    //        var cup = await cupService.GetCatopicUserPreferenceAsync(
+    //            topic.CategoryKey, globalService.CurrentUser.Username, topic.Name);
+    //        catopicPrefs.Add(new()
     //        {
-    //            CategoryKey = tag.CategoryKey,
-    //            CategoryName = tagsCat.Name,
-    //            TagName = tag.Name,
+    //            CategoryKey = topic.CategoryKey,
+    //            CategoryName = topicsCat.Name,
+    //            TopicName = topic.Name,
     //            Preference = cup.Value
     //        });
     //    }
-    //    return catagPrefs;
+    //    return catopicPrefs;
     //}
     public int StepPreference(int oldPreference)
     {

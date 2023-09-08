@@ -12,7 +12,7 @@ namespace seeds.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "tags",
+                name: "topics",
                 table: "categories");
 
             migrationBuilder.AddColumn<string>(
@@ -52,7 +52,7 @@ namespace seeds.Api.Migrations
                 table: "ideas");
 
             migrationBuilder.AddColumn<List<string>>(
-                name: "tags",
+                name: "topics",
                 table: "categories",
                 type: "text[]",
                 nullable: false);

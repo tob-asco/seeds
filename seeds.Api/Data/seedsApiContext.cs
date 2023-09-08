@@ -18,8 +18,8 @@ namespace seeds.Api.Data
             modelBuilder.ApplyConfiguration(new UserPreferenceConfiguration());
             modelBuilder.ApplyConfiguration(new UserIdeaInteractionConfiguration());
             modelBuilder.ApplyConfiguration(new PresentationConfiguration());
-            modelBuilder.ApplyConfiguration(new TagConfiguration());
-            modelBuilder.ApplyConfiguration(new IdeaTagConfiguration());
+            modelBuilder.ApplyConfiguration(new TopicConfiguration());
+            modelBuilder.ApplyConfiguration(new IdeaTopicConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
@@ -29,8 +29,8 @@ namespace seeds.Api.Data
         public DbSet<seeds.Dal.Model.UserPreference> UserPreference { get; set; } = default!;
         public DbSet<seeds.Dal.Model.UserIdeaInteraction> UserIdeaInteraction { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Presentation> Presentation { get; set; } = default!;
-        public DbSet<seeds.Dal.Model.Tag> Tag { get; set; } = default!;
-        public DbSet<seeds.Dal.Model.IdeaTag> IdeaTag { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.Topic> Topic { get; set; } = default!;
+        public DbSet<seeds.Dal.Model.IdeaTopic> IdeaTopic { get; set; } = default!;
         public DbSet<seeds.Dal.Model.Family> Family { get; set; } = default!;
     }
 }

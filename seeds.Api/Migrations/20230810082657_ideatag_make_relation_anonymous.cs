@@ -5,7 +5,7 @@
 namespace seeds.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class ideatag_make_relation_anonymous : Migration
+    public partial class ideatopic_make_relation_anonymous : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

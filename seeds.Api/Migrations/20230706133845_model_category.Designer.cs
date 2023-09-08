@@ -41,7 +41,7 @@ namespace seeds.Api.Migrations
                     b.Property<List<string>>("Tags")
                         .IsRequired()
                         .HasColumnType("text[]")
-                        .HasColumnName("tags");
+                        .HasColumnName("topics");
 
                     b.HasKey("Key");
 

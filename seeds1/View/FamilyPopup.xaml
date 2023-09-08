@@ -27,18 +27,18 @@
             <FlexLayout
                 Margin="5,0"
                 AlignContent="Start"
-                BindableLayout.ItemsSource="{Binding DisplayedTags}"
+                BindableLayout.ItemsSource="{Binding DisplayedTopics}"
                 Wrap="Wrap">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="modelFromDb:TagFromDb">
+                    <DataTemplate x:DataType="modelFromDb:TopicFromDb">
                         <Button
                             Margin="1,2"
-                            Clicked="Tag_Clicked"
-                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTagCommand}"
+                            Clicked="Topic_Clicked"
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTopicCommand}"
                             CommandParameter="{Binding .}"
                             HeightRequest="45"
                             Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=WholeFamily.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
-                            Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}" />
+                            Text="{Binding Name, Converter={converter:TopicNameOfFamilyConverter}}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>

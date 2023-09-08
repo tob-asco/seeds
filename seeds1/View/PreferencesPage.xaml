@@ -8,21 +8,21 @@
     xmlns:local="clr-namespace:seeds1.ViewModel"
     xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="Preferences"
+    Title="Your Topic Preferences"
     x:DataType="local:PreferencesViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
-            <DataTemplate x:Key="TagButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
+            <DataTemplate x:Key="TopicButtonTemplate" x:DataType="mauiModel:FamilyOrPreference">
                 <Button
                     Margin="1,2"
-                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTagPreferenceCommand}"
+                    Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:PreferencesViewModel}}, Path=ChangeTopicPreferenceCommand}"
                     CommandParameter="{Binding Preference}"
                     HeightRequest="45">
                     <Button.Text>
                         <MultiBinding Converter="{converter:CatBtnTextConverter}">
                             <Binding Source="{x:Static sys:String.Empty}" />
                             <Binding Source="{x:Static sys:String.Empty}" />
-                            <Binding Path="Preference.Tag.Name" />
+                            <Binding Path="Preference.Topic.Name" />
                         </MultiBinding>
                     </Button.Text>
                     <Button.Style>
@@ -41,10 +41,10 @@
                     Style="{StaticResource buttonMediumStyle}"
                     Text="{Binding Family.Name}" />
             </DataTemplate>
-            <cells:TagsDataTemplateSelector
+            <cells:TopicsDataTemplateSelector
                 x:Key="Selector"
                 FamilyTemplate="{StaticResource FamilyButtonTemplate}"
-                PreferenceTemplate="{StaticResource TagButtonTemplate}" />
+                PreferenceTemplate="{StaticResource TopicButtonTemplate}" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <CollectionView ItemsSource="{Binding FopListList}">

@@ -12,6 +12,6 @@ namespace seeds.Dal.Dto.ForMaui;
 public class Feedentry
 {
     public IdeaFromDb Idea { get; set; } = new();
-    public List<TagFromDb> Tags { get; set; } = new();
+    public List<TopicFromDb> Topics { get; set; } = new();
     public int Upvotes { get; set; }
 }

@@ -71,7 +71,7 @@ namespace seeds.Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<int>("ProbablyPreference")
+                    b.Property<int>("ProbablePreference")
                         .HasColumnType("integer")
                         .HasColumnName("probable_preference");
 
@@ -130,21 +130,21 @@ namespace seeds.Api.Migrations
                     b.ToTable("ideas");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.IdeaTag", b =>
+            modelBuilder.Entity("seeds.Dal.Model.IdeaTopic", b =>
                 {
                     b.Property<int>("IdeaId")
                         .HasColumnType("integer")
                         .HasColumnName("idea_id");
 
-                    b.Property<Guid>("TagId")
+                    b.Property<Guid>("TopicId")
                         .HasColumnType("uuid")
-                        .HasColumnName("tag_id");
+                        .HasColumnName("topic_id");
 
-                    b.HasKey("IdeaId", "TagId");
+                    b.HasKey("IdeaId", "TopicId");
 
-                    b.HasIndex("TagId");
+                    b.HasIndex("TopicId");
 
-                    b.ToTable("idea_tag");
+                    b.ToTable("idea_topic");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Presentation", b =>
@@ -173,7 +173,7 @@ namespace seeds.Api.Migrations
                     b.ToTable("presentations");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+            modelBuilder.Entity("seeds.Dal.Model.Topic", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,7 +201,7 @@ namespace seeds.Api.Migrations
                     b.HasIndex("CategoryKey", "Name")
                         .IsUnique();
 
-                    b.ToTable("tags");
+                    b.ToTable("topics");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -264,7 +264,7 @@ namespace seeds.Api.Migrations
                         .HasColumnType("text")
                         .HasColumnName("username");
 
-                    b.Property<Guid?>("TagsId")
+                    b.Property<Guid?>("TopicsId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Value")
@@ -273,7 +273,7 @@ namespace seeds.Api.Migrations
 
                     b.HasKey("ItemId", "Username");
 
-                    b.HasIndex("TagsId");
+                    b.HasIndex("TopicsId");
 
                     b.HasIndex("Username");
 
@@ -315,7 +315,7 @@ namespace seeds.Api.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.IdeaTag", b =>
+            modelBuilder.Entity("seeds.Dal.Model.IdeaTopic", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Idea", null)
                         .WithMany()
@@ -323,9 +323,9 @@ namespace seeds.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("seeds.Dal.Model.Tag", null)
+                    b.HasOne("seeds.Dal.Model.Topic", null)
                         .WithMany()
-                        .HasForeignKey("TagId")
+                        .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -339,16 +339,16 @@ namespace seeds.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+            modelBuilder.Entity("seeds.Dal.Model.Topic", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", "Category")
-                        .WithMany("Tags")
+                        .WithMany("Topics")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.Family", "Family")
-                        .WithMany("Tags")
+                        .WithMany("Topics")
                         .HasForeignKey("FamilyId");
 
                     b.Navigation("Category");
@@ -373,12 +373,12 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.UserPreference", b =>
                 {
-                    b.HasOne("seeds.Dal.Model.Tag", null)
-                        .WithMany("CatagUserPreferences")
-                        .HasForeignKey("TagsId");
+                    b.HasOne("seeds.Dal.Model.Topic", null)
+                        .WithMany("CatopicUserPreferences")
+                        .HasForeignKey("TopicsId");
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -388,22 +388,22 @@ namespace seeds.Api.Migrations
                 {
                     b.Navigation("Families");
 
-                    b.Navigation("Tags");
+                    b.Navigation("Topics");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Family", b =>
                 {
-                    b.Navigation("Tags");
+                    b.Navigation("Topics");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
+            modelBuilder.Entity("seeds.Dal.Model.Topic", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });

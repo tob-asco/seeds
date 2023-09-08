@@ -13,7 +13,7 @@ namespace seeds.Api.Migrations
         {
             migrationBuilder.AddColumn<Guid>(
                 name: "family_id",
-                table: "tags",
+                table: "topics",
                 type: "uuid",
                 nullable: true);
 
@@ -37,8 +37,8 @@ namespace seeds.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_tags_family_id",
-                table: "tags",
+                name: "IX_topics_family_id",
+                table: "topics",
                 column: "family_id");
 
             migrationBuilder.CreateIndex(
@@ -47,8 +47,8 @@ namespace seeds.Api.Migrations
                 column: "category_key");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_tags_families_family_id",
-                table: "tags",
+                name: "FK_topics_families_family_id",
+                table: "topics",
                 column: "family_id",
                 principalTable: "families",
                 principalColumn: "id");
@@ -58,19 +58,19 @@ namespace seeds.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_tags_families_family_id",
-                table: "tags");
+                name: "FK_topics_families_family_id",
+                table: "topics");
 
             migrationBuilder.DropTable(
                 name: "families");
 
             migrationBuilder.DropIndex(
-                name: "IX_tags_family_id",
-                table: "tags");
+                name: "IX_topics_family_id",
+                table: "topics");
 
             migrationBuilder.DropColumn(
                 name: "family_id",
-                table: "tags");
+                table: "topics");
         }
     }
 }

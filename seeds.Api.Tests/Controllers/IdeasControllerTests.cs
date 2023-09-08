@@ -12,7 +12,7 @@ namespace seeds.Api.Tests.Controllers;
 public class IdeasControllerTests : ApiControllerTestsBase
 {
     public List<Idea> Ideas { get; set; } = new();
-    public Tag Tag { get; set; } = new();
+    public Topic Topic { get; set; } = new();
     public User User { get; set; } = new();
     readonly int ideasIndexWithUpvote = 0;
 
@@ -26,7 +26,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
-        if (!context.Tag.Any()) { context.Tag.Add(Tag); }
+        if (!context.Topic.Any()) { context.Topic.Add(Topic); }
         if (!context.User.Any()) { context.User.Add(User); }
 
         Random random = new();
@@ -37,7 +37,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
                 CreatorName = User.Username,
                 Title = "Idea #" + i,
                 CreationTime = new(2023, 07, random.Next(1, 31)),
-                Tags = new List<Tag> {Tag}
+                Topics = new List<Topic> {Topic}
             });
         }
         if (!context.Idea.Any()) { context.Idea.AddRange(Ideas); }
@@ -139,7 +139,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         result.Should().HaveCount(Ideas.Count);
     }
     [Fact]
-    public async Task IdeasController_GetFeedentryPageEndpoint_ReturnsTagsAndUpvotes()
+    public async Task IdeasController_GetFeedentryPageEndpoint_ReturnsTopicsAndUpvotes()
     {
         //Arrange
         string url = baseUri + $"feedentryPage/1?" +
@@ -152,7 +152,7 @@ public class IdeasControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<Feedentry>>();
         result.Should().NotBeNull();
-        result.Should().Contain(fe => fe.Tags.Count > 0 &&
+        result.Should().Contain(fe => fe.Topics.Count > 0 &&
             fe.Idea.Id == Ideas[ideasIndexWithUpvote].Id);
         result.Should().Contain(fe => fe.Upvotes > 0);
     }

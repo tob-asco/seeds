@@ -6,13 +6,13 @@ using System.Web;
 
 namespace seeds.Api.Tests.Controllers;
 
-public class TagsControllerTests : ApiControllerTestsBase
+public class TopicsControllerTests : ApiControllerTestsBase
 {
     public List<Category> Cats { get; set; } = new();
-    public List<Tag> Tags { get; set; } = new();
+    public List<Topic> Topics { get; set; } = new();
 
-    public TagsControllerTests()
-        :base(baseUri: "api/Tags/")
+    public TopicsControllerTests()
+        :base(baseUri: "api/Topics/")
     {
         PopulatePropertiesAndAddToDb();
         context.SaveChanges();
@@ -32,36 +32,36 @@ public class TagsControllerTests : ApiControllerTestsBase
         if(!context.Category.Any()) { context.Category.AddRange(Cats); }
         for (int i = 0; i <= 29; i++)
         {
-            Tags.Add(
-            new Tag()
+            Topics.Add(
+            new Topic()
             {
                 CategoryKey = Cats[(int)i/10].Key,
-                Name = $"tag #{i}"
+                Name = $"topic #{i}"
             });
         }
-        if(!context.Tag.Any()) { context.Tag.AddRange(Tags); }
+        if(!context.Topic.Any()) { context.Topic.AddRange(Topics); }
     }
 
     [Fact]
-    public async Task TagsController_GetAllEndpoint_ReturnsListOfCorrectLength()
+    public async Task TopicsController_GetAllEndpoint_ReturnsListOfCorrectLength()
     {
         // Arrange
         string url = baseUri;
 
         // Act
         var response = await _httpClient.GetAsync(url);
-        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TopicFromDb>>();
 
         // Assert
         response.Should().BeSuccessful();
         result.Should().NotBeNull();
-        result?.Should().HaveCount(Tags.Count);
+        result?.Should().HaveCount(Topics.Count);
     }
     [Fact]
-    public async Task TagsController_GetAllEndpoint_IfEmptyReturnsNotFound()
+    public async Task TopicsController_GetAllEndpoint_IfEmptyReturnsNotFound()
     {
         // Arrange
-        context.Tag.RemoveRange(Tags);
+        context.Topic.RemoveRange(Topics);
         context.SaveChanges();
         string url = baseUri;
 
@@ -72,11 +72,11 @@ public class TagsControllerTests : ApiControllerTestsBase
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);
     }
     [Fact]
-    public async Task TagsController_GetEndpoint_ReturnsTag()
+    public async Task TopicsController_GetEndpoint_ReturnsTopic()
     {
         // Arrange
         string catKey = Cats[0].Key;
-        string name = Tags[0].Name;
+        string name = Topics[0].Name;
         string url = baseUri +
             $"{HttpUtility.UrlEncode(catKey)}/{HttpUtility.UrlEncode(name)}";
 
@@ -85,13 +85,13 @@ public class TagsControllerTests : ApiControllerTestsBase
 
         // Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<TagFromDb>();
+        var result = await response.Content.ReadFromJsonAsync<TopicFromDb>();
         result.Should().NotBeNull();
         result?.CategoryKey.Should().Be(catKey);
         result?.Name.Should().Be(name);
     }
     [Fact]
-    public async Task TagsController_GetEndpoint_IfNotExistReturnsNotFound()
+    public async Task TopicsController_GetEndpoint_IfNotExistReturnsNotFound()
     {
         // Arrange
         string url = baseUri + $"ThisShouldBeNoValidKey/ok";

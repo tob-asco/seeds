@@ -10,7 +10,7 @@ public interface IGlobalService : IDisposable
 {
     public UserDto CurrentUser { get; set; }
     /// <summary>
-    /// A convenient list of all FamilyOrPreferences for when to display all tags.
+    /// A convenient list of all FamilyOrPreferences for when to display all topics.
     /// </summary>
     public List<ObservableCollection<FamilyOrPreference>> FopListList { get; }
 
@@ -23,7 +23,7 @@ public interface IGlobalService : IDisposable
     /// Change the preference in the globalService member and the DB.
     /// This Method catches any earlier exception.
     /// </summary>
-    /// <returns>true if the itemId belongs to a Tag that has already been buttoned</returns>
+    /// <returns>true if the itemId belongs to a Topic that has already been buttoned</returns>
     public Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue);
 
     /// <summary>

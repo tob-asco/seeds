@@ -85,8 +85,8 @@ public class IdeasController : ControllerBase
             }
 
             /* The following looks cumbersome, why not simply use "i => i"?
-             * Problem is that we want to directly include i.Tags, which the following does.
-             * However, we can't simply ".Include(i => i.Tags)" (ad infinitum inclusion).
+             * Problem is that we want to directly include i.Topics, which the following does.
+             * However, we can't simply ".Include(i => i.Topics)" (ad infinitum inclusion).
              * So here, we project to the first layer of Nav. Props. (GPT recommended)
              * Pro: We won't include stuff that we don't need.
              */
@@ -102,7 +102,7 @@ public class IdeasController : ControllerBase
                     Slide2 = i.Slide2,
                     Slide3 = i.Slide3,
                     // Include other properties you need from Idea
-                    Tags = i.Tags // This will load the associated tags for each idea
+                    Topics = i.Topics // This will load the associated topics for each idea
                 });
 
             // Apply dynamic sorting
@@ -132,7 +132,7 @@ public class IdeasController : ControllerBase
                 fes.Add(new()
                 {
                     Idea = mapper.Map<IdeaFromDb>(idea),
-                    Tags = mapper.Map<List<TagFromDb>>(idea.Tags),
+                    Topics = mapper.Map<List<TopicFromDb>>(idea.Topics),
                     Upvotes = upvoteCountForIdea != null ? upvoteCountForIdea.UpvoteCount : 0
                 });
             }

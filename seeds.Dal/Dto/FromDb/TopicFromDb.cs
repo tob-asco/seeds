@@ -1,10 +1,10 @@
 ﻿namespace seeds.Dal.Dto.FromDb;
 
-public class TagFromDb
+public class TopicFromDb
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Name { get; set; } = "tag";
+    public string Name { get; set; } = "topic";
 
     public string CategoryKey { get; set; } = "NoC";
 

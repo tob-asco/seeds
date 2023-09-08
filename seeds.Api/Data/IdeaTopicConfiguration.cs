@@ -5,11 +5,11 @@ using seeds.Dal.Model;
 
 namespace seeds.Api.Data;
 
-public class IdeaTagConfiguration : IEntityTypeConfiguration<IdeaTag>
+public class IdeaTopicConfiguration : IEntityTypeConfiguration<IdeaTopic>
 {
-    public void Configure(EntityTypeBuilder<IdeaTag> builder)
+    public void Configure(EntityTypeBuilder<IdeaTopic> builder)
     {
         // composite PK
-        builder.HasKey(it => new { it.IdeaId, it.TagId });
+        builder.HasKey(it => new { it.IdeaId, it.TopicId });
     }
 }

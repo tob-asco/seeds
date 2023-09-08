@@ -8,66 +8,66 @@ using seeds1.Services;
 
 namespace seeds1.Tests.Services;
 
-public class CatagPreferenceServiceTests
+public class CatopicPreferenceServiceTests
 {
     private readonly IGlobalService globalService;
     private readonly IStaticService staticService;
     private readonly ICategoryService categoryService;
     private readonly IUserPreferenceService cupService;
-    private readonly ITagService tagService;
-    private readonly IIdeaTagService ideaTagService;
-    private readonly CatagPreferencesService service;
+    private readonly ITopicService topicService;
+    private readonly IIdeaTopicService ideaTopicService;
+    private readonly CatopicPreferencesService service;
 
-    public CatagPreferenceServiceTests()
+    public CatopicPreferenceServiceTests()
     {
         staticService = A.Fake<IStaticService>();
         globalService = A.Fake<IGlobalService>();
         categoryService = A.Fake<ICategoryService>();
         cupService = A.Fake<IUserPreferenceService>();
-        tagService = A.Fake<ITagService>();
-        ideaTagService = A.Fake<IIdeaTagService>();
+        topicService = A.Fake<ITopicService>();
+        ideaTopicService = A.Fake<IIdeaTopicService>();
         service = new(
-            staticService, globalService, categoryService, cupService, tagService, ideaTagService);
+            staticService, globalService, categoryService, cupService, topicService, ideaTopicService);
     }
 
     //[Fact]
-    //public async Task CatagPrefService_GetTagPreferencesOfIdeaAsync_ReturnsItselfs()
+    //public async Task CatopicPrefService_GetTopicPreferencesOfIdeaAsync_ReturnsItselfs()
     //{
     //    #region Arrange
     //    string key0 = "Cat1";
     //    string key1 = "Cat2";
     //    int val0 = 1;
     //    int val1 = -1;
-    //    string tagName = "tag";
-    //    List<TagFromDb> tags = new()
+    //    string topicName = "topic";
+    //    List<TopicFromDb> topics = new()
     //    {
-    //        new(){ CategoryKey=key0, Name=tagName },
-    //        new(){ CategoryKey=key1, Name=tagName },
+    //        new(){ CategoryKey=key0, Name=topicName },
+    //        new(){ CategoryKey=key1, Name=topicName },
     //    };
     //    UserPreference tup0 = new()
     //    {
     //        CategoryKey = key0,
-    //        TagName = tagName,
+    //        TopicName = topicName,
     //        Value = val0
     //    };
     //    UserPreference tup1 = new()
     //    {
     //        CategoryKey = key1,
-    //        TagName = tagName,
+    //        TopicName = topicName,
     //        Value = val1
     //    };
-    //    A.CallTo(() => ideaTagService.GetTagsOfIdeaAsync(A<int>.Ignored))
-    //        .Returns<List<TagFromDb>>(tags);
-    //    A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
-    //        tags[0].CategoryKey, A<string>.Ignored, tags[0].Name))
+    //    A.CallTo(() => ideaTopicService.GetTopicsOfIdeaAsync(A<int>.Ignored))
+    //        .Returns<List<TopicFromDb>>(topics);
+    //    A.CallTo(() => cupService.GetCatopicUserPreferenceAsync(
+    //        topics[0].CategoryKey, A<string>.Ignored, topics[0].Name))
     //        .Returns(tup0);
-    //    A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
-    //        tags[1].CategoryKey, A<string>.Ignored, tags[1].Name))
+    //    A.CallTo(() => cupService.GetCatopicUserPreferenceAsync(
+    //        topics[1].CategoryKey, A<string>.Ignored, topics[1].Name))
     //        .Returns(tup1);
     //    #endregion
 
     //    // Act
-    //    var result = await service.GetTagPreferencesOfIdeaAsync(new());
+    //    var result = await service.GetTopicPreferencesOfIdeaAsync(new());
 
     //    // Assert
     //    result.Should().HaveCount(2);
@@ -75,21 +75,21 @@ public class CatagPreferenceServiceTests
     //    result[1]?.Preference.Should().Be(val1);
     //}
     //[Fact]
-    //public async Task CatagPrefService_GetTagPreferencesOfIdeaAsync_IfNoTagsReturnsEmpty()
+    //public async Task CatopicPrefService_GetTopicPreferencesOfIdeaAsync_IfNoTopicsReturnsEmpty()
     //{
     //    // Arrange
-    //    A.CallTo(() => ideaTagService.GetTagsOfIdeaAsync(A<int>.Ignored))
-    //        .Returns<List<TagFromDb>>(new());
+    //    A.CallTo(() => ideaTopicService.GetTopicsOfIdeaAsync(A<int>.Ignored))
+    //        .Returns<List<TopicFromDb>>(new());
 
     //    // Act
-    //    var result = await service.GetTagPreferencesOfIdeaAsync(new());
+    //    var result = await service.GetTopicPreferencesOfIdeaAsync(new());
 
     //    // Assert
     //    result.Should().NotBeNull();
     //    result?.Should().HaveCount(0);
     //}
     //[Fact]
-    //public async Task CatagPrefService_GetCatagPreferencesAsync_ReturnsItselfs()
+    //public async Task CatopicPrefService_GetCatopicPreferencesAsync_ReturnsItselfs()
     //{
     //    #region Arrange
     //    string key1 = "Cat1";
@@ -105,62 +105,62 @@ public class CatagPreferenceServiceTests
     //    int val2 = -1;
     //    UserPreference cup1 = new() { CategoryKey = key1, Value = val1 };
     //    UserPreference cup2 = new() { CategoryKey = key2, Value = val2 };
-    //    A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
+    //    A.CallTo(() => cupService.GetCatopicUserPreferenceAsync(
     //        key1, A<string>.Ignored, null))
     //        .Returns(cup1);
-    //    A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
+    //    A.CallTo(() => cupService.GetCatopicUserPreferenceAsync(
     //        key2, A<string>.Ignored, null))
     //        .Returns(cup2);
-    //    string tagName = "tag";
-    //    List<TagFromDb> tags = new()
+    //    string topicName = "topic";
+    //    List<TopicFromDb> topics = new()
     //    {
-    //        new(){ CategoryKey=key1, Name=tagName }
+    //        new(){ CategoryKey=key1, Name=topicName }
     //    };
     //    UserPreference tup = new()
     //    {
     //        CategoryKey = key1,
-    //        TagName = tagName,
+    //        TopicName = topicName,
     //        Value = val1
     //    };
-    //    A.CallTo(() => tagService.GetTagsAsync())
-    //        .Returns<List<TagFromDb>>(tags);
-    //    A.CallTo(() => cupService.GetCatagUserPreferenceAsync(
-    //        tags[0].CategoryKey, A<string>.Ignored, tags[0].Name))
+    //    A.CallTo(() => topicService.GetTopicsAsync())
+    //        .Returns<List<TopicFromDb>>(topics);
+    //    A.CallTo(() => cupService.GetCatopicUserPreferenceAsync(
+    //        topics[0].CategoryKey, A<string>.Ignored, topics[0].Name))
     //        .Returns(tup);
     //    #endregion
 
     //    // Act
-    //    var result = await service.GetCatagPreferencesAsync();
+    //    var result = await service.GetCatopicPreferencesAsync();
 
     //    // Assert
     //    result.Should().HaveCount(3);
     //    result[0]?.Preference.Should().Be(val1);
     //    result[1]?.Preference.Should().Be(val2);
-    //    result[2]?.TagName.Should().NotBeNull();
+    //    result[2]?.TopicName.Should().NotBeNull();
     //    result[2]?.Preference.Should().Be(val1);
     //}
     //[Fact]
-    //public async Task CatagPrefService_GetCatagPreferencesAsync_IfNoCatsThrows()
+    //public async Task CatopicPrefService_GetCatopicPreferencesAsync_IfNoCatsThrows()
     //{
     //    // Arrange
     //    A.CallTo(() => categoryService.GetCategoriesAsync())
     //        .Returns<List<CategoryDto>>(new());
 
     //    // Act
-    //    Func<Task> act = async () => await service.GetCatagPreferencesAsync();
+    //    Func<Task> act = async () => await service.GetCatopicPreferencesAsync();
 
     //    // Assert
     //    await act.Should().ThrowAsync<Exception>();
     //}
     //[Fact]
-    //public async Task CatagPrefService_GetCatagPreferencesAsync_IfNoTagThrows()
+    //public async Task CatopicPrefService_GetCatopicPreferencesAsync_IfNoTopicThrows()
     //{
     //    // Arrange
-    //    A.CallTo(() => tagService.GetTagsAsync())
-    //        .Returns<List<TagFromDb>>(new());
+    //    A.CallTo(() => topicService.GetTopicsAsync())
+    //        .Returns<List<TopicFromDb>>(new());
 
     //    // Act
-    //    Func<Task> act = async () => await service.GetCatagPreferencesAsync();
+    //    Func<Task> act = async () => await service.GetCatopicPreferencesAsync();
 
     //    // Assert
     //    await act.Should().ThrowAsync<Exception>();

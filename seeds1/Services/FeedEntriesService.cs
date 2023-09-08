@@ -32,20 +32,20 @@ public class FeedEntriesService : IFeedEntriesService
              * badNull-handling is done in the DAL services,
              * error-handling is done in the VMs
              */
-            List<CatagPreference> tagPrefs = new();
-            foreach(var tag in fe.Tags)
+            List<CatopicPreference> topicPrefs = new();
+            foreach(var topic in fe.Topics)
             {
-                tagPrefs.Add(new()
+                topicPrefs.Add(new()
                 {
-                    Tag = tag,
-                    Preference = globalService.GetPreferences().ContainsKey(tag.Id) ?
-                        globalService.GetPreferences()[tag.Id].Value : 0
+                    Topic = topic,
+                    Preference = globalService.GetPreferences().ContainsKey(topic.Id) ?
+                        globalService.GetPreferences()[topic.Id].Value : 0
                 });
             }
             userFePage.Add(new UserFeedentry
             {
                 Idea = fe.Idea,
-                CatagPreferences = tagPrefs,
+                CatopicPreferences = topicPrefs,
                 Upvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
                     globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
                 Downvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?

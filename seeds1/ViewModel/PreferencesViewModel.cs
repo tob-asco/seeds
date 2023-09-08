@@ -21,7 +21,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
     public readonly IGlobalService glob;
     private readonly IGenericFactory<FamilyPopupViewModel> popupVmFactory;
     private readonly PopupSizeConstants popupSize;
-    private readonly ICatagPreferencesService prefService;
+    private readonly ICatopicPreferencesService prefService;
     private readonly IUserPreferenceService cupService;
 
     public PreferencesViewModel(
@@ -29,7 +29,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
         IGlobalService glob,
         IGenericFactory<FamilyPopupViewModel> popupVmFactory,
         PopupSizeConstants popupSize,
-        ICatagPreferencesService catPrefService,
+        ICatopicPreferencesService catPrefService,
         IUserPreferenceService cupService)
         : base(stat, glob)
     {
@@ -57,11 +57,11 @@ public partial class PreferencesViewModel : MyBaseViewModel
     }
 
     [RelayCommand]
-    public async Task ChangeTagPreference(CatagPreference pref)
+    public async Task ChangeTopicPreference(CatopicPreference pref)
     {
         // update DB
         await glob.GlobChangePreferenceAsync(
-            pref.Tag.Id, prefService.StepPreference(pref.Preference));
+            pref.Topic.Id, prefService.StepPreference(pref.Preference));
 
         // update View
         //pref.Preference = prefService.StepPreference(
@@ -80,20 +80,20 @@ public partial class PreferencesViewModel : MyBaseViewModel
 
         // display and read result
         Size size = popupSize.Tiny;
-        if (fam.Tags.Count > 18)
+        if (fam.Topics.Count > 18)
         { size = popupSize.Large; }
-        else if (fam.Tags.Count > 12)
+        else if (fam.Topics.Count > 12)
         { size = popupSize.Medium; }
-        if (fam.Tags.Count > 6)
+        if (fam.Topics.Count > 6)
         { size = popupSize.Small; }
 
         if (await page.ShowPopupAsync(new FamilyPopup(popupVm)
         {
             Size = size
-        }) is TagFromDb chosenTag && chosenTag.CategoryKey == fam.CategoryKey)
+        }) is TopicFromDb chosenTopic && chosenTopic.CategoryKey == fam.CategoryKey)
         {
             // update DB and FopListList
-            if (await glob.GlobChangePreferenceAsync(chosenTag.Id, 1))
+            if (await glob.GlobChangePreferenceAsync(chosenTopic.Id, 1))
             {
                 Toast.Make("It's already in your list.");
             }

@@ -14,7 +14,7 @@ public partial class FeedViewModel :MyBaseViewModel
     private static readonly int _feedEntryPageSize = 5;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly ICatagPreferencesService catPrefService;
+    private readonly ICatopicPreferencesService catPrefService;
     [ObservableProperty]
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
@@ -23,7 +23,7 @@ public partial class FeedViewModel :MyBaseViewModel
         IGlobalService globalService,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IFeedEntriesService feedEntriesService,
-        ICatagPreferencesService catPrefService)
+        ICatopicPreferencesService catPrefService)
         : base(staticService, globalService)
     {
         this.feedEntryVmFactory = feedEntryVmFactory;
@@ -86,24 +86,24 @@ public partial class FeedViewModel :MyBaseViewModel
      * Then update the DB with the new preference.
      */
     [RelayCommand]
-    public async Task ChangeTagPreference(CatagPreference catagPref)
+    public async Task ChangeTopicPreference(CatopicPreference catopicPref)
     {
-        if (catagPref.Tag.Name == null) return;
+        if (catopicPref.Topic.Name == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
-            // loop over tags
-            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatagPreferences.Count; j++)
+            // loop over topics
+            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatopicPreferences.Count; j++)
             { 
-                if (FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.CategoryKey == catagPref.Tag.CategoryKey
-                 && FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Tag.Name == catagPref.Tag.Name)
+                if (FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Topic.CategoryKey == catopicPref.Topic.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Topic.Name == catopicPref.Topic.Name)
                 {
-                    FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference = catPrefService
-                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference);
+                    FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference = catPrefService
+                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference);
 
                     // for the DB
-                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CatagPreferences[j].Preference;
+                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference;
                 }
             }
         }
@@ -114,10 +114,10 @@ public partial class FeedViewModel :MyBaseViewModel
             try
             {
                 //if (!await cupService.PutUserPreferenceAsync(
-                //    catagPref.CategoryKey,
+                //    catopicPref.CategoryKey,
                 //    CurrentUser.Username,
                 //    (int)newCatPreference,
-                //    tagName: catagPref.TagName))
+                //    topicName: catopicPref.TopicName))
                 //{
                 //    throw new Exception($"Fatal: Could not Put.");
                 //}

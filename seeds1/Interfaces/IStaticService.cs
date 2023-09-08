@@ -21,8 +21,8 @@ public interface IStaticService
     public Task LoadFamiliesAsync();
     public Dictionary<Guid, FamilyFromDb> GetFamilies();
     /// <summary>
-    /// Loads Tags, to be retrieved by GetTags().
+    /// Loads Topics, to be retrieved by GetTopics().
     /// </summary>
-    public Task LoadTagsAsync();
-    public Dictionary<Guid, TagFromDb> GetTags();
+    public Task LoadTopicsAsync();
+    public Dictionary<Guid, TopicFromDb> GetTopics();
 }

@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace seeds.Dal.Model;
 
 /// <summary>
-/// Entity to group Tags into quite general classes.
-/// Ideas are not assigned a Category, only Tags.
+/// Entity to group Topics into quite general classes.
+/// Ideas are not assigned a Category, only Topics.
 /// </summary>
 [Table("categories")]
 public class Category
@@ -19,7 +19,7 @@ public class Category
 
     #region Navigation
     public List<User> Users { get; } = new();
-    public List<Tag> Tags { get; } = new();
+    public List<Topic> Topics { get; } = new();
     public List<Family> Families { get; } = new();
     #endregion
 }

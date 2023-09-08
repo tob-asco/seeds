@@ -25,7 +25,7 @@ namespace seeds.Api.Controllers
         // GET: api/Families
         /// <summary>
         /// Get endpoint for all families, which are part of the DB.
-        /// We include the Tags by projection.
+        /// We include the Topics by projection.
         /// Further Columns in Family.cs need to be added here.
         /// </summary>
         /// <returns></returns>
@@ -35,7 +35,7 @@ namespace seeds.Api.Controllers
             if (context.Family == null) { return NotFound(); }
 
             var fams = context.Family
-                .Include(f => f.Tags)
+                .Include(f => f.Topics)
                 .AsEnumerable()
                 .Select(f =>
                 {
@@ -43,7 +43,7 @@ namespace seeds.Api.Controllers
                      * to project only to first layer of navigation properties
                      */
                     Family fCopy = f.ShallowCopy();
-                    fCopy.Tags = f.Tags.OrderBy(t => t.Name).ToList();
+                    fCopy.Topics = f.Topics.OrderBy(t => t.Name).ToList();
                     return fCopy;
                 })
                 .ToList();

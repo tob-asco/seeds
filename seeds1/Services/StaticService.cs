@@ -12,22 +12,22 @@ public class StaticService : IStaticService
 {
     private readonly ICategoryService categoryService;
     private readonly IFamilyService familyService;
-    private readonly ITagService tagService;
+    private readonly ITopicService topicService;
 
     private Dictionary<string, CategoryDto> Categories { get; set; }
     private Dictionary<Guid, FamilyFromDb> Families { get; set; }
-    private Dictionary<Guid, TagFromDb> Tags { get; set; }
+    private Dictionary<Guid, TopicFromDb> Topics { get; set; }
     private bool CatsLoaded { get; set; } = false;
     private bool FamsLoaded { get; set; } = false;
-    private bool TagsLoaded { get; set; } = false;
+    private bool TopicsLoaded { get; set; } = false;
     public StaticService(
         ICategoryService categoryService,
         IFamilyService familyService,
-        ITagService tagService)
+        ITopicService topicService)
     {
         this.categoryService = categoryService;
         this.familyService = familyService;
-        this.tagService = tagService;
+        this.topicService = topicService;
     }
 
     public Dictionary<string, CategoryDto> GetCategories()
@@ -44,11 +44,11 @@ public class StaticService : IStaticService
         else { return Families; }
     }
 
-    public Dictionary<Guid, TagFromDb> GetTags()
+    public Dictionary<Guid, TopicFromDb> GetTopics()
     {
-        if (!TagsLoaded)
-        { throw new InvalidOperationException("Tags not yet loaded."); }
-        else { return Tags; }
+        if (!TopicsLoaded)
+        { throw new InvalidOperationException("Topics not yet loaded."); }
+        else { return Topics; }
     }
 
     public async Task LoadCategoriesAsync()
@@ -75,16 +75,16 @@ public class StaticService : IStaticService
             FamsLoaded = true;
         }
     }
-    public async Task LoadTagsAsync()
+    public async Task LoadTopicsAsync()
     {
-        if (!TagsLoaded)
+        if (!TopicsLoaded)
         {
             // retrieve
-            var list = await tagService.GetTagsAsync();
+            var list = await topicService.GetTopicsAsync();
 
             // convert and inform
-            Tags = list.ToDictionary(t => t.Id);
-            TagsLoaded = true;
+            Topics = list.ToDictionary(t => t.Id);
+            TopicsLoaded = true;
         }
     }
 
@@ -92,6 +92,6 @@ public class StaticService : IStaticService
     {
         await LoadCategoriesAsync();
         await LoadFamiliesAsync();
-        await LoadTagsAsync();
+        await LoadTopicsAsync();
     }
 }

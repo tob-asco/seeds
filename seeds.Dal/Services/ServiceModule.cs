@@ -18,8 +18,8 @@ public static class ServiceModule
         service.AddScoped<IUserPreferenceService, UserPreferenceService>();
         service.AddScoped<IUserIdeaInteractionService, UserIdeaInteractionService>();
         service.AddScoped<IPresentationService, PresentationService>();
-        service.AddScoped<ITagService, TagService>();
-        service.AddScoped<IIdeaTagService, IdeaTagService>();
+        service.AddScoped<ITopicService, TopicService>();
+        service.AddScoped<IIdeaTopicService, IdeaTopicService>();
         service.AddScoped<IFamilyService, FamilyService>();
     }                               
 }

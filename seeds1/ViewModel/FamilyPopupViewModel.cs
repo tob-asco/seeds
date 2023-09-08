@@ -9,7 +9,7 @@ namespace seeds1.ViewModel;
 public partial class FamilyPopupViewModel : ObservableObject
 {
     private readonly IStaticService stat;
-    public TagFromDb ChosenTag { get; set; } = null!;
+    public TopicFromDb ChosenTopic { get; set; } = null!;
     public FamilyPopupViewModel(
         IStaticService stat)
     {
@@ -26,23 +26,23 @@ public partial class FamilyPopupViewModel : ObservableObject
             {
                 searchString = value;
                 OnPropertyChanged(nameof(SearchString));
-                OnPropertyChanged(nameof(DisplayedTags));
+                OnPropertyChanged(nameof(DisplayedTopics));
             }
         }
     }
-    public ObservableCollection<TagFromDb> DisplayedTags
+    public ObservableCollection<TopicFromDb> DisplayedTopics
     {
         get
         {
             if (SearchString == null || SearchString == "")
-            { return WholeFamily.Tags.ToObservableCollection(); }
-            return WholeFamily.Tags.Where(t => t.Name.ToLower().Contains(SearchString.ToLower())).ToObservableCollection();
+            { return WholeFamily.Topics.ToObservableCollection(); }
+            return WholeFamily.Topics.Where(t => t.Name.ToLower().Contains(SearchString.ToLower())).ToObservableCollection();
         }
     }
 
     [RelayCommand]
-    public void SetChosenTag(TagFromDb tag)
+    public void SetChosenTopic(TopicFromDb topic)
     {
-        ChosenTag = tag;
+        ChosenTopic = topic;
     }
 }

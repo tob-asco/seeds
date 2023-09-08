@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace seeds.Dal.Model;
 
 /// <summary>
-/// Entity that enables Tags to be grouped in.
+/// Entity that enables Topics to be grouped in.
 /// </summary>
 [Table("families")]
 public class Family
@@ -20,7 +20,7 @@ public class Family
     public int ProbablePreference { get; set; }
 
     #region Navigation
-    public List<Tag> Tags { get; set; } = new();
+    public List<Topic> Topics { get; set; } = new();
     public Category Category { get; } = null!;
     #endregion
 

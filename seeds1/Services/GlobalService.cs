@@ -41,8 +41,8 @@ public class GlobalService : IGlobalService{
             // retrieve
             var userPreferencesList = await userPrefService
                 .GetPreferencesOfUserAsync(CurrentUser.Username);
-            var userButtonedTagsList = await userPrefService
-                .GetButtonedTagsOfUserAsync(CurrentUser.Username);
+            var userButtonedTopicsList = await userPrefService
+                .GetButtonedTopicsOfUserAsync(CurrentUser.Username);
 
             // convert
             CurrentUserPreferences = userPreferencesList.ToDictionary(up => up.ItemId);
@@ -57,16 +57,16 @@ public class GlobalService : IGlobalService{
                     IsFamily = true,
                     Family = f,
                 }).ToList();
-            // second all buttoned tags
+            // second all buttoned topics
             fopList.AddRange(
-                userButtonedTagsList.Select(t => new FamilyOrPreference()
+                userButtonedTopicsList.Select(t => new FamilyOrPreference()
                 {
                     CategoryKey = t.CategoryKey,
                     CategoryName = stat.GetCategories()[t.CategoryKey].Name,
                     IsFamily = false,
                     Preference = new()
                     {
-                        Tag = t,
+                        Topic = t,
                         Preference = CurrentUserPreferences.ContainsKey(t.Id) ?
                             CurrentUserPreferences[t.Id].Value : 0,
                     },
@@ -93,36 +93,36 @@ public class GlobalService : IGlobalService{
     }
     public async Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue)
     {
-        bool tagAlreadyButtoned = false;
+        bool topicAlreadyButtoned = false;
         try
         {
             // update DB
             await userPrefService.UpsertUserPreferenceAsync(CurrentUser.Username, itemId, newValue);
 
             #region update FOPs
-            if (stat.GetTags().ContainsKey(itemId) &&
-                FopListDict.ContainsKey(stat.GetTags()[itemId].CategoryKey))
+            if (stat.GetTopics().ContainsKey(itemId) &&
+                FopListDict.ContainsKey(stat.GetTopics()[itemId].CategoryKey))
             {
-                if (stat.GetTags()[itemId].FamilyId != null && // Tag is in some family
-                    FopListDict[stat.GetTags()[itemId].CategoryKey].FirstOrDefault(fop =>
+                if (stat.GetTopics()[itemId].FamilyId != null && // Topic is in some family
+                    FopListDict[stat.GetTopics()[itemId].CategoryKey].FirstOrDefault(fop =>
                         fop.IsFamily == false &&
-                        fop.Preference.Tag.Id == itemId) == null) // .. and not yet in FOPs
+                        fop.Preference.Topic.Id == itemId) == null) // .. and not yet in FOPs
                 {
-                    tagAlreadyButtoned = false;
+                    topicAlreadyButtoned = false;
                     FamilyOrPreference newFop = new()
                     {
-                        CategoryKey = stat.GetTags()[itemId].CategoryKey,
+                        CategoryKey = stat.GetTopics()[itemId].CategoryKey,
                         IsFamily = false,
-                        Preference = new CatagPreference()
-                        { Tag = stat.GetTags()[itemId], Preference = newValue },
+                        Preference = new CatopicPreference()
+                        { Topic = stat.GetTopics()[itemId], Preference = newValue },
                     };
-                    FopListDict[stat.GetTags()[itemId].CategoryKey].Add(newFop);
+                    FopListDict[stat.GetTopics()[itemId].CategoryKey].Add(newFop);
                 }
-                else // Tag's already buttoned
+                else // Topic's already buttoned
                 {
-                    tagAlreadyButtoned = true;
-                    FopListDict[stat.GetTags()[itemId].CategoryKey].First(fop =>
-                        !fop.IsFamily && fop.Preference.Tag.Id == itemId).Preference.Preference = newValue;
+                    topicAlreadyButtoned = true;
+                    FopListDict[stat.GetTopics()[itemId].CategoryKey].First(fop =>
+                        !fop.IsFamily && fop.Preference.Topic.Id == itemId).Preference.Preference = newValue;
                 }
             }
             #endregion
@@ -139,7 +139,7 @@ public class GlobalService : IGlobalService{
                     Value = newValue,
                 });
             }
-            return tagAlreadyButtoned;
+            return topicAlreadyButtoned;
         }
         catch (Exception ex)
         { await Shell.Current.DisplayAlert("Error", ex.Message, "Ok"); return false; }

@@ -4,12 +4,12 @@ using seeds.Dal.Model;
 namespace seeds1.MauiModels;
 
 /// <summary>
-/// Maui Model that is directly needed for binding in views that display all Tags.
+/// Maui Model that is directly needed for binding in views that display all Topics.
 /// </summary>
 public class FamilyOrPreference
 {
     /// <summary>
-    /// Either the Family's, or the Preference's Tag's CategoryKey.
+    /// Either the Family's, or the Preference's Topic's CategoryKey.
     /// </summary>
     public string CategoryKey { get; set; } = "NoC";
     /// <summary>
@@ -22,5 +22,5 @@ public class FamilyOrPreference
     /// </summary>
     public bool IsFamily { get; set; } = false;
     public FamilyFromDb Family { get; set; }
-    public CatagPreference Preference { get; set; }
+    public CatopicPreference Preference { get; set; }
 }

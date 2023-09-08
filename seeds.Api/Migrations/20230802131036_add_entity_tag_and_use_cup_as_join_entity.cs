@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace seeds.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class add_entity_tag_and_use_cup_as_join_entity : Migration
+    public partial class add_entity_topic_and_use_cup_as_join_entity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,7 @@ namespace seeds.Api.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
-                name: "tag_name",
+                name: "topic_name",
                 table: "category_user",
                 type: "text",
                 nullable: true);
@@ -60,7 +60,7 @@ namespace seeds.Api.Migrations
                 column: "id");
 
             migrationBuilder.CreateTable(
-                name: "tags",
+                name: "topics",
                 columns: table => new
                 {
                     name = table.Column<string>(type: "text", nullable: false),
@@ -68,9 +68,9 @@ namespace seeds.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tags", x => new { x.category_key, x.name });
+                    table.PrimaryKey("PK_topics", x => new { x.category_key, x.name });
                     table.ForeignKey(
-                        name: "FK_tags_categories_category_key",
+                        name: "FK_topics_categories_category_key",
                         column: x => x.category_key,
                         principalTable: "categories",
                         principalColumn: "key",
@@ -93,10 +93,10 @@ namespace seeds.Api.Migrations
                 column: "UsersUsername");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_category_user_tags_TagsCategoryKey_TagsName",
+                name: "FK_category_user_topics_TagsCategoryKey_TagsName",
                 table: "category_user",
                 columns: new[] { "TagsCategoryKey", "TagsName" },
-                principalTable: "tags",
+                principalTable: "topics",
                 principalColumns: new[] { "category_key", "name" });
 
             migrationBuilder.AddForeignKey(
@@ -111,7 +111,7 @@ namespace seeds.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_category_user_tags_TagsCategoryKey_TagsName",
+                name: "FK_category_user_topics_TagsCategoryKey_TagsName",
                 table: "category_user");
 
             migrationBuilder.DropForeignKey(
@@ -119,7 +119,7 @@ namespace seeds.Api.Migrations
                 table: "category_user");
 
             migrationBuilder.DropTable(
-                name: "tags");
+                name: "topics");
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_category_user",
@@ -154,7 +154,7 @@ namespace seeds.Api.Migrations
                 table: "category_user");
 
             migrationBuilder.DropColumn(
-                name: "tag_name",
+                name: "topic_name",
                 table: "category_user");
 
             migrationBuilder.AddPrimaryKey(

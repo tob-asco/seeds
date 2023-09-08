@@ -20,7 +20,7 @@ public class PreferencesViewModelFactory : IGenericFactory<PreferencesViewModel>
             serviceProvider.GetRequiredService<IGlobalService>(),
             serviceProvider.GetRequiredService<IGenericFactory<FamilyPopupViewModel>>(),
             serviceProvider.GetRequiredService<PopupSizeConstants>(),
-            serviceProvider.GetRequiredService<ICatagPreferencesService>(),
+            serviceProvider.GetRequiredService<ICatopicPreferencesService>(),
             serviceProvider.GetRequiredService<IUserPreferenceService>()
             );
     }

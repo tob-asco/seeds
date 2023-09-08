@@ -12,8 +12,8 @@ using seeds.Api.Data;
 namespace seeds.Api.Migrations
 {
     [DbContext(typeof(seedsApiContext))]
-    [Migration("20230812160539_unique_tag-tuple_and_cup-triple")]
-    partial class unique_tagtuple_and_cuptriple
+    [Migration("20230812160539_unique_topic-tuple_and_cup-triple")]
+    partial class unique_topictuple_and_cuptriple
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace seeds.Api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatopicUserPreference", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace seeds.Api.Migrations
 
                     b.Property<string>("TagName")
                         .HasColumnType("text")
-                        .HasColumnName("tag_name");
+                        .HasColumnName("topic_name");
 
                     b.Property<Guid?>("TagsId")
                         .HasColumnType("uuid");
@@ -141,13 +141,13 @@ namespace seeds.Api.Migrations
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
-                        .HasColumnName("tag_id");
+                        .HasColumnName("topic_id");
 
                     b.HasKey("IdeaId", "TagId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("idea_tag");
+                    b.ToTable("idea_topic");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Presentation", b =>
@@ -198,7 +198,7 @@ namespace seeds.Api.Migrations
                     b.HasIndex("CategoryKey", "Name")
                         .IsUnique();
 
-                    b.ToTable("tags");
+                    b.ToTable("topics");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -251,20 +251,20 @@ namespace seeds.Api.Migrations
                     b.ToTable("user_idea");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatopicUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.Tag", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("TagsId");
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("UsersUsername");
                 });
 
@@ -331,19 +331,19 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });

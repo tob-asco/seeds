@@ -36,8 +36,8 @@ public class GlobalServiceTests
         };
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns(ups);
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(new());
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(new());
 
         // Act
         await service.LoadPreferencesAsync();
@@ -47,10 +47,10 @@ public class GlobalServiceTests
         service.GetPreferences().Should().ContainKey(ups[0].ItemId);
     }
     [Fact]
-    public async Task GlobalService_LoadPreferencesAsync_PopulatesFOPsWithTags()
+    public async Task GlobalService_LoadPreferencesAsync_PopulatesFOPsWithTopics()
     {
         // Arrange
-        List<TagFromDb> tags = new()
+        List<TopicFromDb> topics = new()
         {
             new(){Id = Guid.NewGuid(), Name = "ich"},
             new(){Id = Guid.NewGuid(), Name = "ich"},
@@ -58,8 +58,8 @@ public class GlobalServiceTests
         };
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(new());
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(tags);
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(topics);
         A.CallTo(() => stat.GetCategories())
             .Returns(new Dictionary<string, CategoryDto> { { "NoC", new() } });
 
@@ -68,24 +68,24 @@ public class GlobalServiceTests
 
         // Assert
         var fopList = service.FopListList.SelectMany(l => l).ToList();
-        fopList.Should().HaveCount(tags.Count);
-        foreach (var tag in tags)
+        fopList.Should().HaveCount(topics.Count);
+        foreach (var topic in topics)
         {
-            fopList.Should().Contain(t => t.Preference.Tag.Id == tag.Id);
+            fopList.Should().Contain(t => t.Preference.Topic.Id == topic.Id);
         }
     }
     [Fact]
-    public async Task GlobalService_LoadPreferencesAsync_PopulatedTagsHaveCorrectPreference()
+    public async Task GlobalService_LoadPreferencesAsync_PopulatedTopicsHaveCorrectPreference()
     {
         // Arrange
-        Guid tagId = Guid.NewGuid();
+        Guid topicId = Guid.NewGuid();
         int val = 1;
-        List<TagFromDb> tags = new() { new() { Id = tagId, Name = "du" }, };
-        List<UserPreference> ups = new() { new() { ItemId = tagId, Value = val } };
+        List<TopicFromDb> topics = new() { new() { Id = topicId, Name = "du" }, };
+        List<UserPreference> ups = new() { new() { ItemId = topicId, Value = val } };
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(ups);
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(tags);
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(topics);
         A.CallTo(() => stat.GetCategories())
             .Returns(new Dictionary<string, CategoryDto> { { "NoC", new() } });
 
@@ -94,11 +94,11 @@ public class GlobalServiceTests
 
         // Assert
         var fopList = service.FopListList.SelectMany(l => l).ToList();
-        fopList.Should().HaveCount(tags.Count);
-        foreach (var tag in tags)
+        fopList.Should().HaveCount(topics.Count);
+        foreach (var topic in topics)
         {
             fopList.Should().Contain(t =>
-                t.Preference.Tag.Id == tagId && t.Preference.Preference == val);
+                t.Preference.Topic.Id == topicId && t.Preference.Preference == val);
         }
     }
     [Fact]
@@ -112,8 +112,8 @@ public class GlobalServiceTests
         };
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(new());
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(new());
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(new());
         A.CallTo(() => stat.GetFamilies())
             .Returns(fams);
         A.CallTo(() => stat.GetCategories())
@@ -136,8 +136,8 @@ public class GlobalServiceTests
         // Arrange for first time
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(new());
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(new());
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(new());
         // Act first time
         await service.LoadPreferencesAsync();
 
@@ -145,33 +145,33 @@ public class GlobalServiceTests
         string s = "wir";
         A.CallTo(() => userPrefService.GetPreferencesOfUserAsync(A<string>.Ignored))
             .Returns<List<UserPreference>>(new() { new() { Username = s } });
-        A.CallTo(() => userPrefService.GetButtonedTagsOfUserAsync(A<string>.Ignored))
-            .Returns<List<TagFromDb>>(new() { new() { Name = s } });
+        A.CallTo(() => userPrefService.GetButtonedTopicsOfUserAsync(A<string>.Ignored))
+            .Returns<List<TopicFromDb>>(new() { new() { Name = s } });
         // Act second time
         await service.LoadPreferencesAsync();
 
         // Assert
         var fopList = service.FopListList.SelectMany(l => l).ToList();
         service.GetPreferences().Values.Should().NotContain(up => up.Username == s);
-        fopList.Should().NotContain(fop => fop.Preference.Tag.Name == s);
+        fopList.Should().NotContain(fop => fop.Preference.Topic.Name == s);
     }
     [Fact]
-    public async Task GlobalService_GlobChangePreferenceAsync_ChangesPrefOfOrphanTagInFOPsAndPrefs()
+    public async Task GlobalService_GlobChangePreferenceAsync_ChangesPrefOfOrphanTopicInFOPsAndPrefs()
     {
         // Arrange
         string key = "cat";
         Guid id = Guid.NewGuid();
         int pref = 0;
-        Dictionary<Guid, TagFromDb> tags = new() { { id, new() { Id = id, CategoryKey = key } } };
+        Dictionary<Guid, TopicFromDb> topics = new() { { id, new() { Id = id, CategoryKey = key } } };
         service.FopListDict.Add(key, new() { new() {
             CategoryKey = key,
             IsFamily = false,
-            Preference = new CatagPreference(){
-                Tag=tags[id],
+            Preference = new CatopicPreference(){
+                Topic=topics[id],
                 Preference=pref
             }}
         });
-        A.CallTo(() => stat.GetTags()).Returns(tags);
+        A.CallTo(() => stat.GetTopics()).Returns(topics);
         service.PreferencesLoaded = true;
 
         // Act
@@ -180,81 +180,81 @@ public class GlobalServiceTests
 
         // Assert
         service.FopListDict[key].Should().Contain(fop =>
-            fop.Preference.Tag.Id == id && fop.Preference.Preference == newPref);
+            fop.Preference.Topic.Id == id && fop.Preference.Preference == newPref);
         service.GetPreferences()[id].Value.Should().Be(newPref);
     }
     [Fact]
-    public async Task GlobalService_GlobChangePreferenceAsync_AddsFOPForUnbuttonedTagWithFamilyReturnsFalse()
+    public async Task GlobalService_GlobChangePreferenceAsync_AddsFOPForUnbuttonedTopicWithFamilyReturnsFalse()
     {
         #region Arrange
         string key = "cat";
-        Guid tagId = Guid.NewGuid();
+        Guid topicId = Guid.NewGuid();
         Guid famId = Guid.NewGuid();
-        // add a tag that is in a family
-        Dictionary<Guid, TagFromDb> tags = new() { { tagId, new() {
-            Id = tagId, CategoryKey = key, FamilyId = famId
+        // add a topic that is in a family
+        Dictionary<Guid, TopicFromDb> topics = new() { { topicId, new() {
+            Id = topicId, CategoryKey = key, FamilyId = famId
         } } };
         // add the corresponding family to FopListDict
         service.FopListDict.Add(key, new() { new() {
             CategoryKey = key,
             IsFamily = true,
             Family = new(){
-                CategoryKey = key, Id = famId, Tags = tags.Values.ToList()
+                CategoryKey = key, Id = famId, Topics = topics.Values.ToList()
             }}
         });
-        A.CallTo(() => stat.GetTags()).Returns(tags);
+        A.CallTo(() => stat.GetTopics()).Returns(topics);
         #endregion
 
         // Act
         int newPref = 1;
-        bool tagAlreadyButtoned = await service.GlobChangePreferenceAsync(tagId, newPref);
+        bool topicAlreadyButtoned = await service.GlobChangePreferenceAsync(topicId, newPref);
 
         // Assert
         service.FopListDict[key].Should().Contain(fop =>
-            !fop.IsFamily && fop.Preference.Tag.Id == tagId && fop.Preference.Preference == newPref);
-        tagAlreadyButtoned.Should().BeFalse();
+            !fop.IsFamily && fop.Preference.Topic.Id == topicId && fop.Preference.Preference == newPref);
+        topicAlreadyButtoned.Should().BeFalse();
     }
     [Fact]
-    public async Task GlobalService_GlobChangePreferenceAsync_UpdatesFOPForButtonedTagWithFamilyReturnsTrue()
+    public async Task GlobalService_GlobChangePreferenceAsync_UpdatesFOPForButtonedTopicWithFamilyReturnsTrue()
     {
         #region Arrange
         string key = "cat";
-        Guid tagId = Guid.NewGuid();
+        Guid topicId = Guid.NewGuid();
         Guid famId = Guid.NewGuid();
         int pref = -1;
-        // add a tag that is in a family
-        Dictionary<Guid, TagFromDb> tags = new() { { tagId, new() {
-            Id = tagId, CategoryKey = key, FamilyId = famId
+        // add a topic that is in a family
+        Dictionary<Guid, TopicFromDb> topics = new() { { topicId, new() {
+            Id = topicId, CategoryKey = key, FamilyId = famId
         } } };
         // add the corresponding family to FopListDict
         service.FopListDict.Add(key, new() { new() {
             CategoryKey = key,
             IsFamily = true,
             Family = new(){
-                CategoryKey = key, Id = famId, Tags = tags.Values.ToList()
+                CategoryKey = key, Id = famId, Topics = topics.Values.ToList()
             }}
         });
-        // add a preference for this tag
+        // add a preference for this topic
         service.FopListDict[key].Add(new()
         {
             CategoryKey = key,
             IsFamily = false,
-            Preference = new CatagPreference()
+            Preference = new CatopicPreference()
             {
-                Tag = tags[tagId],
+                Topic = topics[topicId],
                 Preference = pref
             }
         });
-        A.CallTo(() => stat.GetTags()).Returns(tags);
+        A.CallTo(() => stat.GetTopics()).Returns(topics);
         #endregion
 
         // Act
         int newPref = 1;
-        bool tagAlreadyButtoned = await service.GlobChangePreferenceAsync(tagId, newPref);
+        bool topicAlreadyButtoned = await service.GlobChangePreferenceAsync(topicId, newPref);
 
         // Assert
         service.FopListDict[key].Should().Contain(fop =>
-            !fop.IsFamily && fop.Preference.Tag.Id == tagId && fop.Preference.Preference == newPref);
-        tagAlreadyButtoned.Should().BeTrue();
+            !fop.IsFamily && fop.Preference.Topic.Id == topicId && fop.Preference.Preference == newPref);
+        topicAlreadyButtoned.Should().BeTrue();
     }
 }

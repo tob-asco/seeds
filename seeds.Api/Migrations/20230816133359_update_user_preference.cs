@@ -34,9 +34,9 @@ namespace seeds.Api.Migrations
                         principalColumn: "key",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_user_preference_tags_TagsId",
+                        name: "FK_user_preference_topics_TagsId",
                         column: x => x.TagsId,
-                        principalTable: "tags",
+                        principalTable: "topics",
                         principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_user_preference_users_username",
@@ -74,7 +74,7 @@ namespace seeds.Api.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     category_key = table.Column<string>(type: "character varying(6)", nullable: false),
-                    tag_name = table.Column<string>(type: "text", nullable: true),
+                    topic_name = table.Column<string>(type: "text", nullable: true),
                     TagsId = table.Column<Guid>(type: "uuid", nullable: true),
                     username = table.Column<string>(type: "text", nullable: false),
                     UsersUsername = table.Column<string>(type: "text", nullable: true),
@@ -90,9 +90,9 @@ namespace seeds.Api.Migrations
                         principalColumn: "key",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_category_user_tags_TagsId",
+                        name: "FK_category_user_topics_TagsId",
                         column: x => x.TagsId,
-                        principalTable: "tags",
+                        principalTable: "topics",
                         principalColumn: "id");
                     table.ForeignKey(
                         name: "FK_category_user_users_UsersUsername",
@@ -102,9 +102,9 @@ namespace seeds.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_category_user_category_key_username_tag_name",
+                name: "IX_category_user_category_key_username_topic_name",
                 table: "category_user",
-                columns: new[] { "category_key", "username", "tag_name" },
+                columns: new[] { "category_key", "username", "topic_name" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

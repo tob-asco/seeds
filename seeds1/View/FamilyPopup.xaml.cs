@@ -15,8 +15,8 @@ public partial class FamilyPopup : Popup
         this.vm = vm;
     }
 
-    private async void Tag_Clicked(object sender, EventArgs e)
+    private async void Topic_Clicked(object sender, EventArgs e)
     {
-        await this.CloseAsync(vm.ChosenTag);
+        await this.CloseAsync(vm.ChosenTopic);
     }
 }

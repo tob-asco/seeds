@@ -21,11 +21,11 @@ public class UserPreferenceService : IUserPreferenceService
             ?? throw baseService.ThrowGetNullException(url);
     }
 
-    public async Task<List<TagFromDb>> GetButtonedTagsOfUserAsync(string username = "")
+    public async Task<List<TopicFromDb>> GetButtonedTopicsOfUserAsync(string username = "")
     {
-        string url = baseUri + $"buttonedTags";
+        string url = baseUri + $"buttonedTopics";
         if (username != "") { url += $"?username={username}"; }
-        return await baseService.GetDalModelAsync<List<TagFromDb>>(url)
+        return await baseService.GetDalModelAsync<List<TopicFromDb>>(url)
             ?? throw baseService.ThrowGetNullException(url);
     }
 

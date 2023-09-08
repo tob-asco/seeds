@@ -3,9 +3,9 @@
 namespace seeds1.MauiModels;
 
 #nullable enable
-public partial class CatagPreference : ObservableObject
+public partial class CatopicPreference : ObservableObject
 {
-    public TagFromDb Tag { get; set; } = new();
+    public TopicFromDb Topic { get; set; } = new();
 
     [ObservableProperty]
     int preference;

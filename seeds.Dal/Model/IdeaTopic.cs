@@ -2,13 +2,13 @@
 
 namespace seeds.Dal.Model;
 
-[Table("idea_tag")]
-public class IdeaTag
+[Table("idea_topic")]
+public class IdeaTopic
 {
     [Column("idea_id")]
     public int IdeaId { get; set; }
 
-    [Column("tag_id")]
-    public Guid TagId { get; set; }
+    [Column("topic_id")]
+    public Guid TopicId { get; set; }
 
 }

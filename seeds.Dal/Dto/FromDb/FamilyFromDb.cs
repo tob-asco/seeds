@@ -2,8 +2,8 @@
 
 /// <summary>
 /// We need a DTO here because I see no other way to
-/// convert Family.Tags which has Type List of Tag to 
-/// Type List of TagFromDb.
+/// convert Family.Topics which has Type List of Topic to 
+/// Type List of TopicFromDb.
 /// </summary>
 public class FamilyFromDb
 {
@@ -11,5 +11,5 @@ public class FamilyFromDb
     public string Name { get; set; } = "family";
     public string CategoryKey { get; set; } = "NoC";
     public int ProbablePreference { get; set; }
-    public List<TagFromDb> Tags { get; set; } = new();
+    public List<TopicFromDb> Topics { get; set; } = new();
 }

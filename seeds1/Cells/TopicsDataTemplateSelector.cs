@@ -2,7 +2,7 @@
 
 namespace seeds1.Cells;
 
-public class TagsDataTemplateSelector : DataTemplateSelector
+public class TopicsDataTemplateSelector : DataTemplateSelector
 {
     public DataTemplate FamilyTemplate { get; set; }
     public DataTemplate PreferenceTemplate { get; set; }

@@ -46,29 +46,29 @@ public class UserPreferenceServiceTests
         await act.Should().ThrowAsync<Exception>();
     }
     [Fact]
-    public async Task CupService_GetButtonedTagsOfUser_NoException()
+    public async Task CupService_GetButtonedTopicsOfUser_NoException()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
-            .Returns<List<TagFromDb>?>(new());
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TopicFromDb>>(A<string>.Ignored))
+            .Returns<List<TopicFromDb>?>(new());
 
         // Act
         Func<Task> act = async () =>
-            await _service.GetButtonedTagsOfUserAsync("");
+            await _service.GetButtonedTopicsOfUserAsync("");
 
         // Assert
         await act.Should().NotThrowAsync<Exception>();
     }
     [Fact]
-    public async Task CupService_GetButtonedTagsOfUser_IfNullThrows()
+    public async Task CupService_GetButtonedTopicsOfUser_IfNullThrows()
     {
         // Arrange
-        A.CallTo(() => _baseService.GetDalModelAsync<List<TagFromDb>>(A<string>.Ignored))
-            .Returns<List<TagFromDb>?>(null);
+        A.CallTo(() => _baseService.GetDalModelAsync<List<TopicFromDb>>(A<string>.Ignored))
+            .Returns<List<TopicFromDb>?>(null);
 
         // Act
         Func<Task> act = async () =>
-            await _service.GetButtonedTagsOfUserAsync("");
+            await _service.GetButtonedTopicsOfUserAsync("");
 
         // Assert
         await act.Should().ThrowAsync<Exception>();
