@@ -79,10 +79,13 @@ public partial class PreferencesViewModel : MyBaseViewModel
         popupVm.WholeFamily = fam;
 
         // display and read result
-        Size size = popupSize.Medium;
-#if WINDOWS
-        size = popupSize.Large;
-#endif
+        Size size = popupSize.Tiny;
+        if (fam.Tags.Count > 18)
+        { size = popupSize.Large; }
+        else if (fam.Tags.Count > 12)
+        { size = popupSize.Medium; }
+        if (fam.Tags.Count > 6)
+        { size = popupSize.Small; }
 
         if (await page.ShowPopupAsync(new FamilyPopup(popupVm)
         {
