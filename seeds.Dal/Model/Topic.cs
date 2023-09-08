@@ -32,7 +32,7 @@ public class Topic
     public Category Category { get; set; } = null!; // the parent category (required)
     public List<Idea> Ideas { get; set; } = new(); // ideas that carry this Topic
     public List<User> Users { get; } = new(); // user interactions with this Topic
-    public List<UserPreference> CatopicUserPreferences { get; } = new();
+    public List<UserPreference> MauiUserPreferences { get; } = new();
     public Family? Family { get; } // if it has a family, this is it
     #endregion
 }

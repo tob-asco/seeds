@@ -6,7 +6,7 @@ namespace seeds1.MauiModels;
 public partial class UserFeedentry : ObservableObject
 {
     public IdeaFromDb Idea { get; set; } = new();
-    public List<CatopicPreference> CatopicPreferences { get; set; } = new();
+    public List<MauiPreference> MauiPreferences { get; set; } = new();
     [ObservableProperty]
     bool upvoted = false;
     [ObservableProperty]

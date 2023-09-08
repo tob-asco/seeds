@@ -166,7 +166,7 @@ public class GlobalServiceTests
         service.FopListDict.Add(key, new() { new() {
             CategoryKey = key,
             IsFamily = false,
-            Preference = new CatopicPreference(){
+            Preference = new MauiPreference(){
                 Topic=topics[id],
                 Preference=pref
             }}
@@ -239,7 +239,7 @@ public class GlobalServiceTests
         {
             CategoryKey = key,
             IsFamily = false,
-            Preference = new CatopicPreference()
+            Preference = new MauiPreference()
             {
                 Topic = topics[topicId],
                 Preference = pref

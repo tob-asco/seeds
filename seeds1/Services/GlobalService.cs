@@ -113,7 +113,7 @@ public class GlobalService : IGlobalService{
                     {
                         CategoryKey = stat.GetTopics()[itemId].CategoryKey,
                         IsFamily = false,
-                        Preference = new CatopicPreference()
+                        Preference = new MauiPreference()
                         { Topic = stat.GetTopics()[itemId], Preference = newValue },
                     };
                     FopListDict[stat.GetTopics()[itemId].CategoryKey].Add(newFop);

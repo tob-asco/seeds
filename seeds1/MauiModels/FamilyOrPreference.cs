@@ -22,5 +22,5 @@ public class FamilyOrPreference
     /// </summary>
     public bool IsFamily { get; set; } = false;
     public FamilyFromDb Family { get; set; }
-    public CatopicPreference Preference { get; set; }
+    public MauiPreference Preference { get; set; }
 }

@@ -32,7 +32,7 @@ public class FeedEntriesService : IFeedEntriesService
              * badNull-handling is done in the DAL services,
              * error-handling is done in the VMs
              */
-            List<CatopicPreference> topicPrefs = new();
+            List<MauiPreference> topicPrefs = new();
             foreach(var topic in fe.Topics)
             {
                 topicPrefs.Add(new()
@@ -45,7 +45,7 @@ public class FeedEntriesService : IFeedEntriesService
             userFePage.Add(new UserFeedentry
             {
                 Idea = fe.Idea,
-                CatopicPreferences = topicPrefs,
+                MauiPreferences = topicPrefs,
                 Upvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?
                     globalService.GetIdeaInteractions()[fe.Idea.Id].Upvoted : false,
                 Downvoted = globalService.GetIdeaInteractions().ContainsKey(fe.Idea.Id) ?

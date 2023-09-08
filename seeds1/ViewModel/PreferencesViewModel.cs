@@ -54,7 +54,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
     }
 
     [RelayCommand]
-    public async Task ChangeTopicPreference(CatopicPreference pref)
+    public async Task ChangeTopicPreference(MauiPreference pref)
     {
         // update DB
         await glob.GlobChangePreferenceAsync(

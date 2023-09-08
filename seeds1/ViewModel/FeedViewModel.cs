@@ -86,24 +86,24 @@ public partial class FeedViewModel :MyBaseViewModel
      * Then update the DB with the new preference.
      */
     [RelayCommand]
-    public async Task ChangeTopicPreference(CatopicPreference catopicPref)
+    public async Task ChangeTopicPreference(MauiPreference mauiPref)
     {
-        if (catopicPref.Topic.Name == null) return;
+        if (mauiPref.Topic.Name == null) return;
         // update feed entries
         int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
             // loop over topics
-            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.CatopicPreferences.Count; j++)
+            for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.MauiPreferences.Count; j++)
             { 
-                if (FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Topic.CategoryKey == catopicPref.Topic.CategoryKey
-                 && FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Topic.Name == catopicPref.Topic.Name)
+                if (FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Topic.CategoryKey == mauiPref.Topic.CategoryKey
+                 && FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Topic.Name == mauiPref.Topic.Name)
                 {
-                    FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference = prefService
-                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference);
+                    FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference = prefService
+                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference);
 
                     // for the DB
-                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.CatopicPreferences[j].Preference;
+                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference;
                 }
             }
         }
@@ -114,10 +114,10 @@ public partial class FeedViewModel :MyBaseViewModel
             try
             {
                 //if (!await cupService.PutUserPreferenceAsync(
-                //    catopicPref.CategoryKey,
+                //    mauiPref.CategoryKey,
                 //    CurrentUser.Username,
                 //    (int)newCatPreference,
-                //    topicName: catopicPref.TopicName))
+                //    topicName: mauiPref.TopicName))
                 //{
                 //    throw new Exception($"Fatal: Could not Put.");
                 //}

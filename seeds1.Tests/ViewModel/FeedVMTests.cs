@@ -86,7 +86,7 @@ public class FeedVMTests
         List<PropertyChangedEventArgs> eventArgs = new();
         _vm.FeedEntryVMCollection[0].FeedEntry.PropertyChanged += (s, e) => eventArgs.Add(e);
         _vm.CurrentUser = new();
-        A.CallTo(() => cupService.PutCatopicUserPreferenceAsync(
+        A.CallTo(() => cupService.PutMauiUserPreferenceAsync(
             A<string>.Ignored, A<string>.Ignored, A<int>.Ignored, A<string?>.Ignored))
             .Returns(true);
         #endregion
