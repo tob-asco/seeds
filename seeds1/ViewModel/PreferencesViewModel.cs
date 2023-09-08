@@ -76,7 +76,7 @@ public partial class PreferencesViewModel : MyBaseViewModel
 
         // create a ViewModel for the popup
         FamilyPopupViewModel popupVm = popupVmFactory.Create();
-        popupVm.Family = fam;
+        popupVm.WholeFamily = fam;
 
         // display and read result
         Size size = popupSize.Medium;

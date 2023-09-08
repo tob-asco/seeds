@@ -18,13 +18,14 @@
             Grid.Row="0"
             Padding="5"
             HorizontalOptions="Center">
-            <Entry Placeholder="{Binding Family.Name, StringFormat='Search for a {}{0}'}" WidthRequest="300" />
+            <Entry Placeholder="{Binding WholeFamily.Name, StringFormat='Search for a {}{0}'}" WidthRequest="300"
+                   Text="{Binding SearchString}"/>
         </HorizontalStackLayout>
         <ScrollView Grid.Row="1">
             <FlexLayout
                 Margin="5,0"
                 AlignContent="Start"
-                BindableLayout.ItemsSource="{Binding Family.Tags}"
+                BindableLayout.ItemsSource="{Binding DisplayedTags}"
                 Wrap="Wrap">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="modelFromDb:TagFromDb">
@@ -34,7 +35,7 @@
                             Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTagCommand}"
                             CommandParameter="{Binding .}"
                             HeightRequest="45"
-                            Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=Family.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
+                            Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=WholeFamily.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
                             Text="{Binding Name, Converter={converter:TagNameOfFamilyConverter}}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
