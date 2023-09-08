@@ -11,21 +11,30 @@ Generally for this category:
 - :cool: users obtain a stage to present their ideas to concrete employers
 - :cool: users might learn about existing features
 - :abacus: only if the brands are likely to listen to their customers
-1. `music app: {main music streaming apps}`
+1. `music streamer: {Spotify, Apple Music, Soundcloud, YouTube Music, Deezer}` 
+   - preference: 0
    - :abacus: music is lifestyle/emotional so the user experience carries some extra relevance
-2. `streaming provider: {main video streaming providers}`
+2. `video streamer: {Netflix, Amazon Prime, Disney Plus, HBO Max, Sky, YouTube TV}`
+   - preference: 0
    - :abacus: watching stuff is e.g. used to relax, so it is important to make the user feel good
    - :abacus: it is crucial to have a non-complicated UI, so suggestions may be extremely welcome
-3. `social media: {main social platforms}`
+3. `social media: {Instagram, Facebook, Snapchat, Reddit, TikTok, LinkedIn, X}`
+   - preference: 0
    - :abacus: the reputation of being mentally harmful forces them to listen to suggestions
-4. `online meeting: {main meeting providers}`
+4. `online meeting: {Zoom, Microsoft Teams, Discord, Slack, Skype}`
+   - preference: 0
    - :abacus: still in its early stages where ideas are scarce and therefore welcome
-5. `operating systems: {Win, Linux, OsX, Android, iOs, and smaller mobile Os}`
+5. `operating systems: {Windows, Linux, OsX, Android, iOs, Google Phone}`
+   - preference: 0
    - :abacus: for community developed examples :abacus: is obvious
    - :abacus: for closed source, user experience becomes more and more important
    - :abacus: the trend of security-enhancement shows that developers strongly adapt to customer wishes
 6. `games`
-   - :abacus: gamers are in particular game-testers and developers should care for their bug reports or suggestions 
+   - :abacus: gamers are in particular game-testers and developers should care for their bug reports or suggestions
+7. `dating apps: {Tinder, Bumble, Grindr, OKCupid, Lovoo}`
+   - preference: 0
+   - :cool: dating is cool, right?
+   - :abacus: big market of dating apps, so they have to listen to their customers
 
 
 ## `TRA - Transportation`
@@ -134,7 +143,8 @@ Generally for this category:
    - :cool: gaining more and more thrust
    - :abacus: new kinds of social media
    - :abacus: regulations
-12. `for pet: {main pet kinds}`
+12. `pet: {Dogs, Cats, Fish, Birds, Hamsters, Guinea Pigs, Rabbits, Turtles, Snakes, Lizards, Ferrets, Gerbils, Hedgehogs, Chinchillas, Tarantulas, Crabs, Horses, Sugar Gliders, Mice, Rats}`
+   - preference: 0
    - :cool: we love our pets, and wanna treat them right
    - :cool: sort of a community for each type
    - :abacus: accessories, gadgets
@@ -160,15 +170,11 @@ Generally for this category:
    - :cool: stuff to suggest to your boss
    - :abacus: time management, motivation, office social dynamics
    - :abacus: gadgets to make work cooler/healthier/comfortable
-2. `for branch: {applicable job industries}`
+2. `for branch: {farmer, construction worker, designer, hair dresser, garbage person, barkeeper, cook, barista, programmer, doctor, electronic engineer, electric engineer, scientist, journalist, film producer, Influencer, legal worker, social worker, merchant, tourism worker, trucker, pilot, carpenter, electrician, plumber, welder, politician}`
+   - preference: 0
    - applicable job industries are those meeting both :cool: and :abacus:
       - :cool: how to improve your job efficiency
       - :cool: discuss with fellow experts
-   - farmer, construction worker, designer, hair dresser, garbage person, barkeeper,
-   - cook, barista, programmer, doctor, electronic engineer, electric engineer,
-   - scientist, journalist, film producer, influencer, legal worker, social worker,
-   - merchant, tourism worker, trucker, pilot, carpenter, electrician, plumber, welder,
-   - politician, ...
 3. `finding passion`
    - :cool: young people are desperate to decide what to do
    - :cool: passionate for passion
@@ -262,11 +268,12 @@ Generally for this category:
    - :cool: +18 branches
    - :abacus: applications
    - :abacus: new kinds
-3. `for language: {main programming languages}`
+3. `for language: {Python, Java, JavaScript, C++, C#, PHP, Ruby, Swift, Kotlin, TypeScript, Go, Rust, Perl, MATLAB, R, Scala, Dart, Lua, Julia, Objective-C, COBOL, Fortran, Haskell, Groovy, Shell Scripting (Bash), Assembly Language, PL/SQL, VB, (La)TeX, MATLAB, Lisp, Prolog, Ada, SQL}`
+   - preference: 0
    - :cool: programmers are much tied to their languages
    - :cool: you can scavenge for great improvements and push them
-   - :abacus: pacakages, features
-4. `mobile apps`
+   - :abacus: packages, features
+4. `mobile app dev.`
    - :cool: developers are hungry for good app ideas
    - :cool: non-developers are hungry to see their ideas realized
    - :abacus: "I want to write an app in..."
@@ -310,7 +317,7 @@ Generally for this category:
    - :exclamation: possibly too polarizing
    - :abacus: societal restructuring
    - :abacus: identification of (root) causes
-2. `food/water supply`
+2. `nutrition supply`
    - :abacus: simple solution that can be realized in poor countries
 3. `power supply`
    - :abacus: simple solution that can be realized in poor countries
@@ -469,7 +476,8 @@ Generally for this category:
    - :abacus: root, symptoms
    - :abacus: stuff against it
    - :abacus: findings
-18. `body region: {major regions like eyes, head, shoulder, back, stomach, hands, ..}`
+18. `body region: {eyes, head, shoulder, back, stomach, hands, heart, knees, foot, sex, hip, neck, legs, ears, skin}`
+   - preference: 0
    - :cool: people that have acute problems with the region
    - :cool: people that know that some region will experience stress
    - :abacus: exercises
@@ -504,12 +512,13 @@ Generally for this category:
    - :cool: *Anarchy!*
    - :abacus: laws that are unnecessary
    - :abacus: laws that protect "bad" people
-4. `for country: {all countries}` (195 countries on Earth)
+4. `for country: {Afghanistan, Albania, Algeria, Andorra, Angola, Antigua and Barbuda, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bhutan, Bolivia, Bosnia and Herzegovina, Botswana, Brazil, Brunei, Bulgaria, Burkina Faso, Burundi, Cabo Verde, Cambodia, Cameroon, Canada, Central African Republic, Chad, Chile, China, Colombia, Comoros, Congo (Congo-Brazzaville), Costa Rica, Croatia, Cuba, Cyprus, Czechia (Czech Republic), Democratic Republic of the Congo (Congo-Kinshasa), Denmark, Djibouti, Dominica, Dominican Republic, East Timor (Timor-Leste), Ecuador, Egypt, El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini (fmr. "Swaziland"), Ethiopia, Fiji, Finland, France, Gabon, Gambia, Georgia, Germany, Ghana, Greece, Grenada, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Israel, Italy, Ivory Coast, Jamaica, Japan, Jordan, Kazakhstan, Kenya, Kiribati, Kosovo, Kuwait, Kyrgyzstan, Laos, Latvia, Lebanon, Lesotho, Liberia, Libya, Liechtenstein, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia, Maldives, Mali, Malta, Marshall Islands, Mauritania, Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Morocco, Mozambique, Myanmar (formerly Burma), Namibia, Nauru, Nepal, Netherlands, New Zealand, Nicaragua, Niger, Nigeria, North Macedonia (formerly Macedonia), Norway, Oman, Pakistan, Palau, Palestine State, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Rwanda, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Samoa, San Marino, Sao Tome and Principe, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, South Korea, South Sudan, Spain, Sri Lanka, Sudan, Suriname, Sweden, Switzerland, Syria, Tajikistan, Tanzania, Thailand, Togo, Tonga, Trinidad and Tobago, Tunisia, Turkey, Turkmenistan, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom, United States of America, Uruguay, Uzbekistan, Vanuatu, Vatican City, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe}` (195 countries on Earth)
+   - preference: 0
    - :cool: same reason why we watch national news
    - :cool: feeling like direct democracy
    - :abacus: momentary crisis solution
    - :abacus: suggestions for new period of governance
-5. `for city: {all cities}` (approx. 10 000 cities on Earth)
+5. `for city: {Hamburg, Salzburg, München, Paris, Wien}` (approx. 10 000 cities on Earth)
    - :cool: space for you and your "neighbours" to discuss on an international platform
    - :cool: interesting to see the local problems, you might literally be able to walk there
    - :abacus: soooo much (e.g. U5 station names) 
@@ -626,7 +635,8 @@ Generally for this category:
    - :abacus: all kinds of material (oil, ..) and colours (pastel, ..)
 2. `sculpting`
    - :abacus: new techniques
-3. `movement: {major movements like Modernism, Realism, Cubism, Avant-Garde, ...}`
+3. `movement: {Impressionism, Cubism, Surrealism, Abstract Expressionism, Pop Art, Minimalism, Fauvism, Dada, Constructivism, Futurism, Art Nouveau, Suprematism, Expressionism, Post-Impressionism, Symbolism, Precisionism, De Stijl, Neo-Expressionism, Abstract Art, Op Art, Conceptual Art, Land Art, Photorealism, Video Art, Contemporary Art}`
+   - preference: 0
    - :cool: filter for your favorite movement
    - :abacus: any kind of art
 
@@ -637,9 +647,10 @@ Generally for this category:
 - :cool::question: feature: while browsing through the app you could listen to this music as if it were playing in a separate music player 
 - :abacus: publish to maybe be discovered
 1. genre: {major genres like Classical, Rock, Electro, Rap, ...}
-2. `mood: {electro, party, dancing, heroic, classic, deep, tense, ...}`
+2. `music mood: {electro, party, dancing, heroic, classic, deep, tense}`
    - :cool: pick one and hit shuffle
-3. `local: {all countries}`
+3. `local music: {Afghanistan, Albania, Algeria, Andorra, Angola, Antigua and Barbuda, Argentina, Armenia, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bhutan, Bolivia, Bosnia and Herzegovina, Botswana, Brazil, Brunei, Bulgaria, Burkina Faso, Burundi, Cabo Verde, Cambodia, Cameroon, Canada, Central African Republic, Chad, Chile, China, Colombia, Comoros, Congo (Congo-Brazzaville), Costa Rica, Croatia, Cuba, Cyprus, Czechia (Czech Republic), Democratic Republic of the Congo (Congo-Kinshasa), Denmark, Djibouti, Dominica, Dominican Republic, East Timor (Timor-Leste), Ecuador, Egypt, El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini (fmr. "Swaziland"), Ethiopia, Fiji, Finland, France, Gabon, Gambia, Georgia, Germany, Ghana, Greece, Grenada, Guatemala, Guinea, Guinea-Bissau, Guyana, Haiti, Honduras, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Israel, Italy, Ivory Coast, Jamaica, Japan, Jordan, Kazakhstan, Kenya, Kiribati, Kosovo, Kuwait, Kyrgyzstan, Laos, Latvia, Lebanon, Lesotho, Liberia, Libya, Liechtenstein, Lithuania, Luxembourg, Madagascar, Malawi, Malaysia, Maldives, Mali, Malta, Marshall Islands, Mauritania, Mauritius, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Morocco, Mozambique, Myanmar (formerly Burma), Namibia, Nauru, Nepal, Netherlands, New Zealand, Nicaragua, Niger, Nigeria, North Macedonia (formerly Macedonia), Norway, Oman, Pakistan, Palau, Palestine State, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Rwanda, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Samoa, San Marino, Sao Tome and Principe, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, South Korea, South Sudan, Spain, Sri Lanka, Sudan, Suriname, Sweden, Switzerland, Syria, Tajikistan, Tanzania, Thailand, Togo, Tonga, Trinidad and Tobago, Tunisia, Turkey, Turkmenistan, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom, United States of America, Uruguay, Uzbekistan, Vanuatu, Vatican City, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe}`
+   - preference: 0
    - :cool: you feel like home
    - :cool: observe trends near you (what are the lyrics about)
    - :abacus: even easier to be discovered as there is less competition
@@ -649,10 +660,12 @@ Generally for this category:
 Generally for this category:
 - :abacus: publish to find some recognition and motivation
 - :abacus: publish to obtain improving remarks
-1. `poetry: {all languages, maybe also dialects}`
+1. `poetry: {English, Mandarin Chinese, Spanish, Hindi, Arabic, Bengali, Portuguese, Russian, Japanese, Punjabi, German, Javanese, Korean, French, Telugu, Marathi, Tamil, Urdu, Turkish, Italian, Vietnamese, Gujarati, Polish, Ukrainian, Malayalam, Kannada, Oriya, Burmese, Kurdish, Sindhi, Azerbaijani, Uzbek, Dutch, Yoruba, Amharic, Oromo, Thai, Malay, Romanian, Hungarian, Czech, Greek, Swedish, Bulgarian, Danish, Finnish, Norwegian, Icelandic, Hebrew, Yiddish, Georgian, Armenian, Tigrinya, Pashto}`
+   - preference: -1
    - :cool: quick read of contemporary poems
    - :cool: see what is important to your people
-2. `short: {all languages, maybe also dialects}`
+2. `short: {English, Mandarin Chinese, Spanish, Hindi, Arabic, Bengali, Portuguese, Russian, Japanese, Punjabi, German, Javanese, Korean, French, Telugu, Marathi, Tamil, Urdu, Turkish, Italian, Vietnamese, Gujarati, Polish, Ukrainian, Malayalam, Kannada, Oriya, Burmese, Kurdish, Sindhi, Azerbaijani, Uzbek, Dutch, Yoruba, Amharic, Oromo, Thai, Malay, Romanian, Hungarian, Czech, Greek, Swedish, Bulgarian, Danish, Finnish, Norwegian, Icelandic, Hebrew, Yiddish, Georgian, Armenian, Tigrinya, Pashto}`
+   - preference: -1
    - :cool: cool stories, emotionally stimulating
 3. `novel topics`
    - :cool: find new authors you may like in the future
@@ -672,7 +685,8 @@ Generally for this category:
    - :cool: showerthoughts are strikingly true and bizarre
    - :abacus: showerthoughts
    - :abacus: philosophical guidelines for big questions (meaning of life, moral, ..)
-9. `for language: {all languages and dialects}`
+9. `for language: {English, Mandarin Chinese, Spanish, Hindi, Arabic, Bengali, Portuguese, Russian, Japanese, Punjabi, German, Javanese, Korean, French, Telugu, Marathi, Tamil, Urdu, Turkish, Italian, Vietnamese, Gujarati, Polish, Ukrainian, Malayalam, Kannada, Oriya, Burmese, Kurdish, Sindhi, Azerbaijani, Uzbek, Dutch, Yoruba, Amharic, Oromo, Thai, Malay, Romanian, Hungarian, Czech, Greek, Swedish, Bulgarian, Danish, Finnish, Norwegian, Icelandic, Hebrew, Yiddish, Georgian, Armenian, Tigrinya, Pashto}`
+   - preference: -1
    - :cool: some messages are only cool in a certain language
 
 
@@ -722,11 +736,13 @@ Generally for this category:
 
 
 ## `SPO - Sport`
-1. `sports gear: {major sports}`
+1. `sports gear: {Soccer, American Football, Basketball, Cricket, Tennis, Golf, Rugby, Baseball, Ice Hockey, Volleyball, Table Tennis, Badminton, Swimming, Athletics, Formula 1, Boxing, Wrestling, Gymnastics, Skiing, Snowboarding, Cycling, Horse Racing, Sailing, Surfing, Skateboarding, MMA (Mixed Martial Arts), Archery, Shooting, Weightlifting, Canoeing, Rowing, Triathlon, Equestrian, Track and Field, Fencing, Taekwondo, Judo, Karate, Climbing Sports, Darts, Snooker, Bowling, Squash, Hiking, Ultimate Frisbee, CrossFit, Pole Vaulting, Bobsleigh, Water Polo, Handball, Lacrosse, Softball, Roller Skating, Kiteboarding, Beach Volleyball, Inline Hockey, Wakeboarding, Canyoning, and Parkour}`
+   - preference: 0
    - :cool: you're an expert in your sport and might actually have valuable input
    - :abacus: gear for during the sport / while gameplay
    - :abacus: gear to train yourself for the sport
-2. `new moves: {major sports}`
+2. `new moves: {Soccer, American Football, Basketball, Cricket, Tennis, Golf, Rugby, Baseball, Ice Hockey, Volleyball, Table Tennis, Badminton, Swimming, Athletics, Formula 1, Boxing, Wrestling, Gymnastics, Skiing, Snowboarding, Cycling, Horse Racing, Sailing, Surfing, Skateboarding, MMA (Mixed Martial Arts), Archery, Shooting, Weightlifting, Canoeing, Rowing, Triathlon, Equestrian, Track and Field, Fencing, Taekwondo, Judo, Karate, Climbing Sports, Darts, Snooker, Bowling, Squash, Hiking, Ultimate Frisbee, CrossFit, Pole Vaulting, Bobsleigh, Water Polo, Handball, Lacrosse, Softball, Roller Skating, Kiteboarding, Beach Volleyball, Inline Hockey, Wakeboarding, Canyoning, and Parkour}`
+   - preference: 0
    - :cool: you can use those ideas next time you go do the sport
    - :cool: it's your community - find new training partners
    - :abacus: strategies
@@ -738,7 +754,8 @@ Generally for this category:
    - :abacus: what sports to include / which to kick
    - :abacus: how to improve sports
    - :abacus: doping, location, ...
-3. `train for: {major sports}`
+3. `train for: {Soccer, American Football, Basketball, Cricket, Tennis, Golf, Rugby, Baseball, Ice Hockey, Volleyball, Table Tennis, Badminton, Swimming, Athletics, Formula 1, Boxing, Wrestling, Gymnastics, Skiing, Snowboarding, Cycling, Horse Racing, Sailing, Surfing, Skateboarding, MMA (Mixed Martial Arts), Archery, Shooting, Weightlifting, Canoeing, Rowing, Triathlon, Equestrian, Track and Field, Fencing, Taekwondo, Judo, Karate, Climbing Sports, Darts, Snooker, Bowling, Squash, Hiking, Ultimate Frisbee, CrossFit, Pole Vaulting, Bobsleigh, Water Polo, Handball, Lacrosse, Softball, Roller Skating, Kiteboarding, Beach Volleyball, Inline Hockey, Wakeboarding, Canyoning, and Parkour}`
+   - preference: 0
    - :cool: motivation can be huge to improve for a certain sport
    - :cool: fear to hurt yourself with wrong training
    - :abacus: exercises
