@@ -30,24 +30,23 @@ namespace seeds.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FamilyFromDb>>> GetFamilies()
+        public ActionResult<IEnumerable<FamilyFromDb>> GetFamilies()
         {
             if (context.Family == null) { return NotFound(); }
 
-            var fams = await context.Family
+            var fams = context.Family
                 .Include(f => f.Tags)
-                .Select(f => new Family()
+                .AsEnumerable()
+                .Select(f =>
                 {
                     /* manually include all columns,
                      * to project only to first layer of navigation properties
                      */
-                    Id = f.Id,
-                    Name = f.Name,
-                    CategoryKey = f.CategoryKey,
-                    Tags = f.Tags,
-                    ProbablePreference = f.ProbablePreference,
+                    Family fCopy = f.ShallowCopy();
+                    fCopy.Tags = f.Tags;
+                    return fCopy;
                 })
-                .ToListAsync();
+                .ToList();
 
             if(fams == null || fams.Count == 0) { return NotFound(); }
 
