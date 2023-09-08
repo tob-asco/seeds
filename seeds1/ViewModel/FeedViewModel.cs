@@ -9,9 +9,10 @@ namespace seeds1.ViewModel;
 
 //    ...     ( property here ... , queryId    ...   ))]
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
-public partial class FeedViewModel :MyBaseViewModel
+public partial class FeedViewModel : MyBaseViewModel
 {
     private static readonly int _feedEntryPageSize = 5;
+    private readonly IGlobalService glob;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService prefService;
     private readonly IFeedEntriesService feedEntriesService;
@@ -19,13 +20,14 @@ public partial class FeedViewModel :MyBaseViewModel
     ObservableRangeCollection<FeedEntryViewModel> feedEntryVMCollection = new();
 
     public FeedViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
+        IStaticService stat,
+        IGlobalService glob,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IUserPreferenceService prefService,
         IFeedEntriesService feedEntriesService)
-        : base(staticService, globalService)
+        : base(stat, glob)
     {
+        this.glob = glob;
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.prefService = prefService;
         this.feedEntriesService = feedEntriesService;
@@ -88,45 +90,22 @@ public partial class FeedViewModel :MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTopicPreference(MauiPreference mauiPref)
     {
-        if (mauiPref.Topic.Name == null) return;
+        int newPref = prefService.StepPreference(mauiPref.Preference);
+
         // update feed entries
-        int? newCatPreference = null;
         for (int i = 0; i < FeedEntryVMCollection.Count; i++)
         {
             // loop over topics
             for (int j = 0; j < FeedEntryVMCollection[i].FeedEntry.MauiPreferences.Count; j++)
-            { 
-                if (FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Topic.CategoryKey == mauiPref.Topic.CategoryKey
-                 && FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Topic.Name == mauiPref.Topic.Name)
+            {
+                if (FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Topic.Id == mauiPref.Topic.Id)
                 {
-                    FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference = prefService
-                        .StepPreference(FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference);
-
-                    // for the DB
-                    newCatPreference ??= FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference;
+                    FeedEntryVMCollection[i].FeedEntry.MauiPreferences[j].Preference = newPref;
                 }
             }
         }
 
         // update DB
-        if (newCatPreference != null)
-        {
-            try
-            {
-                //if (!await cupService.PutUserPreferenceAsync(
-                //    mauiPref.CategoryKey,
-                //    CurrentUser.Username,
-                //    (int)newCatPreference,
-                //    topicName: mauiPref.TopicName))
-                //{
-                //    throw new Exception($"Fatal: Could not Put.");
-                //}
-            }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlert("DB Error",
-                    ex.Message, "Ok");
-            }
-        }
+        await glob.GlobChangePreferenceAsync(mauiPref.Topic.Id, newPref);
     }
 }
