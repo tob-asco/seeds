@@ -19,9 +19,10 @@ public class GlobalService : IGlobalService{
     public UserDto CurrentUser { get; set; }
     private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; } = new();
     private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; } = new();
-    private Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict { get; set; } = new();
+    // public, but not in IGlobalService
+    public Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict { get; set; } = new();
     public List<ObservableCollection<FamilyOrPreference>> FopListList => FopListDict.Values.ToList();
-    private bool PreferencesLoaded { get; set; } = false;
+    public bool PreferencesLoaded { get; set; } = false; // public, but not in IGlobalService
     private bool IdeaInteractionsLoaded { get; set; } = false;
     public GlobalService(
         IStaticService stat,
@@ -43,12 +44,8 @@ public class GlobalService : IGlobalService{
             var userButtonedTagsList = await userPrefService
                 .GetButtonedTagsOfUserAsync(CurrentUser.Username);
 
-            // convert and inform
-            CurrentUserPreferences = userPreferencesList
-                .ToDictionary(up => up.ItemId);
-            PreferencesLoaded = true;
-
-            // add Families and Preferences, first the families
+            #region populate FOPs
+            // first the families
             List<FamilyOrPreference> fopList = stat.GetFamilies().Values.Select(f =>
                 new FamilyOrPreference()
                 {
@@ -75,6 +72,11 @@ public class GlobalService : IGlobalService{
                 .ToDictionary(
                     group => group.Key,
                     group => new ObservableCollection<FamilyOrPreference>(group));
+            #endregion
+
+            // convert and inform
+            CurrentUserPreferences = userPreferencesList.ToDictionary(up => up.ItemId);
+            PreferencesLoaded = true;
         }
     }
     public Dictionary<Guid, UserPreference> GetPreferences()
@@ -99,8 +101,8 @@ public class GlobalService : IGlobalService{
             {
                 if (stat.GetTags()[itemId].FamilyId != null && // Tag is in some family
                     FopListDict[stat.GetTags()[itemId].CategoryKey].FirstOrDefault(fop =>
-                    fop.IsFamily == false &&
-                    fop.Preference.Tag.Id == itemId) == null) // .. and not yet in FOPs
+                        fop.IsFamily == false &&
+                        fop.Preference.Tag.Id == itemId) == null) // .. and not yet in FOPs
                 {
                     tagAlreadyButtoned = false;
                     FamilyOrPreference newFop = new()
