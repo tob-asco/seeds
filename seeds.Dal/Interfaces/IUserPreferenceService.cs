@@ -27,4 +27,5 @@ public interface IUserPreferenceService
     /// <returns>Throws exception or nothing.</returns>
     public Task UpsertUserPreferenceAsync(
         string username, Guid itemId, int newValue);
+    public int StepPreference(int oldPreference);
 }

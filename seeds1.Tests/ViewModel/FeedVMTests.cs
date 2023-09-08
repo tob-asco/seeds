@@ -13,8 +13,7 @@ public class FeedVMTests
     private readonly IGlobalService globalService;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IFeedEntriesService feedEntriesService;
-    private readonly IUserPreferenceService cupService;
-    private readonly ICatopicPreferencesService catPrefService;
+    private readonly IUserPreferenceService prefService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly FeedViewModel _vm;
     public FeedVMTests()
@@ -23,10 +22,9 @@ public class FeedVMTests
         globalService = A.Fake<IGlobalService>();
         feedEntryVmFactory = A.Fake<IGenericFactory<FeedEntryViewModel>>();
         feedEntriesService = A.Fake<IFeedEntriesService>();
-        cupService = A.Fake<IUserPreferenceService>();
-        catPrefService = A.Fake<ICatopicPreferencesService>();
+        prefService = A.Fake<IUserPreferenceService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        _vm = new FeedViewModel(staticService, globalService, feedEntryVmFactory, feedEntriesService, catPrefService);
+        _vm = new FeedViewModel(staticService, globalService, feedEntryVmFactory, prefService, feedEntriesService);
     }
 
     [Fact]

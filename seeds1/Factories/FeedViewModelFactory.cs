@@ -18,8 +18,8 @@ public class FeedViewModelFactory : IGenericFactory<FeedViewModel>
             serviceProvider.GetRequiredService<IStaticService>(),
             serviceProvider.GetRequiredService<IGlobalService>(),
             serviceProvider.GetRequiredService<IGenericFactory<FeedEntryViewModel>>(),
-            serviceProvider.GetRequiredService<IFeedEntriesService>(),
-            serviceProvider.GetRequiredService<ICatopicPreferencesService>()
+            serviceProvider.GetRequiredService<IUserPreferenceService>(),
+            serviceProvider.GetRequiredService<IFeedEntriesService>()
             );
     }
 }

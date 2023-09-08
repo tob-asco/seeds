@@ -45,4 +45,10 @@ public class UserPreferenceService : IUserPreferenceService
             throw baseService.ThrowPostConflictException(url);
         }
     }
+    public int StepPreference(int oldPreference)
+    {
+        if (oldPreference == 0) { return 1; }
+        else if (oldPreference == 1) { return -1; }
+        else { return 0; }
+    }
 }

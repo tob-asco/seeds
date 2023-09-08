@@ -10,18 +10,16 @@ public class PreferencesVmTests
 {
     private readonly IStaticService stat;
     private readonly IGlobalService glob;
-    private readonly ICatopicPreferencesService prefService;
-    private readonly IUserPreferenceService cupService;
+    private readonly IUserPreferenceService prefService;
     private readonly PreferencesViewModel vm;
 
     public PreferencesVmTests()
     {
         stat = A.Fake<IStaticService>();
         glob = A.Fake<IGlobalService>();
-        prefService = A.Fake<ICatopicPreferencesService>();
-        cupService = A.Fake<IUserPreferenceService>();
+        prefService = A.Fake<IUserPreferenceService>();
         vm = new(stat, glob, A.Fake<IGenericFactory<FamilyPopupViewModel>>(),
-            new PopupSizeConstants(A.Fake<IDeviceDisplay>()), prefService, cupService);
+            new PopupSizeConstants(A.Fake<IDeviceDisplay>()), prefService);
     }
 
     [Fact]

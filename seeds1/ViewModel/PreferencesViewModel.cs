@@ -21,23 +21,20 @@ public partial class PreferencesViewModel : MyBaseViewModel
     public readonly IGlobalService glob;
     private readonly IGenericFactory<FamilyPopupViewModel> popupVmFactory;
     private readonly PopupSizeConstants popupSize;
-    private readonly ICatopicPreferencesService prefService;
-    private readonly IUserPreferenceService cupService;
+    private readonly IUserPreferenceService prefService;
 
     public PreferencesViewModel(
         IStaticService stat,
         IGlobalService glob,
         IGenericFactory<FamilyPopupViewModel> popupVmFactory,
         PopupSizeConstants popupSize,
-        ICatopicPreferencesService catPrefService,
-        IUserPreferenceService cupService)
+        IUserPreferenceService prefService)
         : base(stat, glob)
     {
         this.glob = glob;
         this.popupVmFactory = popupVmFactory;
         this.popupSize = popupSize;
-        this.prefService = catPrefService;
-        this.cupService = cupService;
+        this.prefService = prefService;
 
         fopListList = glob.FopListList;
     }
