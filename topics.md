@@ -1,7 +1,7 @@
-# Tags In Discussion
-A tag becomes a `tag`, if it comes with convincing arguments for the :cool: axiom, and convincing arguments for the :abacus: axiom. See other file for what :cool:, :abacus: stand for.
+# Topics In Discussion
+A topic becomes a `topic`, if it comes with convincing arguments for the :cool: axiom, and convincing arguments for the :abacus: axiom. See other file for what :cool:, :abacus: stand for.
 In short:
-A Tag is :cool: if it is sufficiently interesting and polarizing, and :abacus: if it covers enough possible ideas.
+A topic is :cool: if it is sufficiently interesting and polarizing, and :abacus: if it covers enough possible ideas.
 
 ## `FEA - Features`
 Generally for this category:
