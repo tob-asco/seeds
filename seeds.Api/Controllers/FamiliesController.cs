@@ -43,7 +43,7 @@ namespace seeds.Api.Controllers
                      * to project only to first layer of navigation properties
                      */
                     Family fCopy = f.ShallowCopy();
-                    fCopy.Tags = f.Tags;
+                    fCopy.Tags = f.Tags.OrderBy(t => t.Name).ToList();
                     return fCopy;
                 })
                 .ToList();

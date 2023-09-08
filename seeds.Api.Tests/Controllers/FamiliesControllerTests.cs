@@ -7,8 +7,8 @@ namespace seeds.Api.Tests.Controllers;
 public class FamiliesControllerTests : ApiControllerTestsBase
 {
     public List<Family> Families { get; set; } = new();
-    public Tag Tag { get; set; } = new();
-    public int familiesIndexWithTag = 0;
+    public List<Tag> Tags { get; set; } = new();
+    public int familiesIndexWithTags = 0;
     public FamiliesControllerTests()
         : base("api/Families/")
     {
@@ -19,6 +19,7 @@ public class FamiliesControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
+        Random random = new();
         for (int i = 0; i < 10; i++)
         {
             Families.Add(
@@ -27,10 +28,14 @@ public class FamiliesControllerTests : ApiControllerTestsBase
                 CategoryKey = $"Cat #{i}?",
                 Name = $"Category{i}"
             });
+            Tags.Add(new()
+            {
+                Name = random.Next().ToString()
+            });
         }
-        Families[familiesIndexWithTag].Tags = new(){ Tag };
+        Families[familiesIndexWithTags].Tags = Tags;
         if(!context.Family.Any()) { context.Family.AddRange(Families); }
-        if(!context.Tag.Any()) { context.Tag.Add(Tag); }
+        if(!context.Tag.Any()) { context.Tag.AddRange(Tags); }
     }
     
     [Fact]
@@ -49,7 +54,7 @@ public class FamiliesControllerTests : ApiControllerTestsBase
         result?.Should().HaveCount(Families.Count);
     }
     [Fact]
-    public async Task FamsController_GetAllEndpoint_ReturnsFamilysTag()
+    public async Task FamsController_GetAllEndpoint_ReturnsFamilysTags()
     {
         // Arrange
         string url = baseUri;
@@ -61,7 +66,22 @@ public class FamiliesControllerTests : ApiControllerTestsBase
         response.Should().BeSuccessful();
         var result = await response.Content.ReadFromJsonAsync<List<Family>>();
         result.Should().NotBeNull();
-        result?.Should().Contain(f => f.Tags.Count > 0);
+        result?.Should().Contain(f => f.Tags.Count == Tags.Count);
+    }
+    [Fact]
+    public async Task FamsController_GetAllEndpoint_FamilyTagsAreOrderedByName()
+    {
+        // Arrange
+        string url = baseUri;
+
+        // Act
+        var response = await _httpClient.GetAsync(url);
+
+        // Assert
+        var result = await response.Content.ReadFromJsonAsync<List<Family>>();
+        var famWithTags = result.Should().Contain(f => f.Tags.Count == Tags.Count).Which;
+        famWithTags.Should().NotBeNull();
+        famWithTags.Tags.Should().BeInAscendingOrder(t => t.Name);
     }
     [Fact]
     public async Task FamsController_GetAllEndpoint_IfEmptyReturnsNotFound()
