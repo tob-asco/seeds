@@ -79,11 +79,15 @@ public partial class PreferencesViewModel : MyBaseViewModel
         popupVm.Family = fam;
 
         // display and read result
-        TagFromDb chosenTag = await page.ShowPopupAsync(new FamilyPopup(popupVm)
-        { Size = popupSize.Large }) as TagFromDb;
+        Size size = popupSize.Medium;
+#if WINDOWS
+        size = popupSize.Large;
+#endif
 
-        // 
-        if (chosenTag != null && chosenTag.CategoryKey == fam.CategoryKey)
+        if (await page.ShowPopupAsync(new FamilyPopup(popupVm)
+        {
+            Size = size
+        }) is TagFromDb chosenTag && chosenTag.CategoryKey == fam.CategoryKey)
         {
             // update DB and FopListList
             if (await glob.GlobChangePreferenceAsync(chosenTag.Id, 1))
