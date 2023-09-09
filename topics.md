@@ -268,7 +268,7 @@ Generally for this category:
    - :cool: +18 branches
    - :abacus: applications
    - :abacus: new kinds
-3. `for language: {Python, Java, JavaScript, C++, C#, PHP, Ruby, Swift, Kotlin, TypeScript, Go, Rust, Perl, MATLAB, R, Scala, Dart, Lua, Julia, Objective-C, COBOL, Fortran, Haskell, Groovy, Shell Scripting (Bash), Assembly Language, PL/SQL, VB, (La)TeX, MATLAB, Lisp, Prolog, Ada, SQL}`
+3. `for language: {Python, Java, JavaScript, C++, C#, PHP, Ruby, Swift, Kotlin, TypeScript, Go, Rust, Perl, MATLAB, R, Scala, Dart, Lua, Julia, Objective-C, COBOL, Fortran, Haskell, Groovy, Shell Scripting (Bash), Assembly Language, PL/SQL, VB, (La)TeX, Lisp, Prolog, Ada, SQL}`
    - preference: 0
    - :cool: programmers are much tied to their languages
    - :cool: you can scavenge for great improvements and push them
