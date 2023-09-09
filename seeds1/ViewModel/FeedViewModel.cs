@@ -43,32 +43,11 @@ public partial class FeedViewModel : MyBaseViewModel
         feedentryVMs = glob.FeedentryVMs;
     }
 
-    /// <summary>
-    /// Update all feed entries that have the same topic
-    /// as the topic clicked.
-    /// Then update the DB with the new preference.
-    /// </summary>
-    /// <param name="mauiPref">The tapped topic as MauiPreference</param>
     [RelayCommand]
     public async Task ChangeTopicPreference(MauiPreference mauiPref)
     {
-        int newPref = prefService.StepPreference(mauiPref.Preference);
-
-        // update feed entries
-        for (int i = 0; i < FeedentryVMs.Count; i++)
-        {
-            // loop over topics
-            for (int j = 0; j < FeedentryVMs[i].FeedEntry.MauiPreferences.Count; j++)
-            {
-                if (FeedentryVMs[i].FeedEntry.MauiPreferences[j].Topic.Id == mauiPref.Topic.Id)
-                {
-                    FeedentryVMs[i].FeedEntry.MauiPreferences[j].Preference = newPref;
-                }
-            }
-        }
-
-        // update DB
-        await glob.GlobChangePreferenceAsync(mauiPref.Topic.Id, newPref);
+        await glob.GlobChangePreferenceAsync(
+            mauiPref.Topic.Id, prefService.StepPreference(mauiPref.Preference));
     }
 
     [RelayCommand]

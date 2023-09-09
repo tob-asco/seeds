@@ -166,6 +166,24 @@ public partial class GlobalService : IGlobalService
                     Value = newValue,
                 });
             }
+
+            #region update Feedentries
+            /* Update all feed entries that have the same topic
+             * as the topic clicked.
+             * Then update the DB with the new preference.
+             */
+            for (int i = 0; i < Feedentries.Count; i++)
+            {
+                // loop over topics
+                for (int j = 0; j < Feedentries[i].MauiPreferences.Count; j++)
+                {
+                    if (Feedentries[i].MauiPreferences[j].Topic.Id == itemId)
+                    {
+                        Feedentries[i].MauiPreferences[j].Preference = newValue;
+                    }
+                }
+            }
+            #endregion
             return topicAlreadyButtoned;
         }
         catch (Exception ex)
