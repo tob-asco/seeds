@@ -157,6 +157,22 @@ public class IdeasControllerTests : ApiControllerTestsBase
         result.Should().Contain(fe => fe.Upvotes > 0);
     }
     [Fact]
+    public async Task IdeasController_GetFeedentryPageEndpoint_IfNoMoreIdeasReturnsEmpty()
+    {
+        //Arrange
+        string url = baseUri + $"feedentryPage/2?" +
+            $"pageSize={Ideas.Count}";
+
+        //Act
+        var response = await _httpClient.GetAsync(url);
+
+        //Assert
+        response.Should().BeSuccessful();
+        var result = await response.Content.ReadFromJsonAsync<List<Feedentry>>();
+        result.Should().NotBeNull();
+        result.Should().HaveCount(0);
+    }
+    [Fact]
     public async Task IdeasController_GetIdeaEndpoint_ReturnsIdeaDto()
     {
         //Arrange
