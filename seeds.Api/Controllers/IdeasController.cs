@@ -115,9 +115,24 @@ public class IdeasController : ControllerBase
             if (!await query.AnyAsync()) { return new List<Feedentry>(); }
             // using Linq.Dynamic.Core's query will only lazily access the DB,
             // once the query is enumerated, which happens now:
-            var ideas = await query.ToListAsync();
+            //var ideas = await query.ToListAsync();
 
-            List<Feedentry> fes = new();
+            List<Feedentry> fes = query.AsEnumerable().Select(
+                idea => new Feedentry()
+                {
+                    Idea = mapper.Map<IdeaFromDb>(idea),
+                    Topics = mapper.Map<List<TopicFromDb>>(idea.Topics),
+                    Upvotes = context.UserIdeaInteraction
+                        .GroupBy(uii => uii.IdeaId)
+                        .Select(group => new
+                        {
+                            IdeaId = group.Key,
+                            UpvoteCount = group.Sum(
+                                idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
+                        })
+                        .FirstOrDefault(uii => uii.IdeaId == idea.Id)?.UpvoteCount ?? 0
+                }).ToList();
+            /* Old code with foreach
             foreach (var idea in ideas)
             {
                 var upvoteCountForIdea = context.UserIdeaInteraction
@@ -136,6 +151,7 @@ public class IdeasController : ControllerBase
                     Upvotes = upvoteCountForIdea != null ? upvoteCountForIdea.UpvoteCount : 0
                 });
             }
+            */
             return fes;
         }
         catch (Exception ex)
