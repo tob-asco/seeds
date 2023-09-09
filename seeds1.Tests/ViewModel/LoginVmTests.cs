@@ -20,7 +20,7 @@ public class LoginVmTests
         globalService = A.Fake<IGlobalService>();
         userService = A.Fake<IUsersService>();
         navService = (INavigationService)new MockNavigationService();
-        vm = new(staticService, globalService, userService, navService);
+        vm = new(staticService, globalService, A.Fake<PreferencesViewModel>(), userService, navService);
     }
 
     #region Positive Tests
