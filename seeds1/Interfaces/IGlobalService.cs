@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using MvvmHelpers;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
@@ -13,6 +14,7 @@ public interface IGlobalService : IDisposable
     /// A convenient list of all FamilyOrPreferences for when to display all topics.
     /// </summary>
     public List<ObservableCollection<FamilyOrPreference>> FopListList { get; }
+    public ObservableCollection<FeedEntryViewModel> FeedentryVMs { get; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().
@@ -36,4 +38,6 @@ public interface IGlobalService : IDisposable
     /// This Method catches any earlier exception.
     /// </summary>
     public Task GlobChangeIdeaInteractionAsync(UserIdeaInteraction newUii);
+    public Task MoreFeedentriesAsync(
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true);
 }

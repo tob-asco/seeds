@@ -3,24 +3,31 @@ using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
+using seeds1.Factories;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 using seeds1.Services;
+using seeds1.View;
+using seeds1.ViewModel;
 
 namespace seeds1.Tests.Services;
 
 public class GlobalServiceTests
 {
     private readonly IStaticService stat;
+    private readonly IIdeasService ideasService;
+    private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService userPrefService;
     private readonly IUserIdeaInteractionService uiiService;
     private readonly GlobalService service;
     public GlobalServiceTests()
     {
         stat = A.Fake<IStaticService>();
+        ideasService = A.Fake<IIdeasService>();
+        feedEntryVmFactory = A.Fake<IGenericFactory<FeedEntryViewModel> >();
         userPrefService = A.Fake<IUserPreferenceService>();
         uiiService = A.Fake<IUserIdeaInteractionService>();
-        service = new(stat, userPrefService, uiiService);
+        service = new(stat, ideasService, feedEntryVmFactory, userPrefService, uiiService);
         service.CurrentUser = new();
     }
 

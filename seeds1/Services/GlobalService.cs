@@ -1,8 +1,10 @@
-﻿using MvvmHelpers;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using MvvmHelpers;
 using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
+using seeds1.Factories;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 using System.Collections.ObjectModel;
@@ -10,27 +12,51 @@ using System.ComponentModel;
 
 namespace seeds1.Services;
 
-public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IGlobalService
+public partial class GlobalService : IGlobalService
 {
+    private static readonly int feedEntryPageSize = 5;
     private readonly IStaticService stat;
+    private readonly IIdeasService ideasService;
+    private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService userPrefService;
     private readonly IUserIdeaInteractionService uiiService;
 
 
     public UserDto CurrentUser { get; set; }
-    private Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; } = new();
-    private Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; } = new();
-    // public, but not in IGlobalService
-    public Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict { get; set; } = new();
-    public List<ObservableCollection<FamilyOrPreference>> FopListList => FopListDict.Values.ToList();
+
+    #region Basic but inaccessible properties used for private consistency
+    Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; } = new();
+    Dictionary<int, UserIdeaInteraction> CurrentUserIdeaInteractions { get; set; } = new();
     public bool PreferencesLoaded { get; set; } = false; // public, but not in IGlobalService
     private bool IdeaInteractionsLoaded { get; set; } = false;
+    #endregion
+
+    #region High-level but inaccessible properties
+    public Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict { get; set; } = new();
+    public ObservableRangeCollection<UserFeedentry> Feedentries { get; private set; } = new();
+    #endregion
+
+    #region Public properties, converted from the above
+    public List<ObservableCollection<FamilyOrPreference>> FopListList => FopListDict.Values.ToList();
+    public ObservableCollection<FeedEntryViewModel> FeedentryVMs =>
+        Feedentries.Select(ufe =>
+        {
+            var vm = feedEntryVmFactory.Create();
+            vm.FeedEntry = ufe;
+            return vm;
+        }).ToObservableCollection();
+    #endregion
+
     public GlobalService(
         IStaticService stat,
+        IIdeasService ideasService,
+        IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
         IUserPreferenceService userPrefService,
         IUserIdeaInteractionService uiiService)
     {
         this.stat = stat;
+        this.ideasService = ideasService;
+        this.feedEntryVmFactory = feedEntryVmFactory;
         this.userPrefService = userPrefService;
         this.uiiService = uiiService;
     }
@@ -182,6 +208,43 @@ public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.Observ
         }
     }
 
+    public async Task MoreFeedentriesAsync(
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
+    {
+        int currentPages = (int)Math.Ceiling((decimal)Feedentries.Count / feedEntryPageSize);
+
+        List<UserFeedentry> ufePage = new();
+        try
+        {
+            var fePage = await ideasService.GetFeedentriesPaginatedAsync(
+                currentPages + 1, feedEntryPageSize, orderByColumn, isDescending);
+            if (fePage.Count == 0) { return; }
+            ufePage = fePage.Select(fe => new UserFeedentry()
+            {
+                Idea = fe.Idea,
+                MauiPreferences = fe.Topics.Select(t => new MauiPreference()
+                {
+                    Topic = t,
+                    Preference = CurrentUserPreferences.ContainsKey(t.Id) ?
+                            CurrentUserPreferences[t.Id].Value : 0
+                }).ToList(),
+                Upvoted = CurrentUserIdeaInteractions.ContainsKey(fe.Idea.Id) ?
+                        CurrentUserIdeaInteractions[fe.Idea.Id].Upvoted : false,
+                Downvoted = CurrentUserIdeaInteractions.ContainsKey(fe.Idea.Id) ?
+                        CurrentUserIdeaInteractions[fe.Idea.Id].Upvoted : false,
+                Upvotes = fe.Upvotes,
+            }).ToList();
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Error On Collecting FeedEntries", ex.Message, "Ok");
+            return;
+        }
+#if WINDOWS
+            ufePage.Reverse();
+#endif
+        Feedentries.AddRange(ufePage);
+    }
     public void Dispose()
     {
         CurrentUser = null!;

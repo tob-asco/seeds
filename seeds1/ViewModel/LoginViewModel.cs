@@ -71,6 +71,7 @@ public partial class LoginViewModel : MyBaseViewModel
                 CurrentUser = user;
                 await glob.LoadPreferencesAsync();
                 await glob.LoadIdeaInteractionsAsync();
+                await glob.MoreFeedentriesAsync();
                 prefVm.Refresh();
 
                 // global switch to inform NavigatedTo page

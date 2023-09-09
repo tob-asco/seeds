@@ -25,7 +25,7 @@ public class FeedEntriesService : IFeedEntriesService
         List<UserFeedentry> userFePage = new();
         var feedentryPage = await ideasService.GetFeedentriesPaginatedAsync(
             pageIndex, pageSize, orderByColumn, isDescending);
-        if (feedentryPage == null) { return new(); } // we get null if there are no more ideas
+        if (feedentryPage.Count == 0) { return new(); } // we get null if there are no more ideas
         foreach (var fe in feedentryPage)
         {
             /* According to the general philo, no error- / badNull- handling here.

@@ -8,27 +8,27 @@
     xmlns:views="clr-namespace:seeds1.View"
     Title="{Binding CurrentUser.Username, StringFormat='{}{0}s feed'}"
     x:DataType="local:FeedViewModel">
-    <RefreshView
+    <!--<RefreshView
         x:DataType="local:FeedViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsRefreshing}">
-        <CollectionView
-            ItemsSource="{Binding FeedEntryVMCollection}"
-            RemainingItemsThreshold="2"
-            RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <views:FeedEntryView BindingContext="{Binding .}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.Footer>
-                <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
-                    <Button
-                        Command="{Binding CollectFeedEntriesPaginatedCommand}"
-                        HeightRequest="40"
-                        Text="Load More" />
-                </StackLayout>
-            </CollectionView.Footer>
-        </CollectionView>
-    </RefreshView>
+        IsRefreshing="{Binding IsRefreshing}">-->
+    <CollectionView
+        ItemsSource="{Binding FeedentryVMs}"
+        RemainingItemsThreshold="2"
+        RemainingItemsThresholdReachedCommand="{Binding MoreFeedentriesCommand}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <views:FeedEntryView BindingContext="{Binding .}" />
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                <Button
+                    Command="{Binding MoreFeedentriesCommand}"
+                    HeightRequest="40"
+                    Text="Load More" />
+            </StackLayout>
+        </CollectionView.Footer>
+    </CollectionView>
+    <!--</RefreshView>-->
 </ContentPage>

@@ -6,34 +6,18 @@ namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
+    private readonly FeedViewModel vm;
     private readonly IGenericFactory<FeedViewModel> vmFactory;
     private readonly INavigationService navigationService;
-    private FeedViewModel vm;
     public FeedPage(
+        FeedViewModel vm,
         IGenericFactory<FeedViewModel> vmFactory,
         INavigationService navigationService)
     {
         InitializeComponent();
+        BindingContext = vm;
+        this.vm = vm;
         this.vmFactory = vmFactory;
         this.navigationService = navigationService;
-    }
-
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-
-        if (vm == null || BindingContext == null ||
-            navigationService.RedrawNavigationTarget == true)
-        {
-            // create a new instance of the VM w/o calling its constructor:
-            vm = vmFactory.Create();
-            BindingContext = vm;
-            if(vm.FeedEntryVMCollection == null || 
-                vm.FeedEntryVMCollection?.Count == 0)
-            {
-                await vm.CollectFeedEntriesPaginated();
-            }
-            navigationService.RedrawNavigationTarget = false;
-        }
     }
 }
