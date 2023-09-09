@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "seeds.Dal.Tests", "seeds.Da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "seeds1.Tests", "seeds1.Tests\seeds1.Tests.csproj", "{BCC66BAB-339C-4A62-B715-1305FB7387CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdConverter", "MdConverter\MdConverter.csproj", "{BEECCA84-5BF3-4A4A-ADC2-48E0FAAA44E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MdConverter", "MdConverter\MdConverter.csproj", "{BEECCA84-5BF3-4A4A-ADC2-48E0FAAA44E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
