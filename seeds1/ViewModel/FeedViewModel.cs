@@ -17,7 +17,6 @@ public partial class FeedViewModel : MyBaseViewModel
     private readonly IGlobalService glob;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService prefService;
-    private readonly IFeedEntriesService feedEntriesService;
     ObservableCollection<FeedEntryViewModel> feedentryVMs = new();
     public ObservableCollection<FeedEntryViewModel> FeedentryVMs
     {
@@ -35,14 +34,12 @@ public partial class FeedViewModel : MyBaseViewModel
         IStaticService stat,
         IGlobalService glob,
         IGenericFactory<FeedEntryViewModel> feedEntryVmFactory,
-        IUserPreferenceService prefService,
-        IFeedEntriesService feedEntriesService)
+        IUserPreferenceService prefService)
         : base(stat, glob)
     {
         this.glob = glob;
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.prefService = prefService;
-        this.feedEntriesService = feedEntriesService;
         feedentryVMs = glob.FeedentryVMs;
     }
 
