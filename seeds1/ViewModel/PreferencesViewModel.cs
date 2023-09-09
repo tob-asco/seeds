@@ -96,4 +96,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
             }
         }
     }
+    public void Refresh()
+    {
+        OnPropertyChanged(nameof(FopListList));
+    }
 }

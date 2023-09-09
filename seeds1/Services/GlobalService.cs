@@ -10,7 +10,8 @@ using System.ComponentModel;
 
 namespace seeds1.Services;
 
-public class GlobalService : IGlobalService{
+public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IGlobalService
+{
     private readonly IStaticService stat;
     private readonly IUserPreferenceService userPrefService;
     private readonly IUserIdeaInteractionService uiiService;
@@ -185,12 +186,12 @@ public class GlobalService : IGlobalService{
     {
         CurrentUser = null!;
 
-        CurrentUserPreferences = new();
+        CurrentUserPreferences.Clear();
         PreferencesLoaded = false;
 
-        CurrentUserIdeaInteractions = new();
+        CurrentUserIdeaInteractions.Clear();
         IdeaInteractionsLoaded = false;
 
-        FopListDict = new();
+        FopListDict.Clear();
     }
 }

@@ -8,18 +8,21 @@ public partial class LoginViewModel : MyBaseViewModel
 {
     private readonly IStaticService stat;
     private readonly IGlobalService glob;
+    private readonly PreferencesViewModel prefVm;
     private readonly IUsersService usersService;
     private readonly INavigationService navigationService;
 
     public LoginViewModel(
         IStaticService stat,
         IGlobalService glob,
+        PreferencesViewModel prefVm,
         IUsersService usersService,
         INavigationService navigationService)
         : base(stat, glob)
     {
         this.stat = stat;
         this.glob = glob;
+        this.prefVm = prefVm;
         this.usersService = usersService;
         this.navigationService = navigationService;
     }
@@ -68,6 +71,7 @@ public partial class LoginViewModel : MyBaseViewModel
                 CurrentUser = user;
                 await glob.LoadPreferencesAsync();
                 await glob.LoadIdeaInteractionsAsync();
+                prefVm.Refresh();
 
                 // global switch to inform NavigatedTo page
                 navigationService.RedrawNavigationTarget = true;
