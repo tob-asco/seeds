@@ -49,7 +49,7 @@ public class UsersControllerTests : ApiControllerTestsBase
         result?.Username.Should().Be(username);
     }
     [Fact]
-    public async Task UsersController_GetUserEndpoint_IfNotExistReturnsNotFound()
+    public async Task UsersController_GetUserEndpoint_IfNotExistReturnsNotFoundWithMyHeader()
     {
         //Arrange
         string url = baseUri + $"{Guid.NewGuid().ToString()}";
@@ -59,6 +59,9 @@ public class UsersControllerTests : ApiControllerTestsBase
 
         //Assert
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+        response.Headers.TryGetValues("X-Error-Type", out var vals).Should().BeTrue();
+        vals.Should().NotBeNull();
+        vals.Should().Contain(s => s == "DbRecordNotFound");
     }
     [Fact]
     public async Task UsersController_PostUserEndpoint_ReturnsSuccessAndUpdatesDb()
