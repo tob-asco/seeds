@@ -59,7 +59,7 @@ public partial class LoginViewModel : MyBaseViewModel
             // str ?? "" //returns "" if str is null and returns str othw.
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
-                LoginResponse("Loging in...", isFail: false, isSuccess: true);
+                LoginResponse("Logging in...", isFail: false, isSuccess: true);
 
                 // load statics (needed if OnStart's loading failed)
                 await stat.LoadStaticsAsync();

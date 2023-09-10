@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using MvvmHelpers;
-using seeds.Dal.Dto.ToAndFromDb;
+﻿using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds1.Factories;
 using seeds1.Interfaces;
@@ -14,7 +12,6 @@ namespace seeds1.ViewModel;
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class FeedViewModel : MyBaseViewModel
 {
-    private static readonly int _feedEntryPageSize = 5;
     private readonly IGlobalService glob;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService prefService;
@@ -50,13 +47,26 @@ public partial class FeedViewModel : MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTopicPreference(MauiPreference mauiPref)
     {
+        IsBusy = true;
         await glob.GlobChangePreferenceAsync(
             mauiPref.Topic.Id, prefService.StepPreference(mauiPref.Preference));
+        IsBusy = false;
     }
 
     [RelayCommand]
     public async Task MoreFeedentries()
     {
+        IsBusy = true;
         await glob.MoreFeedentriesAsync();
+        IsBusy = false;
+    }
+
+    [RelayCommand]
+    public void Refresh()
+    {
+        IsBusy = true;
+        feedentryVMs = glob.FeedentryVMs;
+        OnPropertyChanged(nameof(FeedentryVMs));
+        IsBusy = false;
     }
 }

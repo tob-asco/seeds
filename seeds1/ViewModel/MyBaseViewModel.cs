@@ -27,8 +27,9 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
     {
         this.stat = stat;
         this.glob = glob;
+
         glob.PropertyChanged += OnGlobPropertyChanged;
-        //currentUser = glob.CurrentUser;
+        currentUser = glob.CurrentUser;
     }
 
     private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
