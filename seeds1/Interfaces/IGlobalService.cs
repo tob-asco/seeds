@@ -4,10 +4,11 @@ using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.MauiModels;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace seeds1.Interfaces;
 
-public interface IGlobalService : IDisposable
+public interface IGlobalService : IDisposable, INotifyPropertyChanged
 {
     public UserDto CurrentUser { get; set; }
     /// <summary>

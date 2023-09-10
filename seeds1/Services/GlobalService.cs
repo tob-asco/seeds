@@ -21,8 +21,22 @@ public partial class GlobalService : IGlobalService
     private readonly IUserPreferenceService userPrefService;
     private readonly IUserIdeaInteractionService uiiService;
 
-
-    public UserDto CurrentUser { get; set; }
+    UserDto currentUser;
+    public UserDto CurrentUser
+    {
+        get => currentUser;
+        set
+        {
+            if (value != currentUser)
+            {
+                currentUser = value;
+                if (value != null) // don't send upon Logout
+                {
+                    OnPropertyChanged(nameof(CurrentUser));
+                }
+            }
+        }
+    }
 
     #region Basic but inaccessible properties used for private consistency
     Dictionary<Guid, UserPreference> CurrentUserPreferences { get; set; } = new();
@@ -32,8 +46,33 @@ public partial class GlobalService : IGlobalService
     #endregion
 
     #region High-level but inaccessible properties
-    public Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict { get; set; } = new();
-    public ObservableRangeCollection<UserFeedentry> Feedentries { get; private set; } = new();
+    Dictionary<string, ObservableCollection<FamilyOrPreference>> fopListDict = new();
+    public Dictionary<string, ObservableCollection<FamilyOrPreference>> FopListDict
+    {
+        get => fopListDict;
+        set
+        {
+            if (value != fopListDict)
+            {
+                fopListDict = value;
+                OnPropertyChanged(nameof(FopListList));
+            }
+        }
+    }
+
+    ObservableRangeCollection<UserFeedentry> feedentries = new();
+    public ObservableRangeCollection<UserFeedentry> Feedentries
+    {
+        get => feedentries;
+        private set
+        {
+            if (value != feedentries)
+            {
+                feedentries = value;
+                OnPropertyChanged(nameof(FeedentryVMs));
+            }
+        }
+    }
     #endregion
 
     #region Public properties, converted from the above
@@ -60,6 +99,14 @@ public partial class GlobalService : IGlobalService
         this.userPrefService = userPrefService;
         this.uiiService = uiiService;
     }
+
+    #region OPC stuff
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+    #endregion
 
     public async Task LoadPreferencesAsync()
     {
@@ -261,7 +308,8 @@ public partial class GlobalService : IGlobalService
 #if WINDOWS
             ufePage.Reverse();
 #endif
-        Feedentries.AddRange(ufePage);
+        Feedentries.AddRange(ufePage); // this doesn't trigger Feedentries.set(), hence OPC now:
+        OnPropertyChanged(nameof(FeedentryVMs));
     }
     public void Dispose()
     {
@@ -274,5 +322,6 @@ public partial class GlobalService : IGlobalService
         IdeaInteractionsLoaded = false;
 
         FopListDict.Clear();
+        Feedentries.Clear();
     }
 }

@@ -6,6 +6,7 @@ using seeds1.Factories;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace seeds1.ViewModel;
 
@@ -17,19 +18,8 @@ public partial class FeedViewModel : MyBaseViewModel
     private readonly IGlobalService glob;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService prefService;
-    ObservableCollection<FeedEntryViewModel> feedentryVMs = new();
-    public ObservableCollection<FeedEntryViewModel> FeedentryVMs
-    {
-        get => feedentryVMs;
-        set
-        {
-            if (feedentryVMs != value)
-            {
-                feedentryVMs = value;
-                OnPropertyChanged(nameof(FeedentryVMs));
-            }
-        }
-    }
+    ObservableCollection<FeedEntryViewModel> feedentryVMs;
+    public ObservableCollection<FeedEntryViewModel> FeedentryVMs => feedentryVMs;
     public FeedViewModel(
         IStaticService stat,
         IGlobalService glob,
@@ -40,7 +30,21 @@ public partial class FeedViewModel : MyBaseViewModel
         this.glob = glob;
         this.feedEntryVmFactory = feedEntryVmFactory;
         this.prefService = prefService;
+
+        glob.PropertyChanged += OnGlobPropertyChanged;
         feedentryVMs = glob.FeedentryVMs;
+    }
+
+    private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(glob.FeedentryVMs))
+        {
+            if (feedentryVMs != glob.FeedentryVMs)
+            {
+                feedentryVMs = glob.FeedentryVMs;
+                OnPropertyChanged(nameof(FeedentryVMs));
+            }
+        }
     }
 
     [RelayCommand]

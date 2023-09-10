@@ -6,7 +6,6 @@ namespace seeds1.View;
 
 public partial class FeedPage : ContentPage
 {
-    private readonly FeedViewModel vm;
     private readonly INavigationService navigationService;
     public FeedPage(
         FeedViewModel vm,
@@ -14,7 +13,6 @@ public partial class FeedPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
-        this.vm = vm;
         this.navigationService = navigationService;
     }
 }

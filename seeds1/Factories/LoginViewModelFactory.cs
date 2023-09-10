@@ -17,7 +17,8 @@ public class LoginViewModelFactory : IGenericFactory<LoginViewModel>
         return new LoginViewModel(
             serviceProvider.GetRequiredService<IStaticService>(),
             serviceProvider.GetRequiredService<IGlobalService>(),
-            serviceProvider.GetRequiredService<PreferencesViewModel>(),
+            //serviceProvider.GetRequiredService<FeedViewModel>(),
+            //serviceProvider.GetRequiredService<PreferencesViewModel>(),
             serviceProvider.GetRequiredService<IUsersService>(),
             serviceProvider.GetRequiredService<INavigationService>());
     }

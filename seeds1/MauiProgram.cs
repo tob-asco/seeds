@@ -39,7 +39,7 @@ public static class MauiProgram
 
         builder.Services.AddTransient<MyBaseViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
-        builder.Services.AddTransient<FeedViewModel>();
+        builder.Services.AddSingleton<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryViewModel>();
         builder.Services.AddSingleton<PreferencesViewModel>();
         builder.Services.AddTransient<DetailViewModel>();
@@ -52,7 +52,7 @@ public static class MauiProgram
          * it simply doesn't re-call the constructor.
          */
         builder.Services.AddTransient<LoginPage>();
-        builder.Services.AddTransient<FeedPage>();
+        builder.Services.AddSingleton<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
         builder.Services.AddSingleton<PreferencesPage>();
         builder.Services.AddTransient<DetailPage>();
