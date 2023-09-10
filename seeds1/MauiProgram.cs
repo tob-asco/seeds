@@ -17,7 +17,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
 
         //The following builder addings register possible dependencies to the
-        //DI (Dependency Injection) container:
+        // DI (Dependency Injection) container:
         //(This means that constructors of e.g. ViewModels can implement
         // these dependencies as parameters and we do not have to change
         // the lines where the corresponding VM objects are created because
@@ -31,7 +31,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<IGlobalService, GlobalService>();
         builder.Services.AddSingleton<IGenericFactory<LoginViewModel>, LoginViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
-        builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FamilyPopupViewModel>, FamilyPopupViewModelFactory>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
