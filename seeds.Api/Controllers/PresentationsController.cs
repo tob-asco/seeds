@@ -29,6 +29,8 @@ namespace seeds.Api.Controllers
 
             if (presentation == null)
             {
+                // username doesn't exist
+                Response.Headers.Add("X-Error-Type", "DbRecordNotFound");
                 return NotFound();
             }
 

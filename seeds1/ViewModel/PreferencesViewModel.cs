@@ -23,6 +23,8 @@ public partial class PreferencesViewModel : MyBaseViewModel
     private readonly PopupSizeConstants popupSize;
     private readonly IUserPreferenceService prefService;
 
+    private List<ObservableCollection<FamilyOrPreference>> fopListList = new();
+    public List<ObservableCollection<FamilyOrPreference>> FopListList => fopListList;
     public PreferencesViewModel(
         IStaticService stat,
         IGlobalService glob,
@@ -36,23 +38,22 @@ public partial class PreferencesViewModel : MyBaseViewModel
         this.popupSize = popupSize;
         this.prefService = prefService;
 
+        glob.PropertyChanged += OnGlobPropertyChanged;
         fopListList = glob.FopListList;
     }
 
-    private List<ObservableCollection<FamilyOrPreference>> fopListList = new();
-    public List<ObservableCollection<FamilyOrPreference>> FopListList
+
+    private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        get { return glob.FopListList; }
-        set
+        if (e.PropertyName == nameof(glob.FopListList))
         {
-            if (fopListList != value)
+            if (fopListList != glob.FopListList)
             {
-                fopListList = value;
+                fopListList = glob.FopListList;
                 OnPropertyChanged(nameof(FopListList));
             }
         }
     }
-
     [RelayCommand]
     public async Task ChangeTopicPreference(MauiPreference pref)
     {

@@ -17,7 +17,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
 
         //The following builder addings register possible dependencies to the
-        //DI (Dependency Injection) container:
+        // DI (Dependency Injection) container:
         //(This means that constructors of e.g. ViewModels can implement
         // these dependencies as parameters and we do not have to change
         // the lines where the corresponding VM objects are created because
@@ -31,19 +31,16 @@ public static class MauiProgram
         builder.Services.AddSingleton<IGlobalService, GlobalService>();
         builder.Services.AddSingleton<IGenericFactory<LoginViewModel>, LoginViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FeedEntryViewModel>, FeedEntryViewModelFactory>();
-        builder.Services.AddSingleton<IGenericFactory<FeedViewModel>, FeedViewModelFactory>();
-        builder.Services.AddSingleton<IGenericFactory<PreferencesViewModel>, PreferencesViewModelFactory>();
         builder.Services.AddSingleton<IGenericFactory<FamilyPopupViewModel>, FamilyPopupViewModelFactory>();
-        builder.Services.AddSingleton<IFeedEntriesService, FeedEntriesService>();
         builder.Services.AddSingleton<INavigationService, NavigationService>();
 
         builder.Services.AddSingleton<AppShell>();
 
         builder.Services.AddTransient<MyBaseViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
-        builder.Services.AddTransient<FeedViewModel>();
+        builder.Services.AddSingleton<FeedViewModel>();
         builder.Services.AddTransient<FeedEntryViewModel>();
-        builder.Services.AddTransient<PreferencesViewModel>();
+        builder.Services.AddSingleton<PreferencesViewModel>();
         builder.Services.AddTransient<DetailViewModel>();
         builder.Services.AddTransient<AddViewModel>();
 
@@ -54,9 +51,9 @@ public static class MauiProgram
          * it simply doesn't re-call the constructor.
          */
         builder.Services.AddTransient<LoginPage>();
-        builder.Services.AddTransient<FeedPage>();
+        builder.Services.AddSingleton<FeedPage>();
         builder.Services.AddTransient<FeedEntryView>();
-        builder.Services.AddTransient<PreferencesPage>();
+        builder.Services.AddSingleton<PreferencesPage>();
         builder.Services.AddTransient<DetailPage>();
         builder.Services.AddTransient<AddPage>();
 

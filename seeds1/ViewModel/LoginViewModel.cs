@@ -59,15 +59,16 @@ public partial class LoginViewModel : MyBaseViewModel
             // str ?? "" //returns "" if str is null and returns str othw.
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
-                LoginResponse("Loging in...", isFail: false, isSuccess: true);
+                LoginResponse("Logging in...", isFail: false, isSuccess: true);
 
                 // load statics (needed if OnStart's loading failed)
                 await stat.LoadStaticsAsync();
                 
                 // set and load globals
-                CurrentUser = user;
+                glob.CurrentUser = user;
                 await glob.LoadPreferencesAsync();
                 await glob.LoadIdeaInteractionsAsync();
+                await glob.MoreFeedentriesAsync();
 
                 // global switch to inform NavigatedTo page
                 navigationService.RedrawNavigationTarget = true;
