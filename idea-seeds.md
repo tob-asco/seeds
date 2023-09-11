@@ -428,12 +428,11 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 ## renttherunway.com
 - Title: Rent The Runway
 - Slogan: Rent 2nd Hand Clothes From the Runway
-- {Wear the haut couture of tomorrow that has actually been on the biggest runways of the metropolitan world.}
+- {Wear the haut couture of tomorrow that has actually been on the biggest runways }
 - CreationTime: 2009-01-01
 - Topics: haut couture; sustainability
 ## squarerootsgrow.com
 - Title: Square Root
 - Slogan: Urban Vertical Indoor Farming Containers For Crops
-- {Ready-to-grow containers that efficiently use cities' restricted space in order to grow plants. Staple-able.}
 - CreationTime: 2016-09-21
 - Topics: greenify cities; for branch: farmer; food/water supply
