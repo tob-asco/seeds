@@ -100,7 +100,7 @@ Step 3: profit
 Maybe also for universities
 	top3 courses / profs}
 - CreationTime: 2022-03-22
-- Topics: traveling; mobile apps
+- Topics: traveling
 ## DiaBundle
 - Title: DiaBundle
 - Slogan: A Social Network For Slideshows
