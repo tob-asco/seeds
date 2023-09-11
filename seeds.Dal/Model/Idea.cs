@@ -28,6 +28,7 @@ public class Idea
     #region Navigation
     public User Creator { get; } = null!; // the idea's creator
     public List<Topic> Topics { get; set; } = new(); // the idea's topics
+    public Presentation Presentation { get; set; } = new(); // the idea's description
     public List<User> InteractedUsers { get; set; } = new();
     #endregion
 
