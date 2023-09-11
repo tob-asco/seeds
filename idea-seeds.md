@@ -318,7 +318,7 @@ Ich versuche mich jetzt so schnell zu erheben, dass das Wissen über die Aktuali
 Ich setze fort. Da mir in den kommenden Höhen die Bilder fehlen, kann ich sie mir nur noch durch meine Vorstellung erschließen. Ich kombiniere sie mit Leben, mit Wirklichkeit, und hoffe darauf, dass ich es mir selbst glaube. Im Übrigen interessiert sich dafür sonst Niemand...
 }
 - CreationTime: 2020-12-12
-- Topics: short: Deutsch
+- Topics: short: German
 ## Hundehalsband
 - Title: CollarLeash
 - Slogan: A Leash That Winds Up In the Collar
