@@ -8,7 +8,7 @@ Repeat.
 
 This way, the brands will immediately dial down on dirty energy, i.e. switch to renewable and greener sources, because they want to avoid being publicly demonstrated as a "dirty" power consumer.}
 - CreationTime: 2021-03-30
-- Topics: CO2 reduction; grand movement; consumerism
+- Topics: ENV: CO2 reduction; grand movement; consumerism
 ## LastWipe
 - Title: LastWipe
 - Slogan: No More Wiping Pain (for men)
