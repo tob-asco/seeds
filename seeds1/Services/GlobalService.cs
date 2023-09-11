@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace seeds1.Services;
 
-public partial class GlobalService : IGlobalService
+public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.ObservableObject, IGlobalService
 {
     private static readonly int feedEntryPageSize = 5;
     private readonly IStaticService stat;
@@ -59,31 +59,12 @@ public partial class GlobalService : IGlobalService
             }
         }
     }
-
-    ObservableRangeCollection<UserFeedentry> feedentries = new();
-    public ObservableRangeCollection<UserFeedentry> Feedentries
-    {
-        get => feedentries;
-        private set
-        {
-            if (value != feedentries)
-            {
-                feedentries = value;
-                OnPropertyChanged(nameof(FeedentryVMs));
-            }
-        }
-    }
     #endregion
 
     #region Public properties, converted from the above
     public List<ObservableCollection<FamilyOrPreference>> FopListList => FopListDict.Values.ToList();
-    public ObservableCollection<FeedEntryViewModel> FeedentryVMs =>
-        Feedentries.Select(ufe =>
-        {
-            var vm = feedEntryVmFactory.Create();
-            vm.FeedEntry = ufe;
-            return vm;
-        }).ToObservableCollection();
+    [ObservableProperty]
+    ObservableRangeCollection<FeedEntryViewModel> feedentryVMs = new();
     #endregion
 
     public GlobalService(
@@ -101,11 +82,11 @@ public partial class GlobalService : IGlobalService
     }
 
     #region OPC stuff
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    //public event PropertyChangedEventHandler PropertyChanged;
+    //protected virtual void OnPropertyChanged(string propertyName)
+    //{
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //}
     #endregion
 
     public async Task LoadPreferencesAsync()
@@ -165,7 +146,8 @@ public partial class GlobalService : IGlobalService
         }
         else { return CurrentUserPreferences; }
     }
-    public async Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue)
+    public async Task<bool> GlobChangePreferenceAsync(
+        Guid itemId, int newValue, bool raisePceFops = true, bool raisePceFeedentries = true)
     {
         bool topicAlreadyButtoned = false;
         try
@@ -196,12 +178,14 @@ public partial class GlobalService : IGlobalService
                 {
                     topicAlreadyButtoned = true;
                     FopListDict[stat.GetTopics()[itemId].CategoryKey].First(fop =>
-                        !fop.IsFamily && fop.Preference.Topic.Id == itemId).Preference.Preference = newValue;
+                        !fop.IsFamily && fop.Preference.Topic.Id == itemId)
+                        .Preference.Preference = newValue;
                 }
             }
+            //if (raisePceFops) { OnPropertyChanged(nameof(FopListList)); }
             #endregion
 
-            // update the member
+            #region update member
             if (CurrentUserPreferences.ContainsKey(itemId))
             { CurrentUserPreferences[itemId].Value = newValue; }
             else
@@ -213,6 +197,7 @@ public partial class GlobalService : IGlobalService
                     Value = newValue,
                 });
             }
+            #endregion
 
             #region update Feedentries
             /* Update all feed entries that have the same topic
@@ -230,6 +215,7 @@ public partial class GlobalService : IGlobalService
                     }
                 }
             }
+            if (raisePceFeedentries) { OnPropertyChanged(nameof(FeedentryVMs)); }
             #endregion
             return topicAlreadyButtoned;
         }
@@ -276,7 +262,7 @@ public partial class GlobalService : IGlobalService
     public async Task MoreFeedentriesAsync(
         string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
     {
-        int currentPages = (int)Math.Ceiling((decimal)Feedentries.Count / feedEntryPageSize);
+        int currentPages = (int)Math.Ceiling((decimal)FeedentryVMs.Count / feedEntryPageSize);
 
         List<UserFeedentry> ufePage = new();
         try
@@ -308,8 +294,12 @@ public partial class GlobalService : IGlobalService
 #if WINDOWS
             ufePage.Reverse();
 #endif
-        Feedentries.AddRange(ufePage); // this doesn't trigger Feedentries.set(), hence OPC now:
-        OnPropertyChanged(nameof(FeedentryVMs));
+        FeedentryVMs.AddRange(ufePage.Select(ufe =>
+        {
+            var vm = feedEntryVmFactory.Create();
+            vm.FeedEntry = ufe;
+            return vm;
+        }).ToList());
     }
     public void Dispose()
     {

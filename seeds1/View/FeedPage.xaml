@@ -13,10 +13,7 @@
         Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsBusy}"
         RefreshColor="Green">
-        <CollectionView
-            ItemsSource="{Binding FeedentryVMs}"
-            RemainingItemsThreshold="2"
-            RemainingItemsThresholdReachedCommand="{Binding MoreFeedentriesCommand}">
+        <CollectionView ItemsSource="{Binding FeedentryVMs}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <views:FeedEntryView BindingContext="{Binding .}" />

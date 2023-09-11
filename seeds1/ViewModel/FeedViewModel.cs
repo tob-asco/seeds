@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.ToAndFromDb;
+﻿using MvvmHelpers;
+using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Interfaces;
 using seeds1.Factories;
 using seeds1.Interfaces;
@@ -15,8 +16,8 @@ public partial class FeedViewModel : MyBaseViewModel
     private readonly IGlobalService glob;
     private readonly IGenericFactory<FeedEntryViewModel> feedEntryVmFactory;
     private readonly IUserPreferenceService prefService;
-    ObservableCollection<FeedEntryViewModel> feedentryVMs;
-    public ObservableCollection<FeedEntryViewModel> FeedentryVMs => feedentryVMs;
+    [ObservableProperty]
+    ObservableRangeCollection<FeedEntryViewModel> feedentryVMs;
     public FeedViewModel(
         IStaticService stat,
         IGlobalService glob,
@@ -29,17 +30,16 @@ public partial class FeedViewModel : MyBaseViewModel
         this.prefService = prefService;
 
         glob.PropertyChanged += OnGlobPropertyChanged;
-        feedentryVMs = glob.FeedentryVMs;
+        FeedentryVMs = glob.FeedentryVMs;
     }
 
     private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(glob.FeedentryVMs))
         {
-            if (feedentryVMs != glob.FeedentryVMs)
+            if (FeedentryVMs != glob.FeedentryVMs)
             {
-                feedentryVMs = glob.FeedentryVMs;
-                OnPropertyChanged(nameof(FeedentryVMs));
+                FeedentryVMs = glob.FeedentryVMs;
             }
         }
     }
@@ -47,25 +47,35 @@ public partial class FeedViewModel : MyBaseViewModel
     [RelayCommand]
     public async Task ChangeTopicPreference(MauiPreference mauiPref)
     {
-        IsBusy = true;
+        int newPref = prefService.StepPreference(mauiPref.Preference);
+        // change Preference without raising PCE for the Feedentries
         await glob.GlobChangePreferenceAsync(
-            mauiPref.Topic.Id, prefService.StepPreference(mauiPref.Preference));
-        IsBusy = false;
+            mauiPref.Topic.Id, newPref, true, false);
+
+        //for (int i = 0; i < FeedentryVMs.Count; i++)
+        //{
+        //    // loop over topics
+        //    for (int j = 0; j < FeedentryVMs[i].FeedEntry.MauiPreferences.Count; j++)
+        //    {
+        //        if (FeedentryVMs[i].FeedEntry.MauiPreferences[j].Topic.Id == mauiPref.Topic.Id)
+        //        {
+        //            FeedentryVMs[i].FeedEntry.MauiPreferences[j].Preference = newPref;
+        //        }
+        //    }
+        //}
     }
 
     [RelayCommand]
     public async Task MoreFeedentries()
     {
-        IsBusy = true;
         await glob.MoreFeedentriesAsync();
-        IsBusy = false;
     }
 
     [RelayCommand]
     public void Refresh()
     {
         IsBusy = true;
-        feedentryVMs = glob.FeedentryVMs;
+        FeedentryVMs = glob.FeedentryVMs;
         OnPropertyChanged(nameof(FeedentryVMs));
         IsBusy = false;
     }

@@ -15,7 +15,7 @@ public interface IGlobalService : IDisposable, INotifyPropertyChanged
     /// A convenient list of all FamilyOrPreferences for when to display all topics.
     /// </summary>
     public List<ObservableCollection<FamilyOrPreference>> FopListList { get; }
-    public ObservableCollection<FeedEntryViewModel> FeedentryVMs { get; }
+    public ObservableRangeCollection<FeedEntryViewModel> FeedentryVMs { get; }
 
     /// <summary>
     /// Loads UserPreferences of the CurrentUser, to be retrieved by GetPreferences().
@@ -27,7 +27,8 @@ public interface IGlobalService : IDisposable, INotifyPropertyChanged
     /// This Method catches any earlier exception.
     /// </summary>
     /// <returns>true if the itemId belongs to a Topic that has already been buttoned</returns>
-    public Task<bool> GlobChangePreferenceAsync(Guid itemId, int newValue);
+    public Task<bool> GlobChangePreferenceAsync(
+        Guid itemId, int newValue, bool raisePceFops = true, bool raisePceFeedentries = true);
 
     /// <summary>
     /// Loads UserIdeaInteractions of the CurrentUser, to be retrieved by GetIdeaInteractions().
