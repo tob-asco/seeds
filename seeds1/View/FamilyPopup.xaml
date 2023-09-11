@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    x:Class="seeds1.View.FamilyPopup"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:seeds1.Converter"
+    xmlns:local="clr-namespace:seeds1.ViewModel"
+    xmlns:mauiModel="clr-namespace:seeds1.MauiModels"
+    xmlns:model="clr-namespace:seeds.Dal.Model;assembly=seeds.Dal"
+    xmlns:modelFromDb="clr-namespace:seeds.Dal.Dto.FromDb;assembly=seeds.Dal"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="root"
+    x:DataType="local:FamilyPopupViewModel"
+    Color="#111">
+
+    <Grid RowDefinitions="Auto,*">
+        <HorizontalStackLayout
+            Grid.Row="0"
+            Padding="5"
+            HorizontalOptions="Center">
+            <Entry
+                Placeholder="{Binding WholeFamily.Name}"
+                Text="{Binding SearchString}"
+                WidthRequest="300" />
+        </HorizontalStackLayout>
+        <ScrollView Grid.Row="1">
+            <FlexLayout
+                Margin="5,0"
+                AlignContent="Start"
+                BindableLayout.ItemsSource="{Binding DisplayedTopics}"
+                Wrap="Wrap">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="modelFromDb:TopicFromDb">
+                        <Button
+                            Margin="1,2"
+                            Clicked="Topic_Clicked"
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=SetChosenTopicCommand}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="45"
+                            Style="{Binding Source={x:RelativeSource AncestorType={x:Type local:FamilyPopupViewModel}}, Path=WholeFamily.ProbablePreference, Converter={converter:IntToPriorityConverter MediumPriority={StaticResource buttonMediumStyle}, MaximumPriority={StaticResource buttonMaximumStyle}, MinimumPriority={StaticResource buttonMinimumStyle}}}"
+                            Text="{Binding Name, Converter={converter:TopicNameOfFamilyConverter}}" />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </FlexLayout>
+        </ScrollView>
+    </Grid>
+</toolkit:Popup>
+

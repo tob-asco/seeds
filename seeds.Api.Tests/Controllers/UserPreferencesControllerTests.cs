@@ -13,16 +13,16 @@ namespace seeds.Api.Tests.Controllers;
 public class UserPreferencesControllerTests : ApiControllerTestsBase
 {
     public List<User> Users { get; set; } = new();
-    public Family Fam { get; set; } = new();
-    readonly int tagsIndexWithFamilyAndCup = 4;
-    public List<Tag> Tags { get; set; } = new();
+    public Family FamProbPrefMinus1 { get; set; } = new() { ProbablePreference = -1 };
+    readonly int topicsIndexWithFamAndNonProbableCup = 4;
+    public List<Topic> Topics { get; set; } = new();
     public Category Category { get; set; } = new();
     public List<UserPreference> Cups { get; set; } = new();
-    readonly int tagsIndexWithFamilyButNoCup = 10;
+    readonly int topicsIndexWithFamilyButProbableCup = 10;
     private readonly IMapper mapper;
 
     public UserPreferencesControllerTests()
-        :base(baseUri: "api/UserPreferences/")
+        : base(baseUri: "api/UserPreferences/")
     {
         var config = new MapperConfiguration(cfg => cfg.AddProfile<AutoMapperProfiles>());
         mapper = config.CreateMapper();
@@ -33,16 +33,16 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
     }
     private void PopulatePropertiesAndAddToDb()
     {
-        if (!context.Family.Any()) { context.Family.Add(Fam); }
+        if (!context.Family.Any()) { context.Family.Add(FamProbPrefMinus1); }
         if (!context.Category.Any()) { context.Category.Add(Category); }
-        for (int i = 0; i <= tagsIndexWithFamilyButNoCup; i++)
+        for (int i = 0; i <= topicsIndexWithFamilyButProbableCup; i++)
         {
-            Tags.Add(new()
+            Topics.Add(new()
             {
                 CategoryKey = Category.Key,
-                Name = $"tag !{i}",
-                FamilyId = (i == tagsIndexWithFamilyAndCup ||
-                    i == tagsIndexWithFamilyButNoCup) ? Fam.Id : null
+                Name = $"topic !{i}",
+                FamilyId = (i == topicsIndexWithFamAndNonProbableCup ||
+                    i == topicsIndexWithFamilyButProbableCup) ? FamProbPrefMinus1.Id : null
             });
             Users.Add(new()
             {
@@ -51,21 +51,32 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
                 Email = "tobi" + i + "@tobi.com", //unique
             });
         }
-        if (!context.Tag.Any()) { context.Tag.AddRange(Tags); }
+        if (!context.Topic.Any()) { context.Topic.AddRange(Topics); }
         if (!context.User.Any()) { context.User.AddRange(Users); }
         context.SaveChanges();
         foreach (var user in Users)
         {
-            // last tag has no CUP
-            foreach (var tag in Tags.Take(Tags.Count - 1))
+            // last topic gets probable CUP
+            var probTopic = Topics[topicsIndexWithFamilyButProbableCup];
+            Cups.Add(new()
+            {
+                ItemId = context.Topic.FirstOrDefault(t =>
+                    t.CategoryKey == probTopic.CategoryKey &&
+                    t.Name == probTopic.Name)!.Id,
+                Username = user.Username,
+                Value = FamProbPrefMinus1.ProbablePreference,
+            });
+            // last topic has no CUP
+            foreach (var topic in Topics.Take(Topics.Count - 1))
             {
                 Cups.Add(new()
                 {
-                    ItemId = context.Tag.FirstOrDefault(t =>
-                        t.CategoryKey == tag.CategoryKey &&
-                        t.Name == tag.Name)!.Id,
+                    ItemId = context.Topic.FirstOrDefault(t =>
+                        t.CategoryKey == topic.CategoryKey &&
+                        t.Name == topic.Name)!.Id,
                     Username = user.Username,
-                    Value = 1,
+                    Value = FamProbPrefMinus1.ProbablePreference == -1 ?
+                        1 : -1
                 });
             }
         }
@@ -109,74 +120,74 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         result.Should().HaveCount(0);
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagsWithoutFamily()
+    public async Task CupController_GetButtonedTopicsEndpoint_ReturnsTopicsWithoutFamily()
     {
         //Arrange
         string username = Users[0].Username;
-        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+        string url = baseUri + $"buttonedTopics?username={HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TopicFromDb>>();
         result.Should().NotBeNull();
-        foreach(var tag in mapper.Map<List<TagFromDb>>(context.Tag
+        foreach (var topic in mapper.Map<List<TopicFromDb>>(context.Topic
             .Where(t => t.FamilyId == null))!)
         {
-            result.Should().ContainEquivalentOf(tag);
+            result.Should().ContainEquivalentOf(topic);
         }
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_ReturnsNoTagWithFamilyAndNoCup()
+    public async Task CupController_GetButtonedTopicsEndpoint_ReturnsNoTopicWithFamilyButProbableCup()
     {
         //Arrange
         string username = Users[0].Username;
-        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+        string url = baseUri + $"buttonedTopics?username={HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TopicFromDb>>();
         result.Should().NotBeNull();
+        result.Should().NotContain(t => t.Id == Topics[topicsIndexWithFamilyButProbableCup].Id);
         result.Should().NotContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyButNoCup]));
+            mapper.Map<TopicFromDb>(Topics[topicsIndexWithFamilyButProbableCup]));
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_ReturnsTagWithFamilyAndCup()
+    public async Task CupController_GetButtonedTopicsEndpoint_ReturnsTopicWithFamilyAndUnprobableCup()
     {
         //Arrange
         string username = Users[0].Username;
-        string url = baseUri + $"buttonedTags?username={HttpUtility.UrlEncode(username)}";
+        string url = baseUri + $"buttonedTopics?username={HttpUtility.UrlEncode(username)}";
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TopicFromDb>>();
         result.Should().NotBeNull();
-        result.Should().ContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+        result.Should().Contain(t => t.Id == Topics[topicsIndexWithFamAndNonProbableCup].Id);
     }
     [Fact]
-    public async Task CupController_GetButtonedTagsEndpoint_IfNoUserReturnsNoTagWithFamilyAndCup()
+    public async Task CupController_GetButtonedTopicsEndpoint_IfNoUserReturnsNoTopicWithFamilyAndCup()
     {
         //Arrange
-        string url = baseUri + $"buttonedTags?username=NotAuser";
+        string url = baseUri + $"buttonedTopics?username=NotAuser";
 
         //Act
         var response = await _httpClient.GetAsync(url);
 
         //Assert
         response.Should().BeSuccessful();
-        var result = await response.Content.ReadFromJsonAsync<List<TagFromDb>>();
+        var result = await response.Content.ReadFromJsonAsync<List<TopicFromDb>>();
         result.Should().NotBeNull();
         result.Should().NotContainEquivalentOf(
-            mapper.Map<TagFromDb>(Tags[tagsIndexWithFamilyAndCup]));
+            mapper.Map<TopicFromDb>(Topics[topicsIndexWithFamAndNonProbableCup]));
     }
     [Fact]
     public async Task CupController_PostOrPutEndpoint_ForPostReturnsSuccessAndUpdatesDb()
@@ -184,9 +195,9 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         //Arrange
         UserPreference cup = new()
         {
-            ItemId = context.Tag.First(t =>
-                t.CategoryKey == Tags[tagsIndexWithFamilyButNoCup].CategoryKey &&
-                t.Name == Tags[tagsIndexWithFamilyButNoCup].Name).Id,
+            ItemId = context.Topic.First(t =>
+                t.CategoryKey == Topics[topicsIndexWithFamilyButProbableCup].CategoryKey &&
+                t.Name == Topics[topicsIndexWithFamilyButProbableCup].Name).Id,
             Username = Users[0].Username,
             Value = 1
         };
@@ -222,7 +233,7 @@ public class UserPreferencesControllerTests : ApiControllerTestsBase
         context.UserPreference.Should().NotContainEquivalentOf(Cups[index]);
     }
     [Fact]
-    public async Task CupController_PostOrPutEndpoint_IfTagNotExistReturnsNotSuccess()
+    public async Task CupController_PostOrPutEndpoint_IfTopicNotExistReturnsNotSuccess()
     {
         //Arrange
         string url = baseUri + $"upsert";

@@ -6,33 +6,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace seeds.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class tag_new_guid_pk : Migration
+    public partial class topic_new_guid_pk : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_category_user_tags_TagsCategoryKey_TagsName",
+                name: "FK_category_user_topics_TagsCategoryKey_TagsName",
                 table: "category_user");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_idea_tag_tags_category_key_tag_name",
-                table: "idea_tag");
+                name: "FK_idea_topic_topics_category_key_topic_name",
+                table: "idea_topic");
 
             migrationBuilder.DropTable(
                 name: "IdeaTag");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_tags",
-                table: "tags");
+                name: "PK_topics",
+                table: "topics");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_idea_tag",
-                table: "idea_tag");
+                name: "PK_idea_topic",
+                table: "idea_topic");
 
             migrationBuilder.DropIndex(
-                name: "IX_idea_tag_category_key_tag_name",
-                table: "idea_tag");
+                name: "IX_idea_topic_category_key_topic_name",
+                table: "idea_topic");
 
             migrationBuilder.DropIndex(
                 name: "IX_category_user_TagsCategoryKey_TagsName",
@@ -40,11 +40,11 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.DropColumn(
                 name: "category_key",
-                table: "idea_tag");
+                table: "idea_topic");
 
             migrationBuilder.DropColumn(
-                name: "tag_name",
-                table: "idea_tag");
+                name: "topic_name",
+                table: "idea_topic");
 
             migrationBuilder.DropColumn(
                 name: "TagsCategoryKey",
@@ -56,14 +56,14 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.AddColumn<Guid>(
                 name: "id",
-                table: "tags",
+                table: "topics",
                 type: "uuid",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
 
             migrationBuilder.AddColumn<Guid>(
-                name: "tag_id",
-                table: "idea_tag",
+                name: "topic_id",
+                table: "idea_topic",
                 type: "uuid",
                 nullable: false,
                 defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
@@ -75,24 +75,24 @@ namespace seeds.Api.Migrations
                 nullable: true);
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_tags",
-                table: "tags",
+                name: "PK_topics",
+                table: "topics",
                 column: "id");
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_idea_tag",
-                table: "idea_tag",
-                columns: new[] { "idea_id", "tag_id" });
+                name: "PK_idea_topic",
+                table: "idea_topic",
+                columns: new[] { "idea_id", "topic_id" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_tags_category_key",
-                table: "tags",
+                name: "IX_topics_category_key",
+                table: "topics",
                 column: "category_key");
 
             migrationBuilder.CreateIndex(
-                name: "IX_idea_tag_tag_id",
-                table: "idea_tag",
-                column: "tag_id");
+                name: "IX_idea_topic_topic_id",
+                table: "idea_topic",
+                column: "topic_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_category_user_TagsId",
@@ -100,17 +100,17 @@ namespace seeds.Api.Migrations
                 column: "TagsId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_category_user_tags_TagsId",
+                name: "FK_category_user_topics_TagsId",
                 table: "category_user",
                 column: "TagsId",
-                principalTable: "tags",
+                principalTable: "topics",
                 principalColumn: "id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_idea_tag_tags_tag_id",
-                table: "idea_tag",
-                column: "tag_id",
-                principalTable: "tags",
+                name: "FK_idea_topic_topics_topic_id",
+                table: "idea_topic",
+                column: "topic_id",
+                principalTable: "topics",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -119,28 +119,28 @@ namespace seeds.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_category_user_tags_TagsId",
+                name: "FK_category_user_topics_TagsId",
                 table: "category_user");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_idea_tag_tags_tag_id",
-                table: "idea_tag");
+                name: "FK_idea_topic_topics_topic_id",
+                table: "idea_topic");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_tags",
-                table: "tags");
+                name: "PK_topics",
+                table: "topics");
 
             migrationBuilder.DropIndex(
-                name: "IX_tags_category_key",
-                table: "tags");
+                name: "IX_topics_category_key",
+                table: "topics");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_idea_tag",
-                table: "idea_tag");
+                name: "PK_idea_topic",
+                table: "idea_topic");
 
             migrationBuilder.DropIndex(
-                name: "IX_idea_tag_tag_id",
-                table: "idea_tag");
+                name: "IX_idea_topic_topic_id",
+                table: "idea_topic");
 
             migrationBuilder.DropIndex(
                 name: "IX_category_user_TagsId",
@@ -148,11 +148,11 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.DropColumn(
                 name: "id",
-                table: "tags");
+                table: "topics");
 
             migrationBuilder.DropColumn(
-                name: "tag_id",
-                table: "idea_tag");
+                name: "topic_id",
+                table: "idea_topic");
 
             migrationBuilder.DropColumn(
                 name: "TagsId",
@@ -160,14 +160,14 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "category_key",
-                table: "idea_tag",
+                table: "idea_topic",
                 type: "character varying(6)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "tag_name",
-                table: "idea_tag",
+                name: "topic_name",
+                table: "idea_topic",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
@@ -185,14 +185,14 @@ namespace seeds.Api.Migrations
                 nullable: true);
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_tags",
-                table: "tags",
+                name: "PK_topics",
+                table: "topics",
                 columns: new[] { "category_key", "name" });
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_idea_tag",
-                table: "idea_tag",
-                columns: new[] { "idea_id", "category_key", "tag_name" });
+                name: "PK_idea_topic",
+                table: "idea_topic",
+                columns: new[] { "idea_id", "category_key", "topic_name" });
 
             migrationBuilder.CreateTable(
                 name: "IdeaTag",
@@ -212,17 +212,17 @@ namespace seeds.Api.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IdeaTag_tags_TagsCategoryKey_TagsName",
+                        name: "FK_IdeaTag_topics_TagsCategoryKey_TagsName",
                         columns: x => new { x.TagsCategoryKey, x.TagsName },
-                        principalTable: "tags",
+                        principalTable: "topics",
                         principalColumns: new[] { "category_key", "name" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_idea_tag_category_key_tag_name",
-                table: "idea_tag",
-                columns: new[] { "category_key", "tag_name" });
+                name: "IX_idea_topic_category_key_topic_name",
+                table: "idea_topic",
+                columns: new[] { "category_key", "topic_name" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_category_user_TagsCategoryKey_TagsName",
@@ -235,17 +235,17 @@ namespace seeds.Api.Migrations
                 columns: new[] { "TagsCategoryKey", "TagsName" });
 
             migrationBuilder.AddForeignKey(
-                name: "FK_category_user_tags_TagsCategoryKey_TagsName",
+                name: "FK_category_user_topics_TagsCategoryKey_TagsName",
                 table: "category_user",
                 columns: new[] { "TagsCategoryKey", "TagsName" },
-                principalTable: "tags",
+                principalTable: "topics",
                 principalColumns: new[] { "category_key", "name" });
 
             migrationBuilder.AddForeignKey(
-                name: "FK_idea_tag_tags_category_key_tag_name",
-                table: "idea_tag",
-                columns: new[] { "category_key", "tag_name" },
-                principalTable: "tags",
+                name: "FK_idea_topic_topics_category_key_topic_name",
+                table: "idea_topic",
+                columns: new[] { "category_key", "topic_name" },
+                principalTable: "topics",
                 principalColumns: new[] { "category_key", "name" },
                 onDelete: ReferentialAction.Cascade);
         }

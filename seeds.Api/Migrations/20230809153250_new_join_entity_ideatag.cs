@@ -5,32 +5,32 @@
 namespace seeds.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class new_join_entity_ideatag : Migration
+    public partial class new_join_entity_ideatopic : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "idea_tag",
+                name: "idea_topic",
                 columns: table => new
                 {
                     idea_id = table.Column<int>(type: "integer", nullable: false),
                     category_key = table.Column<string>(type: "character varying(3)", nullable: false),
-                    tag_name = table.Column<string>(type: "text", nullable: false)
+                    topic_name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_idea_tag", x => new { x.idea_id, x.category_key, x.tag_name });
+                    table.PrimaryKey("PK_idea_topic", x => new { x.idea_id, x.category_key, x.topic_name });
                     table.ForeignKey(
-                        name: "FK_idea_tag_ideas_idea_id",
+                        name: "FK_idea_topic_ideas_idea_id",
                         column: x => x.idea_id,
                         principalTable: "ideas",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_idea_tag_tags_category_key_tag_name",
-                        columns: x => new { x.category_key, x.tag_name },
-                        principalTable: "tags",
+                        name: "FK_idea_topic_topics_category_key_topic_name",
+                        columns: x => new { x.category_key, x.topic_name },
+                        principalTable: "topics",
                         principalColumns: new[] { "category_key", "name" },
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -53,17 +53,17 @@ namespace seeds.Api.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_IdeaTag_tags_TagsCategoryKey_TagsName",
+                        name: "FK_IdeaTag_topics_TagsCategoryKey_TagsName",
                         columns: x => new { x.TagsCategoryKey, x.TagsName },
-                        principalTable: "tags",
+                        principalTable: "topics",
                         principalColumns: new[] { "category_key", "name" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_idea_tag_category_key_tag_name",
-                table: "idea_tag",
-                columns: new[] { "category_key", "tag_name" });
+                name: "IX_idea_topic_category_key_topic_name",
+                table: "idea_topic",
+                columns: new[] { "category_key", "topic_name" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdeaTag_TagsCategoryKey_TagsName",
@@ -75,7 +75,7 @@ namespace seeds.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "idea_tag");
+                name: "idea_topic");
 
             migrationBuilder.DropTable(
                 name: "IdeaTag");

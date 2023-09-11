@@ -21,15 +21,15 @@
                 Grid.Row="0"
                 Margin="2,0"
                 Padding="0"
-                BindableLayout.ItemsSource="{Binding FeedEntry.CatagPreferences}"
+                BindableLayout.ItemsSource="{Binding FeedEntry.MauiPreferences}"
                 HorizontalOptions="Start"
                 Wrap="Wrap">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="mauiModel:CatagPreference">
+                    <DataTemplate x:DataType="mauiModel:MauiPreference">
                         <Button
                             Margin="1,0"
                             Padding="15,1,15,2"
-                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, Path=ChangeTagPreferenceCommand}"
+                            Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:FeedViewModel}}, Path=ChangeTopicPreferenceCommand}"
                             CommandParameter="{Binding .}"
                             CornerRadius="13"
                             HeightRequest="45"
@@ -37,9 +37,9 @@
                             VerticalOptions="End">
                             <Button.Text>
                                 <MultiBinding Converter="{converter:CatBtnTextConverter}">
-                                    <Binding Path="CategoryKey" />
+                                    <Binding Path="Topic.CategoryKey" />
                                     <Binding Source=": " />
-                                    <Binding Path="TagName" />
+                                    <Binding Path="Topic.Name" />
                                 </MultiBinding>
                             </Button.Text>
                             <Button.Style>

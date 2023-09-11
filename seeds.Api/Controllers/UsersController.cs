@@ -27,15 +27,22 @@ public class UsersController : ControllerBase
     [HttpGet("{username}")]
     public async Task<ActionResult<UserDto>> GetUserByUsername(string username)
     {
-        if (_context.User == null)
-        {
-            return NotFound();
-        }
+        // decode the string
         username = HttpUtility.UrlDecode(username);
+
+        // search for the user
         var user = await _context.User
             .SingleOrDefaultAsync(u => u.Username == username);
+        if(user == null)
+        {
+            // username doesn't exist
+            Response.Headers.Add("X-Error-Type", "DbRecordNotFound");
+            return NotFound();
+        }
+
+        // convert to DTO
         var userDto = mapper.Map<UserDto>(user);
-        return userDto == null ? NotFound() : userDto;
+        return userDto;
     }
 
     // POST: api/Users

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Model;
 
 namespace seeds.Api.Controllers
@@ -9,29 +11,52 @@ namespace seeds.Api.Controllers
     [ApiController]
     public class FamiliesController : ControllerBase
     {
-        private readonly seedsApiContext _context;
+        private readonly seedsApiContext context;
+        private readonly IMapper mapper;
 
-        public FamiliesController(seedsApiContext context)
+        public FamiliesController(
+            seedsApiContext context,
+            IMapper mapper)
         {
-            _context = context;
+            this.context = context;
+            this.mapper = mapper;
         }
 
         // GET: api/Families
+        /// <summary>
+        /// Get endpoint for all families, which are part of the DB.
+        /// We include the Topics by projection.
+        /// Further Columns in Family.cs need to be added here.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Family>>> GetFamilies()
+        public ActionResult<IEnumerable<FamilyFromDb>> GetFamilies()
         {
-            if (_context.Family == null)
-            {
-                return NotFound();
-            }
-            var fams = await _context.Family.ToListAsync();
+            if (context.Family == null) { return NotFound(); }
+
+            var fams = context.Family
+                .Include(f => f.Topics)
+                .AsEnumerable()
+                .Select(f =>
+                {
+                    /* manually include all columns,
+                     * to project only to first layer of navigation properties
+                     */
+                    Family fCopy = f.ShallowCopy();
+                    fCopy.Topics = f.Topics.OrderBy(t => t.Name).ToList();
+                    return fCopy;
+                })
+                .ToList();
+
             if(fams == null || fams.Count == 0) { return NotFound(); }
-            return fams;
+
+            var famsDto = mapper.Map<List<FamilyFromDb>>(fams);
+            return famsDto;
         }
 
         private bool FamilyExists(Guid id)
         {
-            return (_context.Family?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (context.Family?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

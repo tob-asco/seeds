@@ -5,89 +5,96 @@ using seeds.Dal.Model;
 using seeds1.Interfaces;
 using seeds1.MauiModels;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Views;
+using seeds1.Factories;
+using seeds1.Helpers;
+using seeds.Dal.Dto.FromDb;
+using CommunityToolkit.Maui.Alerts;
+using System.ComponentModel;
+using CommunityToolkit.Maui.Core;
 
 namespace seeds1.ViewModel;
 
 //[QueryProperty(nameof(CurrentUser), nameof(CurrentUser))] //available AFTER ctor, ...
 public partial class PreferencesViewModel : MyBaseViewModel
 {
-    private readonly ICatagPreferencesService catPrefService;
-    private readonly IUserPreferenceService cupService;
+    public readonly IGlobalService glob;
+    private readonly IGenericFactory<FamilyPopupViewModel> popupVmFactory;
+    private readonly PopupSizeConstants popupSize;
+    private readonly IUserPreferenceService prefService;
 
+    private List<ObservableCollection<FamilyOrPreference>> fopListList = new();
+    public List<ObservableCollection<FamilyOrPreference>> FopListList => fopListList;
     public PreferencesViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
-        ICatagPreferencesService catPrefService,
-        IUserPreferenceService cupService)
-        : base(staticService, globalService)
+        IStaticService stat,
+        IGlobalService glob,
+        IGenericFactory<FamilyPopupViewModel> popupVmFactory,
+        PopupSizeConstants popupSize,
+        IUserPreferenceService prefService)
+        : base(stat, glob)
     {
-        this.catPrefService = catPrefService;
-        this.cupService = cupService;
+        this.glob = glob;
+        this.popupVmFactory = popupVmFactory;
+        this.popupSize = popupSize;
+        this.prefService = prefService;
+
+        glob.PropertyChanged += OnGlobPropertyChanged;
+        fopListList = glob.FopListList;
     }
 
-    [ObservableProperty]
-    ObservableCollection<ObservableRangeCollection<CatagPreference>>
-        catagPrefGroups = new();
 
-    [RelayCommand]
-    public async Task PopulateListListAsync()
+    private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        /* Called also in OnNavigatedTo()
-         */
-        try
+        if (e.PropertyName == nameof(glob.FopListList))
         {
-            List<CatagPreference> catagPrefs = new();
-            //    await catPrefService.GetCatagPreferencesAsync();
-
-            var groups = catagPrefs.GroupBy(cp => cp.CategoryKey);
-            foreach (var group in groups)
+            if (fopListList != glob.FopListList)
             {
-                ObservableRangeCollection<CatagPreference> tagsOfGroup = new();
-                // remove the entries that are only categories
-                var tagGroup = group.Where(cp => cp.TagName != null);
-                tagsOfGroup.AddRange(tagGroup.ToList());
-                CatagPrefGroups.Add(tagsOfGroup);
+                fopListList = glob.FopListList;
+                OnPropertyChanged(nameof(FopListList));
             }
         }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("DB Access Error", ex.Message, "Ok");
-        }
     }
     [RelayCommand]
-    public async Task ChangeTagPreference(CatagPreference pref)
+    public async Task ChangeTopicPreference(MauiPreference pref)
     {
-        // find indices
-        int groupIndex = CatagPrefGroups.IndexOf(CatagPrefGroups.FirstOrDefault(cpg =>
-            cpg.Contains(pref)));
-        if (groupIndex == -1)
-        {
-            await Shell.Current.DisplayAlert("Error", "Group not found.", "Ok");
-            return;
-        }
-        int index = CatagPrefGroups[groupIndex].IndexOf(pref);
-
         // update DB
-        try
-        {
-            //if (!await cupService.PutUserPreferenceAsync(
-            //    pref.CategoryKey,
-            //    CurrentUser.Username,
-            //    catPrefService.StepPreference(CatagPrefGroups[groupIndex][index].Preference),
-            //    tagName: pref.TagName))
-            //{
-            //    throw new Exception($"Fatal: PUT failed.");
-            //}
-        }
-        catch (Exception ex)
-        {
-            await Shell.Current.DisplayAlert("Put Error",
-                ex.Message, "Ok");
-            return;
-        }
-        
+        await glob.GlobChangePreferenceAsync(
+            pref.Topic.Id, prefService.StepPreference(pref.Preference));
+
         // update View
-        CatagPrefGroups[groupIndex][index].Preference = catPrefService.StepPreference(
-            CatagPrefGroups[groupIndex][index].Preference);
+        //pref.Preference = prefService.StepPreference(
+        //    pref.Preference);
+    }
+    [RelayCommand]
+    public async Task PopupFamily(FamilyFromDb fam)
+    {
+        // find the page to display the popup on
+        Page page = Microsoft.Maui.Controls.Application.Current?.MainPage
+            ?? throw new NullReferenceException();
+
+        // create a ViewModel for the popup
+        FamilyPopupViewModel popupVm = popupVmFactory.Create();
+        popupVm.WholeFamily = fam;
+
+        // display and read result
+        Size size = popupSize.Tiny;
+        if (fam.Topics.Count > 18)
+        { size = popupSize.Large; }
+        else if (fam.Topics.Count > 12)
+        { size = popupSize.Medium; }
+        if (fam.Topics.Count > 6)
+        { size = popupSize.Small; }
+
+        if (await page.ShowPopupAsync(new FamilyPopup(popupVm)
+        {
+            Size = size
+        }) is TopicFromDb chosenTopic && chosenTopic.CategoryKey == fam.CategoryKey)
+        {
+            // update DB and FopListList
+            if (await glob.GlobChangePreferenceAsync(chosenTopic.Id, 1))
+            {
+                Toast.Make("It's already in your list.");
+            }
+        }
     }
 }

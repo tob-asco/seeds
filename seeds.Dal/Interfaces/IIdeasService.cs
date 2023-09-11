@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ForMaui;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 
 namespace seeds.Dal.Interfaces;
@@ -11,6 +12,12 @@ public interface IIdeasService
     /* Returns list of length >= 0 or throws.
      */
     public Task<List<IdeaFromDb>> GetIdeasPaginatedAsync(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime),
+        bool isDescending = true);
+    /* Returns list of length >= 0 or throws.
+     */
+    public Task<List<Feedentry>> GetFeedentriesPaginatedAsync(
         int pageIndex, int pageSize = 5,
         string orderByColumn = nameof(IdeaFromDb.CreationTime),
         bool isDescending = true);

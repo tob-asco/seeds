@@ -12,7 +12,7 @@ namespace seeds.Api.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "category_key",
-                table: "tags",
+                table: "topics",
                 type: "character varying(6)",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -36,7 +36,7 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "category_key",
-                table: "idea_tag",
+                table: "idea_topic",
                 type: "character varying(6)",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -75,7 +75,7 @@ namespace seeds.Api.Migrations
         {
             migrationBuilder.AlterColumn<string>(
                 name: "category_key",
-                table: "tags",
+                table: "topics",
                 type: "character varying(3)",
                 nullable: false,
                 oldClrType: typeof(string),
@@ -99,7 +99,7 @@ namespace seeds.Api.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "category_key",
-                table: "idea_tag",
+                table: "idea_topic",
                 type: "character varying(3)",
                 nullable: false,
                 oldClrType: typeof(string),

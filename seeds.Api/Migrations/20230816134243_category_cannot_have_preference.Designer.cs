@@ -137,13 +137,13 @@ namespace seeds.Api.Migrations
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
-                        .HasColumnName("tag_id");
+                        .HasColumnName("topic_id");
 
                     b.HasKey("IdeaId", "TagId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("idea_tag");
+                    b.ToTable("idea_topic");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.Presentation", b =>
@@ -200,7 +200,7 @@ namespace seeds.Api.Migrations
                     b.HasIndex("CategoryKey", "Name")
                         .IsUnique();
 
-                    b.ToTable("tags");
+                    b.ToTable("topics");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
@@ -373,11 +373,11 @@ namespace seeds.Api.Migrations
             modelBuilder.Entity("seeds.Dal.Model.UserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Tag", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("TagsId");
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -397,12 +397,12 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Tag", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });

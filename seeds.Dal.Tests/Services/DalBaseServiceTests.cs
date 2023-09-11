@@ -48,7 +48,7 @@ public class DalBaseServiceTests
     [InlineData(typeof(CategoryDto))]
     [InlineData(typeof(UserPreference))]
     [InlineData(typeof(UserIdeaInteraction))]
-    public async Task DalBaseService_GetDalModelAsync_IfNotFoundReturnsNullOnDalModel(
+    public async Task DalBaseService_GetDalModelAsync_IfNotFoundWithCorrectHeaderReturnsNullOnDalModel(
         Type T)
     {
         // Arrange
@@ -56,6 +56,7 @@ public class DalBaseServiceTests
         {
             StatusCode = HttpStatusCode.NotFound,
         };
+        response.Headers.Add("X-Error-Type", "DbRecordNotFound");
         A.CallTo(() => _httpClientWrapper.GetAsync(A<string>.Ignored))
             .Returns(response);
         // Create an instance of GetDalModelAsyncMethodInfo with the generic parameter T
@@ -76,11 +77,12 @@ public class DalBaseServiceTests
         result.Should().BeNull(because: "higher layers rely on Null meaning 404");
     }
     [Theory]
+    [InlineData(HttpStatusCode.NotFound)]
     [InlineData(HttpStatusCode.Conflict)]
     [InlineData(HttpStatusCode.BadGateway)]
     [InlineData(HttpStatusCode.Forbidden)]
     [InlineData(HttpStatusCode.GatewayTimeout)]
-    public async Task DalBaseService_GetDalModelAsync_IfNon404ErrorThrows(
+    public async Task DalBaseService_GetDalModelAsync_IfErrorWithoutHeaderThrows(
         HttpStatusCode code)
     {
         /* Important behaviour because we use GetDalModelAsync() also

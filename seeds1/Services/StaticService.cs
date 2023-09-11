@@ -4,6 +4,7 @@ using seeds.Dal.Interfaces;
 using seeds.Dal.Model;
 using seeds.Dal.Services;
 using seeds1.Interfaces;
+using seeds1.MauiModels;
 
 namespace seeds1.Services;
 
@@ -11,57 +12,53 @@ public class StaticService : IStaticService
 {
     private readonly ICategoryService categoryService;
     private readonly IFamilyService familyService;
-    private readonly ITagService tagService;
+    private readonly ITopicService topicService;
 
     private Dictionary<string, CategoryDto> Categories { get; set; }
+    private Dictionary<Guid, FamilyFromDb> Families { get; set; }
+    private Dictionary<Guid, TopicFromDb> Topics { get; set; }
     private bool CatsLoaded { get; set; } = false;
-    public Dictionary<Guid, Family> Families { get; set; }
     private bool FamsLoaded { get; set; } = false;
-    public Dictionary<Guid, TagFromDb> Tags { get; set; }
-    private bool TagsLoaded { get; set; } = false;
+    private bool TopicsLoaded { get; set; } = false;
     public StaticService(
         ICategoryService categoryService,
         IFamilyService familyService,
-        ITagService tagService)
+        ITopicService topicService)
     {
         this.categoryService = categoryService;
         this.familyService = familyService;
-        this.tagService = tagService;
+        this.topicService = topicService;
     }
 
     public Dictionary<string, CategoryDto> GetCategories()
     {
         if (!CatsLoaded)
-        {
-            throw new InvalidOperationException("Categories not yet loaded.");
-        }
+        { throw new InvalidOperationException("Categories not yet loaded."); }
         else { return Categories; }
     }
 
-    public Dictionary<Guid, Family> GetFamilies()
+    public Dictionary<Guid, FamilyFromDb> GetFamilies()
     {
         if (!FamsLoaded)
-        {
-            throw new InvalidOperationException("Families not yet loaded.");
-        }
+        { throw new InvalidOperationException("Families not yet loaded."); }
         else { return Families; }
     }
 
-    public Dictionary<Guid, TagFromDb> GetTags()
+    public Dictionary<Guid, TopicFromDb> GetTopics()
     {
-        if (!TagsLoaded)
-        {
-            throw new InvalidOperationException("Tags not yet loaded.");
-        }
-        else { return Tags; }
+        if (!TopicsLoaded)
+        { throw new InvalidOperationException("Topics not yet loaded."); }
+        else { return Topics; }
     }
 
     public async Task LoadCategoriesAsync()
     {
         if (!CatsLoaded)
         {
-            var list = await categoryService
-                .GetCategoriesAsync();
+            // retrieve
+            var list = await categoryService.GetCategoriesAsync();
+
+            // convert and inform
             Categories = list.ToDictionary(c => c.Key);
             CatsLoaded = true;
         }
@@ -70,18 +67,31 @@ public class StaticService : IStaticService
     {
         if (!FamsLoaded)
         {
+            // retrieve
             var list = await familyService.GetFamiliesAsync();
+
+            // convert and inform
             Families = list.ToDictionary(f => f.Id);
             FamsLoaded = true;
         }
     }
-    public async Task LoadTagsAsync()
+    public async Task LoadTopicsAsync()
     {
-        if (!TagsLoaded)
+        if (!TopicsLoaded)
         {
-            var list = await tagService.GetTagsAsync();
-            Tags = list.ToDictionary(t => t.Id);
-            TagsLoaded = true;
+            // retrieve
+            var list = await topicService.GetTopicsAsync();
+
+            // convert and inform
+            Topics = list.ToDictionary(t => t.Id);
+            TopicsLoaded = true;
         }
+    }
+
+    public async Task LoadStaticsAsync()
+    {
+        await LoadCategoriesAsync();
+        await LoadFamiliesAsync();
+        await LoadTopicsAsync();
     }
 }

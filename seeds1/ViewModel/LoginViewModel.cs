@@ -6,18 +6,20 @@ namespace seeds1.ViewModel;
 
 public partial class LoginViewModel : MyBaseViewModel
 {
-    private readonly IGlobalService globalService;
+    private readonly IStaticService stat;
+    private readonly IGlobalService glob;
     private readonly IUsersService usersService;
     private readonly INavigationService navigationService;
 
     public LoginViewModel(
-        IStaticService staticService,
-        IGlobalService globalService,
+        IStaticService stat,
+        IGlobalService glob,
         IUsersService usersService,
         INavigationService navigationService)
-        : base(staticService, globalService)
+        : base(stat, glob)
     {
-        this.globalService = globalService;
+        this.stat = stat;
+        this.glob = glob;
         this.usersService = usersService;
         this.navigationService = navigationService;
     }
@@ -28,26 +30,28 @@ public partial class LoginViewModel : MyBaseViewModel
     string enteredPassword;
     [ObservableProperty]
     string displayedLoginResponse;
+    [ObservableProperty]
+    Color colorLoginResponse = Color.Parse("red");
 
     [RelayCommand]
     public async Task Login()
     {
         if ((EnteredUsername ?? "") == "")
         {
-            FailResponse("We need a username here.");
+            LoginResponse("We need a username here.");
             return;
         }
-        FailResponse("Checking..."); //shouldnt be a "fail" response..
+        LoginResponse("Checking...", isFail: false, isSuccess: false);
         UserDto user = null!;
 
         try
         {
             user = await usersService.GetUserByUsernameAsync(EnteredUsername.Trim());
         }
-        catch (Exception ex)
+        catch
         {
-            await Shell.Current.DisplayAlert("DB Error",
-                ex.Message, "Ok");
+            LoginResponse("Server error. Please try again.");
+            return;
         }
         
         if (user != null) 
@@ -55,11 +59,18 @@ public partial class LoginViewModel : MyBaseViewModel
             // str ?? "" //returns "" if str is null and returns str othw.
             if ((EnteredPassword ?? "") == (user.Password ?? ""))
             {
-                // Login
-                CurrentUser = user;
-                await globalService.LoadPreferencesAsync();
-                await globalService.LoadIdeaInteractionsAsync();
+                LoginResponse("Logging in...", isFail: false, isSuccess: true);
 
+                // load statics (needed if OnStart's loading failed)
+                await stat.LoadStaticsAsync();
+                
+                // set and load globals
+                glob.CurrentUser = user;
+                await glob.LoadPreferencesAsync();
+                await glob.LoadIdeaInteractionsAsync();
+                await glob.MoreFeedentriesAsync();
+
+                // global switch to inform NavigatedTo page
                 navigationService.RedrawNavigationTarget = true;
 
                 //the amount of "/" to prepend depends on the shell's design
@@ -73,17 +84,20 @@ public partial class LoginViewModel : MyBaseViewModel
             else
             {
                 // wrong password
-                FailResponse("Invalid Credentials.");
+                LoginResponse("Invalid Credentials.");
             }
         }
         else
         {
             // username not existing
-            FailResponse("Invalid Credentials.");
+            LoginResponse("Invalid Credentials.");
         }
     }
-    public void FailResponse(string text)
+    public void LoginResponse(string text, bool isFail = true, bool isSuccess = false)
     {
         DisplayedLoginResponse = text;
+        if (isFail && !isSuccess) { ColorLoginResponse = Color.Parse("red"); }
+        else if(!isFail && !isSuccess) { ColorLoginResponse = Color.Parse("lightgray"); }
+        else { ColorLoginResponse = Color.Parse("green"); }
     }
 }

@@ -27,7 +27,7 @@ public class Idea
 
     #region Navigation
     public User Creator { get; } = null!; // the idea's creator
-    public List<Tag> Tags { get; set; } = new(); // the idea's tags
+    public List<Topic> Topics { get; set; } = new(); // the idea's topics
     public List<User> InteractedUsers { get; set; } = new();
     #endregion
 

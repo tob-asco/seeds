@@ -1,4 +1,5 @@
-﻿using seeds.Dal.Dto.FromDb;
+﻿using seeds.Dal.Dto.ForMaui;
+using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Interfaces;
 
@@ -24,6 +25,15 @@ public class IdeasService : IIdeasService
         string url = $"api/ideas/page/{pageIndex}?pageSize={pageSize}" +
             $"&orderByColumn={orderByColumn}&isDescending={isDescending}";
         return await _baseService.GetDalModelAsync<List<IdeaFromDb>>(url)
+            ?? throw new Exception($"The Get URL {url} returned null.");
+    }
+    public async Task<List<Feedentry>> GetFeedentriesPaginatedAsync(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
+    {
+        string url = $"api/ideas/feedentryPage/{pageIndex}?pageSize={pageSize}" +
+            $"&orderByColumn={orderByColumn}&isDescending={isDescending}";
+        return await _baseService.GetDalModelAsync<List<Feedentry>>(url)
             ?? throw new Exception($"The Get URL {url} returned null.");
     }
     public async Task<IdeaFromDb> PostIdeaAsync(IdeaToDb idea)

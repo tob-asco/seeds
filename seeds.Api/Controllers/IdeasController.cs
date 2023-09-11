@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using seeds.Api.Data;
 using seeds.Api.Pages;
+using seeds.Dal.Dto.ForMaui;
 using seeds.Dal.Dto.FromDb;
 using seeds.Dal.Dto.ToDb;
 using seeds.Dal.Model;
@@ -61,6 +63,99 @@ public class IdeasController : ControllerBase
         catch (Exception ex)
         {
             // Handle exceptions appropriately
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    // GET: api/Ideas/feedentryPage/5?isDescending=false&pageSize=20
+    [HttpGet("feedentryPage/{pageIndex}")]
+    public async Task<ActionResult<List<Feedentry>>> GetFeedentriesPaginated(
+        int pageIndex, int pageSize = 5,
+        string orderByColumn = nameof(IdeaFromDb.CreationTime), bool isDescending = true)
+    {
+        try
+        {
+            var validColumns = new[] {
+                nameof(IdeaFromDb.Id).ToLower(),
+                nameof(IdeaFromDb.CreationTime).ToLower()
+            };
+            if (!validColumns.Contains(orderByColumn.ToLower()))
+            {
+                return BadRequest("Invalid column name for sorting.");
+            }
+
+            /* The following looks cumbersome, why not simply use "i => i"?
+             * Problem is that we want to directly include i.Topics, which the following does.
+             * However, we can't simply ".Include(i => i.Topics)" (ad infinitum inclusion).
+             * So here, we project to the first layer of Nav. Props. (GPT recommended)
+             * Pro: We won't include stuff that we don't need.
+             */
+            IQueryable<Idea> query = context.Idea
+                .Select(i => new Idea
+                {
+                    Id = i.Id,
+                    Title = i.Title,
+                    Slogan = i.Slogan,
+                    CreatorName = i.CreatorName,
+                    CreationTime = i.CreationTime,
+                    Slide1 = i.Slide1,
+                    Slide2 = i.Slide2,
+                    Slide3 = i.Slide3,
+                    // Include other properties you need from Idea
+                    Topics = i.Topics // This will load the associated topics for each idea
+                });
+
+            // Apply dynamic sorting
+            var orderDirection = isDescending ? "descending" : "ascending";
+            query = query.OrderBy($"{orderByColumn} {orderDirection}");
+
+            // Apply pagination. Take(pageSize) should take #(<= pageSize) ideas
+            query = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+            if (!await query.AnyAsync()) { return new List<Feedentry>(); }
+
+            List<Feedentry> fes = new();
+            //fes = query.AsEnumerable().Select(
+            //    idea => new Feedentry()
+            //    {
+            //        Idea = mapper.Map<IdeaFromDb>(idea),
+            //        Topics = mapper.Map<List<TopicFromDb>>(idea.Topics),
+            //        Upvotes = context.UserIdeaInteraction
+            //            .GroupBy(uii => uii.IdeaId)
+            //            .Select(group => new
+            //            {
+            //                IdeaId = group.Key,
+            //                UpvoteCount = group.Sum(
+            //                    idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
+            //            })
+            //            .FirstOrDefault(uii => uii.IdeaId == idea.Id)?.UpvoteCount ?? 0
+            //    }).ToList();
+            /* Old code with foreach */
+            // using Linq.Dynamic.Core's query will only lazily access the DB,
+            // once the query is enumerated, which happens now:
+            var ideas = await query.ToListAsync();
+            foreach (var idea in ideas)
+            {
+                var upvoteCountForIdea = context.UserIdeaInteraction
+                    .GroupBy(uii => uii.IdeaId)
+                    .Select(group => new
+                    {
+                        IdeaId = group.Key,
+                        UpvoteCount = group.Sum(
+                            idea => (idea.Upvoted ? 1 : 0) + (idea.Downvoted ? -1 : 0))
+                    })
+                    .FirstOrDefault(uii => uii.IdeaId == idea.Id);
+                fes.Add(new()
+                {
+                    Idea = mapper.Map<IdeaFromDb>(idea),
+                    Topics = mapper.Map<List<TopicFromDb>>(idea.Topics),
+                    Upvotes = upvoteCountForIdea != null ? upvoteCountForIdea.UpvoteCount : 0
+                });
+            }
+            return fes;
+        }
+        catch (Exception ex)
+        {
             return StatusCode(500, ex.Message);
         }
     }

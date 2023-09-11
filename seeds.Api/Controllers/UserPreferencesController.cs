@@ -42,41 +42,43 @@ namespace seeds.Api.Controllers
         // GET: api/UserPreferences/orphans?username=tobi
         /// <summary>
         /// Usage: When constructing the PreferencesPage, exactly
-        /// these tags will get their own button.
+        /// these topics will get their own button.
         /// </summary>
         /// <param name="username">CurrentUser.Username</param>
-        /// <returns>A (by CategoryKey ordered) list of all tags that either have no family
-        /// or that have a family and a CurrentUser's preference (!= 0)</returns>
-        [HttpGet("buttonedTags")]
-        public async Task<ActionResult<List<TagFromDb>>> GetButtonedTags(
+        /// <returns>A (by CategoryKey ordered) list of topics w/o family and
+        /// w/ both family and non-probable CurrentUser's preference</returns>
+        [HttpGet("buttonedTopics")]
+        public async Task<ActionResult<List<TopicFromDb>>> GetButtonedTopics(
             string username = "")
         {
             username = HttpUtility.UrlDecode(username);
-            var orphans = _context.Tag
+
+            // get topics w/o family, i.e. orphans
+            var orphans = _context.Topic
                 .Where(t => t.FamilyId == null)
                 .OrderBy(t => t.CategoryKey);
             if (orphans == null || !await orphans.AnyAsync())
-            { return NotFound("The tags with no family."); }
-
-            var orphansDto = mapper.Map<List<TagFromDb>>(
+            { return NotFound("The topics with no family."); }
+            var orphansDto = mapper.Map<List<TopicFromDb>>(
                 await orphans.ToListAsync());
 
             if (username == "") { return orphansDto; }
 
-            // get tags that have family and preference (also orphans)
-            var tagsWithFamilyAndUserPreference = await _context.Tag
-                .Where(tag => tag.FamilyId != null)
-                .Where(tag => _context.UserPreference.Any(
-                    up => up.ItemId == tag.Id
-                       && up.Value != 0
-                       && up.Username == username))
-                .OrderBy(tag => tag.CategoryKey)
+            // get topics w/ family && non-probable preference
+            var topicsWithFamilyAndUserPreference = await _context.Topic
+                .Where(topic =>
+                    topic.FamilyId != null &&
+                    _context.UserPreference.Any(
+                        up => up.ItemId == topic.Id
+                           && up.Value != topic.Family!.ProbablePreference // seems to work w/o explicit loading acc. to tests, I don't really know why
+                           && up.Username == username))
+                .OrderBy(topic => topic.CategoryKey)
                 .ToListAsync();
-            if(tagsWithFamilyAndUserPreference == null)
-            { return NotFound("The tags in a family with non-trivial preference."); }
+            if(topicsWithFamilyAndUserPreference == null)
+            { return NotFound("The topics in a family with non-trivial preference."); }
 
             return orphansDto.Concat(
-                mapper.Map<List<TagFromDb>>(tagsWithFamilyAndUserPreference))
+                mapper.Map<List<TopicFromDb>>(topicsWithFamilyAndUserPreference))
                 .ToList();
         }
 
@@ -84,7 +86,7 @@ namespace seeds.Api.Controllers
         /// <summary>
         /// Upsert (update + insert) endpoint.
         /// May later be used for all Items that have a Guid PK.
-        /// For now a UserPreference is a join entity between User and Tag.
+        /// For now a UserPreference is a join entity between User and Topic.
         /// </summary>
         /// <param name="cup">The new or updated preference.</param>
         /// <returns></returns>
@@ -95,7 +97,7 @@ namespace seeds.Api.Controllers
             {
                 if (!UserPreferenceExists(cup.Username, cup.ItemId))
                 {
-                    // (maybe check if the tag even exists)
+                    // (maybe check if the topic even exists)
                     // POST
                     _context.UserPreference.Add(cup);
                     await _context.SaveChangesAsync();

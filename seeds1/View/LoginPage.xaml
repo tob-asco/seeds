@@ -1,21 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:seeds1.ViewModel"
-             x:Class="seeds1.View.LoginPage"
-             x:DataType="local:LoginViewModel"
-             Shell.FlyoutBehavior="Disabled"
-             Title="LoginPage">
-    
-    <VerticalStackLayout>
-        <Label Text="username"/>
-        <Entry Text="{Binding EnteredUsername}"/>
-        <Label Text="password"/>
-        <Entry IsPassword="True"
-               Text="{Binding EnteredPassword}"/>
-        <Button Text="login" Margin="15" VerticalOptions="CenterAndExpand"
-                Command="{Binding LoginCommand}"/>
-        <Label Text="{Binding DisplayedLoginResponse}"
-               TextColor="Red"/>
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="seeds1.View.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:seeds1.ViewModel"
+    x:DataType="local:LoginViewModel"
+    Shell.FlyoutBehavior="Disabled">
+
+    <Grid RowDefinitions="*,*">
+        <VerticalStackLayout
+            Padding="10"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="350">
+            <Entry Placeholder="username" Text="{Binding EnteredUsername}" />
+            <Entry
+                IsPassword="True"
+                Placeholder="password"
+                Text="{Binding EnteredPassword}" />
+            <Button
+                Margin="15"
+                BackgroundColor="Transparent"
+                BorderColor="Purple"
+                BorderWidth="2"
+                Command="{Binding LoginCommand}"
+                FontAttributes="Bold"
+                Text="LOGIN"
+                TextColor="MediumPurple"
+                VerticalOptions="CenterAndExpand" />
+            <Label Text="{Binding DisplayedLoginResponse}" TextColor="{Binding ColorLoginResponse}" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -11,11 +11,9 @@
     <RefreshView
         x:DataType="local:FeedViewModel"
         Command="{Binding RefreshCommand}"
-        IsRefreshing="{Binding IsRefreshing}">
-        <CollectionView
-            ItemsSource="{Binding FeedEntryVMCollection}"
-            RemainingItemsThreshold="2"
-            RemainingItemsThresholdReachedCommand="{Binding CollectFeedEntriesPaginatedCommand}">
+        IsRefreshing="{Binding IsBusy}"
+        RefreshColor="Green">
+        <CollectionView ItemsSource="{Binding FeedentryVMs}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <views:FeedEntryView BindingContext="{Binding .}" />
@@ -24,7 +22,7 @@
             <CollectionView.Footer>
                 <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
                     <Button
-                        Command="{Binding CollectFeedEntriesPaginatedCommand}"
+                        Command="{Binding MoreFeedentriesCommand}"
                         HeightRequest="40"
                         Text="Load More" />
                 </StackLayout>

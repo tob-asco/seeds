@@ -17,6 +17,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<UserDto, User>();
         CreateMap<Category, CategoryDto>();
         CreateMap<CategoryDto, Category>();
-        CreateMap<Tag, TagFromDb>();
+        CreateMap<Topic, TopicFromDb>();
+        CreateMap<Family, FamilyFromDb>();
     }
 }

@@ -21,10 +21,10 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
             .HasForeignKey(i => i.CreatorName)
             .IsRequired(true);
 
-        // Idea : Tag = M : N
-        builder.HasMany(i => i.Tags)
+        // Idea : Topic = M : N
+        builder.HasMany(i => i.Topics)
             .WithMany(t => t.Ideas)
-            .UsingEntity<IdeaTag>();
+            .UsingEntity<IdeaTopic>();
 
         /* User : Idea = M : N (UserIdeaInteraction)
          * setup in UserConfiguration

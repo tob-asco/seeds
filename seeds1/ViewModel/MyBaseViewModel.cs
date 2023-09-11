@@ -2,47 +2,18 @@
 using seeds.Dal.Dto.ToAndFromDb;
 using seeds.Dal.Model;
 using seeds1.Interfaces;
+using System.ComponentModel;
 
 namespace seeds1.ViewModel;
 
 public partial class MyBaseViewModel : ObservableObject //partial because of source generation
 {
-    private readonly IStaticService staticService;
-    private readonly IGlobalService globalService;
+    private readonly IStaticService stat;
+    private readonly IGlobalService glob;
 
-    public Dictionary<string, CategoryDto> CategoriesDict
-    { get => staticService.GetCategories(); }
-    public Dictionary<Guid, Family> FamiliesDict
-    { get => staticService.GetFamilies(); }
-    public Dictionary<Guid, TagFromDb> TagsDict
-    { get => staticService.GetTags(); }
-    public UserDto CurrentUser
-    {
-        get => globalService.CurrentUser;
-        set
-        {
-            globalService.CurrentUser = value;
-            OnPropertyChanged(nameof(CurrentUser));
-        }
-    }
-    public Dictionary<Guid, UserPreference> PreferencesDict
-    {
-        get => globalService.GetPreferences();
-        set
-        {
-            globalService.CurrentUserPreferences = value;
-            OnPropertyChanged(nameof(PreferencesDict));
-        }
-    }
-    public Dictionary<int, UserIdeaInteraction> IdeaInteractionsDict
-    {
-        get => globalService.GetIdeaInteractions();
-        set
-        {
-            globalService.CurrentUserIdeaInteractions = value;
-            OnPropertyChanged(nameof(IdeaInteractionsDict));
-        }
-    }
+    UserDto currentUser;
+    public UserDto CurrentUser => currentUser;
+
     [ObservableProperty] //Source generator
     [NotifyPropertyChangedFor(nameof(IsNotBusy))] // was called "AlsoNotifyChangeFor"
     bool isBusy;
@@ -51,10 +22,25 @@ public partial class MyBaseViewModel : ObservableObject //partial because of sou
 
 
     public MyBaseViewModel(
-        IStaticService staticService,
-        IGlobalService globalService)
+        IStaticService stat,
+        IGlobalService glob)
     {
-        this.staticService = staticService;
-        this.globalService = globalService;
+        this.stat = stat;
+        this.glob = glob;
+
+        glob.PropertyChanged += OnGlobPropertyChanged;
+        currentUser = glob.CurrentUser;
+    }
+
+    private void OnGlobPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(glob.CurrentUser))
+        {
+            if (CurrentUser != glob.CurrentUser)
+            {
+                currentUser = glob.CurrentUser;
+                OnPropertyChanged(nameof(CurrentUser));
+            }
+        }
     }
 }

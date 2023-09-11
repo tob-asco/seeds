@@ -56,7 +56,7 @@ public class PresentationsControllerTests : ApiControllerTestsBase
         result?.IdeaId.Should().Be(ideaId);
     }
     [Fact]
-    public async Task PresentationsController_GetByIdeaIdEndpoint_IfNotExistReturnsNotFound()
+    public async Task PresentationsController_GetByIdeaIdEndpoint_IfNotExistReturnsNotFoundWithMyHeader()
     {
         // Arrange
         int ideaId = Ideas[ideasIndexWithNoPresentation].Id;
@@ -67,6 +67,9 @@ public class PresentationsControllerTests : ApiControllerTestsBase
 
         // Assert
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);
+        response.Headers.TryGetValues("X-Error-Type", out var vals).Should().BeTrue();
+        vals.Should().NotBeNull();
+        vals.Should().Contain(s => s == "DbRecordNotFound");
     }
     [Fact]
     public async Task PresentationsController_PutByIdeaIdEndpoint_ReturnsSuccessAndUpdatesDb()

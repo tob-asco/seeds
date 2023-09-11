@@ -7,6 +7,10 @@ namespace seeds1.Interfaces;
 public interface IStaticService
 {
     /// <summary>
+    /// Calls all other Load methods of StaticService.
+    /// </summary>
+    public Task LoadStaticsAsync();
+    /// <summary>
     /// Loads Categories, to be retrieved by GetCategories().
     /// </summary>
     public Task LoadCategoriesAsync();
@@ -15,10 +19,10 @@ public interface IStaticService
     /// Loads Families, to be retrieved by GetFamilies().
     /// </summary>
     public Task LoadFamiliesAsync();
-    public Dictionary<Guid, Family> GetFamilies();
+    public Dictionary<Guid, FamilyFromDb> GetFamilies();
     /// <summary>
-    /// Loads Tags, to be retrieved by GetTags().
+    /// Loads Topics, to be retrieved by GetTopics().
     /// </summary>
-    public Task LoadTagsAsync();
-    public Dictionary<Guid, TagFromDb> GetTags();
+    public Task LoadTopicsAsync();
+    public Dictionary<Guid, TopicFromDb> GetTopics();
 }

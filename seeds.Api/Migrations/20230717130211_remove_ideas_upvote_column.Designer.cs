@@ -42,7 +42,7 @@ namespace seeds.Api.Migrations
                     b.ToTable("categories");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatopicUserPreference", b =>
                 {
                     b.Property<string>("CategoryKey")
                         .HasColumnType("character varying(3)")
@@ -168,16 +168,16 @@ namespace seeds.Api.Migrations
                     b.ToTable("user_idea");
                 });
 
-            modelBuilder.Entity("seeds.Dal.Model.CatagUserPreference", b =>
+            modelBuilder.Entity("seeds.Dal.Model.CatopicUserPreference", b =>
                 {
                     b.HasOne("seeds.Dal.Model.Category", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("CategoryKey")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("seeds.Dal.Model.User", null)
-                        .WithMany("CatagUserPreferences")
+                        .WithMany("CatopicUserPreferences")
                         .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -219,14 +219,14 @@ namespace seeds.Api.Migrations
 
             modelBuilder.Entity("seeds.Dal.Model.Category", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("Ideas");
                 });
 
             modelBuilder.Entity("seeds.Dal.Model.User", b =>
                 {
-                    b.Navigation("CatagUserPreferences");
+                    b.Navigation("CatopicUserPreferences");
 
                     b.Navigation("CreatedIdeas");
                 });
