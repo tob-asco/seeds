@@ -69,7 +69,7 @@ E.g.:
     understand it because we will be using
     it over and over (and over and over).}
 - CreationTime: 2023-03-09
-- Topics: for language: LaTeX
+- Topics: for language: (La)TeX
 ## Top3
 - Title: Top3
 - Slogan: The Most Specific Rating System
