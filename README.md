@@ -1,4 +1,10 @@
 # seeds - A Database of Creativity
+## Topics Page Preview
+
+
+https://github.com/tob-asco/seeds/assets/113723271/f899e2fe-660b-48e3-af80-88651b9301d3
+
+
 ## TODOs
 - [ ] DTO for CUP (bc. we have a GUID PK now)
 - [ ] if it's your idea in the feed, make your feed entry's name flashy
