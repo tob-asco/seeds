@@ -33,7 +33,7 @@
 - Title: counttherefs
 - Slogan: Count How Often An Equation Is \ref'ed
 - CreationTime: 2023-03-09
-- Tags: for language: LaTeX
+- Tags: for language: (La)TeX
 ## Top3
 - Title: Top3
 - Slogan: The Most Specific Rating System
