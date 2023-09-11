@@ -441,6 +441,7 @@ public class DataSeeder
         {
             Title = tWorld,
             Slogan = "Apply Capitalism Against Global Warming",
+            Presentation = new() { Description = "methodology here" },
             CreatorName = "tobi",
             Topics = new()
                 {
