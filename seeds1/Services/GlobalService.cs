@@ -204,14 +204,14 @@ public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.Observ
              * as the topic clicked.
              * Then update the DB with the new preference.
              */
-            for (int i = 0; i < Feedentries.Count; i++)
+            for (int i = 0; i < FeedentryVMs.Count; i++)
             {
                 // loop over topics
-                for (int j = 0; j < Feedentries[i].MauiPreferences.Count; j++)
+                for (int j = 0; j < FeedentryVMs[i].FeedEntry.MauiPreferences.Count; j++)
                 {
-                    if (Feedentries[i].MauiPreferences[j].Topic.Id == itemId)
+                    if (FeedentryVMs[i].FeedEntry.MauiPreferences[j].Topic.Id == itemId)
                     {
-                        Feedentries[i].MauiPreferences[j].Preference = newValue;
+                        FeedentryVMs[i].FeedEntry.MauiPreferences[j].Preference = newValue;
                     }
                 }
             }
@@ -312,6 +312,6 @@ public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.Observ
         IdeaInteractionsLoaded = false;
 
         FopListDict.Clear();
-        Feedentries.Clear();
+        FeedentryVMs.Clear();
     }
 }
