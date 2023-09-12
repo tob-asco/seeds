@@ -417,7 +417,7 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 - Title: R.I.P. truck backpack
 - Slogan: Backpack From Truck Tarp and Seatbelt Straps
 - {Upcycle long-lasting and secure materials of trucks and cars into everyday accessories like backpacks.}
-- CreationTime: 01-01-1993
+- CreationTime: 1993-01-01
 - Topics: reducle plastic; luggage
 ## revolut.com
 - Title: Revolut Banking
