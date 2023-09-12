@@ -330,7 +330,7 @@ Versions: Chest harness version; different lengths; with/without a stop mechanis
 
 Advertising Idea: Give collars with integrated leashes to closest dog companions + provide business cards to promote names}
 - CreationTime: 2015-06-26
-- Topics: autarkic solutions; pet: dog
+- Topics: autarkic solutions; pet: Dogs
 ## Fruity Street
 - Title: Fruity Street 
 - Slogan: Create Your Custom Smoothie While Shopping
