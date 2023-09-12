@@ -1,4 +1,5 @@
 ﻿using seeds.Dal.Model;
+using System.Globalization;
 
 namespace seeds.Api.Data;
 
@@ -435,81 +436,303 @@ public class DataSeeder
     }
     public void PopulateIdeas()
     {
-        string tWorld = "w/orld method";
-        string tEasyW = "EasyWipe";
-        Ideas.Add(new()
-        {
-            Title = tWorld,
-            Slogan = "Apply Capitalism Against Global Warming",
-            Presentation = new() { Description = "methodology here" },
-            CreatorName = "tobi",
-            Topics = new()
-                {
-                    Topics.First(t => t.CategoryKey=="ENV" && t.Name=="CO2 reduction"),
-                    Topics.First(t => t.CategoryKey=="SOC" && t.Name=="grand movement"),
-                }
-        });
-        Ideas.Add(new()
-        {
-            Title = tEasyW,
-            Slogan = "No More Wiping Pain (for men)",
-            CreatorName = "tobi",
-            Topics = new()
-                {
-                    Topics.First(t => t.CategoryKey=="DSGN" && t.Name=="autarkic solutions"),
-                }
-        });
-        Ideas.Add(new()
-        {
-            Title = "Integrated Fridge",
-            Slogan = "Use the Fridge's Heat For Warm Water",
-            CreatorName = "theDad",
-            Topics = new List<Topic>
-                {
-                    Topics.First(t => t.CategoryKey=="POW" && t.Name=="reduction"),
-                }
-        });
-        Ideas.Add(new()
-        {
-            Title = "LookDown Mirror",
-            Slogan = "IR Sensor in Car Side Mirror Checks Ice",
-            CreatorName = "theDad",
-            Topics = new()
-                {
-                    Topics.First(t => t.CategoryKey == "TRA" && t.Name == "cars"),
-                }
-        });
-        Ideas.Add(new()
-        {
-            Title = "Contra Soleil",
-            Slogan = "Simple Styrofoam w/ Sucker on Window to Block Sun",
-            CreatorName = "theDad",
-            Topics = new()
-                {
-                    Topics.First(t => t.CategoryKey=="POW" && t.Name=="reduction"),
-                    Topics.First(t => t.CategoryKey=="HOME" && t.Name=="living solutions"),
-                }
-        });
-        Ideas.Add(new()
-        {
-            Title = "IntegratedPV",
-            Slogan = "Roof Tile that is Also a Solar Collector",
-            CreatorName = "prefa",
-            Topics = new()
-                {
-                    Topics.First(t => t.CategoryKey == "POW" && t.Name == "alternatives"),
-                    Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "electronic devices"),
-                }
-        });
-        //for (int i = 1; i <= 50; i++)
-        //{
-        //    Ideas.Add(new()
-        //    {
-        //        Title = "DummyIdea" + i,
-        //        Slogan = "Some slogan.",
-        //        CreatorName = "tobi",
-        //    });
-        //}
+        List<Topic> ideaTopics = new();
 
+        #region My Ideas
+        Ideas.Add(new()
+        {
+            Title = "w/orld method",
+            Slogan = "Use Capitalism To Reduce CO2",
+            Presentation = new() { Description = "First - for each company/brand in a given sector - retrieve the amount of emitted CO2 from last month's power consumption.\nSecond, publish the ONE BRAND with the highest number to the world, thereby shaming their dirty power consumption.\nRepeat.\n\nThis way, the brands will immediately dial down on dirty energy, i.e. switch to renewable and greener sources, because they want to avoid being publicly demonstrated as a \"dirty\" power consumer." },
+            CreationTime = DateTime.ParseExact("2021-03-30", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "ENV" && t.Name == "CO2 reduction"),
+                Topics.First(t => t.CategoryKey == "SOC" && t.Name == "grand movement"),
+                Topics.First(t => t.CategoryKey == "SOC" && t.Name == "consumerism"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "LastWipe",
+            Slogan = "No More Wiping Pain (for men)",
+            Presentation = new() { Description = "Toilet paper can be like scratch paper, simply painful. All you want is to supply lotion to the \"wounded area\". But this is disgusting...\n\nLastWipe solves this problem: It is a toilet paper holder that comes with an outlet to screw in your favorite lotion.\nNow, when you have cleaned your \"area\" properly - and you feel like it is time for lotion - you squeeze lotion onto the next sheet and apply the lotion w/o having to touch any \"areas\"." },
+            CreationTime = DateTime.ParseExact("2021-12-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "autarkic solutions"),
+                Topics.First(t => t.CategoryKey == "HOME" && t.Name == "toiletty"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "solar roof tile",
+            Slogan = "Roof Tiles that are also Photovoltaic",
+            Presentation = new() { Description = "Aluminum solar roof panels that combine a storm-resistant and protective roof with a photovoltaic system in one product.\nBecause the photovoltaic cells are elegantly integrated into the roof panel, they protect your house while simultaneously generating electricity from solar energy." },
+            CreationTime = DateTime.ParseExact("2020-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "POW" && t.Name == "alternatives"),
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "electronic devices"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "evolutionary programming",
+            Slogan = "Make Code Just Like Evolution Made Our Brain",
+            Presentation = new() { Description = "Nowadays, we create code that aims to mimic our brain while using the resources of a CPU: Artificial Intelligence.\nEvolutionary Programming, on the other hand, tries to mimic How Our Brain Was Made.\n\nWe want to imitate the evolutionary driver \"better => survival\" for software, so we choose a definition for \"surviving code\" and \"dying code\", based on a defined \"goal\".\nWe modularize our code, so we can keep modules constant that \"survived\" and change the \"dying\" ones.\nThen we randomly change our modules by virtue of huge calculation power and simply let our code develop itself, i.e. we create the \"fittest\" code." },
+            CreationTime = DateTime.ParseExact("2023-08-20", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "CPU" && t.Name == "AI"),
+                Topics.First(t => t.CategoryKey == "CPU" && t.Name == "new language"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "RememberRing",
+            Slogan = "Accessory Ring That Reminds You By Vibrating",
+            Presentation = new() { Description = "Inspiration:\n	For stuff like good posture or work-pause-cycles, you need frequent timers.\n	Usually, the phone is not handy enough to set them.\nImplementation:\n	A good-looking ring (like those you can pay with) that gently vibrates.\nIts timers are set via mobile app, but turned off through single button." },
+            CreationTime = DateTime.ParseExact("2023-08-29", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "jewelry"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "EyesSpare3D",
+            Slogan = "Train Eye Focus While Display Working",
+            Presentation = new() { Description = "Problem:\n	Long starring at displays worsens eyesight because the focussing muscles get rusty.\nSolution:\n3D glasses that change eye-display distance frequently." },
+            CreationTime = DateTime.ParseExact("2023-05-26", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "HEAL" && t.Name == "body region: eyes"),
+                Topics.First(t => t.CategoryKey == "HEAL" && t.Name == "prophylactic lifestyle"),
+                Topics.First(t => t.CategoryKey == "WORK" && t.Name == "for branch: programmer"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "counttherefs",
+            Slogan = "Count How Often An Equation Is \ref'ed",
+            Presentation = new() { Description = "In a LaTeX document, next to a numbered equation, write how often the equation has been referenced (by \ref{eq:...}) in the whole document.\n\nE.g.:\n    The following is an important formula:\n                E = mc^2            (1.1) [4 refs]\n    And by looking at the reference count\n    you see that it is really important to\n    understand it because we will be using\nit over and over (and over and over)." },
+            CreationTime = DateTime.ParseExact("2023-03-09", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "CPU" && t.Name == "for language: (La)TeX"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Top3",
+            Slogan = "The Most Specific Rating System",
+            Presentation = new() { Description = "TOP3 - The Most Specific Rating System\nSimilar to TripAdvisor\n	for tourists, culinarics, services of any kind, sights\n\nStep 1: beginning of a speciality\n	there should be enough top votings (at various places) for same product\n		hence not every voted product directly becomes a speciality\n	now, the product is a speciality of the region\n\nStep 2: ratings\n	any product at any place can now be rated\n	rating for this particular product only\n\nStep 3: profit\n	enter current region and look which products were topped\n	distinguish the first three places - TOP3\n		maybe rank them equally (\"one of TOP3\") within margin\n			unless there is a clear trend\n			because numbers can be cruel\n	find out about specialities\n		e.g. top free view in town\n		e.g. top café to work\n\n\nMaybe also for universities\ntop3 courses / profs" },
+            CreationTime = DateTime.ParseExact("2022-03-22", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "LIFE" && t.Name == "traveling"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "DiaBundle",
+            Slogan = "A Social Network For Slideshows",
+            Presentation = new() { Description = "DIABUNDLE - BETWEEN TIKTOK (VIDEO) AND INSTAGRAM (SOCIAL)\neasy video editing to create dia-shows\n	with music\nupload bunch of images and automatically bundle them into a short presentation\n\n\nWhy?\n	for pictures: Instagram\n	for text: Twitter\n	for videos: _________\n\n	in Insta, people often use 10/10 pictures for one post\n		there is an urge to share MORE\n	you can upload videos also on Insta, FB, Twitter, ... BUT:	\n		same argument could have been made before Insta came but FB already supported photos\nlinux-philosophy: one program per task - there is no social-video-platform" },
+            CreationTime = DateTime.ParseExact("2023-03-05", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "LIFE" && t.Name == "social media"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "egg timer window closer",
+            Slogan = "Close Your Window After Chosen Time",
+            Presentation = new() { Description = "Attachment gadget to automatically close the open window with a time delay. W/o needed power supply.\n\nAttach it to the window frame, e.g., next to the window hinge.\nThe rod is positioned away and acts as a lever.\nThe lever grips as far away from the hinge as possible on the frame or window.\nThe goal is for the rod to push the window closed via a tensioned spring.\nThe reason is that closing takes some time; otherwise, one could close it manually.\n\nThe delay is like an egg timer, with three options:\n  - Starts closing immediately but as slowly as set.\n  - Closes the window quite quickly only after the set time.\n  - Combination: Use the last minute to close gently.\n\nWhy:\n  To end ventilation after a reasonable time without having to think about closing.\n  It's easier to think about ventilation itself (odor, habit, etc.).\n  Closing is forgotten and consumes a lot of energy.\nWhere:\n  Basically, at any window/door that opens on a hinge.\n  Bathroom\n  Bedroom windows (you can fall asleep without unintentionally venting all night).\n\nOperation:\n  - Close the window and 'calibrate' the spring (i.e., attach the lever to the frame).\n  - Slightly over-tension the spring against the window seal pressure.\n    (e.g., manually pre-tension with a ratchet, as strong as needed, depending on seal pressure)\n  (- Adjust the spring force to also close heavy doors.)\n  - Open the window to any desired width and tension the ratchet accordingly.\n  - Set the duration by turning the egg timer.\n  - When releasing, depending on the options (as above), start closing/ticking immediately.\n\nChallenge:\n  - Attachment of the device to the frame\n    Suction cup: not very reliable, subjected to constant torque\n    Screwing: may damage the seal, inflexible, devalues the window\n    Gluing: inflexible, and constant torque is known to damage adhesives\n    Combinations of the above ideas: bloated\n\n    Above the hinge, a thin plate goes through the slot when the window is open:\n    So, a double right angle that wraps around the frame\n    lies equally on the outside and inside of the frame\n    The hinge prevents the 'U-bracket' from slipping down\n    Can be easily fastened in any direction and offers a surface for attachment\n\n    Problem:\n    Slightly damages the seal effect\n    Different frame thicknesses require U-brackets of different widths\n\nVariants:\n  - Security variant:\n    Attach a drop bolt on the opposite side of the frame (where it is open).\n    Attach a pin to the door that protrudes in the door plane.\n    Then, when the pin reaches the drop bolt at 95% closure, it triggers it.\n    The drop bolt falls and holds the pin in place.\n    Preventing external opening.\n\n    Multiple pins and drop bolts on one door possible.\n  - Installation variant:\n    Attachment question not a problem.\n" },
+            CreationTime = DateTime.ParseExact("2021-12-22", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "autarkic solutions"),
+                Topics.First(t => t.CategoryKey == "POW" && t.Name == "reduction"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "ABÖTH",
+            Slogan = "Current Desires Austria's by Tobias Hochreiter",
+            Presentation = new() { Description = "ABÖTH - Austria's Current Needs by Tobias Hochreiter\nPrinciples:\n  Dynamic adaptation of the party to the voice/needs of the people\n  using social media, demonstrations, opinion polls, statistics, plans, and popularity of other parties, etc.\n  possibly CPU-assisted (AI)\n  the party program (PP) should change within one legislative period (LP) up to, e.g., 1 year before new elections\n  then it should be frozen for the entire upcoming LP\n    in Austria, this is normally exactly 6 years\n  1 year before elections until government formation, no PP is generated/changed but an attempt is made to enter the government\n  during the LP, the PP for the following LP should be shaped\n    but government work follows only the old PP, which was frozen\n      12-21: perhaps a bit too bold. A lot changes within an LP.\n          Usually, after implementing a point in the PP, everything is done, and adhering to it becomes unnecessary\n  Weighting of all citizens as equal as possible\n    ideally, everyone with a factor of 1\n      12-21: Really? Not the louder, the more important, the more valuable?\n  What is adjusted in the PP are the priorities (see below)\n\n  Priority structure of the party program (PP)\n  major categories like the questions of the election compass each get a prioritization level\n    e.g., it should say: no coal exit until 2030 (2/5)\n      so, Priority 2 out of 5\n      if climate protection becomes louder in the population, the PP should be revised as follows:\n        no coal exit until 2030 (2/5)\n        no coal exit until 2030 (1/5)\n        no coal exit until 2030 (0/5)\n        no coal exit until 2030 (-1/5) = coal exit until 2030 (1/5)\n          coal exit until 2030 (2/5)\n          coal exit until 2030 (3/5)\n          coal exit until 2030 (4/5)\n    not every important topic needs to be addressed\n      there must be a recognizable public opinion\n      there must be an expert as a party member\n        they must be able to decide for Austria in the party's interest (i.e., in the interest of the people) as an expert in this subject\n\n  Election results determine the bargaining power\n    Government share (RA) := the aliquot share of votes of ABÖTH in the total number of votes of the coalition\n    the RA of the priorities should be implemented\n      e.g.: there are 30 topics, a total of 80 priority points with an RA of 25%\n        then an attempt is made to negotiate as many topics as possible so that the summed priority points of these topics are around 80/4 = 20\n      12-21: accordingly, even with an absolute majority of other parties, ministries should be occupied\n        this gives the democratic individual vote more value - not only the winning votes count\n        tactical voting is thus slightly restrained\n        niches can open up and promote development\n\nPhilosophy:\n  a form of direct democracy that separates the effort of reading up on specific issues and voting from the people\n  decisions should be made as a direct democracy would have done at the time of freezing the PP\n  why the initials (\"TH\") in the name?\n    because different interpretations result in a different party and therefore a different name\n      the interpretation of how a party should govern current needs\n      the party should come with me and go with me; that should be visible in the name\n    Successors should act according to their own interpretation of current needs\n      because you have the greatest understanding of a plan when you come up with it yourself\n  12-21: Creating an independent people\n    Stoics\n    E.g. Corona:\n      explain the new opportunities to the people\n      those who do not adapt (the virus does) will lose\n    E.g. Neutrality:\n      we remain neutral\n      but: demand something positive even from a possible war\n    more opportunities for initiative (free workshops, idea system, etc.)\n  12-21: Progress that should last must come slowly\n    we need a feedback loop that allows enough time for evaluation and reaction\n    E.g. Mobile phones: progress came very quickly\n      apparent contradiction\n      but: many negative consequences; youth was hardly prepared for the new addictions (social media)\n      perhaps it will not last; perhaps usage will peak and settle far below\n    E.g. Same-Sex Marriage: I would like to legalize it immediately, but that is not fair to conservative/religious citizens\n      make homosexuality more present and wait for feedback\n      try to convince the church\n      initially allow marriage only for couples in long-term registered partnerships\n      ...\n    progress should be slow but steady\n\nExtensions:\n  12-21: Introduction of the people's ideas through the StackOverflow/Reddit system\n    democratic filter of good ideas through upvotes\n    reward for actual implementation in the new PP/current government work\n      Bronze: Law inspiration\n      Silver: Mostly implemented\n      Gold: (Almost) exact implementation\n    divided into areas (subreddits or math/tex/physics overflow) such as education, refugees, ecology, ...\n  12-21: the more important the needs seem, the more valuable\n    would like to have a team that can be addressed directly by the people\n    if a citizen complains about something, doesn't matter\n    if a citizen wants something, doesn't matter\n    if a citizen truly and credibly BURNS for a change, listen\n      show it through the above idea submission system and generate approval\n      or through the organization of demonstrations\n      or through other extreme/criminal measures\n        if a person is willing to go this far, giving them a chance is the least dangerous option - maybe we're missing something?\n  12-21: a small step towards anarchy\n    less regulation and control, but harsher penalties\n    promotes independence\n    E.g. running a red light on an empty street\n" },
+            CreationTime = DateTime.ParseExact("2021-09-27", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "GOV" && t.Name == "for country: Austria"),
+                Topics.First(t => t.CategoryKey == "SOC" && t.Name == "new political systems"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "mental detox",
+            Slogan = "Reset Your Habits By Starving Them",
+            Presentation = new() { Description = "Like fasting for the physical organism, cleanse the mind through abstinence from:\nHabits.\nMainly those with negative effects (sugar, laziness, Netflix, ..) but also neutral/positive ones possible.\nReason: Habituation happens slowly, so within the time span of good enough memory, you don't notice a difference. It is the driving force and the reason for a large part of our behavior. For example, \"Time heals all wounds\" can be attributed solely to it, not to time itself - time is just the fuel for habituation.\nThat's why breaking free from the current state of habituation through abrupt but prolonged changes in daily routine makes sense: You look at your life from the outside, as an objective observer. The mask of habituation doesn't cloud your view. Since habituation is a driver of addiction (the dose of the addictive substance increases with time - that is, with growing habituation), you can return to an earlier stage of addiction. Depending on the nature of the addiction (negative: drugs, positive: love), returning to the quantity before detoxification can create a more positive/negative feeling." },
+            CreationTime = DateTime.ParseExact("2021-01-21", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "HEAL" && t.Name == "mental health"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Rien",
+            Slogan = "Das Gefühl Von Purem Nichts",
+            Presentation = new() { Description = "Nehmen Sie sich bei der Hand und folgen Sie mir. Was ich Ihnen zeigen möchte... ist nichts Großartiges, keine wirkliche Neuheit, dennoch irgendwie umschwiegen - wie auch besprechen? Ich werde einen kleinen Gedanken mit Ihnen teilen. Mir hat er bereits geholfen. Nehmen Sie sich, was Sie von ihm möchten und ziehen Sie weiter. Die Wirkung, die er auf sie haben wird oder soll, kann ich nicht bezeichnen, er ist viel zu wenig dafür. Ich wäre nicht enttäuscht zu erfahren, dass er Ihnen nichts anhaben konnte, hoffe dennoch darauf mit ihm etwas anzuhaben: In Ihnen, in Ihrem Maßstab. Dem Maßstab für alles. Wenn Sie es zulassen, wenn Sie es wollen und wenn Sie es können, dann kann er nämlich genau darauf wirken. Auf Alles. Und da ein Etwas nie auf Alles wirken kann, es ist davon nur ein Teil, kann nur Alles auf Alles wirken. Und Nichts.\n\nIch möchte, dass Sie sich betrachten. In der Situation, in der Sie sich befinden, gerade eben. Um die ebenjene Situation als diese, in ihrer wahren Art, verstehen zu können, müssen Sie sich von Ihren Filtern lösen. Die Filter, die Sie sich so mühevoll im Laufe Ihrer Zeit individualisiert haben. Die Gründe dafür, dass diese Worte nicht von einer Hand vor dem Fall auf den Boden zurückgehalten werden, sondern von Ihrer Hand. Werden Sie sich des Unterschiedes bewusst. Wenn man ein Gespür für das Ausmaß der Verzerrung der Filter erlangt hat, fällt es leichter die Differenz zu akzeptieren, die man hinunterstürzt. Stürzen Sie. Versuchen Sie, sich zu betrachten, von Außen, von der Ecke im Raum von wo man Ihren Hinterkopf sieht, und sehen Sie nicht Ihren Körper, sehen einen Körper.\n\nWenn Sie das geschafft haben, haben Sie den größten Schritt getan - vermutlich schon den ganzen Weg. Sie können die folgenden Zeilen lesen wie eine Urlaubserzählung, mit mir in Gedanken die Bilder meines vergangenen Trips durchstöbern und sich an der schieren Fülle und Überwältigung meiner Aufnahmen ergötzen.\nIch vermute aber, dass Sie doch noch nicht ganz so weit sind. Ein Paar Absätze werden meinen Gedanken wohl kaum bis in Ihr Verständnis vordringen lassen. Deswegen sollten Sie davon absehen, meine Collage einfach so, in einem schlichten Akt des Zusehens, über sich ergehen zu lassen. Wenn es gelingt, dann gehen Sie mir nach. Reisen Sie hinter mir her und nicht mit mir mit:\n\nIch sehe mich, sehe mich wie ich hier sitze, auf meine Tastatur tippe. Versuche nicht mich zu sehen, sondern jemanden. Es fällt schwer. Ob ich es geschafft habe, kann ich kaum sagen, vielleicht kurz. Ich halte den Blick auf mir und bewege mich nach hinten und oben. Die Wand versperrt jetzt die Sicht. Möglichst gerade und gleichförmig erreiche ich das obere Stockwerk. Es ist nichts los, viel zu spät. Die Waschmaschine füllt den Flur mit einem kontinuierlichen, stumpfem Dröhnen. Nach dem Durchdringen der Hausmauer sehe ich meinen Wohnort von außen, stelle mir vor dort unten den tippenden Körper noch zu erhaschen, bemerke seine Irrelevanz. Ich erreiche die Höhe meines Hauses, mein Blick umschließt es langsam zur Gänze. Das Nachbarshaus druchdringt die Ränder meines Blickfeldes. Mit ihm die Straße und langsam die näheste Kreuzung, der Friedhof, die Kirche - immer mehr wird Teil dessen, was ich sehe, Teil meiner Welt. Die Stadt lebt natürlich, Bewegung findet statt und ich erkenne sie als solche. Nicht mehr, und weniger ist kaum möglich. Ein Auto fährt vorbei, ich weiß, dass darin jemand sitzt. \n(Er ist mir völlig egal. Ich richte den Blick auf das Zentrum, auf mich. Aus irgendeinem Grund sehe ich mich noch, als Punkt, leuchtend. Beim Fahrersitz des Autos leuchtet nichts, ich bin also eindeutig immer noch nicht irgendjemand.)\nIch steige auf und sehe mehr. Die Grenzen der Stadt sind erkennbar, die Menschen auf den Straßen nicht mehr. Ich versuche sie aber bestehen zu lassen, ich brauche sie noch. Immer weiter lasse ich meine Wahrnehmung in die Lüfte steigen, hin und wieder hüpfe ich zurück in meinen Schreibtischsessel was ich nicht verhindern kann. Jedesmal danach mache ich weiter von dort wo ich wegghüpft bin. Langsam erschließt sich mir ganz München. Immer mehr werde ich dazu verlockt, nicht zu sehen, sondern mich zu erinnern. An Stadtpläne, Google Maps, eigene vergangene Bilder aus dem Flugzeug. Das will ich nicht. Die Relevanz der Vergangenheit tut nicht zur Sache, ich sehne mich nach der Wahrnehmung des jetzigen Moments. Deswegen muss ich arbeiten, es kostet Kraft mich von den falschen Bildern zu lösen und die Wirklichkeit zu sehen, in Bewegung, ohne Filter.\n(Ich merke sofort wenn ich wieder in eine Starre gekommen bin und befreie mich indem ich zurückspringe zu einem Punkt an dem ich wahrgenommen habe.)\nIch versuche mich jetzt so schnell zu erheben, dass das Wissen über die Aktualität meiner Sicht nicht zerfließt und erreiche schnell den Pazifik und endlich die Ränder der Welt. Der Anblick ist eine Wucht und jetzt benutze ich meine Erinnerung an die Menschen um mir glauben zu machen, das Gewusel auf der Oberfläche ausmachen zu können. Jetzt muss ich aussortieren. Alles Erdliche muss ich zurücklassen, hier gehört es her. Erdliches ist Menschliches, also lege ich alles davon ab, auf die Oberfläche: Religion, Philosophie, Logik, Sprache, Gefühle, Geschichte. Nichts was nicht von uns erschaffen wurde, begleitet mich weiter in die Höhe. Während ich aufsteige, sehe ich die Erde wie sie ist, und weiß, dass alles was ich abgelegt habe, nur dort existiert und mich ab jetzt nicht mehr betrifft.\nIch setze fort. Da mir in den kommenden Höhen die Bilder fehlen, kann ich sie mir nur noch durch meine Vorstellung erschließen. Ich kombiniere sie mit Leben, mit Wirklichkeit, und hoffe darauf, dass ich es mir selbst glaube. Im Übrigen interessiert sich dafür sonst Niemand...\n" },
+            CreationTime = DateTime.ParseExact("2020-12-12", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "LIT" && t.Name == "short: German"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "CollarLeash",
+            Slogan = "A Leash That Winds Up In the Collar",
+            Presentation = new() { Description = "Dog leash integrated into the collar; leash is stopped by a control cord; collar features a retraction mechanism; collar is detachable and length is individually adjustable; small handle for better grip.\n\nDesign: Traces are laid inside the collar to guide the leash; the collar will be wide and have a certain height to achieve a certain length; to enable attachment, the leash must be threaded in serpentine patterns inside the collar; the handle must be lightly anchored in a small holder.\n\nVersions: Chest harness version; different lengths; with/without a stop mechanism; electronic version where the stop is replaced by a signal  control cord can be saved; various attachment options.\n\nAdvertising Idea: Give collars with integrated leashes to closest dog companions + provide business cards to promote names" },
+            CreationTime = DateTime.ParseExact("2015-06-26", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "autarkic solutions"),
+                Topics.First(t => t.CategoryKey == "LIFE" && t.Name == "pet: Dogs"),
+            }
+        });
+        #endregion
+
+        #region Friends' Ideas
+        Ideas.Add(new()
+        {
+            Title = "Fruity Street",
+            Slogan = "Create Your Custom Smoothie While Shopping",
+            Presentation = new() { Description = "A separate shop in a mall that lays out fruits and vegetables to the right and left of an aisle. Tropical atmosphere.\nPeople walk through and choose some of the fresh goods to later have them smoothied up into a refreshing drink." },
+            CreationTime = DateTime.ParseExact("2013-09-26", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "FOOD" && t.Name == "cocktails"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Sweetonaut",
+            Slogan = "Only Sweet Delicious Food On Our Menu",
+            Presentation = new() { Description = "A restaurant dedicated only to desserts." },
+            CreationTime = DateTime.ParseExact("2022-03-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "FOOD" && t.Name == "new restaurants"),
+            }
+        });
+        #endregion
+
+        #region Strangers' Ideas
+        Ideas.Add(new()
+        {
+            Title = "fifty fifty",
+            Slogan = "Half Cow- Half Substitute-Milk",
+            Presentation = new() { Description = "A package of half cow milk and half vegan substitute milk like oat milk or coconut milk.\nFor those wanting to get off cow milk but need a middle-step." },
+            CreationTime = DateTime.ParseExact("2022-10-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "FOOD" && t.Name == "substitutes"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Guide To Sleep",
+            Slogan = "App To Help With Falling Asleep Problems",
+            Presentation = new() { Description = "We make mental health support accessible to everyone, no matter their background or experience. Through our flagship Headspace app, we provide mindfulness tools for everyday life, including meditations, sleepcasts, mindful movement and focus exercises. Our enterprise offerings combine this experience with a human-centered model of care, with coaching, therapy, psychiatry and EAP services under one roof. Our team of experts ranges from mental health clinicians, to Emmy award-winning producers and data scientists, working together as one to help millions of people around the world be healthier and more productive.\n\n(from headspace.com)" },
+            CreationTime = DateTime.ParseExact("2010-05-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "HEAL" && t.Name == "mental health"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "MyEasyFarm",
+            Slogan = "Digitally Streamline Work of Small Farmers",
+            Presentation = new() { Description = "Easily create and visualize your equipment and its characteristics, analyze workloads and plan maintenance.\n\nView the general and local weather conditions* on all your plots and adjust the interventions accordingly.\nMyEasyFarm keeps you informed of past and forecast weather conditions for all your plots, as well as local conditions if you have your own weather stations.\nYou can therefore decide on the best time for a crop protection treatment or plan an intervention on a remote plot.\n\nFrom satellite to tractor!\n12 months of history on each field, map comparison... Take a tour of your farm with satellite views.\nFollow the evolution of your crops and modulate your inputs for greater efficiency with MyEasyFarm.\n\nMeasure the water level in the soil and optimize your irrigation with WAGO's Precision Irrigation solution.\nGet advice on when and how much water to use for irrigation.\nIrrigation control allows you to plan irrigation campaigns and water turns, manage irrigation quotas andsave 1 to 2 water turns per campaign.\n\nPlan interventions for each plot, assign each task to people and equipment and distribute information to them every day.\nTask planning MyEasyFarm lets you plan all crop-related operations (soil preparation, sowing, protection, harvesting), then adjust the day of operation according to plant growth, weather and agronomic recommendations.\n\n(from myeasyfarm.com)" },
+            CreationTime = DateTime.ParseExact("2017-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "WORK" && t.Name == "for branch: farmer"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Peloton",
+            Slogan = "Online Workout Classes With Fully Connected Equipment",
+            Presentation = new() { Description = "Connect your equipement to the online workout class, so your trainer can adjust your equipment during the training. The benefits of in-person training combined with the online benefits." },
+            CreationTime = DateTime.ParseExact("2012-01-03", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "HEAL" && t.Name == "addictive workout"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Allbirds Woolrunner",
+            Slogan = "A Shoe Made From Merino Wool",
+            Presentation = new() { Description = "" },
+            CreationTime = DateTime.ParseExact("2016-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "haut couture"),
+                Topics.First(t => t.CategoryKey == "OUT" && t.Name == "functional wear"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Robinhood Markets",
+            Slogan = "Stock Trading For Everyone, Not Just the Wealthy",
+            Presentation = new() { Description = "Facilitate commission-free trades of stocks, exchange-traded funds and cryptocurrencies as well as individual retirement accounts via a mobile app." },
+            CreationTime = DateTime.ParseExact("2013-04-18", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "$$$" && t.Name == "cryptocurrency"),
+                Topics.First(t => t.CategoryKey == "$$$" && t.Name == "trading"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Away Suitcase",
+            Slogan = "The Little Black Dress Of Luggage",
+            Presentation = new() { Description = "" },
+            CreationTime = DateTime.ParseExact("2015-11-09", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "LIFE" && t.Name == "traveling"),
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "luggage"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "R.I.P. truck backpack",
+            Slogan = "Backpack From Truck Tarp and Seatbelt Straps",
+            Presentation = new() { Description = "Upcycle long-lasting and secure materials of trucks and cars into everyday accessories like backpacks." },
+            CreationTime = DateTime.ParseExact("1993-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "ENV" && t.Name == "reducle plastic"),
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "luggage"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Revolut Banking",
+            Slogan = "One App, All Things Money",
+            Presentation = new() { Description = "Revolutionize money transfer. No bankers, No nationality, No fees. It's just a number after all." },
+            CreationTime = DateTime.ParseExact("2015-07-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "$$$" && t.Name == "banks"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Rent The Runway",
+            Slogan = "Rent 2nd Hand Clothes From the Runway",
+            Presentation = new() { Description = "Wear the haut couture of tomorrow that has actually been on the biggest runways " },
+            CreationTime = DateTime.ParseExact("2009-01-01", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "DSGN" && t.Name == "haut couture"),
+                Topics.First(t => t.CategoryKey == "ENV" && t.Name == "sustainability"),
+            }
+        });
+        Ideas.Add(new()
+        {
+            Title = "Square Root",
+            Slogan = "Urban Vertical Indoor Farming Containers For Crops",
+            Presentation = new() { Description = "" },
+            CreationTime = DateTime.ParseExact("2016-09-21", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+            Topics = new() {
+                Topics.First(t => t.CategoryKey == "ENV" && t.Name == "greenify cities"),
+                Topics.First(t => t.CategoryKey == "WORK" && t.Name == "for branch: farmer"),
+                Topics.First(t => t.CategoryKey == "H4H" && t.Name == "nutrition supply"),
+            }
+        });
+        #endregion
     }
+
 }
