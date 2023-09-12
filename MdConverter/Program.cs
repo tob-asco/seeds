@@ -168,35 +168,36 @@ public class Program
 
                 // next, split list
                 ideaTopicsString = ideaStringOfTopics.Split(';').ToList();
+
                 // next, convert to actual topics
                 // here, exceptions are thrown if the tags don't exist
-                writer.WriteLine($"{nameof(ideaTopics)} = new() {{");
                 foreach (var s in ideaTopicsString)
                 {
-                    if (s.Contains(':'))
+                    if (Topics.Where(t => t.Name == s.Trim()).Count() == 1)
+                    {
+                        catKey = Topics.First(t => t.Name == s.Trim()).CategoryKey;
+                        topicName = Topics.First(t => t.CategoryKey == catKey &&
+                                t.Name == s.Trim()).Name;
+                    }
+                    else if (s.Contains(':'))
                     {
                         catKey = Cats.First(c => c.Key == s.Split(':')[0].Trim()).Key;
+                        topicName = Topics.First(t => t.CategoryKey == catKey &&
+                                t.Name == s.Split(":")[1].Trim()).Name;
                     }
                     else
                     {
-                        if (Topics.Select(t => t.Name == s.Trim()).ToList().Count > 1)
-                        {
-                            throw new Exception("Multiple tags with this name, " +
-                            "please specify the CategoryKey, like \"ENV: tagname\".");
-                        }
-                        catKey = Topics.First(t => t.Name == s.Trim()).CategoryKey;
+                        throw new Exception($"There exist " +
+                                $"{Topics.Where(t => t.Name == s.Trim()).Count()}" +
+                                $"tags with the name '{s.Trim()}'. " +
+                                "The format is like \"CAT: family: topicname\".");
                     }
-                    topicName = Topics.First(t => t.CategoryKey == catKey &&
-                            t.Name == s.Split(":")[1].Trim()).Name;
                     ideaTopics.Add(new()
                     {
                         CategoryKey = catKey,
                         Name = topicName
                     });
-                    writer.WriteLine($"Topics.First(t => t.{nameof(Topic.CategoryKey)} == \"{catKey}\" " +
-                        $"&& t.{nameof(Topic.Name)} == \"{topicName}\"),");
                 }
-                writer.WriteLine("}");
             }
             if (ideasLines[i].StartsWith("## ") || i == ideasLines.Count - 1)
             {
@@ -218,7 +219,18 @@ public class Program
                         writer.WriteLine($"{nameof(Idea.CreationTime)} = " +
                             $"DateTime.ParseExact({timeString},\"yyyy-MM-dd\", CultureInfo.InvariantCulture),");
                     }
-                    writer.WriteLine($"{nameof(Idea.Topics)} = {nameof(ideaTopics)} }});");
+                    if (ideaTopics.Count > 0)
+                    {
+                        writer.WriteLine($"{nameof(Idea.Topics)} = new() {{");
+                        foreach (var topic in ideaTopics)
+                        {
+                            writer.WriteLine($"\t\t\t\tTopics.First(t => " +
+                                $"t.{nameof(Topic.CategoryKey)} == \"{topic.CategoryKey}\" " +
+                                $"&& t.{nameof(Topic.Name)} == \"{topic.Name}\"),");
+                        }
+                        writer.Write("\t\t\t}");
+                    }
+                    writer.WriteLine("});");
                 }
                 // Add placeholder for new ideas
                 Ideas.Add(new());
@@ -230,6 +242,7 @@ public class Program
         writer.WriteLine("}");
         writer.WriteLine("");
         #endregion
+
         writer.WriteLine("}");
         writer.Close();
         writer.Dispose();
