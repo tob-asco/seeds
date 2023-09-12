@@ -292,7 +292,10 @@ public partial class GlobalService : CommunityToolkit.Mvvm.ComponentModel.Observ
             return;
         }
 #if WINDOWS
+        if (FeedentryVMs.Count > 0)
+        {
             ufePage.Reverse();
+        }
 #endif
         FeedentryVMs.AddRange(ufePage.Select(ufe =>
         {
