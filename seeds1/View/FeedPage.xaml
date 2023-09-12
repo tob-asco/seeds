@@ -13,20 +13,29 @@
         Command="{Binding RefreshCommand}"
         IsRefreshing="{Binding IsBusy}"
         RefreshColor="Green">
-        <CollectionView ItemsSource="{Binding FeedentryVMs}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <views:FeedEntryView BindingContext="{Binding .}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            <CollectionView.Footer>
-                <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
-                    <Button
-                        Command="{Binding MoreFeedentriesCommand}"
-                        HeightRequest="40"
-                        Text="Load More" />
-                </StackLayout>
-            </CollectionView.Footer>
-        </CollectionView>
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout>
+                <CollectionView ItemsSource="{Binding FeedentryVMs}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <views:FeedEntryView BindingContext="{Binding .}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                            <Button
+                                Command="{Binding MoreFeedentriesCommand}"
+                                HeightRequest="40"
+                                Text="Load More" />
+                        </StackLayout>
+                    </CollectionView.Footer>
+                </CollectionView>
+                <Button
+                    Grid.Row="1"
+                    Command="{Binding MoreFeedentriesCommand}"
+                    HeightRequest="40"
+                    Text="Load More" />
+            </VerticalStackLayout>           
+        </ScrollView>
     </RefreshView>
 </ContentPage>
