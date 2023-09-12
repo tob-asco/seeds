@@ -10,7 +10,7 @@ public class IdeaConfiguration : IEntityTypeConfiguration<Idea>
     {
         #region Relations
         // Idea : Presentation = 1 : 1
-        builder.HasOne<Presentation>()
+        builder.HasOne(i => i.Presentation)
             .WithOne()
             .HasForeignKey<Presentation>(p => p.IdeaId)
             .IsRequired(true);

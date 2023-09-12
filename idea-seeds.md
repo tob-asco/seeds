@@ -69,7 +69,7 @@ E.g.:
     understand it because we will be using
     it over and over (and over and over).}
 - CreationTime: 2023-03-09
-- Topics: for language: LaTeX
+- Topics: for language: (La)TeX
 ## Top3
 - Title: Top3
 - Slogan: The Most Specific Rating System
@@ -100,7 +100,7 @@ Step 3: profit
 Maybe also for universities
 	top3 courses / profs}
 - CreationTime: 2022-03-22
-- Topics: traveling; mobile apps
+- Topics: traveling
 ## DiaBundle
 - Title: DiaBundle
 - Slogan: A Social Network For Slideshows
@@ -318,7 +318,7 @@ Ich versuche mich jetzt so schnell zu erheben, dass das Wissen über die Aktuali
 Ich setze fort. Da mir in den kommenden Höhen die Bilder fehlen, kann ich sie mir nur noch durch meine Vorstellung erschließen. Ich kombiniere sie mit Leben, mit Wirklichkeit, und hoffe darauf, dass ich es mir selbst glaube. Im Übrigen interessiert sich dafür sonst Niemand...
 }
 - CreationTime: 2020-12-12
-- Topics: short: Deutsch
+- Topics: short: German
 ## Hundehalsband
 - Title: CollarLeash
 - Slogan: A Leash That Winds Up In the Collar
@@ -330,7 +330,7 @@ Versions: Chest harness version; different lengths; with/without a stop mechanis
 
 Advertising Idea: Give collars with integrated leashes to closest dog companions + provide business cards to promote names}
 - CreationTime: 2015-06-26
-- Topics: autarkic solutions; for pet: dog
+- Topics: autarkic solutions; pet: Dogs
 ## Fruity Street
 - Title: Fruity Street 
 - Slogan: Create Your Custom Smoothie While Shopping
@@ -417,7 +417,7 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 - Title: R.I.P. truck backpack
 - Slogan: Backpack From Truck Tarp and Seatbelt Straps
 - {Upcycle long-lasting and secure materials of trucks and cars into everyday accessories like backpacks.}
-- CreationTime: 01-01-1993
+- CreationTime: 1993-01-01
 - Topics: reducle plastic; luggage
 ## revolut.com
 - Title: Revolut Banking
@@ -435,4 +435,4 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 - Title: Square Root
 - Slogan: Urban Vertical Indoor Farming Containers For Crops
 - CreationTime: 2016-09-21
-- Topics: greenify cities; for branch: farmer; food/water supply
+- Topics: greenify cities; for branch: farmer; nutrition supply
