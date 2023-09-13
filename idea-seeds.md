@@ -1,5 +1,6 @@
 # My Ideas
 ## w/orld method
+- CreatorName: tobi
 - Title: w/orld method
 - Slogan: Use Capitalism To Reduce CO2
 - {First - for each company/brand in a given sector - retrieve the amount of emitted CO2 from last month's power consumption.
@@ -9,7 +10,9 @@ Repeat.
 This way, the brands will immediately dial down on dirty energy, i.e. switch to renewable and greener sources, because they want to avoid being publicly demonstrated as a "dirty" power consumer.}
 - CreationTime: 2021-03-30
 - Topics: ENV: CO2 reduction; grand movement; consumerism
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/logo_v3_1920x1080_white.png?raw=true
 ## LastWipe
+- CreatorName: tobi
 - Title: LastWipe
 - Slogan: No More Wiping Pain (for men)
 - {Toilet paper can be like scratch paper, simply painful. All you want is to supply lotion to the "wounded area". But this is disgusting...
@@ -19,13 +22,16 @@ Now, when you have cleaned your "area" properly - and you feel like it is time f
 - CreationTime: 2021-12-01
 - Topics: autarkic solutions; toiletty
 ## IntegratedPV
+- CreatorName: prefa
 - Title: solar roof tile
 - Slogan: Roof Tiles that are also Photovoltaic
 - {Aluminum solar roof panels that combine a storm-resistant and protective roof with a photovoltaic system in one product.
 Because the photovoltaic cells are elegantly integrated into the roof panel, they protect your house while simultaneously generating electricity from solar energy.}
 - CreationTime: 2020-01-01
 - Topics: alternatives; electronic devices
+- Slide: https://www.prefa.de/fileadmin/_processed_/c/c/csm_PREFA_SDP-schwarz_Dachplatte-R16-anthrazit_b796f20f75.jpg
 ## evolutionary programming
+- CreatorName: tobi
 - Title: evolutionary programming
 - Slogan: Make Code Just Like Evolution Made Our Brain
 - {Nowadays, we create code that aims to mimic our brain while using the resources of a CPU: Artificial Intelligence.
@@ -36,7 +42,9 @@ We modularize our code, so we can keep modules constant that "survived" and chan
 Then we randomly change our modules by virtue of huge calculation power and simply let our code develop itself, i.e. we create the "fittest" code.}
 - CreationTime: 2023-08-20
 - Topics: AI; new language
+- Slide: https://psikolig.com/wp-content/uploads/2018/01/evo-678x381.jpg
 ## RememberRing
+- CreatorName: tobi
 - Title: RememberRing
 - Slogan: Accessory Ring That Reminds You By Vibrating
 - {Inspiration:
@@ -47,7 +55,9 @@ Implementation:
     Its timers are set via mobile app, but turned off through single button.}
 - CreationTime: 2023-08-29
 - Topics: jewelry
+- Slide: https://smartringnews.com/wp-content/uploads/2023/07/641594f6c4357e173a7ad342_McLear-NFC-Ring.jpg
 ## Save Your Eyes 3d
+- CreatorName: tobi
 - Title: EyesSpare3D
 - Slogan: Train Eye Focus While Display Working
 - {Problem:
@@ -57,6 +67,7 @@ Solution:
 - CreationTime: 2023-05-26
 - Topics: body region: eyes; prophylactic lifestyle; for branch: programmer
 ## LaTeX Equation References Counter
+- CreatorName: tobi
 - Title: counttherefs
 - Slogan: Count How Often An Equation Is \ref'ed
 - {In a LaTeX document, next to a numbered equation, write how often the equation has been referenced (by \ref{eq:...}) in the whole document.
@@ -69,8 +80,10 @@ E.g.:
     understand it because we will be using
     it over and over (and over and over).}
 - CreationTime: 2023-03-09
-- Topics: for language: (La)TeX
+- Topics: for language: LaTeX
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/counttherefs1.png?raw=true
 ## Top3
+- CreatorName: tobi
 - Title: Top3
 - Slogan: The Most Specific Rating System
 - {TOP3 - The Most Specific Rating System
@@ -100,8 +113,9 @@ Step 3: profit
 Maybe also for universities
 	top3 courses / profs}
 - CreationTime: 2022-03-22
-- Topics: traveling
+- Topics: traveling; mobile apps
 ## DiaBundle
+- CreatorName: tobi
 - Title: DiaBundle
 - Slogan: A Social Network For Slideshows
 - {DIABUNDLE - BETWEEN TIKTOK (VIDEO) AND INSTAGRAM (SOCIAL)
@@ -123,6 +137,7 @@ Why?
 - CreationTime: 2023-03-05
 - Topics: social media
 ## Eiertür
+- CreatorName: tobi
 - Title: egg timer window closer
 - Slogan: Close Your Window After Chosen Time
 - {Attachment gadget to automatically close the open window with a time delay. W/o needed power supply.
@@ -188,6 +203,7 @@ Variants:
 - CreationTime: 2021-12-22
 - Topics: autarkic solutions; reduction
 ## ABÖTH
+- CreatorName: tobi
 - Title: ABÖTH
 - Slogan: Current Desires Austria's by Tobias Hochreiter
 - {ABÖTH - Austria's Current Needs by Tobias Hochreiter
@@ -291,6 +307,7 @@ Extensions:
 - CreationTime: 2021-09-27
 - Topics: for country: Austria; new political systems
 ## Geistentschlackung
+- CreatorName: tobi
 - Title: mental detox
 - Slogan: Reset Your Habits By Starving Them
 - {Like fasting for the physical organism, cleanse the mind through abstinence from:
@@ -301,6 +318,7 @@ That's why breaking free from the current state of habituation through abrupt bu
 - CreationTime: 2021-01-21
 - Topics: mental health
 ## Rien
+- CreatorName: tobi
 - Title: Rien
 - Slogan: Das Gefühl Von Purem Nichts
 - {Nehmen Sie sich bei der Hand und folgen Sie mir. Was ich Ihnen zeigen möchte... ist nichts Großartiges, keine wirkliche Neuheit, dennoch irgendwie umschwiegen - wie auch besprechen? Ich werde einen kleinen Gedanken mit Ihnen teilen. Mir hat er bereits geholfen. Nehmen Sie sich, was Sie von ihm möchten und ziehen Sie weiter. Die Wirkung, die er auf sie haben wird oder soll, kann ich nicht bezeichnen, er ist viel zu wenig dafür. Ich wäre nicht enttäuscht zu erfahren, dass er Ihnen nichts anhaben konnte, hoffe dennoch darauf mit ihm etwas anzuhaben: In Ihnen, in Ihrem Maßstab. Dem Maßstab für alles. Wenn Sie es zulassen, wenn Sie es wollen und wenn Sie es können, dann kann er nämlich genau darauf wirken. Auf Alles. Und da ein Etwas nie auf Alles wirken kann, es ist davon nur ein Teil, kann nur Alles auf Alles wirken. Und Nichts.
@@ -318,8 +336,9 @@ Ich versuche mich jetzt so schnell zu erheben, dass das Wissen über die Aktuali
 Ich setze fort. Da mir in den kommenden Höhen die Bilder fehlen, kann ich sie mir nur noch durch meine Vorstellung erschließen. Ich kombiniere sie mit Leben, mit Wirklichkeit, und hoffe darauf, dass ich es mir selbst glaube. Im Übrigen interessiert sich dafür sonst Niemand...
 }
 - CreationTime: 2020-12-12
-- Topics: short: German
+- Topics: short: Deutsch
 ## Hundehalsband
+- CreatorName: tobi
 - Title: CollarLeash
 - Slogan: A Leash That Winds Up In the Collar
 - {Dog leash integrated into the collar; leash is stopped by a control cord; collar features a retraction mechanism; collar is detachable and length is individually adjustable; small handle for better grip.
@@ -330,8 +349,9 @@ Versions: Chest harness version; different lengths; with/without a stop mechanis
 
 Advertising Idea: Give collars with integrated leashes to closest dog companions + provide business cards to promote names}
 - CreationTime: 2015-06-26
-- Topics: autarkic solutions; pet: Dogs
+- Topics: autarkic solutions; for pet: dog
 ## Fruity Street
+- CreatorName: theDad
 - Title: Fruity Street 
 - Slogan: Create Your Custom Smoothie While Shopping
 - {A separate shop in a mall that lays out fruits and vegetables to the right and left of an aisle. Tropical atmosphere.
@@ -341,12 +361,14 @@ People walk through and choose some of the fresh goods to later have them smooth
 
 # Friends' Ideas
 ## NachTisch
+- CreatorName: leocardiayz
 - Title: Sweetonaut
 - Slogan: Only Sweet Delicious Food On Our Menu
 - {A restaurant dedicated only to desserts.}
 - CreationTime: 2022-03-01
 - Topics: new restaurants
 ## Halb Milch Halb Hafer
+- CreatorName: leocardiayz
 - Title: fifty fifty
 - Slogan: Half Cow- Half Substitute-Milk
 - {A package of half cow milk and half vegan substitute milk like oat milk or coconut milk.
@@ -361,6 +383,7 @@ What are the guidelines for the ideas?
 - good ideas that died because of a missing platform would be great
 - how about recently realized ideas that are lesser known?
 ## headspace.com, calm.com
+- CreatorName: headspace
 - Title: Guide To Sleep
 - Slogan: App To Help With Falling Asleep Problems
 - {We make mental health support accessible to everyone, no matter their background or experience. Through our flagship Headspace app, we provide mindfulness tools for everyday life, including meditations, sleepcasts, mindful movement and focus exercises. Our enterprise offerings combine this experience with a human-centered model of care, with coaching, therapy, psychiatry and EAP services under one roof. Our team of experts ranges from mental health clinicians, to Emmy award-winning producers and data scientists, working together as one to help millions of people around the world be healthier and more productive.
@@ -368,7 +391,9 @@ What are the guidelines for the ideas?
 (from headspace.com)}
 - CreationTime: 2010-05-01
 - Topics: mental health
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/headspace1.png?raw=true
 ## myeasyfarm.com
+- CreatorName: myeasyfarm
 - Title: MyEasyFarm
 - Slogan: Digitally Streamline Work of Small Farmers
 - {Easily create and visualize your equipment and its characteristics, analyze workloads and plan maintenance.
@@ -391,48 +416,63 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 (from myeasyfarm.com)}
 - CreationTime: 2017-01-01
 - Topics: for branch: farmer
+- Slide: https://www.myeasyfarm.com/wp-content/uploads/2023/07/3.-gestion-parcellaire-logo-isobus-1-2048x1194.png.webp
 ## onepeloton.com
+- CreatorName: peloton
 - Title: Peloton
 - Slogan: Online Workout Classes With Fully Connected Equipment
 - {Connect your equipement to the online workout class, so your trainer can adjust your equipment during the training. The benefits of in-person training combined with the online benefits.}
 - CreationTime: 2012-01-03
 - Topics: addictive workout
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/peloton1.png?raw=true
 ## allbirds.eu
+- CreatorName: allbirds
 - Title: Allbirds Woolrunner
 - Slogan: A Shoe Made From Merino Wool
 - CreationTime: 2016-01-01
 - Topics: haut couture; functional wear
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/allbirds1.png?raw=true
 ## robinhood.com
+- CreatorName: robinhood
 - Title: Robinhood Markets
 - Slogan: Stock Trading For Everyone, Not Just the Wealthy
 - {Facilitate commission-free trades of stocks, exchange-traded funds and cryptocurrencies as well as individual retirement accounts via a mobile app.}
 - CreationTime: 2013-04-18
 - Topics: cryptocurrency; trading
 ## awaytravel.com
+- CreatorName: away
 - Title: Away Suitcase
 - Slogan: The Little Black Dress Of Luggage
 - CreationTime: 2015-11-09
 - Topics: traveling; luggage
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/away1.png?raw=true
 ## freitag.ch
+- CreatorName: freitag
 - Title: R.I.P. truck backpack
 - Slogan: Backpack From Truck Tarp and Seatbelt Straps
 - {Upcycle long-lasting and secure materials of trucks and cars into everyday accessories like backpacks.}
-- CreationTime: 1993-01-01
+- CreationTime: 01-01-1993
 - Topics: reducle plastic; luggage
+- Slide: https://github.com/tob-asco/seeds/blob/master/images/freitag1.png?raw=true
 ## revolut.com
+- CreatorName: revolut
 - Title: Revolut Banking
 - Slogan: One App, All Things Money
 - {Revolutionize money transfer. No bankers, No nationality, No fees. It's just a number after all.}
 - CreationTime: 2015-07-01
 - Topics: banks
 ## renttherunway.com
+- CreatorName: renttherunway
 - Title: Rent The Runway
 - Slogan: Rent 2nd Hand Clothes From the Runway
 - {Wear the haut couture of tomorrow that has actually been on the biggest runways }
 - CreationTime: 2009-01-01
 - Topics: haut couture; sustainability
+- Slide: 
 ## squarerootsgrow.com
+- CreatorName: squareRoot
 - Title: Square Root
 - Slogan: Urban Vertical Indoor Farming Containers For Crops
 - CreationTime: 2016-09-21
-- Topics: greenify cities; for branch: farmer; nutrition supply
+- Topics: greenify cities; for branch: farmer; food/water supply
+- Slide: https://uploads-ssl.webflow.com/61839b2e4de3fe800f9b5d7b/64c14c1b726cb072d464d627_PHOTO_LS_FarmExterior_SPV_CCC-GFS%20Sq%20Roots-Final%2010%202-p-1080.jpg
