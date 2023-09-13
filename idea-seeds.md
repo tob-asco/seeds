@@ -80,7 +80,7 @@ E.g.:
     understand it because we will be using
     it over and over (and over and over).}
 - CreationTime: 2023-03-09
-- Topics: for language: LaTeX
+- Topics: for language: (La)TeX
 - Slide: https://github.com/tob-asco/seeds/blob/master/images/counttherefs1.png?raw=true
 ## Top3
 - CreatorName: tobi
@@ -113,7 +113,7 @@ Step 3: profit
 Maybe also for universities
 	top3 courses / profs}
 - CreationTime: 2022-03-22
-- Topics: traveling; mobile apps
+- Topics: traveling
 ## DiaBundle
 - CreatorName: tobi
 - Title: DiaBundle
@@ -349,7 +349,7 @@ Versions: Chest harness version; different lengths; with/without a stop mechanis
 
 Advertising Idea: Give collars with integrated leashes to closest dog companions + provide business cards to promote names}
 - CreationTime: 2015-06-26
-- Topics: autarkic solutions; for pet: dog
+- Topics: autarkic solutions; pet: Dogs
 ## Fruity Street
 - CreatorName: theDad
 - Title: Fruity Street 
@@ -451,7 +451,7 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 - Title: R.I.P. truck backpack
 - Slogan: Backpack From Truck Tarp and Seatbelt Straps
 - {Upcycle long-lasting and secure materials of trucks and cars into everyday accessories like backpacks.}
-- CreationTime: 01-01-1993
+- CreationTime: 1993-01-01
 - Topics: reducle plastic; luggage
 - Slide: https://github.com/tob-asco/seeds/blob/master/images/freitag1.png?raw=true
 ## revolut.com
@@ -474,5 +474,5 @@ Task planning MyEasyFarm lets you plan all crop-related operations (soil prepara
 - Title: Square Root
 - Slogan: Urban Vertical Indoor Farming Containers For Crops
 - CreationTime: 2016-09-21
-- Topics: greenify cities; for branch: farmer; food/water supply
+- Topics: greenify cities; for branch: farmer; nutrition supply
 - Slide: https://uploads-ssl.webflow.com/61839b2e4de3fe800f9b5d7b/64c14c1b726cb072d464d627_PHOTO_LS_FarmExterior_SPV_CCC-GFS%20Sq%20Roots-Final%2010%202-p-1080.jpg
