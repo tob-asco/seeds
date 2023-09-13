@@ -1,5 +1,6 @@
 # My Ideas
 ## w/orld method
+- CreatorName: tobi
 - Title: w/orld method
 - Slogan: Use Capitalism To Reduce CO2
 - {First - for each company/brand in a given sector - retrieve the amount of emitted CO2 from last month's power consumption.
@@ -11,6 +12,7 @@ This way, the brands will immediately dial down on dirty energy, i.e. switch to 
 - Topics: ENV: CO2 reduction; grand movement; consumerism
 - Slide: https://github.com/tob-asco/seeds/blob/master/images/logo_v3_1920x1080_white.png?raw=true
 ## LastWipe
+- CreatorName: tobi
 - Title: LastWipe
 - Slogan: No More Wiping Pain (for men)
 - {Toilet paper can be like scratch paper, simply painful. All you want is to supply lotion to the "wounded area". But this is disgusting...
@@ -29,6 +31,7 @@ Because the photovoltaic cells are elegantly integrated into the roof panel, the
 - Topics: alternatives; electronic devices
 - Slide: https://www.prefa.de/fileadmin/_processed_/c/c/csm_PREFA_SDP-schwarz_Dachplatte-R16-anthrazit_b796f20f75.jpg
 ## evolutionary programming
+- CreatorName: tobi
 - Title: evolutionary programming
 - Slogan: Make Code Just Like Evolution Made Our Brain
 - {Nowadays, we create code that aims to mimic our brain while using the resources of a CPU: Artificial Intelligence.
@@ -41,6 +44,7 @@ Then we randomly change our modules by virtue of huge calculation power and simp
 - Topics: AI; new language
 - Slide: https://psikolig.com/wp-content/uploads/2018/01/evo-678x381.jpg
 ## RememberRing
+- CreatorName: tobi
 - Title: RememberRing
 - Slogan: Accessory Ring That Reminds You By Vibrating
 - {Inspiration:
@@ -53,6 +57,7 @@ Implementation:
 - Topics: jewelry
 - Slide: https://smartringnews.com/wp-content/uploads/2023/07/641594f6c4357e173a7ad342_McLear-NFC-Ring.jpg
 ## Save Your Eyes 3d
+- CreatorName: tobi
 - Title: EyesSpare3D
 - Slogan: Train Eye Focus While Display Working
 - {Problem:
@@ -62,6 +67,7 @@ Solution:
 - CreationTime: 2023-05-26
 - Topics: body region: eyes; prophylactic lifestyle; for branch: programmer
 ## LaTeX Equation References Counter
+- CreatorName: tobi
 - Title: counttherefs
 - Slogan: Count How Often An Equation Is \ref'ed
 - {In a LaTeX document, next to a numbered equation, write how often the equation has been referenced (by \ref{eq:...}) in the whole document.
@@ -77,6 +83,7 @@ E.g.:
 - Topics: for language: LaTeX
 - Slide: https://github.com/tob-asco/seeds/blob/master/images/counttherefs1.png?raw=true
 ## Top3
+- CreatorName: tobi
 - Title: Top3
 - Slogan: The Most Specific Rating System
 - {TOP3 - The Most Specific Rating System
@@ -108,6 +115,7 @@ Maybe also for universities
 - CreationTime: 2022-03-22
 - Topics: traveling; mobile apps
 ## DiaBundle
+- CreatorName: tobi
 - Title: DiaBundle
 - Slogan: A Social Network For Slideshows
 - {DIABUNDLE - BETWEEN TIKTOK (VIDEO) AND INSTAGRAM (SOCIAL)
@@ -129,6 +137,7 @@ Why?
 - CreationTime: 2023-03-05
 - Topics: social media
 ## Eiertür
+- CreatorName: tobi
 - Title: egg timer window closer
 - Slogan: Close Your Window After Chosen Time
 - {Attachment gadget to automatically close the open window with a time delay. W/o needed power supply.
@@ -194,6 +203,7 @@ Variants:
 - CreationTime: 2021-12-22
 - Topics: autarkic solutions; reduction
 ## ABÖTH
+- CreatorName: tobi
 - Title: ABÖTH
 - Slogan: Current Desires Austria's by Tobias Hochreiter
 - {ABÖTH - Austria's Current Needs by Tobias Hochreiter
@@ -297,6 +307,7 @@ Extensions:
 - CreationTime: 2021-09-27
 - Topics: for country: Austria; new political systems
 ## Geistentschlackung
+- CreatorName: tobi
 - Title: mental detox
 - Slogan: Reset Your Habits By Starving Them
 - {Like fasting for the physical organism, cleanse the mind through abstinence from:
@@ -307,6 +318,7 @@ That's why breaking free from the current state of habituation through abrupt bu
 - CreationTime: 2021-01-21
 - Topics: mental health
 ## Rien
+- CreatorName: tobi
 - Title: Rien
 - Slogan: Das Gefühl Von Purem Nichts
 - {Nehmen Sie sich bei der Hand und folgen Sie mir. Was ich Ihnen zeigen möchte... ist nichts Großartiges, keine wirkliche Neuheit, dennoch irgendwie umschwiegen - wie auch besprechen? Ich werde einen kleinen Gedanken mit Ihnen teilen. Mir hat er bereits geholfen. Nehmen Sie sich, was Sie von ihm möchten und ziehen Sie weiter. Die Wirkung, die er auf sie haben wird oder soll, kann ich nicht bezeichnen, er ist viel zu wenig dafür. Ich wäre nicht enttäuscht zu erfahren, dass er Ihnen nichts anhaben konnte, hoffe dennoch darauf mit ihm etwas anzuhaben: In Ihnen, in Ihrem Maßstab. Dem Maßstab für alles. Wenn Sie es zulassen, wenn Sie es wollen und wenn Sie es können, dann kann er nämlich genau darauf wirken. Auf Alles. Und da ein Etwas nie auf Alles wirken kann, es ist davon nur ein Teil, kann nur Alles auf Alles wirken. Und Nichts.
@@ -326,6 +338,7 @@ Ich setze fort. Da mir in den kommenden Höhen die Bilder fehlen, kann ich sie m
 - CreationTime: 2020-12-12
 - Topics: short: Deutsch
 ## Hundehalsband
+- CreatorName: tobi
 - Title: CollarLeash
 - Slogan: A Leash That Winds Up In the Collar
 - {Dog leash integrated into the collar; leash is stopped by a control cord; collar features a retraction mechanism; collar is detachable and length is individually adjustable; small handle for better grip.
@@ -338,6 +351,7 @@ Advertising Idea: Give collars with integrated leashes to closest dog companions
 - CreationTime: 2015-06-26
 - Topics: autarkic solutions; for pet: dog
 ## Fruity Street
+- CreatorName: theDad
 - Title: Fruity Street 
 - Slogan: Create Your Custom Smoothie While Shopping
 - {A separate shop in a mall that lays out fruits and vegetables to the right and left of an aisle. Tropical atmosphere.
