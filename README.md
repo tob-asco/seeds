@@ -1,4 +1,8 @@
 # seeds - A Database of Creativity
+
+❗❗❗ **The package is not under current development.
+The Framework (.NET MAUI) has not proven to be a good choice for the app.
+I hope I'll resume development with a new framework in the future.** ❗❗❗
 ## Topics Page Preview
 
 
